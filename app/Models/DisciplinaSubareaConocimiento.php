@@ -107,6 +107,16 @@ class DisciplinaSubareaConocimiento extends Model
     }
 
     /**
+     * Relationship with User
+     *
+     * @return void
+     */
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
+
+    /**
      * Relationship with ProyectoFormulario4Linea70
      *
      * @return object

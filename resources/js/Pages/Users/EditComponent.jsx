@@ -1,5 +1,8 @@
 import AlertMui from '@/Components/Alert'
+import Autocomplete from '@/Components/Autocomplete'
+import ButtonMui from '@/Components/Button'
 import Checkbox from '@/Components/Checkbox'
+import DialogMui from '@/Components/Dialog'
 import MenuMui from '@/Components/Menu'
 import PasswordInput from '@/Components/PasswordInput'
 import PrimaryButton from '@/Components/PrimaryButton'
@@ -48,6 +51,10 @@ const EditComponent = ({
     roles_sistema,
 }) => {
     const component = router.page?.component
+
+    const [dialog_disciplina_conocimiento_status, setDialogDisciplinaConocimientoStatus] = useState(true)
+    const [disciplina_conocimiento_loading, setDisciplinaConocimientoLoading] = useState(false)
+    const [disciplina_conocimiento_principal, setDisciplinaConocimientoPrincipal] = useState(usuario.disciplina_subarea_conocimiento_id)
 
     const form_cambio_password = useForm({
         user_id: usuario?.id,
@@ -115,16 +122,17 @@ const EditComponent = ({
             <div>
                 <Grid container rowSpacing={10} className="!mt-4">
                     {component == 'Users/Perfil' && (
-                        <Grid item md={12}>
-                            {auth_user.roles.length > 0 && auth_user.check_soportes_titulo_obtenido > 0 && auth_user.check_certificados_formacion > 0 && (
-                                <>
-                                    <AlertMui severity="error" className="mb-10">
-                                        Tiene <strong>{auth_user.check_soportes_titulo_obtenido}</strong> soporte(s) de estudio académico y <strong>{auth_user.check_certificados_formacion}</strong>{' '}
-                                        certificado(s) de formación académica SENA sin cargar, por favor complete el CENSO SENNOVA.
-                                    </AlertMui>
-                                </>
-                            )}
-                            {/* <div className="bg-gradient-to-r from-gray-700 via-gray-900 to-black rounded shadow p-10">
+                        <>
+                            <Grid item md={12}>
+                                {auth_user.roles.length > 0 && auth_user.check_soportes_titulo_obtenido > 0 && auth_user.check_certificados_formacion > 0 && (
+                                    <>
+                                        <AlertMui severity="error" className="mb-10">
+                                            Tiene <strong>{auth_user.check_soportes_titulo_obtenido}</strong> soporte(s) de estudio académico y{' '}
+                                            <strong>{auth_user.check_certificados_formacion}</strong> certificado(s) de formación académica SENA sin cargar, por favor complete el CENSO SENNOVA.
+                                        </AlertMui>
+                                    </>
+                                )}
+                                {/* <div className="bg-gradient-to-r from-gray-700 via-gray-900 to-black rounded shadow p-10">
                                 <Grid container>
                                     <Grid item md={4}>
                                         <figure>
@@ -181,7 +189,51 @@ const EditComponent = ({
                                     </Grid>
                                 </Grid>
                             </div> */}
-                        </Grid>
+                            </Grid>
+
+                            <DialogMui
+                                open={dialog_disciplina_conocimiento_status}
+                                fullWidth={true}
+                                maxWidth="sm"
+                                dialogContent={
+                                    <>
+                                        <h2>Por favor seleccione la disciplina de conocimiento principal</h2>
+                                        <form>
+                                            <Autocomplete
+                                                id="disciplina_subarea_conocimiento_id"
+                                                options={disciplinas_conocimiento}
+                                                selectedValue={disciplina_conocimiento_principal}
+                                                onChange={(e, newValue) => (
+                                                    setDisciplinaConocimientoLoading(true),
+                                                    setDisciplinaConocimientoPrincipal(newValue.value),
+                                                    router.put(
+                                                        route('users.disciplina-conocimiento-principal'),
+                                                        { disciplina_subarea_conocimiento_id: newValue.value },
+                                                        {
+                                                            onSuccess: () => (setDisciplinaConocimientoLoading(false), setDialogDisciplinaConocimientoStatus(false)),
+                                                            preserveScroll: true,
+                                                        },
+                                                    )
+                                                )}
+                                                label="Disciplina de conocimiento principal"
+                                                className="my-10"
+                                                required
+                                            />
+
+                                            <div className="mt-4">
+                                                <ButtonMui
+                                                    type="button"
+                                                    className="w-full"
+                                                    onClick={() => setDialogDisciplinaConocimientoStatus(false)}
+                                                    disabled={!disciplina_conocimiento_loading && !usuario.disciplina_subarea_conocimiento_id}>
+                                                    {usuario.disciplina_subarea_conocimiento_id ? 'Continuar' : 'Guardar'}
+                                                </ButtonMui>
+                                            </div>
+                                        </form>
+                                    </>
+                                }
+                            />
+                        </>
                     )}
                     <Grid item md={4}>
                         <AlertMui>

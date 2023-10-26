@@ -772,6 +772,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('participaciones-proyectos-sennova', ParticipacionProyectoSennovaController::class)->parameters(['participaciones-proyectos-sennova' => 'participacion-ps'])->except(['index', 'show'])->withoutMiddleware(['auth', 'verified']);
 
     Route::get('/users/perfil', [UserController::class, 'showPerfil'])->name('users.perfil');
+
+    Route::put('/users/disciplina-conocimiento-principal', [UserController::class, 'disciplinaConocimientoPrincipal'])->name('users.disciplina-conocimiento-principal');
     Route::put('/users/cambiar-password', [UserController::class, 'cambiarPassword'])->name('users.cambiar-password');
     Route::put('/users/{user}/update-centro-formacion', [UserController::class, 'updateCentroFormacion'])->name('users.update-centro-formacion');
     Route::put('/users/evaluador', [UserController::class, 'registrarEvaluador'])->name('users.evaluador');

@@ -289,6 +289,16 @@ class UserController extends Controller
         return back()->with('success', 'El centro de formación se ha actualizado correctamente.');
     }
 
+    public function disciplinaConocimientoPrincipal(Request $request)
+    {
+        /** @var \App\Models\User */
+        $auth_user = Auth::user();
+
+        $auth_user->update(['disciplina_subarea_conocimiento_id' => $request->disciplina_subarea_conocimiento_id]);
+
+        return back()->with('success', 'La disciplina de conocimiento principal se ha actualizado correctamente.');
+    }
+
     public function asignacionRoles(Request $request)
     {
         $user = User::find($request->user_id);

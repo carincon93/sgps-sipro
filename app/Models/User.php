@@ -25,7 +25,8 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable implements JWTSubject
 {
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo(User::class, 'user_id');
     }
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
@@ -95,6 +96,7 @@ class User extends Authenticatable implements JWTSubject
         'rol_sennova_id',
         'otros_roles_sennova',
         'disciplinas_subarea_conocimiento',
+        'disciplina_subarea_conocimiento_id',
         'centro_formacion_id',
     ];
 
@@ -173,6 +175,16 @@ class User extends Authenticatable implements JWTSubject
     public function subareaExperiencia()
     {
         return $this->belongsTo(SubareaExperiencia::class);
+    }
+
+    /**
+     * Relationship with DisciplinaSubareaConocimiento
+     *
+     * @return object
+     */
+    public function disciplinaSubareaConocimiento()
+    {
+        return $this->belongsTo(DisciplinaSubareaConocimiento::class);
     }
 
     /**
