@@ -68,7 +68,7 @@ class ProyectoAnexo extends Model
      *
      * @return object
      */
-    public function convocatoriaAnexos()
+    public function convocatoriaAnexo()
     {
         return $this->belongsTo(ConvocatoriaAnexo::class);
     }
