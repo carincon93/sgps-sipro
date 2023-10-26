@@ -392,7 +392,7 @@ class ProyectoFormulario7Linea23Controller extends Controller
 
         $proyecto_formulario_7_linea_23->disciplinaSubareaConocimiento->subareaConocimiento->areaConocimiento;
         $proyecto_formulario_7_linea_23->proyecto->centroFormacion;
-        $proyecto_formulario_7_linea_23->proyecto->all_files;
+        $proyecto_formulario_7_linea_23->proyecto->lista_archivos;
         $proyecto_formulario_7_linea_23->mostrar_recomendaciones = $proyecto_formulario_7_linea_23->proyecto->mostrar_recomendaciones;
         $proyecto_formulario_7_linea_23->mostrar_requiere_subsanacion = $proyecto_formulario_7_linea_23->proyecto->mostrar_requiere_subsanacion;
 

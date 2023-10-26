@@ -6,6 +6,7 @@ import DialogMui from './Dialog'
 import Stepper from '@mui/material/Stepper'
 import Step from '@mui/material/Step'
 import StepLabel from '@mui/material/StepLabel'
+import { Grid } from '@mui/material'
 
 import { styled } from '@mui/material/styles'
 import { makeStyles } from '@mui/styles'
@@ -23,7 +24,7 @@ import { Link } from '@inertiajs/react'
 import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector'
 import FileTypeIcon from './FileTypeIcon'
 
-import { useState } from 'react'
+import React, { useState } from 'react'
 
 import EvaluacionProyectosFormulario8Linea66 from '@/Pages/Convocatorias/Proyectos/ProyectosFormulario8Linea66/Evaluacion'
 import EvaluacionProyectosFormulario6Linea82 from '@/Pages/Convocatorias/Proyectos/ProyectosFormulario6Linea82/Evaluacion'
@@ -33,6 +34,7 @@ import EvaluacionProyectosFormulario1Linea65 from '@/Pages/Convocatorias/Proyect
 import EvaluacionProyectosFormulario7Linea23 from '@/Pages/Convocatorias/Proyectos/ProyectosFormulario7Linea23/Evaluacion'
 import EvaluacionProyectosFormulario9Linea23 from '@/Pages/Convocatorias/Proyectos/ProyectosFormulario9Linea23/Evaluacion'
 import EvaluacionProyectosFormulario12Linea68 from '@/Pages/Convocatorias/Proyectos/ProyectosFormulario12Linea68/Evaluacion'
+import DownloadFile from './DownloadFile'
 
 const useStyles = makeStyles({
     root: {
@@ -199,6 +201,7 @@ ColorlibStepIcon.propTypes = {
 export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evaluacion, ...props }) {
     const classes = useStyles()
     const [dialog_evaluacion_status, setDialogEvaluacionStatus] = useState(false)
+    const [dialog_archivos_status, setDialogArchivoStatus] = useState(false)
 
     const isActive =
         route().current('convocatorias.proyectos-formulario-3-linea-61.edit') ||
@@ -326,6 +329,43 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                     />
                 </>
             )}
+
+            <DialogMui
+                fullWidth={true}
+                maxWidth="lg"
+                open={dialog_archivos_status}
+                dialogContent={
+                    <>
+                        <h1 className="text-2xl font-black text-center mb-10">Archivos del proyecto {proyecto?.codigo}</h1>
+                        <Grid container rowSpacing={6}>
+                            {proyecto.lista_archivos.map((item, i) => (
+                                <React.Fragment key={i}>
+                                    <Grid item md={4}>
+                                        <small>
+                                            {item.modulo} ({item.tipo_archivo.replace(/_/g, ' ').toUpperCase()})
+                                        </small>
+                                        <p className="uppercase">{item.nombre ? item.nombre : item.modulo}</p>
+                                    </Grid>
+                                    <Grid item md={8}>
+                                        <DownloadFile
+                                            label="Archivo"
+                                            className="!p-2"
+                                            filename={item.filename}
+                                            extension={item.extension}
+                                            downloadRoute={item.path?.includes('http') ? item.path : route('proyectos.descargar-archivo', [proyecto?.id, item.id])}
+                                        />
+                                    </Grid>
+                                </React.Fragment>
+                            ))}
+                        </Grid>
+                    </>
+                }
+                dialogActions={
+                    <ButtonMui onClick={() => setDialogArchivoStatus(false)} className="!mr-8">
+                        Cerrar
+                    </ButtonMui>
+                }
+            />
             <div className="flex items-center justify-center mb-10">
                 <div className="mr-6">
                     <small className=" bg-app-500 text-white py-1 px-3 rounded-full w-max text-center mx-auto">
@@ -348,9 +388,14 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                     </a>
                 </div>
                 |
-                <div className="ml-6">
+                <div className="mx-6">
                     <CalendarMonthIcon className="w-6 mr-2 text-gray-500" />
                     <small>Ejecución del proyecto: {proyecto.diff_meses} meses</small>
+                </div>
+                |
+                <div className="ml-6 flex items-center hover:cursor-pointer" onClick={() => setDialogArchivoStatus(true)}>
+                    <img src="/images/files.png" width="25" className="mr-3" />
+                    <small>Archivos</small>
                 </div>
             </div>
             <Stepper alternativeLabel connector={<ColorlibConnector />}>

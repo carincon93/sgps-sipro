@@ -117,9 +117,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ]);
     })->name('dashboard');
 
-    Route::get('/proyectos/{proyecto}/download-any-file/{fileId}/{file}', [ProyectoController::class, 'downloadFileSharepoint'])->name('proyectos.download-any-file');
-
-
     //Exporta proyecto post-cierre del ambiente de modernizacion en PDF
     Route::get('ambientes-modernizacion/{ambiente_modernizacion}/pdf', [AmbienteModernizacionController::class, 'descargarPdfAmbienteModernizacion'])->name('ambientes-modernizacion.descargar-pdf');
 
@@ -809,6 +806,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('proyectos/activos', [ProyectoController::class, 'activos'])->name('proyectos.activos');
     Route::get('proyectos', [ProyectoController::class, 'index'])->name('proyectos.index');
     Route::get('proyectos/{proyecto}/editar', [ProyectoController::class, 'editProyecto'])->name('proyectos.edit');
+    Route::get('proyectos/{proyecto}/descargar-archivo/{archivo_id}', [ProyectoController::class, 'downloadFileSharepoint'])->name('proyectos.descargar-archivo');
     Route::put('proyectos/{proyecto}/editar', [ProyectoController::class, 'update'])->name('proyectos.update');
     Route::delete('convocatorias/{convocatoria}/proyectos/{proyecto}', [ProyectoController::class, 'destroy'])->name('convocatorias.proyectos.destroy');
     Route::post('proyectos/actualizar-estados-proyectos', [ProyectoController::class, 'udpdateEstadosProyectos'])->name('proyectos.update.actualizar-estados-proyectos');

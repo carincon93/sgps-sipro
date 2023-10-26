@@ -26,7 +26,7 @@ class Proyecto extends Model
      *
      * @var array
      */
-    protected $appends = ['codigo', 'diff_meses', 'precio_proyecto', 'total_roles_sennova', 'fecha_inicio', 'fecha_finalizacion', 'estado_evaluacion_proyecto_formulario_8_linea_66', 'estado_evaluacion_proyecto_formulario_6_linea_82', 'estado_evaluacion_proyecto_formulario_1_linea_65', 'estado_evaluacion_proyecto_formulario_4_linea_70', 'estado_evaluacion_proyecto_formulario_5_linea_69', 'estado_evaluacion_proyecto_formulario_12_linea_68', 'cantidad_objetivos', 'total_proyecto_presupuesto_aprobado', 'total_roles_sennova_aprobado', 'precio_proyecto_aprobado', 'total_proyecto_presupuesto', 'all_files', 'allowed', 'resultados', 'filename', 'extension'];
+    protected $appends = ['codigo', 'diff_meses', 'precio_proyecto', 'total_roles_sennova', 'fecha_inicio', 'fecha_finalizacion', 'estado_evaluacion_proyecto_formulario_8_linea_66', 'estado_evaluacion_proyecto_formulario_6_linea_82', 'estado_evaluacion_proyecto_formulario_1_linea_65', 'estado_evaluacion_proyecto_formulario_4_linea_70', 'estado_evaluacion_proyecto_formulario_5_linea_69', 'estado_evaluacion_proyecto_formulario_12_linea_68', 'cantidad_objetivos', 'total_proyecto_presupuesto_aprobado', 'total_roles_sennova_aprobado', 'precio_proyecto_aprobado', 'total_proyecto_presupuesto', 'lista_archivos', 'allowed', 'resultados', 'filename', 'extension'];
 
     /**
      * The attributes that are mass assignable.
@@ -1676,32 +1676,43 @@ class Proyecto extends Model
         }
     }
 
-    public function getAllFilesAttribute()
+    public function getListaArchivosAttribute()
     {
         $collect = collect([]);
+
         foreach ($this->proyectoPresupuesto()->get() as $presupuesto) {
             if ($presupuesto->formato_estudio_mercado) {
-                $collect->push(['id' => $presupuesto->id, 'tipo_archivo' => 'formato_estudio_mercado', 'ruta_formato_estudio_mercado' => $presupuesto->formato_estudio_mercado]);
+                $collect->push(['id' => $presupuesto->id, 'tipo_archivo' => 'formato_estudio_mercado', 'modulo' => 'Estudio de mercado', 'path' => $presupuesto->formato_estudio_mercado, 'filename' => pathinfo($presupuesto->formato_estudio_mercado)['filename'], 'extension' => pathinfo($presupuesto->formato_estudio_mercado)['extension']]);
             }
+
             foreach ($presupuesto->soportesEstudioMercado()->get() as $estudio_mercado) {
-                $collect->push(['id' => $estudio_mercado->id, 'tipo_archivo' => 'soporte', 'empresa' => $estudio_mercado->empresa, 'ruta_soporte' => $estudio_mercado->soporte]);
+                if ($estudio_mercado->soporte) {
+                    $collect->push(['id' => $estudio_mercado->id, 'tipo_archivo' => 'soporte', 'modulo' => 'Soporte / Cotización', 'nombre' => $estudio_mercado->concepto, 'path' => $estudio_mercado->soporte, 'filename' => pathinfo($estudio_mercado->soporte)['filename'], 'extension' => pathinfo($estudio_mercado->soporte)['extension']]);
+                }
             }
         }
 
         foreach ($this->entidadesAliadas()->get() as $entidad_aliada) {
             if ($entidad_aliada->entidadAliadaLinea66_82()->exists()) {
-                $collect->push(['id' => $entidad_aliada->id, 'tipo_archivo' => 'carta_intencion', 'entidad_aliada' => $entidad_aliada->nombre, 'ruta_carta_intencion' => $entidad_aliada->entidadAliadaLinea66_82->carta_intencion]);
-                $collect->push(['id' => $entidad_aliada->id, 'tipo_archivo' => 'carta_propiedad_intelectual', 'entidad_aliada' => $entidad_aliada->nombre, 'ruta_carta_propiedad_intelectual' => $entidad_aliada->entidadAliadaLinea66_82->carta_propiedad_intelectual]);
-            } else if ($entidad_aliada->entidadAliadaLinea69()->exists()) {
-                $collect->push(['id' => $entidad_aliada->id, 'tipo_archivo' => 'soporte_convenio', 'entidad_aliada' => $entidad_aliada->nombre, 'ruta_soporte_convenio' => $entidad_aliada->entidadAliadaLinea69->soporte_convenio]);
-            } else if ($entidad_aliada->entidadAliadaLinea70()->exists()) {
-                $collect->push(['id' => $entidad_aliada->id, 'tipo_archivo' => 'soporte_convenio', 'entidad_aliada' => $entidad_aliada->nombre, 'ruta_soporte_convenio' => $entidad_aliada->entidadAliadaLinea70->soporte_convenio]);
+                if ($entidad_aliada->entidadAliadaLinea66_82->carta_intencion) {
+                    $collect->push(['id' => $entidad_aliada->id, 'tipo_archivo' => 'carta_intencion', 'modulo' => 'Entidad aliada', 'nombre' => $entidad_aliada->nombre, 'path' => $entidad_aliada->entidadAliadaLinea66_82->carta_intencion, 'filename' => pathinfo($entidad_aliada->entidadAliadaLinea66_82->carta_intencion)['filename'], 'extension' => pathinfo($entidad_aliada->entidadAliadaLinea66_82->carta_intencion)['extension']]);
+                }
+
+                if ($entidad_aliada->entidadAliadaLinea66_82->carta_propiedad_intelectual) {
+                    $collect->push(['id' => $entidad_aliada->id, 'tipo_archivo' => 'carta_propiedad_intelectual', 'modulo' => 'Entidad aliada', 'nombre' => $entidad_aliada->nombre, 'path' => $entidad_aliada->entidadAliadaLinea66_82->carta_propiedad_intelectual, 'filename' => pathinfo($entidad_aliada->entidadAliadaLinea66_82->carta_propiedad_intelectual)['filename'], 'extension' => pathinfo($entidad_aliada->entidadAliadaLinea66_82->carta_propiedad_intelectual)['extension']]);
+                }
+            } else if ($entidad_aliada->entidadAliadaLinea69()->exists() && $entidad_aliada->entidadAliadaLinea69->soporte_convenio) {
+                $collect->push(['id' => $entidad_aliada->id, 'tipo_archivo' => 'soporte_convenio', 'modulo' => 'Entidad aliada', 'nombre' => $entidad_aliada->nombre, 'path' => $entidad_aliada->entidadAliadaLinea69->soporte_convenio, 'filename' => pathinfo($entidad_aliada->entidadAliadaLinea69->soporte_convenio)['filename'], 'extension' => pathinfo($entidad_aliada->entidadAliadaLinea69->soporte_convenio)['extension']]);
+            } else if ($entidad_aliada->entidadAliadaLinea70()->exists() && $entidad_aliada->entidadAliadaLinea70->soporte_convenio) {
+                $collect->push(['id' => $entidad_aliada->id, 'tipo_archivo' => 'soporte_convenio', 'modulo' => 'Entidad aliada', 'nombre' => $entidad_aliada->nombre, 'path' => $entidad_aliada->entidadAliadaLinea70->soporte_convenio, 'filename' => pathinfo($entidad_aliada->entidadAliadaLinea70->soporte_convenio)['filename'], 'extension' => pathinfo($entidad_aliada->entidadAliadaLinea70->soporte_convenio)['extension']]);
             }
         }
 
-        // foreach ($this->proyectoAnexo()->get() as $proyecto_anexo) {
-        //     $collect->push(['id' => $proyecto_anexo->id, 'tipo_archivo' => 'archivo', 'anexo' => $proyecto_anexo->convocatoriaAnexo->anexo->nombre, 'ruta_archivo' => $proyecto_anexo->archivo]);
-        // }
+        foreach ($this->proyectoAnexo()->get() as $proyecto_anexo) {
+            if ($proyecto_anexo->convocatoriaAnexo) {
+                $collect->push(['id' => $proyecto_anexo->id, 'tipo_archivo' => 'archivo', 'modulo' => 'Anexo', 'nombre' => $proyecto_anexo->convocatoriaAnexo->anexo->nombre, 'path' => $proyecto_anexo->archivo, 'filename' => pathinfo($proyecto_anexo->archivo)['filename'], 'extension' => pathinfo($proyecto_anexo->archivo)['extension']]);
+            }
+        }
 
         return $collect;
     }

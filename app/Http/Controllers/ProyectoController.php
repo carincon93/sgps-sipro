@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\SelectHelper;
+use App\Helpers\SharepointHelper;
 use App\Http\Requests\CadenaValorColumnRequest;
 use App\Http\Requests\IndicadorColumnRequest;
 use App\Http\Requests\ProgramaFormacionRequest;
@@ -1236,7 +1237,7 @@ class ProyectoController extends Controller
         $proyecto->evaluaciones->load('evaluacionCausalesRechazo');
 
         $proyecto->PdfVersiones;
-        $proyecto->all_files;
+        $proyecto->lista_archivos;
 
         return Inertia::render('Convocatorias/Proyectos/ComentariosGenerales', [
             'convocatoria'                  => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria'),
@@ -1435,5 +1436,12 @@ class ProyectoController extends Controller
             default:
                 break;
         }
+    }
+
+    public function downloadFileSharepoint(Proyecto $proyecto, $archivo_id)
+    {
+        $sharepoint_path = $proyecto->lista_archivos->firstWhere('id', $archivo_id);
+
+        return SharepointHelper::downloadFile($sharepoint_path['path']);
     }
 }

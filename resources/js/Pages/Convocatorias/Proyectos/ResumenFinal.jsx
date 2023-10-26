@@ -24,6 +24,8 @@ const ResumenFinal = ({
 
     const any_validation_is_false = Object.values(validaciones).includes(false)
 
+    const evaluacion_id = page_props.ziggy.query.evaluacion_id
+
     return (
         <AuthenticatedLayout>
             <Head title="Resumen final" />
@@ -69,7 +71,7 @@ const ResumenFinal = ({
                                 </ul>
                             </AlertMui>
                         )}
-                        {proyecto.finalizado == false && any_validation_is_false && page_props.ziggy.query.evaluacion_id == null ? (
+                        {proyecto.finalizado == false && any_validation_is_false && evaluacion_id == null ? (
                             <AlertMui severity="error">
                                 <p>
                                     <strong>La información del proyecto está incompleta. Para poder finalizar el proyecto debe completar / corregir los siguientes ítems:</strong>
@@ -169,7 +171,7 @@ const ResumenFinal = ({
                             </AlertMui>
                         ) : (
                             <>
-                                {convocatoria.esta_activa && (
+                                {convocatoria.esta_activa && evaluacion_id == null && (
                                     <AlertMui>
                                         <strong className="block mb-8">El proyecto ha sido diligenciado correctamente.</strong>
                                         {proyecto?.finalizado

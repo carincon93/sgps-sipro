@@ -161,7 +161,7 @@ class GrupoInvestigacionController extends Controller
     {
         $grupo_investigacion = $modelo;
 
-        $sharepoint_grupo_investigacion = $grupo_investigacion->centroFormacion->nombre_carpeta_sharepoint . '/' . mb_strtoupper($grupo_investigacion->nombre .'/FORMATOS');
+        $sharepoint_grupo_investigacion = $grupo_investigacion->centroFormacion->nombre_carpeta_sharepoint . '/' . mb_strtoupper($grupo_investigacion->nombre . '/FORMATOS');
 
         $sharepoint_path                = "$modulo/$sharepoint_grupo_investigacion";
 
