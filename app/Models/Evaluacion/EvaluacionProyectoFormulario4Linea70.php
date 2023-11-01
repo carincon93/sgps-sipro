@@ -22,30 +22,10 @@ class EvaluacionProyectoFormulario4Linea70 extends Model
      * @var array
      */
     protected $fillable = [
-        'resumen_regional_comentario',
-        'antecedentes_tecnoacademia_comentario',
-        'retos_oportunidades_comentario',
-        'metodologia_comentario',
-        'lineas_medulares_centro_comentario',
-        'lineas_tecnologicas_centro_comentario',
-        'articulacion_sennova_comentario',
-        'municipios_comentario',
-        'instituciones_comentario',
-        'fecha_ejecucion_comentario',
-        'cadena_valor_comentario',
-        'analisis_riesgos_comentario',
-        'anexos_comentario',
-        'proyectos_macro_comentario',
-        'bibliografia_comentario',
-        'productos_comentario',
-        'entidad_aliada_comentario',
-        'edt_comentario',
-        'articulacion_centro_formacion_comentario',
-        'proyecto_presupuesto_comentario',
-        'ortografia_comentario',
-        'redaccion_comentario',
-        'normas_apa_comentario',
-        'impacto_centro_formacion_comentario'
+        'pregunta_id',
+        'evaluacion_id',
+        'puntaje',
+        'comentario'
     ];
 
     /**
@@ -74,6 +54,16 @@ class EvaluacionProyectoFormulario4Linea70 extends Model
     public function evaluacion()
     {
         return $this->belongsTo(Evaluacion::class, 'id');
+    }
+
+    /**
+     * Relationship with PreguntaEvaluacionFormulario4Linea70
+     *
+     * @return object
+     */
+    public function preguntaEvaluacionFormulario4Linea70()
+    {
+        return $this->belongsTo(PreguntaEvaluacionFormulario4Linea70::class, 'pregunta_id');
     }
 
     /**

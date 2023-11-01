@@ -31,7 +31,11 @@ class ActividadController extends Controller
         }
 
         if (request()->filled('evaluacion_id')) {
-            $this->authorize('modificar-evaluacion-autor', [Evaluacion::find(request()->evaluacion_id)]);
+            $evaluacion = Evaluacion::find(request()->evaluacion_id);
+
+            $this->authorize('modificar-evaluacion-autor', [$evaluacion]);
+
+            $items_evaluacion = $evaluacion->getItemsAEvaluar($convocatoria->id, $proyecto->tipo_formulario_convocatoria_id);
         }
 
         $objetivo_especifico = $proyecto->causasDirectas()->with('objetivoEspecifico')->get()->pluck('objetivoEspecifico')->flatten()->filter();
@@ -73,7 +77,7 @@ class ActividadController extends Controller
         return Inertia::render('Convocatorias/Proyectos/Actividades/Index', [
             'convocatoria'              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones', 'year'),
             'proyecto'                  => $proyecto,
-            'evaluacion'                => Evaluacion::find(request()->evaluacion_id),
+            'evaluacion'                => $items_evaluacion ?? [],
             'actividades'               => Actividad::whereIn(
                 'objetivo_especifico_id',
                 $objetivo_especifico->map(function ($objetivo_especifico) {

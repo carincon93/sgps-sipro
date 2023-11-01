@@ -132,7 +132,11 @@ class ProyectoFormulario10Linea69Controller extends Controller
         }
 
         if (request()->filled('evaluacion_id')) {
-            $this->authorize('modificar-evaluacion-autor', [Evaluacion::find(request()->evaluacion_id)]);
+            $evaluacion = Evaluacion::find(request()->evaluacion_id);
+
+            $this->authorize('modificar-evaluacion-autor', [$evaluacion]);
+
+            $items_evaluacion = $evaluacion->getItemsAEvaluar($convocatoria->id, $proyecto_formulario_10_linea_69->proyecto->tipo_formulario_convocatoria_id);
         }
 
         /** @var \App\Models\User */
@@ -151,8 +155,8 @@ class ProyectoFormulario10Linea69Controller extends Controller
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario10Linea69/Edit', [
             'convocatoria'                      => $convocatoria,
             'proyecto_formulario_10_linea_69'   => $proyecto_formulario_10_linea_69,
-            'centros_formacion'                 => $centros_formacion = SelectHelper::centrosFormacion(),
-            // 'evaluacion'            => EvaluacionProyectoFormulario10Linea69::find(request()->evaluacion_id),
+            'centros_formacion'                 => SelectHelper::centrosFormacion(),
+            'evaluacion'                        => $items_evaluacion ?? [],
             'regionales'                        => SelectHelper::regionales(),
             'nodos_tecnoparque'                 => SelectHelper::nodosTecnoparque()->where('centro_formacion_id', $proyecto_formulario_10_linea_69->proyecto->centroFormacion->id)->values()->all(),
             'roles_sennova'                     => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),

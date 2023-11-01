@@ -39,7 +39,11 @@ class ProyectoPresupuestoController extends Controller
         }
 
         if (request()->filled('evaluacion_id')) {
-            $this->authorize('modificar-evaluacion-autor', [Evaluacion::find(request()->evaluacion_id)]);
+            $evaluacion = Evaluacion::find(request()->evaluacion_id);
+
+            $this->authorize('modificar-evaluacion-autor', [$evaluacion]);
+
+            $items_evaluacion = $evaluacion->getItemsAEvaluar($convocatoria->id, $proyecto->tipo_formulario_convocatoria_id);
         }
 
         $proyecto->load('proyectoRolesSennova.proyectoRolesEvaluaciones');
@@ -49,7 +53,7 @@ class ProyectoPresupuestoController extends Controller
         return Inertia::render('Convocatorias/Proyectos/ProyectoPresupuesto/Index', [
             'convocatoria'                          =>  $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones', 'campos_convocatoria'),
             'proyecto'                              =>  $proyecto,
-            'evaluacion'                            =>  Evaluacion::find(request()->evaluacion_id),
+            'evaluacion'                            => $items_evaluacion ?? [],
             'rubros_presupuestales'                 =>  ProyectoPresupuesto::select('proyecto_presupuesto.*')
                 ->where('proyecto_id', $proyecto->id)
                 ->filterProyectoPresupuesto(request()->only('search', 'presupuestos'))

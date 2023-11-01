@@ -190,7 +190,11 @@ class ProyectoController extends Controller
         }
 
         if (request()->filled('evaluacion_id')) {
-            $this->authorize('modificar-evaluacion-autor', [Evaluacion::find(request()->evaluacion_id)]);
+            $evaluacion = Evaluacion::find(request()->evaluacion_id);
+
+            $this->authorize('modificar-evaluacion-autor', [$evaluacion]);
+
+            $items_evaluacion = $evaluacion->getItemsAEvaluar($convocatoria->id, $proyecto->tipo_formulario_convocatoria_id);
         }
 
         $proyecto->load('proyectoRolesSennova.proyectoRolesEvaluaciones');
@@ -292,7 +296,7 @@ class ProyectoController extends Controller
         return Inertia::render('Convocatorias/Proyectos/CadenaValor/Index', [
             'convocatoria'      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'tipo_convocatoria', 'mostrar_recomendaciones'),
             'proyecto'          => $proyecto,
-            'evaluacion'        => Evaluacion::find(request()->evaluacion_id),
+            'evaluacion'        => $items_evaluacion ?? [],
             'productos'         => $productos,
             'objetivos'         => $objetivos,
             'objetivo_general'  => $objetivo_general ?? '',
@@ -640,7 +644,11 @@ class ProyectoController extends Controller
         }
 
         if (request()->filled('evaluacion_id')) {
-            $this->authorize('modificar-evaluacion-autor', [Evaluacion::find(request()->evaluacion_id)]);
+            $evaluacion = Evaluacion::find(request()->evaluacion_id);
+
+            $this->authorize('modificar-evaluacion-autor', [$evaluacion]);
+
+            $items_evaluacion = $evaluacion->getItemsAEvaluar($convocatoria->id, $proyecto->tipo_formulario_convocatoria_id);
         }
 
         $proyecto->load('proyectoRolesSennova.proyectoRolesEvaluaciones');
@@ -688,7 +696,7 @@ class ProyectoController extends Controller
         return Inertia::render('Convocatorias/Proyectos/ResumenFinal', [
             'convocatoria'      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos', 'max_fecha_finalizacion_proyectos'),
             'proyecto'          => $proyecto,
-            'evaluacion'        => Evaluacion::find(request()->evaluacion_id),
+            'evaluacion'        => $items_evaluacion ?? [],
             'validaciones'      => $validaciones,
             'topes_por_nodo'    => $proyecto->proyectoFormulario17Linea69()->exists() ? TopePresupuestalNodoTecnoparque::select('topes_presupuestales_nodos_tecnoparque.*')->with('nodoTecnoparque', 'segundoGrupoPresupuestal')->where('topes_presupuestales_nodos_tecnoparque.convocatoria_id', $convocatoria->id)->where('topes_presupuestales_nodos_tecnoparque.nodo_tecnoparque_id', $proyecto->proyectoFormulario17Linea69->nodo_tecnoparque_id)->orderBy('topes_presupuestales_nodos_tecnoparque.nodo_tecnoparque_id')->get() : null,
         ]);
@@ -929,7 +937,11 @@ class ProyectoController extends Controller
         }
 
         if (request()->filled('evaluacion_id')) {
-            $this->authorize('modificar-evaluacion-autor', [Evaluacion::find(request()->evaluacion_id)]);
+            $evaluacion = Evaluacion::find(request()->evaluacion_id);
+
+            $this->authorize('modificar-evaluacion-autor', [$evaluacion]);
+
+            $items_evaluacion = $evaluacion->getItemsAEvaluar($convocatoria->id, $proyecto->tipo_formulario_convocatoria_id);
         }
 
         $proyecto->load('participantes.centroFormacion.regional');
@@ -955,7 +967,7 @@ class ProyectoController extends Controller
         return Inertia::render('Convocatorias/Proyectos/Participantes/Index', [
             'convocatoria'                  => $convocatoria,
             'proyecto'                      => $proyecto,
-            'evaluacion'                    => Evaluacion::find(request()->evaluacion_id),
+            'evaluacion'                    => $items_evaluacion ?? [],
             'roles_sennova'                 => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
             'nuevo_participante'            => User::select('users.id', 'users.nombre', 'users.email', 'users.centro_formacion_id')->with('centroFormacion', 'centroFormacion.regional')->orderBy('users.nombre', 'ASC')->filterUser(request()->only('search'))->first(),
             'nuevo_semillero_investigacion' => SemilleroInvestigacion::select('semilleros_investigacion.id', 'semilleros_investigacion.nombre', 'semilleros_investigacion.codigo', 'semilleros_investigacion.linea_investigacion_id')->with('lineaInvestigacion', 'lineaInvestigacion.grupoInvestigacion')->orderBy('semilleros_investigacion.nombre', 'ASC')->filterSemilleroInvestigacion(request()->only('search'))->first(),
@@ -1370,7 +1382,11 @@ class ProyectoController extends Controller
         }
 
         if (request()->filled('evaluacion_id')) {
-            $this->authorize('modificar-evaluacion-autor', [Evaluacion::find(request()->evaluacion_id)]);
+            $evaluacion = Evaluacion::find(request()->evaluacion_id);
+
+            $this->authorize('modificar-evaluacion-autor', [$evaluacion]);
+
+            $items_evaluacion = $evaluacion->getItemsAEvaluar($convocatoria->id, $proyecto->tipo_formulario_convocatoria_id);
         }
 
         $proyecto->load('proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
@@ -1387,7 +1403,7 @@ class ProyectoController extends Controller
         return Inertia::render('Convocatorias/Proyectos/Indicadores/Index', [
             'convocatoria'  => $convocatoria,
             'proyecto'      => $proyecto,
-            'evaluacion'    => Evaluacion::find(request()->evaluacion_id),
+            'evaluacion'    => $items_evaluacion ?? [],
         ]);
     }
 

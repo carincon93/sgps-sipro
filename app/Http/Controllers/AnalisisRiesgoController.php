@@ -27,7 +27,11 @@ class AnalisisRiesgoController extends Controller
         }
 
         if (request()->filled('evaluacion_id')) {
-            $this->authorize('modificar-evaluacion-autor', [Evaluacion::find(request()->evaluacion_id)]);
+            $evaluacion = Evaluacion::find(request()->evaluacion_id);
+
+            $this->authorize('modificar-evaluacion-autor', [$evaluacion]);
+
+            $items_evaluacion = $evaluacion->getItemsAEvaluar($convocatoria->id, $proyecto->tipo_formulario_convocatoria_id);
         }
 
         $proyecto->load('proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
@@ -39,7 +43,7 @@ class AnalisisRiesgoController extends Controller
         return Inertia::render('Convocatorias/Proyectos/AnalisisRiesgo/Index', [
             'convocatoria'           => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones'),
             'proyecto'               => $proyecto,
-            'evaluacion'             => Evaluacion::find(request()->evaluacion_id),
+            'evaluacion'             => $items_evaluacion ?? [],
             'analisis_riesgos'       => AnalisisRiesgo::where('proyecto_id', $proyecto->id)->orderBy('descripcion', 'ASC')
                 ->filterAnalisisRiesgo(request()->only('search'))->paginate()->appends(['search' => request()->search]),
             'niveles_riesgo'         => json_decode(Storage::get('json/niveles-riesgo.json'), true),

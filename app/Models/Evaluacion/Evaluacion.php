@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
 
 class Evaluacion extends Model
 {
@@ -195,6 +196,70 @@ class Evaluacion extends Model
     public function getUpdatedAtAttribute($value)
     {
         return "Última modificación de este formulario: " . Carbon::parse($value, 'UTC')->timezone('America/Bogota')->locale('es')->isoFormat('DD [de] MMMM [de] YYYY [a las] HH:mm:ss');
+    }
+
+    public function getItemsAEvaluar($convocatoria_id, $tipo_formulario_convocatoria_id)
+    {
+        $items_db_evaluacion = [];
+
+        $relationship_name = '';
+        switch ($tipo_formulario_convocatoria_id) {
+            case 1:
+                $items_db_evaluacion = EvaluacionProyectoFormulario1Linea65::select('evaluaciones_proyectos_formulario_1_linea_65.*')->with('evaluacion.proyecto', 'preguntaEvaluacionFormulario1Linea65')->join('preguntas_evaluacion_formulario_1_linea_65', 'evaluaciones_proyectos_formulario_1_linea_65.pregunta_id',  'preguntas_evaluacion_formulario_1_linea_65.id')->where('evaluacion_id', $this->id)->whereJsonContains('preguntas_evaluacion_formulario_1_linea_65.convocatorias_id', $convocatoria_id)->get();
+                $relationship_name = 'preguntaEvaluacionFormulario1Linea65';
+                break;
+            case 4:
+                $items_db_evaluacion = EvaluacionProyectoFormulario4Linea70::select('evaluaciones_proyectos_formulario_4_linea_70.*')->with('preguntaEvaluacionFormulario4Linea70')->join('preguntas_evaluacion_formulario_4_linea_70', 'evaluaciones_proyectos_formulario_4_linea_70.pregunta_id',  'preguntas_evaluacion_formulario_4_linea_70.id')->where('evaluacion_id', $this->id)->whereJsonContains('preguntas_evaluacion_formulario_4_linea_70.convocatorias_id', $convocatoria_id)->get();
+                $relationship_name = 'preguntaEvaluacionFormulario4Linea70';
+                break;
+            case 5:
+                $items_db_evaluacion = EvaluacionProyectoFormulario5Linea69::select('evaluaciones_proyectos_formulario_5_linea_69.*')->with('preguntaEvaluacionFormulario5Linea69')->join('preguntas_evaluacion_formulario_5_linea_69', 'evaluaciones_proyectos_formulario_5_linea_69.pregunta_id',  'preguntas_evaluacion_formulario_5_linea_69.id')->where('evaluacion_id', $this->id)->whereJsonContains('preguntas_evaluacion_formulario_5_linea_69.convocatorias_id', $convocatoria_id)->get();
+                $relationship_name = 'preguntaEvaluacionFormulario5Linea69';
+                break;
+            case 6:
+                $items_db_evaluacion = EvaluacionProyectoFormulario6Linea82::select('evaluaciones_proyectos_formulario_6_linea_82.*')->with('preguntaEvaluacionFormulario6Linea82')->join('preguntas_evaluacion_formulario_6_linea_82', 'evaluaciones_proyectos_formulario_6_linea_82.pregunta_id',  'preguntas_evaluacion_formulario_6_linea_82.id')->where('evaluacion_id', $this->id)->whereJsonContains('preguntas_evaluacion_formulario_6_linea_82.convocatorias_id', $convocatoria_id)->get();
+                $relationship_name = 'preguntaEvaluacionFormulario6Linea82';
+                break;
+            case 7:
+                $items_db_evaluacion = EvaluacionProyectoFormulario7Linea23::select('evaluaciones_proyectos_formulario_7_linea_23.*')->with('preguntaEvaluacionFormulario7Linea23')->join('preguntas_evaluacion_formulario_7_linea_23', 'evaluaciones_proyectos_formulario_7_linea_23.pregunta_id',  'preguntas_evaluacion_formulario_7_linea_23.id')->where('evaluacion_id', $this->id)->whereJsonContains('preguntas_evaluacion_formulario_7_linea_23.convocatorias_id', $convocatoria_id)->get();
+                $relationship_name = 'preguntaEvaluacionFormulario7Linea23';
+                break;
+            case 8:
+                $items_db_evaluacion = EvaluacionProyectoFormulario8Linea66::select('evaluaciones_proyectos_formulario_8_linea_66.*')->with('preguntaEvaluacionFormulario8Linea66')->join('preguntas_evaluacion_formulario_8_linea_66', 'evaluaciones_proyectos_formulario_8_linea_66.pregunta_id',  'preguntas_evaluacion_formulario_8_linea_66.id')->where('evaluacion_id', $this->id)->whereJsonContains('preguntas_evaluacion_formulario_8_linea_66.convocatorias_id', $convocatoria_id)->get();
+                $relationship_name = 'preguntaEvaluacionFormulario8Linea66';
+                break;
+            case 9:
+                $items_db_evaluacion = EvaluacionProyectoFormulario9Linea23::select('evaluaciones_proyectos_formulario_9_linea_23.*')->with('preguntaEvaluacionFormulario9Linea23')->join('preguntas_evaluacion_formulario_9_linea_23', 'evaluaciones_proyectos_formulario_9_linea_23.pregunta_id',  'preguntas_evaluacion_formulario_9_linea_23.id')->where('evaluacion_id', $this->id)->whereJsonContains('preguntas_evaluacion_formulario_9_linea_23.convocatorias_id', $convocatoria_id)->get();
+                $relationship_name = 'preguntaEvaluacionFormulario9Linea23';
+                break;
+            case 12:
+                $items_db_evaluacion = EvaluacionProyectoFormulario12Linea68::select('evaluaciones_proyectos_formulario_12_linea_68.*')->with('preguntaEvaluacionFormulario12Linea68')->join('preguntas_evaluacion_formulario_12_linea_68', 'evaluaciones_proyectos_formulario_12_linea_68.pregunta_id',  'preguntas_evaluacion_formulario_12_linea_68.id')->where('evaluacion_id', $this->id)->whereJsonContains('preguntas_evaluacion_formulario_12_linea_68.convocatorias_id', $convocatoria_id)->get();
+                $relationship_name = 'preguntaEvaluacionFormulario12Linea68';
+                break;
+            default:
+                break;
+        }
+
+        $items_evaluacion = collect([]);
+
+        foreach ($items_db_evaluacion as $item) {
+            $items_evaluacion->push([
+                'form_evaluacion_id_pregunta_id_' . $item->pregunta_id          => $item->id,
+                'form_puntaje_pregunta_id_' . $item->pregunta_id                => $item->puntaje,
+                'form_comentario_pregunta_id_' . $item->pregunta_id             => $item->comentario,
+                'form_requiere_comentario_pregunta_id_' . $item->pregunta_id    => $item->comentario ? true : false,
+                'form_id_pregunta_id_' . $item->pregunta_id                     => $item->pregunta_id,
+                'pregunta_id'                                                   => $item->pregunta_id,
+                'tipo_formulario_convocatoria_id'                               => $this->proyecto->tipo_formulario_convocatoria_id,
+                'evaluacion_id'                                                 => $this->id,
+                'campo_pregunta_id_' . $item->pregunta_id                       => $item->{$relationship_name}->campo,
+                'puntaje_maximo_pregunta_id_' . $item->pregunta_id              => $item->{$relationship_name}->puntaje_maximo,
+                'criterio_pregunta_id_' . $item->pregunta_id                    => $item->{$relationship_name}->criterio,
+                'allowed'                                                       => $this->allowed
+            ]);
+        }
+
+        return $items_evaluacion;
     }
 
     /**

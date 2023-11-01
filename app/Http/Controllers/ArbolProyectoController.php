@@ -99,7 +99,11 @@ class ArbolProyectoController extends Controller
         }
 
         if (request()->filled('evaluacion_id')) {
-            $this->authorize('modificar-evaluacion-autor', [Evaluacion::find(request()->evaluacion_id)]);
+            $evaluacion = Evaluacion::find(request()->evaluacion_id);
+
+            $this->authorize('modificar-evaluacion-autor', [$evaluacion]);
+
+            $items_evaluacion = $evaluacion->getItemsAEvaluar($convocatoria->id, $proyecto->tipo_formulario_convocatoria_id);
         }
 
         $this->generarArboles($proyecto);
@@ -141,7 +145,7 @@ class ArbolProyectoController extends Controller
         return Inertia::render('Convocatorias/Proyectos/ArbolesProyecto/ArbolProblemas', [
             'convocatoria'      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones'),
             'proyecto'          => $proyecto,
-            'evaluacion'        => Evaluacion::find(request()->evaluacion_id),
+            'evaluacion'        => $items_evaluacion ?? [],
         ]);
     }
 
@@ -507,7 +511,11 @@ class ArbolProyectoController extends Controller
         }
 
         if (request()->filled('evaluacion_id')) {
-            $this->authorize('modificar-evaluacion-autor', [Evaluacion::find(request()->evaluacion_id)]);
+            $evaluacion = Evaluacion::find(request()->evaluacion_id);
+
+            $this->authorize('modificar-evaluacion-autor', [$evaluacion]);
+
+            $items_evaluacion = $evaluacion->getItemsAEvaluar($convocatoria->id, $proyecto->tipo_formulario_convocatoria_id);
         }
 
         $this->generarArboles($proyecto);
@@ -538,7 +546,7 @@ class ArbolProyectoController extends Controller
         return Inertia::render('Convocatorias/Proyectos/ArbolesProyecto/ArbolObjetivos', [
             'convocatoria'          =>  $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria'),
             'proyecto'              =>  $proyecto,
-            'evaluacion'            =>  Evaluacion::find(request()->evaluacion_id),
+            'evaluacion'            => $items_evaluacion ?? [],
             'efectos_directos'      =>  $efectos_directos,
             'causas_directas'       =>  $causas_directas,
             'tipos_impacto'         =>  $tipos_impacto ?? [],

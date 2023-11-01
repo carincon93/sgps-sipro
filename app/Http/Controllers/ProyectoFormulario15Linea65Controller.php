@@ -159,7 +159,11 @@ class ProyectoFormulario15Linea65Controller extends Controller
         }
 
         if (request()->filled('evaluacion_id')) {
-            $this->authorize('modificar-evaluacion-autor', [Evaluacion::find(request()->evaluacion_id)]);
+            $evaluacion = Evaluacion::find(request()->evaluacion_id);
+
+            $this->authorize('modificar-evaluacion-autor', [$evaluacion]);
+
+            $items_evaluacion = $evaluacion->getItemsAEvaluar($convocatoria->id, $proyecto_formulario_15_linea_65->proyecto->tipo_formulario_convocatoria_id);
         }
 
         // $proyecto_formulario_15_linea_65->load('proyecto.evaluaciones.evaluacion_proyecto_formulario_15_linea_65');
@@ -181,7 +185,7 @@ class ProyectoFormulario15Linea65Controller extends Controller
             'convocatoria'                                  => $convocatoria,
             'proyecto_formulario_15_linea_65'               => $proyecto_formulario_15_linea_65,
             'centros_formacion'                             => SelectHelper::centrosFormacion()->whereIn('value', $centros_formacion_ids)->values()->all(),
-            // 'evaluacion'                                    => EvaluacionProyectoFormulario15Linea65::find(request()->evaluacion_id),
+            'evaluacion'                                    => $items_evaluacion ?? [],
             'mesas_sectoriales'                             => MesaSectorial::select('id as value', 'nombre as label')->get('id'),
             'lineas_investigacion'                          => SelectHelper::lineasInvestigacion(),
             'areas_conocimiento'                            => SelectHelper::areasConocimiento(),

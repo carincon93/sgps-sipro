@@ -155,7 +155,11 @@ class ProyectoFormulario16Linea65Controller extends Controller
         }
 
         if (request()->filled('evaluacion_id')) {
-            $this->authorize('modificar-evaluacion-autor', [Evaluacion::find(request()->evaluacion_id)]);
+            $evaluacion = Evaluacion::find(request()->evaluacion_id);
+
+            $this->authorize('modificar-evaluacion-autor', [$evaluacion]);
+
+            $items_evaluacion = $evaluacion->getItemsAEvaluar($convocatoria->id, $proyecto_formulario_16_linea_65->proyecto->tipo_formulario_convocatoria_id);
         }
 
         // $proyecto_formulario_16_linea_65->load('proyecto.evaluaciones.evaluacion_proyecto_formulario_16_linea_65');
@@ -177,7 +181,7 @@ class ProyectoFormulario16Linea65Controller extends Controller
             'convocatoria'                                  => $convocatoria,
             'proyecto_formulario_16_linea_65'               => $proyecto_formulario_16_linea_65,
             'centros_formacion'                             => SelectHelper::centrosFormacion()->whereIn('value', $centros_formacion_ids)->values()->all(),
-            // 'evaluacion'                                    => EvaluacionProyectoFormulario16Linea65::find(request()->evaluacion_id),
+            'evaluacion'                                    => $items_evaluacion ?? [],
             'mesas_sectoriales'                             => MesaSectorial::select('id as value', 'nombre as label')->get('id'),
             'lineas_programaticas'                          => SelectHelper::lineasProgramaticas(),
             'areas_cualificacion_mnc'                       => json_decode(Storage::get('json/areas-cualificacion-mnc.json'), true),

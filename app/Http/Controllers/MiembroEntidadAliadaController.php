@@ -28,7 +28,11 @@ class MiembroEntidadAliadaController extends Controller
         }
 
         if (request()->filled('evaluacion_id')) {
-            $this->authorize('modificar-evaluacion-autor', [Evaluacion::find(request()->evaluacion_id)]);
+            $evaluacion = Evaluacion::find(request()->evaluacion_id);
+
+            $this->authorize('modificar-evaluacion-autor', [$evaluacion]);
+
+            $items_evaluacion = $evaluacion->getItemsAEvaluar($convocatoria->id, $proyecto->tipo_formulario_convocatoria_id);
         }
 
         $proyecto->load('proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
@@ -37,7 +41,7 @@ class MiembroEntidadAliadaController extends Controller
         return Inertia::render('Convocatorias/Proyectos/EntidadesAliadas/MiembrosEntidadAliada/Index', [
             'convocatoria'              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria'),
             'proyecto'                  => $proyecto,
-            'evaluacion'                => Evaluacion::find(request()->evaluacion_id),
+            'evaluacion'                => $items_evaluacion ?? [],
             'entidad_aliada'            => $entidad_aliada,
             'miembros_entidad_aliada'   => MiembroEntidadAliada::where('entidad_aliada_id', $entidad_aliada->id)->orderBy('nombre', 'ASC')
                 ->filterMiembroEntidadAliada(request()->only('search'))->paginate()->appends(['search' => request()->search]),

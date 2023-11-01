@@ -30,7 +30,11 @@ class EdtController extends Controller
         }
 
         if (request()->filled('evaluacion_id')) {
-            $this->authorize('modificar-evaluacion-autor', [Evaluacion::find(request()->evaluacion_id)]);
+            $evaluacion = Evaluacion::find(request()->evaluacion_id);
+
+            $this->authorize('modificar-evaluacion-autor', [$evaluacion]);
+
+            $items_evaluacion = $evaluacion->getItemsAEvaluar($convocatoria->id, $proyecto->tipo_formulario_convocatoria_id);
         }
 
         $proyecto->load('proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
@@ -48,7 +52,7 @@ class EdtController extends Controller
         return Inertia::render('Convocatorias/Proyectos/EDT/Index', [
             'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria'),
             'proyecto'              => $proyecto,
-            'evaluacion'            => Evaluacion::find(request()->evaluacion_id),
+            'evaluacion'            => $items_evaluacion ?? [],
             'presupuesto'           => $presupuesto,
             'eventos'               => Edt::with('proyectoPresupuesto')->orderBy('descripcion_evento', 'ASC')->where('proyecto_formulario4_linea70_id', $proyecto->id)
                 ->filterEdt(request()->only('search'))->paginate(),

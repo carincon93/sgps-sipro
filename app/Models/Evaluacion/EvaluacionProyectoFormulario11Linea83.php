@@ -23,26 +23,10 @@ class EvaluacionProyectoFormulario11Linea83 extends Model
      * @var array
      */
     protected $fillable = [
-        'resumen_regional_comentario',
-        'antecedentes_regional_comentario',
-        'municipios_comentario',
-        'fecha_ejecucion_comentario',
-        'cadena_valor_comentario',
-        'impacto_centro_formacion_comentario',
-        'bibliografia_comentario',
-        'retos_oportunidades_comentario',
-        'pertinencia_territorio_comentario',
-        'metodologia_comentario',
-        'analisis_riesgos_comentario',
-        'anexos_comentario',
-        'productos_comentario',
-        'arbol_problemas_comentario',
-        'arbol_objetivos_comentario',
-        'ortografia_comentario',
-        'proyecto_presupuesto_comentario',
-        'redaccion_comentario',
-        'normas_apa_comentario',
-        'articulacion_sennova_comentario'
+        'pregunta_id',
+        'evaluacion_id',
+        'puntaje',
+        'comentario'
     ];
 
     /**
@@ -71,6 +55,16 @@ class EvaluacionProyectoFormulario11Linea83 extends Model
     public function evaluacion()
     {
         return $this->belongsTo(Evaluacion::class, 'id');
+    }
+
+    /**
+     * Relationship with PreguntaEvaluacionFormulario11Linea83
+     *
+     * @return object
+     */
+    public function preguntaEvaluacionFormulario11Linea83()
+    {
+        return $this->belongsTo(PreguntaEvaluacionFormulario11Linea83::class, 'pregunta_id');
     }
 
     /**

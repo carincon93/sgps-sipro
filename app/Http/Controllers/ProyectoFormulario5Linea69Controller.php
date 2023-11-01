@@ -138,7 +138,11 @@ class ProyectoFormulario5Linea69Controller extends Controller
         }
 
         if (request()->filled('evaluacion_id')) {
-            $this->authorize('modificar-evaluacion-autor', [Evaluacion::find(request()->evaluacion_id)]);
+            $evaluacion = Evaluacion::find(request()->evaluacion_id);
+
+            $this->authorize('modificar-evaluacion-autor', [$evaluacion]);
+
+            $items_evaluacion = $evaluacion->getItemsAEvaluar($convocatoria->id, $proyecto_formulario_5_linea_69->proyecto->tipo_formulario_convocatoria_id);
         }
 
 
@@ -166,7 +170,7 @@ class ProyectoFormulario5Linea69Controller extends Controller
             'convocatoria'                      => $convocatoria,
             'proyecto_formulario_5_linea_69'    => $proyecto_formulario_5_linea_69,
             'centros_formacion'                 => SelectHelper::centrosFormacion(),
-            'evaluacion'                        => EvaluacionProyectoFormulario5Linea69::with('evaluacion.proyecto')->where('id', request()->evaluacion_id)->first(),
+            'evaluacion'                        => $items_evaluacion ?? [],
             'regionales'                        => SelectHelper::regionales(),
             'lineas_programaticas'              => LineaProgramatica::selectRaw('id as value, concat(nombre, \' ∙ \', codigo) as label, codigo')->where('lineas_programaticas.categoria_proyecto', 1)->get(),
             'nodos_tecnoparque'                 => SelectHelper::nodosTecnoparque()->where('centro_formacion_id', $proyecto_formulario_5_linea_69->proyecto->centroFormacion->id)->values()->all(),
@@ -238,39 +242,51 @@ class ProyectoFormulario5Linea69Controller extends Controller
 
     public function updateEvaluacion(EvaluacionProyectoFormulario5Linea69Request $request, Convocatoria $convocatoria)
     {
-        $evaluacion_proyecto_formulario_5_linea_69 = EvaluacionProyectoFormulario5Linea69::find($request->evaluacion_id);
+        $evaluacion = Evaluacion::find($request->evaluacion_id);
 
-        $this->authorize('modificar-evaluacion-autor', $evaluacion_proyecto_formulario_5_linea_69->evaluacion);
+        $this->authorize('modificar-evaluacion-autor', $evaluacion);
 
-        $evaluacion_proyecto_formulario_5_linea_69->evaluacion()->update([
-            'iniciado' => true,
+        $items_evaluacion_filtrados = [];
+        $temp_array = [];
+
+        foreach ($request->all() as $key => $value) {
+            // Check if the key starts with "form_"
+            if (strpos($key, "form_") === 0) {
+                $temp_array[$key] = $value;
+
+                // When tempArray has 4 items, add it to the resultArray and reset tempArray
+                if (count($temp_array) === 5) {
+                    $items_evaluacion_filtrados[] = $temp_array;
+                    $temp_array = [];
+                }
+            }
+        }
+
+        // If there are any remaining items in tempArray, add it to the resultArray
+        if (!empty($temp_array)) {
+            $items_evaluacion_filtrados[] = $temp_array;
+        }
+
+        $evaluacion->update([
+            'iniciado'                  => true,
             'clausula_confidencialidad' => $request->clausula_confidencialidad
         ]);
 
-        $evaluacion_proyecto_formulario_5_linea_69->resumen_regional_comentario = $request->resumen_regional_requiere_comentario == false ? $request->resumen_regional_comentario : null;
+        foreach ($items_evaluacion_filtrados as $item) {
+            $pregunta_id = last($item);
 
-        $evaluacion_proyecto_formulario_5_linea_69->resumen_regional_comentario             = $request->filled('resumen_regional_comentario') ? $request->resumen_regional_comentario : null;
-        $evaluacion_proyecto_formulario_5_linea_69->antecedentes_regional_comentario        = $request->filled('antecedentes_regional_comentario') ? $request->antecedentes_regional_comentario : null;
-        $evaluacion_proyecto_formulario_5_linea_69->municipios_comentario                   = $request->filled('municipios_comentario') ? $request->municipios_comentario : null;
-        $evaluacion_proyecto_formulario_5_linea_69->fecha_ejecucion_comentario              = $request->filled('fecha_ejecucion_comentario') ? $request->fecha_ejecucion_comentario : null;
-        $evaluacion_proyecto_formulario_5_linea_69->cadena_valor_comentario                 = $request->filled('cadena_valor_comentario') ? $request->cadena_valor_comentario : null;
-        $evaluacion_proyecto_formulario_5_linea_69->impacto_centro_formacion_comentario     = $request->filled('impacto_centro_formacion_comentario') ? $request->impacto_centro_formacion_comentario : null;
-        $evaluacion_proyecto_formulario_5_linea_69->bibliografia_comentario                 = $request->filled('bibliografia_comentario') ? $request->bibliografia_comentario : null;
-        $evaluacion_proyecto_formulario_5_linea_69->retos_oportunidades_comentario          = $request->filled('retos_oportunidades_comentario') ? $request->retos_oportunidades_comentario : null;
-        $evaluacion_proyecto_formulario_5_linea_69->pertinencia_territorio_comentario       = $request->filled('pertinencia_territorio_comentario') ? $request->pertinencia_territorio_comentario : null;
-        $evaluacion_proyecto_formulario_5_linea_69->metodologia_comentario                  = $request->filled('metodologia_comentario') ? $request->metodologia_comentario : null;
-        $evaluacion_proyecto_formulario_5_linea_69->analisis_riesgos_comentario             = $request->filled('analisis_riesgos_comentario') ? $request->analisis_riesgos_comentario : null;
-        $evaluacion_proyecto_formulario_5_linea_69->anexos_comentario                       = $request->filled('anexos_comentario') ? $request->anexos_comentario : null;
-        $evaluacion_proyecto_formulario_5_linea_69->productos_comentario                    = $request->filled('productos_comentario') ? $request->productos_comentario : null;
-        $evaluacion_proyecto_formulario_5_linea_69->arbol_problemas_comentario              = $request->filled('arbol_problemas_comentario') ? $request->arbol_problemas_comentario : null;
-        $evaluacion_proyecto_formulario_5_linea_69->arbol_objetivos_comentario              = $request->filled('arbol_objetivos_comentario') ? $request->arbol_objetivos_comentario : null;
-        $evaluacion_proyecto_formulario_5_linea_69->ortografia_comentario                   = $request->filled('ortografia_comentario') ? $request->ortografia_comentario : null;
-        $evaluacion_proyecto_formulario_5_linea_69->proyecto_presupuesto_comentario         = $request->filled('proyecto_presupuesto_comentario') ? $request->proyecto_presupuesto_comentario : null;
-        $evaluacion_proyecto_formulario_5_linea_69->redaccion_comentario                    = $request->filled('redaccion_comentario') ? $request->redaccion_comentario : null;
-        $evaluacion_proyecto_formulario_5_linea_69->normas_apa_comentario                   = $request->filled('normas_apa_comentario') ? $request->normas_apa_comentario : null;
-        $evaluacion_proyecto_formulario_5_linea_69->articulacion_sennova_comentario         = $request->filled('articulacion_sennova_comentario') ? $request->articulacion_sennova_comentario : null;
-
-        $evaluacion_proyecto_formulario_5_linea_69->save();
+            EvaluacionProyectoFormulario5Linea69::updateOrCreate(
+                [
+                    'id'            => $item['form_evaluacion_id_pregunta_id_' . $pregunta_id],
+                    'pregunta_id'   => $pregunta_id,
+                    'evaluacion_id' => $request->evaluacion_id
+                ],
+                [
+                    'comentario'    => $item['form_comentario_pregunta_id_' . $pregunta_id],
+                    'puntaje'       => $item['form_puntaje_pregunta_id_' . $pregunta_id],
+                ],
+            );
+        }
 
         return redirect()->back()->with('success', 'El recurso ha sido actualizado correctamente.');
     }

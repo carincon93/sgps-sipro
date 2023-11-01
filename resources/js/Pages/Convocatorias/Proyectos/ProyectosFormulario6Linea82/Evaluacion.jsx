@@ -8,104 +8,36 @@ import SwitchMui from '@/Components/Switch'
 import TextInput from '@/Components/TextInput'
 import Textarea from '@/Components/Textarea'
 
-import { useForm } from '@inertiajs/react'
+import { useForm, usePage } from '@inertiajs/react'
 import { Divider, Grid } from '@mui/material'
 
 import React, { useEffect, useState } from 'react'
 
 const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEvaluacionStatus, ...props }) => {
-    const evaluacion_proyecto_formulario6_line82 = evaluacion.evaluacion_proyecto_formulario6_linea82 ?? evaluacion
+    const { props: page_props } = usePage()
+
+    const evaluacion_id = page_props.ziggy.query.evaluacion_id
 
     const form = useForm({
-        evaluacion_id: evaluacion?.id,
-        clausula_confidencialidad: evaluacion?.clausula_confidencialidad ?? evaluacion?.evaluacion?.clausula_confidencialidad,
-        titulo_puntaje: evaluacion_proyecto_formulario6_line82?.titulo_puntaje,
-        titulo_comentario: evaluacion_proyecto_formulario6_line82?.titulo_comentario ? evaluacion_proyecto_formulario6_line82?.titulo_comentario : '',
-        titulo_requiere_comentario: evaluacion_proyecto_formulario6_line82?.titulo_comentario == null ? true : false,
-        entidad_aliada_puntaje: evaluacion_proyecto_formulario6_line82?.entidad_aliada_puntaje,
-        video_puntaje: evaluacion_proyecto_formulario6_line82?.video_puntaje,
-        video_comentario: evaluacion_proyecto_formulario6_line82?.video_comentario ? evaluacion_proyecto_formulario6_line82?.video_comentario : '',
-        video_requiere_comentario: evaluacion_proyecto_formulario6_line82?.video_comentario == null ? true : false,
-
-        entidad_aliada_comentario: evaluacion_proyecto_formulario6_line82?.entidad_aliada_comentario ? evaluacion_proyecto_formulario6_line82?.entidad_aliada_comentario : '',
-        entidad_aliada_requiere_comentario: evaluacion_proyecto_formulario6_line82?.entidad_aliada_comentario == null ? true : false,
-
-        resumen_puntaje: evaluacion_proyecto_formulario6_line82?.resumen_puntaje,
-        resumen_comentario: evaluacion_proyecto_formulario6_line82?.resumen_comentario ? evaluacion_proyecto_formulario6_line82?.resumen_comentario : '',
-        resumen_requiere_comentario: evaluacion_proyecto_formulario6_line82?.resumen_comentario == null ? true : false,
-        problema_central_puntaje: evaluacion_proyecto_formulario6_line82?.problema_central_puntaje,
-        problema_central_comentario: evaluacion_proyecto_formulario6_line82?.problema_central_comentario ? evaluacion_proyecto_formulario6_line82?.problema_central_comentario : '',
-        problema_central_requiere_comentario: evaluacion_proyecto_formulario6_line82?.problema_central_comentario == null ? true : false,
-        resultados_puntaje: evaluacion_proyecto_formulario6_line82?.resultados_puntaje,
-        resultados_comentario: evaluacion_proyecto_formulario6_line82?.resultados_comentario ? evaluacion_proyecto_formulario6_line82?.resultados_comentario : '',
-        resultados_requiere_comentario: evaluacion_proyecto_formulario6_line82?.resultados_comentario == null ? true : false,
-        objetivos_puntaje: evaluacion_proyecto_formulario6_line82?.objetivos_puntaje,
-        objetivos_comentario: evaluacion_proyecto_formulario6_line82?.objetivos_comentario ? evaluacion_proyecto_formulario6_line82?.objetivos_comentario : '',
-        objetivos_requiere_comentario: evaluacion_proyecto_formulario6_line82?.objetivos_comentario == null ? true : false,
-        metodologia_puntaje: evaluacion_proyecto_formulario6_line82?.metodologia_puntaje,
-        metodologia_comentario: evaluacion_proyecto_formulario6_line82?.metodologia_comentario ? evaluacion_proyecto_formulario6_line82?.metodologia_comentario : '',
-        metodologia_requiere_comentario: evaluacion_proyecto_formulario6_line82?.metodologia_comentario == null ? true : false,
-        productos_puntaje: evaluacion_proyecto_formulario6_line82?.productos_puntaje,
-        productos_comentario: evaluacion_proyecto_formulario6_line82?.productos_comentario ? evaluacion_proyecto_formulario6_line82?.productos_comentario : '',
-        productos_requiere_comentario: evaluacion_proyecto_formulario6_line82?.productos_comentario == null ? true : false,
-        cadena_valor_puntaje: evaluacion_proyecto_formulario6_line82?.cadena_valor_puntaje,
-        cadena_valor_comentario: evaluacion_proyecto_formulario6_line82?.cadena_valor_comentario ? evaluacion_proyecto_formulario6_line82?.cadena_valor_comentario : '',
-        cadena_valor_requiere_comentario: evaluacion_proyecto_formulario6_line82?.cadena_valor_comentario == null ? true : false,
-        analisis_riesgos_puntaje: evaluacion_proyecto_formulario6_line82?.analisis_riesgos_puntaje,
-        analisis_riesgos_comentario: evaluacion_proyecto_formulario6_line82?.analisis_riesgos_comentario ? evaluacion_proyecto_formulario6_line82?.analisis_riesgos_comentario : '',
-        analisis_riesgos_requiere_comentario: evaluacion_proyecto_formulario6_line82?.analisis_riesgos_comentario == null ? true : false,
-
-        ortografia_puntaje: evaluacion_proyecto_formulario6_line82?.ortografia_puntaje,
-        ortografia_comentario: evaluacion_proyecto_formulario6_line82?.ortografia_comentario ? evaluacion_proyecto_formulario6_line82?.ortografia_comentario : '',
-        ortografia_requiere_comentario: evaluacion_proyecto_formulario6_line82?.ortografia_comentario == null ? true : false,
-        redaccion_puntaje: evaluacion_proyecto_formulario6_line82?.redaccion_puntaje,
-        redaccion_comentario: evaluacion_proyecto_formulario6_line82?.redaccion_comentario ? evaluacion_proyecto_formulario6_line82?.redaccion_comentario : '',
-        redaccion_requiere_comentario: evaluacion_proyecto_formulario6_line82?.redaccion_comentario == null ? true : false,
-        normas_apa_puntaje: evaluacion_proyecto_formulario6_line82?.normas_apa_puntaje,
-        normas_apa_comentario: evaluacion_proyecto_formulario6_line82?.normas_apa_comentario ? evaluacion_proyecto_formulario6_line82?.normas_apa_comentario : '',
-        normas_apa_requiere_comentario: evaluacion_proyecto_formulario6_line82?.normas_apa_comentario == null ? true : false,
-
-        justificacion_economia_naranja_requiere_comentario: evaluacion_proyecto_formulario6_line82?.justificacion_economia_naranja_comentario == null ? true : false,
-        justificacion_economia_naranja_comentario: evaluacion_proyecto_formulario6_line82?.justificacion_economia_naranja_comentario
-            ? evaluacion_proyecto_formulario6_line82?.justificacion_economia_naranja_comentario
-            : '',
-
-        justificacion_industria_4_requiere_comentario: evaluacion_proyecto_formulario6_line82?.justificacion_industria_4_comentario == null ? true : false,
-        justificacion_industria_4_comentario: evaluacion_proyecto_formulario6_line82?.justificacion_industria_4_comentario
-            ? evaluacion_proyecto_formulario6_line82?.justificacion_industria_4_comentario
-            : '',
-
-        bibliografia_requiere_comentario: evaluacion_proyecto_formulario6_line82?.bibliografia_comentario == null ? true : false,
-        bibliografia_comentario: evaluacion_proyecto_formulario6_line82?.bibliografia_comentario ? evaluacion_proyecto_formulario6_line82?.bibliografia_comentario : '',
-
-        fechas_requiere_comentario: evaluacion_proyecto_formulario6_line82?.fechas_comentario == null ? true : false,
-        fechas_comentario: evaluacion_proyecto_formulario6_line82?.fechas_comentario ? evaluacion_proyecto_formulario6_line82?.fechas_comentario : '',
-
-        justificacion_politica_discapacidad_requiere_comentario: evaluacion_proyecto_formulario6_line82?.justificacion_politica_discapacidad_comentario == null ? true : false,
-        justificacion_politica_discapacidad_comentario: evaluacion_proyecto_formulario6_line82?.justificacion_politica_discapacidad_comentario
-            ? evaluacion_proyecto_formulario6_line82?.justificacion_politica_discapacidad_comentario
-            : '',
-
-        actividad_economica_requiere_comentario: evaluacion_proyecto_formulario6_line82?.actividad_economica_comentario == null ? true : false,
-        actividad_economica_comentario: evaluacion_proyecto_formulario6_line82?.actividad_economica_comentario ? evaluacion_proyecto_formulario6_line82?.actividad_economica_comentario : '',
-
-        disciplina_subarea_conocimiento_requiere_comentario: evaluacion_proyecto_formulario6_line82?.disciplina_subarea_conocimiento_comentario == null ? true : false,
-        disciplina_subarea_conocimiento_comentario: evaluacion_proyecto_formulario6_line82?.disciplina_subarea_conocimiento_comentario
-            ? evaluacion_proyecto_formulario6_line82?.disciplina_subarea_conocimiento_comentario
-            : '',
-
-        red_conocimiento_requiere_comentario: evaluacion_proyecto_formulario6_line82?.red_conocimiento_comentario == null ? true : false,
-        red_conocimiento_comentario: evaluacion_proyecto_formulario6_line82?.red_conocimiento_comentario ? evaluacion_proyecto_formulario6_line82?.red_conocimiento_comentario : '',
-
-        tematica_estrategica_requiere_comentario: evaluacion_proyecto_formulario6_line82?.tematica_estrategica_comentario == null ? true : false,
-        tematica_estrategica_comentario: evaluacion_proyecto_formulario6_line82?.tematica_estrategica_comentario ? evaluacion_proyecto_formulario6_line82?.tematica_estrategica_comentario : '',
+        evaluacion_id: evaluacion_id,
     })
+
+    useEffect(() => {
+        const evaluaciones_flattened = evaluacion.reduce((acc, item) => {
+            Object.keys(item).forEach((key) => {
+                acc[key] = item[key]
+            })
+            return acc
+        }, {})
+
+        form.setData({ ...evaluaciones_flattened, ...form.data })
+    }, [])
 
     const submit = (e) => {
         e.preventDefault()
 
-        if (allowed.to_update) {
-            form.put(route('convocatorias.evaluaciones-formulario-6-linea-82.update', [convocatoria.id, evaluacion.id]), {
+        if (form.data.allowed.to_update) {
+            form.put(route('convocatorias.evaluaciones-formulario-6-linea-82.update', [convocatoria.id, evaluacion_id]), {
                 onSuccess: () => setDialogEvaluacionStatus(false),
                 preserveScroll: true,
             })
@@ -121,7 +53,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
 
     useEffect(() => {
         if (evaluacion_rol_sennova) {
-            const evaluacion_rol_sennova_seleccionado = evaluacion_rol_sennova.proyecto_roles_evaluaciones.find((evaluacion_rol) => evaluacion_rol.evaluacion_id == evaluacion.id)
+            const evaluacion_rol_sennova_seleccionado = evaluacion_rol_sennova.proyecto_roles_evaluaciones.find((evaluacion_rol) => evaluacion_rol.evaluacion_id == evaluacion_id)
 
             if (evaluacion_rol_sennova_seleccionado) {
                 form_evaluacion_rol.setData({ correcto: evaluacion_rol_sennova_seleccionado?.correcto, comentario: evaluacion_rol_sennova_seleccionado?.comentario })
@@ -132,7 +64,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
     const submitEvaluacionRol = (e) => {
         e.preventDefault()
 
-        form_evaluacion_rol.put(route('convocatorias.evaluaciones.proyecto-rol-sennova.update', [convocatoria.id, evaluacion.id, evaluacion_rol_sennova.id]), {
+        form_evaluacion_rol.put(route('convocatorias.evaluaciones.proyecto-rol-sennova.update', [convocatoria.id, evaluacion_id, evaluacion_rol_sennova.id]), {
             onSuccess: () => setDialogEvaluacionRolStatus(false),
             preserveScroll: true,
         })
@@ -147,7 +79,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
 
     useEffect(() => {
         if (evaluacion_rubro) {
-            const evaluacion_rubro_seleccionado = evaluacion_rubro.proyecto_presupuestos_evaluaciones.find((evaluacion_rubro) => evaluacion_rubro.evaluacion_id == evaluacion.id)
+            const evaluacion_rubro_seleccionado = evaluacion_rubro.proyecto_presupuestos_evaluaciones.find((evaluacion_rubro) => evaluacion_rubro.evaluacion_id == evaluacion_id)
             if (evaluacion_rubro_seleccionado) {
                 form_evaluacion_rubro.setData({ correcto: evaluacion_rubro_seleccionado?.correcto, comentario: evaluacion_rubro_seleccionado?.comentario })
             }
@@ -157,7 +89,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
     const submitEvaluacionRubro = (e) => {
         e.preventDefault()
 
-        form_evaluacion_rubro.put(route('convocatorias.evaluaciones.presupuesto.update', [convocatoria.id, evaluacion.id, evaluacion_rubro.id]), {
+        form_evaluacion_rubro.put(route('convocatorias.evaluaciones.presupuesto.update', [convocatoria.id, evaluacion_id, evaluacion_rubro.id]), {
             onSuccess: () => setDialogEvaluacionRubroStatus(false),
             preserveScroll: true,
         })
@@ -178,1079 +110,73 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                             checked={form.data.clausula_confidencialidad}
                             error={form.errors.clausula_confidencialidad}
                             onChange={(e) => form.setData('clausula_confidencialidad', e.target.checked)}
-                            disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                            label={form.data.clausula_confidencialidad ? 'He aceptado la cláusula de confidencialidad' : 'Acepto la cláusula de confidencialidad-'}
+                            disabled={evaluacion[0]?.finalizado}
+                            label={form.data.clausula_confidencialidad ? 'He aceptado la cláusula de confidencialidad' : 'Acepto la cláusula de confidencialidad'}
                         />
                     </AlertMui>
                 </div>
 
-                <div>
-                    <Divider className="!my-20 font-black">TÍTULO</Divider>
+                {evaluacion.map((evaluacion, i) => (
+                    <div key={i}>
+                        <Divider className="!my-20 font-black uppercase">{evaluacion['campo_pregunta_id_' + evaluacion.pregunta_id]}</Divider>
 
-                    <Label className="!mb-10" labelFor="titulo_puntaje" value="Puntaje (Máximo 1)" />
-                    <TextInput
-                        label="Diligencie el puntaje"
-                        id="titulo_puntaje"
-                        type="number"
-                        inputBackground="#fff"
-                        inputProps={{
-                            step: 0.1,
-                            min: 0,
-                            max: 1,
-                        }}
-                        value={form.data.titulo_puntaje}
-                        onChange={(e) => form.setData('titulo_puntaje', e.target.value)}
-                        disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                        placeholder="Puntaje"
-                        error={form.errors.titulo_puntaje}
-                    />
-                    <AlertMui>
-                        <h1>Criterios de evaluacion</h1>
-                        <ul className="list-disc p-4">
-                            <li>
-                                <strong>Puntaje: 0,0 a 0,5</strong> El título orienta el enfoque del proyecto
-                            </li>
-                            <li>
-                                <strong>Puntaje: 0,6 a 1,0</strong> El título orienta el enfoque del proyecto e indica el cómo y el para qué
-                            </li>
-                        </ul>
-                    </AlertMui>
-
-                    <div className="mt-10">
-                        <p>
-                            ¿El título es correcto? Si considera que la información puede mejorarse, por favor seleccione <strong>NO</strong> y haga la respectiva recomendación.
-                        </p>
-                        <SwitchMui
-                            className="!my-6"
-                            checked={form.data.titulo_requiere_comentario}
-                            onChange={(e) => form.setData('titulo_requiere_comentario', e.target.checked)}
-                            disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                        />
-                        {form.data.titulo_requiere_comentario == false && (
-                            <Textarea
-                                label="Comentario"
-                                className="mt-4"
-                                inputBackground="#fff"
-                                id="titulo_comentario"
-                                value={form.data.titulo_comentario}
-                                error={form.errors.titulo_comentario}
-                                onChange={(e) => form.setData('titulo_comentario', e.target.value)}
-                                disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                                required
-                            />
+                        {evaluacion['puntaje_maximo_pregunta_id_' + evaluacion.pregunta_id] && (
+                            <>
+                                <Label
+                                    className="!mb-10"
+                                    labelFor={evaluacion['campo_pregunta_id_' + evaluacion.pregunta_id]}
+                                    value={`Puntaje (Máximo ${evaluacion['puntaje_maximo_pregunta_id_' + evaluacion.pregunta_id]})`}
+                                />
+                                <TextInput
+                                    label="Diligencie el puntaje"
+                                    id={evaluacion['campo_pregunta_id_' + evaluacion.pregunta_id]}
+                                    type="number"
+                                    inputBackground="#fff"
+                                    inputProps={{
+                                        step: 0.1,
+                                        min: 0,
+                                        max: evaluacion['puntaje_maximo_pregunta_id_' + evaluacion.pregunta_id],
+                                    }}
+                                    onChange={(e) => form.setData('form_puntaje_pregunta_id_' + evaluacion.pregunta_id, e.target.value)}
+                                    value={form.data['form_puntaje_pregunta_id_' + evaluacion.pregunta_id]}
+                                    error={form.errors['form_puntaje_pregunta_id_' + evaluacion.pregunta_id]}
+                                    disabled={evaluacion[0]?.finalizado}
+                                    placeholder="Puntaje"
+                                />
+                                <AlertMui>
+                                    <h1>Criterios de evaluacion</h1>
+                                    <p className="whitespace-pre-line">{evaluacion['criterio_pregunta_id_' + evaluacion.pregunta_id]}</p>
+                                </AlertMui>
+                            </>
                         )}
-                    </div>
-                </div>
 
-                <div>
-                    <Divider className="!my-20 font-black">RESUMEN</Divider>
-
-                    <Label className="!mb-10" labelFor="resumen_puntaje" value="Puntaje (Máximo 2)" />
-                    <TextInput
-                        label="Diligencie el puntaje"
-                        id="resumen_puntaje"
-                        type="number"
-                        inputBackground="#fff"
-                        inputProps={{
-                            step: 0.1,
-                            min: 0,
-                            max: 2,
-                        }}
-                        value={form.data.resumen_puntaje}
-                        placeholder="Puntaje"
-                        error={form.errors.resumen_puntaje}
-                        onChange={(e) => form.setData('resumen_puntaje', e.target.value)}
-                        disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                    />
-                    <AlertMui>
-                        <h1>Criterios de evaluacion</h1>
-                        <ul className="list-disc p-4">
-                            <li>
-                                <strong>Puntaje: 0,0 a 1,0</strong> El resumen no presenta de forma clara la pertinencia y calidad del proyecto, en términos de cuál es el problema central, cómo se le
-                                dará solución y cuáles serán las herramientas que se utilizarán para ello, entre otros.
-                            </li>
-                            <li>
-                                <strong>Puntaje: 1,1 a 2,0</strong> El resumen presenta de forma clara la pertinencia y calidad del proyecto e incluye todos los elementos en términos de cuál es el
-                                problema central, cómo se le dará solución y cuáles serán las herramientas que se utilizarán para ello, entre otros.
-                            </li>
-                        </ul>
-                    </AlertMui>
-
-                    <div className="mt-10">
-                        <p>
-                            ¿El resumen es correcto? Si considera que la información puede mejorarse, por favor seleccione <strong>NO</strong> y haga la respectiva recomendación.
-                        </p>
-                        <SwitchMui
-                            className="!my-6"
-                            checked={form.data.resumen_requiere_comentario}
-                            onChange={(e) => form.setData('resumen_requiere_comentario', e.target.checked)}
-                            disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                        />
-                        {form.data.resumen_requiere_comentario == false && (
-                            <Textarea
-                                label="Comentario"
-                                className="mt-4"
-                                inputBackground="#fff"
-                                id="resumen_comentario"
-                                value={form.data.resumen_comentario}
-                                error={form.errors.resumen_comentario}
-                                onChange={(e) => form.setData('resumen_comentario', e.target.value)}
-                                disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                                required
+                        <div className="mt-10">
+                            <p>
+                                Si considera que la información del ítem <strong className="uppercase">{evaluacion['campo_pregunta_id_' + evaluacion.pregunta_id]}</strong> puede mejorarse, por favor
+                                seleccione <strong>NO</strong> y haga la respectiva recomendación.
+                            </p>
+                            <SwitchMui
+                                className="!my-6"
+                                checked={form.data['form_requiere_comentario_pregunta_id_' + evaluacion.pregunta_id]}
+                                onChange={(e) => form.setData('form_requiere_comentario_pregunta_id_' + evaluacion.pregunta_id, e.target.checked)}
+                                disabled={evaluacion[0]?.finalizado}
                             />
-                        )}
+                            {form.data['form_requiere_comentario_pregunta_id_' + evaluacion.pregunta_id] && (
+                                <Textarea
+                                    label="Comentario"
+                                    className="mt-4"
+                                    inputBackground="#fff"
+                                    id={'form_comentario_pregunta_id_' + evaluacion.pregunta_id}
+                                    onChange={(e) => form.setData('form_comentario_pregunta_id_' + evaluacion.pregunta_id, e.target.value)}
+                                    value={form.data['form_comentario_pregunta_id_' + evaluacion.pregunta_id]}
+                                    error={form.errors['form_comentario_pregunta_id_' + evaluacion.pregunta_id]}
+                                    disabled={evaluacion[0]?.finalizado}
+                                    required
+                                />
+                            )}
+                        </div>
                     </div>
-                </div>
-
-                <div>
-                    <Divider className="!my-20 font-black">VIDEO</Divider>
-
-                    <Label className="!mb-10" labelFor="video_puntaje" value="Puntaje (Máximo 1)" />
-                    <TextInput
-                        label="Diligencie el puntaje"
-                        id="video_puntaje"
-                        type="number"
-                        inputBackground="#fff"
-                        inputProps={{
-                            step: 0.1,
-                            min: 0,
-                            max: 1,
-                        }}
-                        value={form.data.video_puntaje}
-                        placeholder="Puntaje"
-                        error={form.errors.video_puntaje}
-                        onChange={(e) => form.setData('video_puntaje', e.target.value)}
-                        disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                    />
-                    <AlertMui>
-                        <h1>Criterios de evaluacion</h1>
-                        <ul className="list-disc p-4">
-                            <li>
-                                <strong>Puntaje: 0,0 a 0,5</strong> El video no cumple los 3 minutos establecidos y no presenta de forma clara la justificación, la problemática, el objetivo general,
-                                los objetivos específicos, las actividades, los productos y/o su impacto de acuerdo con los lineamientos de la convocatoria
-                            </li>
-                            <li>
-                                <strong>Puntaje: 0,6 a 1,0</strong> El video cumple los 3 minutos establecidos y presenta la justificación, la problemática, el objetivo general, los objetivos
-                                específicos, las actividades, los productos y su impacto de acuerdo con los lineamientos de la convocatoria
-                            </li>
-                        </ul>
-                    </AlertMui>
-
-                    <div className="mt-10">
-                        <p>
-                            ¿El video es correcto? Si considera que la información puede mejorarse, por favor seleccione <strong>NO</strong> y haga la respectiva recomendación.
-                        </p>
-                        <SwitchMui
-                            className="!my-6"
-                            checked={form.data.video_requiere_comentario}
-                            onChange={(e) => form.setData('video_requiere_comentario', e.target.checked)}
-                            disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                        />
-                        {form.data.video_requiere_comentario == false && (
-                            <Textarea
-                                label="Comentario"
-                                className="mt-4"
-                                inputBackground="#fff"
-                                id="video_comentario"
-                                value={form.data.video_comentario}
-                                error={form.errors.video_comentario}
-                                onChange={(e) => form.setData('video_comentario', e.target.value)}
-                                disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                                required
-                            />
-                        )}
-                    </div>
-                </div>
-
-                <div>
-                    <Divider className="!my-20 font-black">ENTIDADES ALIADAS</Divider>
-
-                    <p>Puntaje: {form.data.entidad_aliada_puntaje}</p>
-                    <AlertMui>
-                        <p>El puntaje se asigna automáticamente una vez se validen las entidades. El valor se da según el tipo de entidad relacionada. Revisar valores en lineamientos.</p>
-                    </AlertMui>
-
-                    <div className="mt-10">
-                        <p className="mt-4">¿Valida las entidades aliadas?</p>
-                        <SwitchMui
-                            className="!my-6"
-                            checked={form.data.entidad_aliada_requiere_comentario}
-                            onChange={(e) => form.setData('entidad_aliada_requiere_comentario', e.target.checked)}
-                            disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                        />
-                        {form.data.entidad_aliada_requiere_comentario == false && (
-                            <Textarea
-                                label="Comentario"
-                                className="mt-4"
-                                inputBackground="#fff"
-                                id="entidad_aliada_comentario"
-                                value={form.data.entidad_aliada_comentario}
-                                error={form.errors.entidad_aliada_comentario}
-                                onChange={(e) => form.setData('entidad_aliada_comentario', e.target.value)}
-                                disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                                required
-                            />
-                        )}
-                    </div>
-                </div>
-
-                <div>
-                    <Divider className="!my-20 font-black">DEFINICIÓN DEL PROBLEMA</Divider>
-
-                    <Label className="!mb-10" labelFor="problema_central_puntaje" value="Puntaje (Máximo 15)" />
-                    <TextInput
-                        label="Diligencie el puntaje"
-                        id="problema_central_puntaje"
-                        type="number"
-                        inputBackground="#fff"
-                        inputProps={{
-                            step: 1,
-                            min: 0,
-                            max: 15,
-                        }}
-                        value={form.data.problema_central_puntaje}
-                        placeholder="Puntaje"
-                        error={form.errors.problema_central_puntaje}
-                        onChange={(e) => form.setData('problema_central_puntaje', e.target.value)}
-                        disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                    />
-                    <AlertMui>
-                        <h1>Criterios de evaluacion</h1>
-                        <ul className="list-disc p-4">
-                            <li>
-                                <strong>Puntaje: 0 a 7</strong> El problema no ha sido identificado a partir de los instrumentos de planeación regional como las agendas departamentales y/o planes
-                                tecnológicos y no se encuentra coherencia con los antecedentes, la justificación y el marco conceptual.
-                            </li>
-                            <li>
-                                <strong>Puntaje: 8 a 13</strong> El problema se ha identificado a partir de los instrumentos de planeación regional como las agendas departamentales y/o planes
-                                tecnológicos y se encuentra coherencia entre los antecedentes, la justificación y el marco conceptual. Sin embargo, es susceptible de ajustes en términos de coherencia
-                                en la propuesta
-                            </li>
-                            <li>
-                                <strong>Puntaje: 14 a 15</strong> El problema se ha identificado a partir de los instrumentos de planeación regional como las agendas departamentales y/o planes
-                                tecnológicos y guarda una coherencia global entre los antecedentes, la justificación y el marco conceptual.
-                            </li>
-                        </ul>
-                    </AlertMui>
-
-                    <div className="mt-10">
-                        <p>
-                            ¿Los antecedentes, justificación, marco conceptual y la definición del problema son correctos? Si considera que la información puede mejorarse, por favor seleccione{' '}
-                            <strong>NO</strong> y haga la respectiva recomendación.
-                        </p>
-
-                        <SwitchMui
-                            className="!my-6"
-                            checked={form.data.problema_central_requiere_comentario}
-                            onChange={(e) => form.setData('problema_central_requiere_comentario', e.target.checked)}
-                            disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                        />
-                        {form.data.problema_central_requiere_comentario == false && (
-                            <Textarea
-                                label="Comentario"
-                                className="mt-4"
-                                inputBackground="#fff"
-                                id="problema_central_comentario"
-                                value={form.data.problema_central_comentario}
-                                error={form.errors.problema_central_comentario}
-                                onChange={(e) => form.setData('problema_central_comentario', e.target.value)}
-                                disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                                required
-                            />
-                        )}
-                    </div>
-                </div>
-
-                <div>
-                    <Divider className="!my-20 font-black">RESULTADOS</Divider>
-
-                    <Label className="!mb-10" labelFor="resultados_puntaje" value="Puntaje (Máximo 9)" />
-                    <TextInput
-                        label="Diligencie el puntaje"
-                        id="resultados_puntaje"
-                        type="number"
-                        inputBackground="#fff"
-                        inputProps={{
-                            step: 1,
-                            min: 0,
-                            max: 9,
-                        }}
-                        value={form.data.resultados_puntaje}
-                        placeholder="Puntaje"
-                        error={form.errors.resultados_puntaje}
-                        onChange={(e) => form.setData('resultados_puntaje', e.target.value)}
-                        disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                    />
-                    <AlertMui>
-                        <h1>Criterios de evaluacion</h1>
-                        <ul className="list-disc p-4">
-                            <li>
-                                <strong>Puntaje: 0 a 4</strong> No son claros los beneficios y ventajas de los resultados en el marco del proyecto, no se generan por el desarrollo de las actividades y
-                                tampoco evidencian la materialización de la solución propuesta para resolver el problema del proyecto.
-                            </li>
-                            <li>
-                                <strong>Puntaje: 5 a 7</strong> Los resultados se generan por el desarrollo de las actividades y se identifican sus ventajas y beneficios para dar solución al problema
-                                identificado. Son susceptibles de mejora para evidenciar de forma clara la materialización de la solución propuesta.
-                            </li>
-                            <li>
-                                <strong>Puntaje: 8 a 9</strong> Los resultados se generan por el desarrollo de las actividades, sus beneficios y ventajas sobresalen en pro de dar una solución
-                                contundente al problema identificado y evidencian de forma clara la materialización de la solución propuesta.
-                            </li>
-                        </ul>
-                    </AlertMui>
-
-                    <div className="mt-10">
-                        <p>
-                            ¿Los resultados son correctos? Si considera que la información puede mejorarse, por favor seleccione <strong>NO</strong> y haga la respectiva recomendación.
-                        </p>
-
-                        <SwitchMui
-                            className="!my-6"
-                            checked={form.data.resultados_requiere_comentario}
-                            onChange={(e) => form.setData('resultados_requiere_comentario', e.target.checked)}
-                            disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                        />
-                        {form.data.resultados_requiere_comentario == false && (
-                            <Textarea
-                                label="Comentario"
-                                className="mt-4"
-                                inputBackground="#fff"
-                                id="resultados_comentario"
-                                value={form.data.resultados_comentario}
-                                error={form.errors.resultados_comentario}
-                                onChange={(e) => form.setData('resultados_comentario', e.target.value)}
-                                disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                                required
-                            />
-                        )}
-                    </div>
-                </div>
-
-                <div>
-                    <Divider className="!my-20 font-black">OBJETIVO GENERAL Y OBJETIVOS ESPECÍFICOS</Divider>
-
-                    <Label className="!mb-10" labelFor="objetivos_puntaje" value="Puntaje (Máximo 15)" />
-                    <TextInput
-                        label="Diligencie el puntaje"
-                        id="objetivos_puntaje"
-                        type="number"
-                        inputBackground="#fff"
-                        inputProps={{
-                            step: 1,
-                            min: 0,
-                            max: 15,
-                        }}
-                        value={form.data.objetivos_puntaje}
-                        placeholder="Puntaje"
-                        error={form.errors.objetivos_puntaje}
-                        onChange={(e) => form.setData('objetivos_puntaje', e.target.value)}
-                        disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                    />
-                    <AlertMui>
-                        <h1>Criterios de evaluacion</h1>
-                        <ul className="list-disc p-4">
-                            <li>
-                                <strong>Puntaje: 0 a 7</strong> El objetivo general y los objetivos específicos (solución identificada) no dan respuesta al problema, tampo estan relacionados entre
-                                ellos, y los objetivos específicos no presentan una secuencia lógica para alcanzar el objetivo general.
-                            </li>
-                            <li>
-                                <strong>Puntaje: 8 a 13</strong> El objetivo general y los objetivos específicos (solución identificada) dan respuesta parcial al problema; hay relación entre ellos y
-                                los objetivos específicos están formulados como una secuencia lógica para alcanzar el objetivo general, pero susceptibles de ajustes y mejoras.
-                            </li>
-                            <li>
-                                <strong>Puntaje: 14 a 15</strong> El objetivo general y los objetivos específicos (solución identificada) dan respuesta integral al problema; hay relación entre ellos y
-                                los objetivos específicos están formulados como una secuencia lógica para alcanzar el objetivo general.
-                            </li>
-                        </ul>
-                    </AlertMui>
-
-                    <div className="mt-10">
-                        <p>
-                            ¿El objetivo general y/o los objetivos específicos son correctos? Si considera que la información puede mejorarse, por favor seleccione <strong>NO</strong> y haga la
-                            respectiva recomendación.
-                        </p>
-
-                        <SwitchMui
-                            className="!my-6"
-                            checked={form.data.objetivos_requiere_comentario}
-                            onChange={(e) => form.setData('objetivos_requiere_comentario', e.target.checked)}
-                            disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                        />
-                        {form.data.objetivos_requiere_comentario == false && (
-                            <Textarea
-                                label="Comentario"
-                                className="mt-4"
-                                inputBackground="#fff"
-                                id="objetivos_comentario"
-                                value={form.data.objetivos_comentario}
-                                error={form.errors.objetivos_comentario}
-                                onChange={(e) => form.setData('objetivos_comentario', e.target.value)}
-                                disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                                required
-                            />
-                        )}
-                    </div>
-                </div>
-
-                <div>
-                    <Divider className="!my-20 font-black">METODOLOGÍA Y ACTIVIDADES</Divider>
-
-                    <Label className="!mb-10" labelFor="metodologia_puntaje" value="Puntaje (Máximo 15)" />
-                    <TextInput
-                        label="Diligencie el puntaje"
-                        id="metodologia_puntaje"
-                        type="number"
-                        inputBackground="#fff"
-                        inputProps={{
-                            step: 1,
-                            min: 0,
-                            max: 15,
-                        }}
-                        value={form.data.metodologia_puntaje}
-                        placeholder="Puntaje"
-                        error={form.errors.metodologia_puntaje}
-                        onChange={(e) => form.setData('metodologia_puntaje', e.target.value)}
-                        disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                    />
-                    <AlertMui>
-                        <h1>Criterios de evaluacion</h1>
-                        <ul className="list-disc p-4">
-                            <li>
-                                <strong>Puntaje: 0 a 7</strong> La selección y descripción de la metodología o metodologías no son claras para el contexto y desarrollo del proyecto. Las actividades no
-                                estan descritas de forma secuencial, tampoco muestran como se lograrán los objetivos específicos, generarán los resultados y/o productos y no estan formuladas en el
-                                marco de la vigencia del proyecto. Algunas de las actividades no se desarrollarán durante la vigencia {convocatoria.year}.
-                            </li>
-                            <li>
-                                <strong>Puntaje: 8 a 13</strong> La selección y descripción de la metodología o metodologías son claras para el contexto y desarrollo del proyecto. Las actividades
-                                están descritas de forma secuencial; sin embargo, son susceptibles de mejora en cuanto a como se lograrán los objetivos específicos, generarán los resultados y/o
-                                productos y estan formuladas en el marco de la vigencia del proyecto. Todas las actividades se desarrollarán durante la vigencia {convocatoria.year} y el tiempo
-                                dispuesto para ello es suficiente para garantizar su ejecución.
-                            </li>
-                            <li>
-                                <strong>Puntaje: 14 a 15</strong> La selección y descripción de la metodología o metodologías son precisas para el contexto y desarrollo del proyecto. Las actividades
-                                están descritas de forma secuencial, evidencian de forma clara como se lograrán los objetivos específicos, generarán los resultados, productos y están formuladas en el
-                                marco de la vigencia del proyecto. Todas las actividades se desarrollarán durante la vigencia {convocatoria.year} y el tiempo dispuesto para ello es suficiente para
-                                garantizar su ejecución.
-                            </li>
-                        </ul>
-                    </AlertMui>
-                    <div className="mt-10">
-                        <p>
-                            ¿La metodología y/o actividades son correctos? Si considera que la información puede mejorarse, por favor seleccione <strong>NO</strong> y haga la respectiva recomendación.
-                        </p>
-
-                        <SwitchMui
-                            className="!my-6"
-                            checked={form.data.metodologia_requiere_comentario}
-                            onChange={(e) => form.setData('metodologia_requiere_comentario', e.target.checked)}
-                            disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                        />
-                        {form.data.metodologia_requiere_comentario == false && (
-                            <Textarea
-                                label="Comentario"
-                                className="mt-4"
-                                inputBackground="#fff"
-                                id="metodologia_comentario"
-                                value={form.data.metodologia_comentario}
-                                error={form.errors.metodologia_comentario}
-                                onChange={(e) => form.setData('metodologia_comentario', e.target.value)}
-                                disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                                required
-                            />
-                        )}
-                    </div>
-                </div>
-
-                <div>
-                    <Divider className="!my-20 font-black">PRODUCTOS</Divider>
-
-                    <Label className="!mb-10" labelFor="productos_puntaje" value="Puntaje (Máximo 9)" />
-                    <TextInput
-                        label="Diligencie el puntaje"
-                        id="productos_puntaje"
-                        type="number"
-                        inputBackground="#fff"
-                        inputProps={{
-                            step: 1,
-                            min: 0,
-                            max: 9,
-                        }}
-                        value={form.data.productos_puntaje}
-                        placeholder="Puntaje"
-                        error={form.errors.productos_puntaje}
-                        onChange={(e) => form.setData('productos_puntaje', e.target.value)}
-                        disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                    />
-                    <AlertMui>
-                        <h1>Criterios de evaluacion</h1>
-                        <ul className="list-disc p-4">
-                            <li>
-                                <strong>Puntaje: 0 a 4</strong> Los productos esperados no son pertinentes para atender la problemática identificada en un corto o mediano plazo (correlación con el
-                                cronograma de actividades) y la formulación de los indicadores dificulta su medición.
-                            </li>
-                            <li>
-                                <strong>Puntaje: 5 a 7</strong> La mayoría de productos esperados son pertinentes para atender la problemática identificada en un corto o mediano plazo (correlación con
-                                el cronograma de actividades) y son susceptibles de mejora en cuanto a su alcance, así como lo es la formulación de los indicadores para realizar mediciones precisas en
-                                el tiempo.
-                            </li>
-                            <li>
-                                <strong>Puntaje: 8 a 9</strong> Todos los productos esperados son pertinentes para atender la problemática identificada en un corto o mediano plazo (correlación con el
-                                cronograma de actividades) y la formulación de los indicadores permitirá realizar mediciones precisas en el tiempo.
-                            </li>
-                        </ul>
-                    </AlertMui>
-                    <div className="mt-10">
-                        <p>
-                            ¿Los productos son correctos? Si considera que la información puede mejorarse, por favor seleccione <strong>NO</strong> y haga la respectiva recomendación.
-                        </p>
-
-                        <SwitchMui
-                            className="!my-6"
-                            checked={form.data.productos_requiere_comentario}
-                            onChange={(e) => form.setData('productos_requiere_comentario', e.target.checked)}
-                            disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                        />
-                        {form.data.productos_requiere_comentario == false && (
-                            <Textarea
-                                label="Comentario"
-                                className="mt-4"
-                                inputBackground="#fff"
-                                id="productos_comentario"
-                                value={form.data.productos_comentario}
-                                error={form.errors.productos_comentario}
-                                onChange={(e) => form.setData('productos_comentario', e.target.value)}
-                                disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                                required
-                            />
-                        )}
-                    </div>
-                </div>
-
-                <div>
-                    <Divider className="!my-20 font-black">CADENA DE VALOR</Divider>
-
-                    <Label className="!mb-10" labelFor="cadena_valor_puntaje" value={`Puntaje (Máximo 20)`} />
-                    <TextInput
-                        label="Diligencie el puntaje"
-                        id="cadena_valor_puntaje"
-                        type="number"
-                        inputBackground="#fff"
-                        inputProps={{
-                            step: 1,
-                            min: 0,
-                            max: 20,
-                        }}
-                        value={form.data.cadena_valor_puntaje}
-                        placeholder="Puntaje"
-                        error={form.errors.cadena_valor_puntaje}
-                        onChange={(e) => form.setData('cadena_valor_puntaje', e.target.value)}
-                        disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                    />
-                    <AlertMui>
-                        <h1>Criterios de evaluacion</h1>
-                        <ul className="list-disc p-4">
-                            <li>
-                                <strong>0 a 9</strong> El presupuesto esta sobre o subdimensionado y / o no está directamente relacionado con el desarrollo de las actividades para el logro de los
-                                objetivos propuestos. Los soportes que evidencian el costo del bien a adquirir no son pertinentes y tampoco confiables
-                            </li>
-                            <li>
-                                <strong>10 a 18</strong> El presupuesto es adecuado, pero es susceptible de ajustes frente a las las actividades a desarrollar que darán cumplimiento a los objetivos
-                                propuestos. Los soportes que evidencian el costo del bien a adquirir son pertinentes y confiables.
-                            </li>
-                            <li>
-                                <strong>19 a 20</strong> El presupuesto está bien definido y se relaciona directamente con el desarrollo de las actividades y los entregables del proyecto. Los soportes
-                                que evidencian el costo del bien a adquirir son pertinentes y confiables.
-                            </li>
-                        </ul>
-                    </AlertMui>
-                    <div className="mt-10">
-                        <p>
-                            ¿La cadena de valor es correcta? Si considera que la información puede mejorarse, por favor seleccione <strong>NO</strong> y haga la respectiva recomendación.
-                        </p>
-
-                        <SwitchMui
-                            className="!my-6"
-                            checked={form.data.cadena_valor_requiere_comentario}
-                            onChange={(e) => form.setData('cadena_valor_requiere_comentario', e.target.checked)}
-                            disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                        />
-                        {form.data.cadena_valor_requiere_comentario == false && (
-                            <Textarea
-                                label="Comentario"
-                                className="mt-4"
-                                inputBackground="#fff"
-                                id="cadena_valor_comentario"
-                                value={form.data.cadena_valor_comentario}
-                                error={form.errors.cadena_valor_comentario}
-                                onChange={(e) => form.setData('cadena_valor_comentario', e.target.value)}
-                                disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                                required
-                            />
-                        )}
-                    </div>
-                </div>
-
-                <div>
-                    <Divider className="!my-20 font-black">ANÁLISIS DE RIESGOS</Divider>
-
-                    <Label className="!mb-10" labelFor="analisis_riesgos_puntaje" value="Puntaje (Máximo 5)" />
-                    <TextInput
-                        label="Diligencie el puntaje"
-                        id="analisis_riesgos_puntaje"
-                        type="number"
-                        inputBackground="#fff"
-                        inputProps={{
-                            step: 0.1,
-                            min: 0,
-                            max: 5,
-                        }}
-                        value={form.data.analisis_riesgos_puntaje}
-                        placeholder="Puntaje"
-                        error={form.errors.analisis_riesgos_puntaje}
-                        onChange={(e) => form.setData('analisis_riesgos_puntaje', e.target.value)}
-                        disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                    />
-                    <AlertMui>
-                        <h1>Criterios de evaluacion</h1>
-                        <ul className="list-disc p-4">
-                            <li>
-                                <strong>Puntaje: 0,0 a 2,0</strong> Los riesgos descritos en los tres niveles de análisis no son coherentes con las situaciones que se presentarán en el desarrollo del
-                                proyecto y las medidas de mitigación son insuficientes para darles solución.
-                            </li>
-                            <li>
-                                <strong>Puntaje: 2,1 a 3,9</strong> Los riesgos descritos en los tres niveles de análisis son coherentes con las situaciones que se presentarán en el desarrollo del
-                                proyecto y las medidas de mitigación son susceptibles de mejora para dar un tratamiento más acertado a los riesgos.
-                            </li>
-                            <li>
-                                <strong>Puntaje: 4,0 a 5,0</strong> Los riesgos descritos en los tres niveles de análisis son coherentes con las situaciones que se presentarán en el desarrollo del
-                                proyecto y las medidas de mitigación son suficientes para dar tratamiento a los riesgos.
-                            </li>
-                        </ul>
-                    </AlertMui>
-                    <div className="mt-10">
-                        <p>
-                            ¿Los análisis de riesgos son correctos? Si considera que la información puede mejorarse, por favor seleccione <strong>NO</strong> y haga la respectiva recomendación.
-                        </p>
-
-                        <SwitchMui
-                            className="!my-6"
-                            checked={form.data.analisis_riesgos_requiere_comentario}
-                            onChange={(e) => form.setData('analisis_riesgos_requiere_comentario', e.target.checked)}
-                            disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                        />
-                        {form.data.analisis_riesgos_requiere_comentario == false && (
-                            <Textarea
-                                label="Comentario"
-                                className="mt-4"
-                                inputBackground="#fff"
-                                id="analisis_riesgos_comentario"
-                                value={form.data.analisis_riesgos_comentario}
-                                error={form.errors.analisis_riesgos_comentario}
-                                onChange={(e) => form.setData('analisis_riesgos_comentario', e.target.value)}
-                                disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                                required
-                            />
-                        )}
-                    </div>
-                </div>
-
-                <div>
-                    <Divider className="!my-20 font-black">ORTOGRAFÍA</Divider>
-
-                    <Label className="!mb-10" labelFor="ortografia_puntaje" value="Puntaje (Máximo 1)" />
-                    <TextInput
-                        label="Diligencie el puntaje"
-                        id="ortografia_puntaje"
-                        type="number"
-                        inputBackground="#fff"
-                        inputProps={{
-                            step: 1,
-                            min: 0,
-                            max: 1,
-                        }}
-                        value={form.data.ortografia_puntaje}
-                        placeholder="Puntaje"
-                        error={form.errors.ortografia_puntaje}
-                        onChange={(e) => form.setData('ortografia_puntaje', e.target.value)}
-                        disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                    />
-                    <AlertMui>
-                        <h1>Criterios de evaluacion</h1>
-                        <ul className="list-disc p-4">
-                            <li>
-                                <strong>Puntaje: 1</strong> Todo el documento respeta y aplica las reglas ortográficas
-                            </li>
-                        </ul>
-                    </AlertMui>
-
-                    <div className="mt-10">
-                        <p>
-                            ¿La ortografía es correcta? Si considera que la información puede mejorarse, por favor seleccione <strong>NO</strong> y haga la respectiva recomendación.
-                        </p>
-                        <SwitchMui
-                            className="!my-6"
-                            checked={form.data.ortografia_requiere_comentario}
-                            onChange={(e) => form.setData('ortografia_requiere_comentario', e.target.checked)}
-                            disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                        />
-                        {form.data.ortografia_requiere_comentario == false && (
-                            <Textarea
-                                label="Comentario"
-                                className="mt-4"
-                                inputBackground="#fff"
-                                id="ortografia_comentario"
-                                value={form.data.ortografia_comentario}
-                                error={form.errors.ortografia_comentario}
-                                onChange={(e) => form.setData('ortografia_comentario', e.target.value)}
-                                disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                                required
-                            />
-                        )}
-                    </div>
-
-                    <Divider className="!my-20 font-black">REDACCIÓN</Divider>
-
-                    <Label className="!mb-10" labelFor="redaccion_puntaje" value="Puntaje (Máximo 1)" />
-                    <TextInput
-                        label="Diligencie el puntaje"
-                        id="redaccion_puntaje"
-                        type="number"
-                        inputBackground="#fff"
-                        inputProps={{
-                            step: 1,
-                            min: 0,
-                            max: 1,
-                        }}
-                        value={form.data.redaccion_puntaje}
-                        placeholder="Puntaje"
-                        error={form.errors.redaccion_puntaje}
-                        onChange={(e) => form.setData('redaccion_puntaje', e.target.value)}
-                        disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                    />
-                    <AlertMui>
-                        <h1>Criterios de evaluacion</h1>
-                        <ul className="list-disc p-4">
-                            <li>
-                                <strong>Puntaje: 1</strong> Todo el documento respeta y aplica las reglas gramaticales
-                            </li>
-                        </ul>
-                    </AlertMui>
-
-                    <div className="mt-10">
-                        <p>
-                            ¿La redacción es correcta? Si considera que la información puede mejorarse, por favor seleccione <strong>NO</strong> y haga la respectiva recomendación.
-                        </p>
-                        <SwitchMui
-                            className="!my-6"
-                            checked={form.data.redaccion_requiere_comentario}
-                            onChange={(e) => form.setData('redaccion_requiere_comentario', e.target.checked)}
-                            disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                        />
-                        {form.data.redaccion_requiere_comentario == false && (
-                            <Textarea
-                                label="Comentario"
-                                className="mt-4"
-                                inputBackground="#fff"
-                                id="redaccion_comentario"
-                                value={form.data.redaccion_comentario}
-                                error={form.errors.redaccion_comentario}
-                                onChange={(e) => form.setData('redaccion_comentario', e.target.value)}
-                                disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                            />
-                        )}
-                    </div>
-
-                    <Divider className="!my-20 font-black">NORMAS APA</Divider>
-
-                    <Label className="!mb-10" labelFor="normas_apa_puntaje" value="Puntaje (Máximo 1)" />
-                    <TextInput
-                        label="Diligencie el puntaje"
-                        id="normas_apa_puntaje"
-                        type="number"
-                        inputBackground="#fff"
-                        inputProps={{
-                            step: 1,
-                            min: 0,
-                            max: 1,
-                        }}
-                        value={form.data.normas_apa_puntaje}
-                        placeholder="Puntaje"
-                        error={form.errors.normas_apa_puntaje}
-                        onChange={(e) => form.setData('normas_apa_puntaje', e.target.value)}
-                        disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                    />
-                    <AlertMui>
-                        <h1>Criterios de evaluacion</h1>
-                        <ul className="list-disc p-4">
-                            <li>
-                                <strong>Puntaje: 1</strong> Las normas APA han sido aplicadas en todo el documento para referenciar y citar otros autores
-                            </li>
-                        </ul>
-                    </AlertMui>
-
-                    <div className="mt-10">
-                        <p>
-                            ¿Las normas APA son correctas? Si considera que la información puede mejorarse, por favor seleccione <strong>NO</strong> y haga la respectiva recomendación.
-                        </p>
-                        <SwitchMui
-                            className="!my-6"
-                            checked={form.data.normas_apa_requiere_comentario}
-                            onChange={(e) => form.setData('normas_apa_requiere_comentario', e.target.checked)}
-                            disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                        />
-                        {form.data.normas_apa_requiere_comentario == false && (
-                            <Textarea
-                                label="Comentario"
-                                className="mt-4"
-                                inputBackground="#fff"
-                                id="normas_apa_comentario"
-                                value={form.data.normas_apa_comentario}
-                                error={form.errors.normas_apa_comentario}
-                                onChange={(e) => form.setData('normas_apa_comentario', e.target.value)}
-                                disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                                required
-                            />
-                        )}
-                    </div>
-                </div>
-
-                <div>
-                    <Divider className="!my-20 font-black">FECHAS DE EJECUCIÓN</Divider>
-
-                    <p>
-                        ¿Las fechas son correctas? Si considera que la información puede mejorarse, por favor seleccione <strong>NO</strong> y haga la respectiva recomendación
-                    </p>
-                    <SwitchMui
-                        className="!my-6"
-                        checked={form.data.fechas_requiere_comentario}
-                        onChange={(e) => form.setData('fechas_requiere_comentario', e.target.checked)}
-                        disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                    />
-                    {form.data.fechas_requiere_comentario == false && (
-                        <Textarea
-                            label="Comentario"
-                            className="mt-4"
-                            inputBackground="#fff"
-                            id="fechas_comentario"
-                            value={form.data.fechas_comentario}
-                            error={form.errors.fechas_comentario}
-                            onChange={(e) => form.setData('fechas_comentario', e.target.value)}
-                            disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                            required
-                        />
-                    )}
-                </div>
-                <div>
-                    <Divider className="!my-20 font-black">RED DE CONOCIMIENTO</Divider>
-
-                    <p>
-                        ¿La red de conocimiento sectorial es correcta? Si considera que la información puede mejorarse, por favor seleccione <strong>NO</strong> y haga la respectiva recomendación.
-                    </p>
-                    <SwitchMui
-                        className="!my-6"
-                        checked={form.data.red_conocimiento_requiere_comentario}
-                        onChange={(e) => form.setData('red_conocimiento_requiere_comentario', e.target.checked)}
-                        disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                    />
-                    {form.data.red_conocimiento_requiere_comentario == false && (
-                        <Textarea
-                            label="Comentario"
-                            className="mt-4"
-                            inputBackground="#fff"
-                            id="red_conocimiento_comentario"
-                            value={form.data.red_conocimiento_comentario}
-                            error={form.errors.red_conocimiento_comentario}
-                            onChange={(e) => form.setData('red_conocimiento_comentario', e.target.value)}
-                            disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                            required
-                        />
-                    )}
-                </div>
-                <div>
-                    <Divider className="!my-20 font-black">DISCIPLINA DE CONOCIMIENTO</Divider>
-
-                    <p>
-                        ¿La disciplina de la subárea de conocimiento es correcta? Si considera que la información puede mejorarse, por favor seleccione <strong>NO</strong> y haga la respectiva
-                        recomendación.
-                    </p>
-                    <SwitchMui
-                        className="!my-6"
-                        checked={form.data.disciplina_subarea_conocimiento_requiere_comentario}
-                        onChange={(e) => form.setData('disciplina_subarea_conocimiento_requiere_comentario', e.target.checked)}
-                        disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                    />
-                    {form.data.disciplina_subarea_conocimiento_requiere_comentario == false && (
-                        <Textarea
-                            label="Comentario"
-                            className="mt-4"
-                            inputBackground="#fff"
-                            id="disciplina_subarea_conocimiento_comentario"
-                            value={form.data.disciplina_subarea_conocimiento_comentario}
-                            error={form.errors.disciplina_subarea_conocimiento_comentario}
-                            onChange={(e) => form.setData('disciplina_subarea_conocimiento_comentario', e.target.value)}
-                            disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                            required
-                        />
-                    )}
-                </div>
-                <div>
-                    <Divider className="!my-20 font-black">ACTIVIDAD ECONÓMICA</Divider>
-
-                    <p>
-                        ¿La actividad económica es correcta? Si considera que la información puede mejorarse, por favor seleccione <strong>NO</strong> y haga la respectiva recomendación.
-                    </p>
-                    <SwitchMui
-                        className="!my-6"
-                        checked={form.data.actividad_economica_requiere_comentario}
-                        onChange={(e) => form.setData('actividad_economica_requiere_comentario', e.target.checked)}
-                        disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                    />
-                    {form.data.actividad_economica_requiere_comentario == false && (
-                        <Textarea
-                            label="Comentario"
-                            className="mt-4"
-                            inputBackground="#fff"
-                            id="actividad_economica_comentario"
-                            value={form.data.actividad_economica_comentario}
-                            error={form.errors.actividad_economica_comentario}
-                            onChange={(e) => form.setData('actividad_economica_comentario', e.target.value)}
-                            disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                            required
-                        />
-                    )}
-                </div>
-                <div>
-                    <Divider className="!my-20 font-black">TEMÁTICA ESTRATÉGICA</Divider>
-
-                    <p>
-                        ¿La temática estratégica es correcta? Si considera que la información puede mejorarse, por favor seleccione <strong>NO</strong> y haga la respectiva recomendación.
-                    </p>
-                    <SwitchMui
-                        className="!my-6"
-                        checked={form.data.tematica_estrategica_requiere_comentario}
-                        onChange={(e) => form.setData('tematica_estrategica_requiere_comentario', e.target.checked)}
-                        disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                    />
-                    {form.data.tematica_estrategica_requiere_comentario == false && (
-                        <Textarea
-                            label="Comentario"
-                            className="mt-4"
-                            inputBackground="#fff"
-                            id="tematica_estrategica_comentario"
-                            value={form.data.tematica_estrategica_comentario}
-                            error={form.errors.tematica_estrategica_comentario}
-                            onChange={(e) => form.setData('tematica_estrategica_comentario', e.target.value)}
-                            disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                            required
-                        />
-                    )}
-                </div>
-
-                <div>
-                    <Divider className="!my-20 font-black">INDUSTRIA 4.0</Divider>
-
-                    <p>
-                        ¿El ítem es correcto? Si considera que la información puede mejorarse, por favor seleccione <strong>NO</strong> y haga la respectiva recomendación.
-                    </p>
-                    <SwitchMui
-                        className="!my-6"
-                        checked={form.data.justificacion_industria_4_requiere_comentario}
-                        onChange={(e) => form.setData('justificacion_industria_4_requiere_comentario', e.target.checked)}
-                        disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                    />
-                    {form.data.justificacion_industria_4_requiere_comentario == false && (
-                        <Textarea
-                            label="Comentario"
-                            className="mt-4"
-                            inputBackground="#fff"
-                            id="justificacion_industria_4_comentario"
-                            value={form.data.justificacion_industria_4_comentario}
-                            error={form.errors.justificacion_industria_4_comentario}
-                            onChange={(e) => form.setData('justificacion_industria_4_comentario', e.target.value)}
-                            disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                            required
-                        />
-                    )}
-                </div>
-                <div>
-                    <Divider className="!my-20 font-black">ECONOMÍA NARANJA</Divider>
-
-                    <p>
-                        ¿El ítem es correcto? Si considera que la información puede mejorarse, por favor seleccione <strong>NO</strong> y haga la respectiva recomendación.
-                    </p>
-                    <SwitchMui
-                        className="!my-6"
-                        checked={form.data.justificacion_economia_naranja_requiere_comentario}
-                        onChange={(e) => form.setData('justificacion_economia_naranja_requiere_comentario', e.target.checked)}
-                        disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                    />
-                    {form.data.justificacion_economia_naranja_requiere_comentario == false && (
-                        <Textarea
-                            label="Comentario"
-                            className="mt-4"
-                            inputBackground="#fff"
-                            id="justificacion_economia_naranja_comentario"
-                            value={form.data.justificacion_economia_naranja_comentario}
-                            error={form.errors.justificacion_economia_naranja_comentario}
-                            onChange={(e) => form.setData('justificacion_economia_naranja_comentario', e.target.value)}
-                            disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                            required
-                        />
-                    )}
-                </div>
-                <div>
-                    <Divider className="!my-20 font-black">POLÍTICA DE DISCAPACIDAD</Divider>
-
-                    <p>
-                        ¿El ítem es correcto? Si considera que la información puede mejorarse, por favor seleccione <strong>NO</strong> y haga la respectiva recomendación.
-                    </p>
-                    <SwitchMui
-                        className="!my-6"
-                        checked={form.data.justificacion_politica_discapacidad_requiere_comentario}
-                        onChange={(e) => form.setData('justificacion_politica_discapacidad_requiere_comentario', e.target.checked)}
-                        disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                    />
-                    {form.data.justificacion_politica_discapacidad_requiere_comentario == false && (
-                        <Textarea
-                            label="Comentario"
-                            className="mt-4"
-                            inputBackground="#fff"
-                            id="justificacion_politica_discapacidad_comentario"
-                            value={form.data.justificacion_politica_discapacidad_comentario}
-                            error={form.errors.justificacion_politica_discapacidad_comentario}
-                            onChange={(e) => form.setData('justificacion_politica_discapacidad_comentario', e.target.value)}
-                            disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                            required
-                        />
-                    )}
-                </div>
-
-                <div>
-                    <Divider className="!my-20 font-black">BIBLIOGRAFÍA</Divider>
-
-                    <p>
-                        ¿La bibliografía es correcta? Si considera que la información puede mejorarse, por favor seleccione <strong>NO</strong> y haga la respectiva recomendación.
-                    </p>
-                    <SwitchMui
-                        className="!my-6"
-                        checked={form.data.bibliografia_requiere_comentario}
-                        onChange={(e) => form.setData('bibliografia_requiere_comentario', e.target.checked)}
-                        disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                    />
-                    {form.data.bibliografia_requiere_comentario == false && (
-                        <Textarea
-                            label="Comentario"
-                            className="mt-4"
-                            inputBackground="#fff"
-                            id="bibliografia_comentario"
-                            value={form.data.bibliografia_comentario}
-                            error={form.errors.bibliografia_comentario}
-                            onChange={(e) => form.setData('bibliografia_comentario', e.target.value)}
-                            disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
-                            required
-                        />
-                    )}
-                </div>
+                ))}
             </form>
 
             <Divider className="!my-20 font-black">ROLES</Divider>
@@ -1288,7 +214,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                             className="!my-6"
                             checked={form_evaluacion_rol.data.correcto}
                             onChange={(e) => form_evaluacion_rol.setData('correcto', e.target.checked)}
-                            disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
+                            disabled={evaluacion[0]?.finalizado}
                         />
                         {form_evaluacion_rol.data.correcto == false && (
                             <Textarea
@@ -1299,7 +225,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                                 value={form_evaluacion_rol.data.comentario}
                                 error={form_evaluacion_rol.errors.comentario}
                                 onChange={(e) => form_evaluacion_rol.setData('comentario', e.target.value)}
-                                disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
+                                disabled={evaluacion[0]?.finalizado}
                                 required
                             />
                         )}
@@ -1309,7 +235,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                                 Cerrar
                             </ButtonMui>
 
-                            <PrimaryButton disabled={form_evaluacion_rol.processing || evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado} type="submit">
+                            <PrimaryButton disabled={form_evaluacion_rol.processing || evaluacion[0]?.finalizado} type="submit">
                                 Guardar
                             </PrimaryButton>
                         </div>
@@ -1336,7 +262,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                                 value={form_evaluacion_rubro.data.comentario}
                                 error={form_evaluacion_rubro.errors.comentario}
                                 onChange={(e) => form_evaluacion_rubro.setData('comentario', e.target.value)}
-                                disabled={evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado}
+                                disabled={evaluacion[0]?.finalizado}
                                 required
                             />
                         )}
@@ -1345,7 +271,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                             <ButtonMui onClick={() => setDialogEvaluacionRubroStatus(false)} className="!bg-transparent !text-app-700 !mr-2">
                                 Cerrar
                             </ButtonMui>
-                            <PrimaryButton disabled={form_evaluacion_rubro.processing || evaluacion_proyecto_formulario6_line82.evaluacion?.finalizado} type="submit">
+                            <PrimaryButton disabled={form_evaluacion_rubro.processing || evaluacion[0]?.finalizado} type="submit">
                                 Guardar
                             </PrimaryButton>
                         </div>

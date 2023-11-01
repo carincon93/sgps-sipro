@@ -33,7 +33,11 @@ class ProyectoRolSennovaController extends Controller
         }
 
         if (request()->filled('evaluacion_id')) {
-            $this->authorize('modificar-evaluacion-autor', [Evaluacion::find(request()->evaluacion_id)]);
+            $evaluacion = Evaluacion::find(request()->evaluacion_id);
+
+            $this->authorize('modificar-evaluacion-autor', [$evaluacion]);
+
+            $items_evaluacion = $evaluacion->getItemsAEvaluar($convocatoria->id, $proyecto->tipo_formulario_convocatoria_id);
         }
 
         $proyecto->load('proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
@@ -51,7 +55,7 @@ class ProyectoRolSennovaController extends Controller
         return Inertia::render('Convocatorias/Proyectos/RolesSennova/Index', [
             'convocatoria'                      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
             'proyecto'                          => $proyecto,
-            'evaluacion'                        => Evaluacion::find(request()->evaluacion_id),
+            'evaluacion'                        => $items_evaluacion ?? [],
             'proyecto_roles_sennova'            => ProyectoRolSennova::where('proyecto_id', $proyecto->id)->filterProyectoRolSennova(request()->only('search'))->with('convocatoriaRolSennova.rolSennova', 'proyectoRolesEvaluaciones.evaluacion', 'actividades', 'lineasTecnoacademia', 'lineasTecnoparque')->orderBy('proyecto_rol_sennova.id')->paginate(),
             'convocatoria_roles_sennova'        => SelectHelper::convocatoriaRolesSennova($convocatoria->id, $proyecto->tipo_formulario_convocatoria_id, $proyecto, false),
             'convocatoria_roles_sin_filtrar'    => SelectHelper::convocatoriaRolesSennova($convocatoria->id, $proyecto->tipo_formulario_convocatoria_id, $proyecto, false),

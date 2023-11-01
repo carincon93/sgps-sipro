@@ -1398,9 +1398,9 @@ class Proyecto extends Model
             foreach ($evaluaciones as $evaluacion) {
                 $total_recomendaciones += $evaluacion->total_recomendaciones;
 
-                if ($evaluacion->evaluacionProyectoFormulario4Linea70->anexos_comentario != null) {
-                    $requiere_subsanar = true;
-                }
+                // if ($evaluacion->evaluacionProyectoFormulario4Linea70->anexos_comentario != null) {
+                //     $requiere_subsanar = true;
+                // }
 
                 // Sumar los presupuestos no aprobados
                 $total_presupuestos_evaluados += $evaluacion->proyectoPresupuestosEvaluaciones()->count();
@@ -1444,9 +1444,9 @@ class Proyecto extends Model
             foreach ($evaluaciones as $evaluacion) {
                 $total_recomendaciones += $evaluacion->total_recomendaciones;
 
-                if ($evaluacion->evaluacionProyectoFormulario5Linea69->anexos_comentario != null) {
-                    $requiere_subsanar = true;
-                }
+                // if ($evaluacion->evaluacionProyectoFormulario5Linea69->anexos_comentario != null) {
+                //     $requiere_subsanar = true;
+                // }
 
                 // Sumar los presupuestos no aprobados
                 $total_presupuestos_evaluados += $evaluacion->proyectoPresupuestosEvaluaciones()->count();

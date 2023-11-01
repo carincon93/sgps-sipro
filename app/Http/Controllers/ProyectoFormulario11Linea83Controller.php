@@ -127,7 +127,11 @@ class ProyectoFormulario11Linea83Controller extends Controller
         }
 
         if (request()->filled('evaluacion_id')) {
-            $this->authorize('modificar-evaluacion-autor', [Evaluacion::find(request()->evaluacion_id)]);
+            $evaluacion = Evaluacion::find(request()->evaluacion_id);
+
+            $this->authorize('modificar-evaluacion-autor', [$evaluacion]);
+
+            $items_evaluacion = $evaluacion->getItemsAEvaluar($convocatoria->id, $proyecto_formulario_11_linea_83->proyecto->tipo_formulario_convocatoria_id);
         }
 
         /** @var \App\Models\User */
@@ -153,7 +157,7 @@ class ProyectoFormulario11Linea83Controller extends Controller
             'convocatoria'                      => $convocatoria,
             'proyecto_formulario_11_linea_83'   => $proyecto_formulario_11_linea_83,
             'centros_formacion'                 => SelectHelper::centrosFormacion(),
-            // 'evaluacion'            => EvaluacionProyectoFormulario11Linea83::find(request()->evaluacion_id),
+            'evaluacion'                        => $items_evaluacion ?? [],
             'regionales'                        => SelectHelper::regionales(),
             'lineas_programaticas'              => LineaProgramatica::selectRaw('id as value, concat(nombre, \' ∙ \', codigo) as label, codigo')->where('lineas_programaticas.categoria_proyecto', 1)->get(),
             'nodos_tecnoparque'                 => SelectHelper::nodosTecnoparque()->where('centro_formacion_id', $proyecto_formulario_11_linea_83->proyecto->centroFormacion->id)->values()->all(),
