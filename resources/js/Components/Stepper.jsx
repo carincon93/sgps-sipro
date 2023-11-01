@@ -311,7 +311,7 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                                         ) : null}
                                     </>
                                 ) : (
-                                    <AlertMui severity="error">No se ha definido un formulario de evaluación.</AlertMui>
+                                    <AlertMui severity="error">No se ha definido el formulario de evaluación.</AlertMui>
                                 )}
                             </>
                         }

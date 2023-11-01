@@ -109,7 +109,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                             checked={form.data.clausula_confidencialidad}
                             error={form.errors.clausula_confidencialidad}
                             onChange={(e) => form.setData('clausula_confidencialidad', e.target.checked)}
-                            label={form.data.clausula_confidencialidad ? 'He aceptado la cláusula de confidencialidad' : 'Acepto la cláusula de confidencialidad-'}
+                            label={form.data.clausula_confidencialidad ? 'He aceptado la cláusula de confidencialidad' : 'Acepto la cláusula de confidencialidad'}
                         />
                     </AlertMui>
                 </div>
