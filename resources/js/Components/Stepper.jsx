@@ -35,6 +35,7 @@ import EvaluacionProyectosFormulario7Linea23 from '@/Pages/Convocatorias/Proyect
 import EvaluacionProyectosFormulario9Linea23 from '@/Pages/Convocatorias/Proyectos/ProyectosFormulario9Linea23/Evaluacion'
 import EvaluacionProyectosFormulario12Linea68 from '@/Pages/Convocatorias/Proyectos/ProyectosFormulario12Linea68/Evaluacion'
 import DownloadFile from './DownloadFile'
+import AlertMui from './Alert'
 
 const useStyles = makeStyles({
     root: {
@@ -233,84 +234,90 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                         open={dialog_evaluacion_status}
                         dialogContent={
                             <>
-                                {evaluacion[0]?.tipo_formulario_convocatoria_id == 8 ? (
-                                    <EvaluacionProyectosFormulario8Linea66
-                                        convocatoria={convocatoria}
-                                        allowed={evaluacion.allowed ?? evaluacion?.evaluacion?.allowed}
-                                        evaluacion={evaluacion}
-                                        proyecto={proyecto}
-                                        setDialogEvaluacionStatus={setDialogEvaluacionStatus}
-                                    />
-                                ) : null}
-                                {evaluacion[0]?.tipo_formulario_convocatoria_id == 6 ? (
-                                    <EvaluacionProyectosFormulario6Linea82
-                                        convocatoria={convocatoria}
-                                        allowed={evaluacion.allowed ?? evaluacion?.evaluacion?.allowed}
-                                        evaluacion={evaluacion}
-                                        proyecto={proyecto}
-                                        setDialogEvaluacionStatus={setDialogEvaluacionStatus}
-                                    />
-                                ) : null}
-                                {evaluacion[0]?.tipo_formulario_convocatoria_id == 4 ? (
-                                    <EvaluacionProyectosFormulario4Linea70
-                                        convocatoria={convocatoria}
-                                        allowed={evaluacion.allowed ?? evaluacion?.evaluacion?.allowed}
-                                        evaluacion={evaluacion}
-                                        proyecto={proyecto}
-                                        setDialogEvaluacionStatus={setDialogEvaluacionStatus}
-                                    />
-                                ) : null}
-                                {evaluacion[0]?.tipo_formulario_convocatoria_id == 5 ? (
-                                    <EvaluacionProyectosFormulario5Linea69
-                                        convocatoria={convocatoria}
-                                        allowed={evaluacion.allowed ?? evaluacion?.evaluacion?.allowed}
-                                        evaluacion={evaluacion}
-                                        proyecto={proyecto}
-                                        setDialogEvaluacionStatus={setDialogEvaluacionStatus}
-                                    />
-                                ) : null}
-                                {evaluacion[0]?.tipo_formulario_convocatoria_id == 1 ? (
-                                    <EvaluacionProyectosFormulario1Linea65
-                                        convocatoria={convocatoria}
-                                        allowed={evaluacion.allowed ?? evaluacion?.evaluacion?.allowed}
-                                        evaluacion={evaluacion}
-                                        proyecto={proyecto}
-                                        setDialogEvaluacionStatus={setDialogEvaluacionStatus}
-                                    />
-                                ) : null}
-                                {evaluacion[0]?.tipo_formulario_convocatoria_id == 7 ? (
-                                    <EvaluacionProyectosFormulario7Linea23
-                                        convocatoria={convocatoria}
-                                        allowed={evaluacion.allowed ?? evaluacion?.evaluacion?.allowed}
-                                        evaluacion={evaluacion}
-                                        proyecto={proyecto}
-                                        setDialogEvaluacionStatus={setDialogEvaluacionStatus}
-                                    />
-                                ) : null}
-                                {evaluacion[0]?.tipo_formulario_convocatoria_id == 9 ? (
-                                    <EvaluacionProyectosFormulario9Linea23
-                                        convocatoria={convocatoria}
-                                        allowed={evaluacion.allowed ?? evaluacion?.evaluacion?.allowed}
-                                        evaluacion={evaluacion}
-                                        proyecto={proyecto}
-                                        setDialogEvaluacionStatus={setDialogEvaluacionStatus}
-                                    />
-                                ) : null}
+                                {evaluacion.length > 0 ? (
+                                    <>
+                                        {evaluacion[0]?.tipo_formulario_convocatoria_id == 8 ? (
+                                            <EvaluacionProyectosFormulario8Linea66
+                                                convocatoria={convocatoria}
+                                                allowed={evaluacion[0]?.allowed}
+                                                evaluacion={evaluacion}
+                                                proyecto={proyecto}
+                                                setDialogEvaluacionStatus={setDialogEvaluacionStatus}
+                                            />
+                                        ) : null}
+                                        {evaluacion[0]?.tipo_formulario_convocatoria_id == 6 ? (
+                                            <EvaluacionProyectosFormulario6Linea82
+                                                convocatoria={convocatoria}
+                                                allowed={evaluacion[0]?.allowed}
+                                                evaluacion={evaluacion}
+                                                proyecto={proyecto}
+                                                setDialogEvaluacionStatus={setDialogEvaluacionStatus}
+                                            />
+                                        ) : null}
+                                        {evaluacion[0]?.tipo_formulario_convocatoria_id == 4 ? (
+                                            <EvaluacionProyectosFormulario4Linea70
+                                                convocatoria={convocatoria}
+                                                allowed={evaluacion[0]?.allowed}
+                                                evaluacion={evaluacion}
+                                                proyecto={proyecto}
+                                                setDialogEvaluacionStatus={setDialogEvaluacionStatus}
+                                            />
+                                        ) : null}
+                                        {evaluacion[0]?.tipo_formulario_convocatoria_id == 5 ? (
+                                            <EvaluacionProyectosFormulario5Linea69
+                                                convocatoria={convocatoria}
+                                                allowed={evaluacion[0]?.allowed}
+                                                evaluacion={evaluacion}
+                                                proyecto={proyecto}
+                                                setDialogEvaluacionStatus={setDialogEvaluacionStatus}
+                                            />
+                                        ) : null}
+                                        {evaluacion[0]?.tipo_formulario_convocatoria_id == 1 ? (
+                                            <EvaluacionProyectosFormulario1Linea65
+                                                convocatoria={convocatoria}
+                                                allowed={evaluacion[0]?.allowed}
+                                                evaluacion={evaluacion}
+                                                proyecto={proyecto}
+                                                setDialogEvaluacionStatus={setDialogEvaluacionStatus}
+                                            />
+                                        ) : null}
+                                        {evaluacion[0]?.tipo_formulario_convocatoria_id == 7 ? (
+                                            <EvaluacionProyectosFormulario7Linea23
+                                                convocatoria={convocatoria}
+                                                allowed={evaluacion[0]?.allowed}
+                                                evaluacion={evaluacion}
+                                                proyecto={proyecto}
+                                                setDialogEvaluacionStatus={setDialogEvaluacionStatus}
+                                            />
+                                        ) : null}
+                                        {evaluacion[0]?.tipo_formulario_convocatoria_id == 9 ? (
+                                            <EvaluacionProyectosFormulario9Linea23
+                                                convocatoria={convocatoria}
+                                                allowed={evaluacion[0]?.allowed}
+                                                evaluacion={evaluacion}
+                                                proyecto={proyecto}
+                                                setDialogEvaluacionStatus={setDialogEvaluacionStatus}
+                                            />
+                                        ) : null}
 
-                                {evaluacion[0]?.tipo_formulario_convocatoria_id == 12 ? (
-                                    <EvaluacionProyectosFormulario12Linea68
-                                        convocatoria={convocatoria}
-                                        allowed={evaluacion.allowed ?? evaluacion?.evaluacion?.allowed}
-                                        evaluacion={evaluacion}
-                                        proyecto={proyecto}
-                                        setDialogEvaluacionStatus={setDialogEvaluacionStatus}
-                                    />
-                                ) : null}
+                                        {evaluacion[0]?.tipo_formulario_convocatoria_id == 12 ? (
+                                            <EvaluacionProyectosFormulario12Linea68
+                                                convocatoria={convocatoria}
+                                                allowed={evaluacion[0]?.allowed}
+                                                evaluacion={evaluacion}
+                                                proyecto={proyecto}
+                                                setDialogEvaluacionStatus={setDialogEvaluacionStatus}
+                                            />
+                                        ) : null}
+                                    </>
+                                ) : (
+                                    <AlertMui severity="error">No se ha definido un formulario de evaluación.</AlertMui>
+                                )}
                             </>
                         }
                         dialogActions={
                             <>
-                                {!evaluacion?.evaluacion?.finalizado && !evaluacion.finalizado ? (
+                                {evaluacion.length > 0 && !evaluacion[0]?.allowed && !evaluacion[0]?.finalizado ? (
                                     <ButtonMui type="submit" form="form-evaluacion" className="!mr-8">
                                         Guardar y cerrar
                                     </ButtonMui>
