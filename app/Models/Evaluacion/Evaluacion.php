@@ -314,19 +314,19 @@ class Evaluacion extends Model
     public function getVerificarEstadoEvaluacionAttribute()
     {
         $estado = null;
-        if ($this->evaluacionProyectoFormulario8Linea66 && $this->proyecto->proyectoFormulario8Linea66()->exists()) {
-            $estado = $this->finalizado ? 'Finalizado' : ($this->evaluacionProyectoFormulario8Linea66->updated_at == null ? 'Sin evaluar' : 'Evaluación iniciada');
-        } else if ($this->evaluacionProyectoFormulario6Linea82 && $this->proyecto->proyectoFormulario6Linea82()->exists()) {
-            $estado = $this->finalizado ? 'Finalizado' : ($this->evaluacionProyectoFormulario6Linea82->updated_at == null ? 'Sin evaluar' : 'Evaluación iniciada');
-        } else if ($this->evaluacionProyectoFormulario1Linea65 && $this->proyecto->proyectoFormulario1Linea65()->exists()) {
-            $estado = $this->finalizado ? 'Finalizado' : ($this->evaluacionProyectoFormulario1Linea65->updated_at == null ? 'Sin evaluar' : 'Evaluación iniciada');
-        } else if ($this->evaluacionProyectoFormulario4Linea70 && $this->proyecto->proyectoFormulario4Linea70()->exists()) {
-            $estado = $this->finalizado ? 'Finalizado' : ($this->evaluacionProyectoFormulario4Linea70->updated_at == null ? 'Sin evaluar' : 'Evaluación iniciada');
-        } else if ($this->evaluacionProyectoFormulario5Linea69 && $this->proyecto->proyectoFormulario5Linea69()->exists()) {
-            $estado = $this->finalizado ? 'Finalizado' : ($this->evaluacionProyectoFormulario5Linea69->updated_at == null ? 'Sin evaluar' : 'Evaluación iniciada');
-        } else if ($this->evaluacionProyectoFormulario12Linea68 && $this->proyecto->proyectoFormulario12Linea68()->exists()) {
-            $estado = $this->finalizado ? 'Finalizado' : ($this->evaluacionProyectoFormulario12Linea68->updated_at == null ? 'Sin evaluar' : 'Evaluación iniciada');
-        }
+        // if ($this->evaluacionProyectoFormulario8Linea66 && $this->proyecto->proyectoFormulario8Linea66()->exists()) {
+        //     $estado = $this->finalizado ? 'Finalizado' : ($this->evaluacionProyectoFormulario8Linea66->updated_at == null ? 'Sin evaluar' : 'Evaluación iniciada');
+        // } else if ($this->evaluacionProyectoFormulario6Linea82 && $this->proyecto->proyectoFormulario6Linea82()->exists()) {
+        //     $estado = $this->finalizado ? 'Finalizado' : ($this->evaluacionProyectoFormulario6Linea82->updated_at == null ? 'Sin evaluar' : 'Evaluación iniciada');
+        // } else if ($this->evaluacionProyectoFormulario1Linea65 && $this->proyecto->proyectoFormulario1Linea65()->exists()) {
+        //     $estado = $this->finalizado ? 'Finalizado' : ($this->evaluacionProyectoFormulario1Linea65->updated_at == null ? 'Sin evaluar' : 'Evaluación iniciada');
+        // } else if ($this->evaluacionProyectoFormulario4Linea70 && $this->proyecto->proyectoFormulario4Linea70()->exists()) {
+        //     $estado = $this->finalizado ? 'Finalizado' : ($this->evaluacionProyectoFormulario4Linea70->updated_at == null ? 'Sin evaluar' : 'Evaluación iniciada');
+        // } else if ($this->evaluacionProyectoFormulario5Linea69 && $this->proyecto->proyectoFormulario5Linea69()->exists()) {
+        //     $estado = $this->finalizado ? 'Finalizado' : ($this->evaluacionProyectoFormulario5Linea69->updated_at == null ? 'Sin evaluar' : 'Evaluación iniciada');
+        // } else if ($this->evaluacionProyectoFormulario12Linea68 && $this->proyecto->proyectoFormulario12Linea68()->exists()) {
+        //     $estado = $this->finalizado ? 'Finalizado' : ($this->evaluacionProyectoFormulario12Linea68->updated_at == null ? 'Sin evaluar' : 'Evaluación iniciada');
+        // }
 
         return $estado;
     }
@@ -420,176 +420,6 @@ class Evaluacion extends Model
     public function getTotalRecomendacionesAttribute()
     {
         $total = 0;
-        if ($this->evaluacionProyectoFormulario8Linea66 && $this->proyecto->proyectoFormulario8Linea66()->exists()) {
-            $this->evaluacionProyectoFormulario8Linea66->titulo_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario8Linea66->video_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario8Linea66->resumen_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario8Linea66->problema_central_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario8Linea66->objetivos_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario8Linea66->metodologia_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario8Linea66->entidad_aliada_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario8Linea66->resultados_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario8Linea66->productos_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario8Linea66->cadena_valor_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario8Linea66->analisis_riesgos_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario8Linea66->justificacion_economia_naranja_requiere_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario8Linea66->justificacion_economia_naranja_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario8Linea66->justificacion_industria_4_requiere_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario8Linea66->justificacion_industria_4_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario8Linea66->bibliografia_requiere_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario8Linea66->bibliografia_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario8Linea66->fechas_requiere_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario8Linea66->fechas_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario8Linea66->justificacion_politica_discapacidad_requiere_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario8Linea66->justificacion_politica_discapacidad_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario8Linea66->actividad_economica_requiere_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario8Linea66->actividad_economica_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario8Linea66->disciplina_subarea_conocimiento_requiere_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario8Linea66->disciplina_subarea_conocimiento_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario8Linea66->red_conocimiento_requiere_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario8Linea66->red_conocimiento_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario8Linea66->tematica_estrategica_requiere_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario8Linea66->tematica_estrategica_comentario != null ? $total++ : null;
-
-            $this->evaluacionProyectoFormulario8Linea66->ortografia_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario8Linea66->redaccion_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario8Linea66->normas_apa_comentario != null ? $total++ : null;
-
-            $this->comentario_evaluador != null ? $total++ : null;
-        } else if ($this->evaluacionProyectoFormulario1Linea65 && $this->proyecto->proyectoFormulario1Linea65()->exists()) {
-            $this->evaluacionProyectoFormulario1Linea65->titulo_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario1Linea65->video_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario1Linea65->resumen_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario1Linea65->problema_central_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario1Linea65->objetivos_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario1Linea65->metodologia_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario1Linea65->entidad_aliada_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario1Linea65->resultados_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario1Linea65->productos_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario1Linea65->cadena_valor_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario1Linea65->analisis_riesgos_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario1Linea65->justificacion_economia_naranja_requiere_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario1Linea65->justificacion_economia_naranja_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario1Linea65->justificacion_industria_4_requiere_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario1Linea65->justificacion_industria_4_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario1Linea65->bibliografia_requiere_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario1Linea65->bibliografia_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario1Linea65->fechas_requiere_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario1Linea65->fechas_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario1Linea65->justificacion_politica_discapacidad_requiere_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario1Linea65->justificacion_politica_discapacidad_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario1Linea65->actividad_economica_requiere_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario1Linea65->actividad_economica_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario1Linea65->disciplina_subarea_conocimiento_requiere_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario1Linea65->disciplina_subarea_conocimiento_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario1Linea65->red_conocimiento_requiere_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario1Linea65->red_conocimiento_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario1Linea65->tematica_estrategica_requiere_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario1Linea65->tematica_estrategica_comentario != null ? $total++ : null;
-
-            $this->evaluacionProyectoFormulario1Linea65->ortografia_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario1Linea65->redaccion_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario1Linea65->normas_apa_comentario != null ? $total++ : null;
-
-            $this->comentario_evaluador != null ? $total++ : null;
-        } else if ($this->evaluacionProyectoFormulario4Linea70 && $this->proyecto->proyectoFormulario4Linea70()->exists()) {
-            $this->evaluacionProyectoFormulario4Linea70->resumen_regional_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario4Linea70->antecedentes_tecnoacademia_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario4Linea70->retos_oportunidades_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario4Linea70->metodologia_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario4Linea70->lineas_medulares_centro_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario4Linea70->lineas_tecnologicas_centro_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario4Linea70->articulacion_sennova_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario4Linea70->productos_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario4Linea70->municipios_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario4Linea70->instituciones_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario4Linea70->fecha_ejecucion_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario4Linea70->cadena_valor_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario4Linea70->analisis_riesgos_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario4Linea70->anexos_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario4Linea70->proyectos_macro_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario4Linea70->bibliografia_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario4Linea70->entidad_aliada_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario4Linea70->edt_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario4Linea70->articulacion_centro_formacion_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario4Linea70->impacto_centro_formacion_comentario != null ? $total++ : null;
-
-            $this->evaluacionProyectoFormulario4Linea70->ortografia_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario4Linea70->redaccion_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario4Linea70->normas_apa_comentario != null ? $total++ : null;
-
-            $this->comentario_evaluador != null ? $total++ : null;
-        } else if ($this->evaluacionProyectoFormulario5Linea69 && $this->proyecto->proyectoFormulario5Linea69()->exists()) {
-            $this->evaluacionProyectoFormulario5Linea69->resumen_regional_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario5Linea69->antecedentes_regional_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario5Linea69->municipios_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario5Linea69->fecha_ejecucion_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario5Linea69->cadena_valor_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario5Linea69->impacto_centro_formacion_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario5Linea69->bibliografia_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario5Linea69->retos_oportunidades_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario5Linea69->pertinencia_territorio_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario5Linea69->metodologia_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario5Linea69->analisis_riesgos_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario5Linea69->anexos_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario5Linea69->productos_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario5Linea69->ortografia_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario5Linea69->redaccion_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario5Linea69->normas_apa_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario5Linea69->arbol_problemas_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario5Linea69->arbol_objetivos_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario5Linea69->articulacion_sennova_comentario != null ? $total++ : null;
-
-            $this->comentario_evaluador != null ? $total++ : null;
-        } else if ($this->evaluacionProyectoFormulario12Linea68 && $this->proyecto->proyectoFormulario12Linea68()->exists()) {
-            $this->evaluacionProyectoFormulario12Linea68->titulo_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario12Linea68->resumen_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario12Linea68->antecedentes_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario12Linea68->problema_central_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario12Linea68->justificacion_problema_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario12Linea68->pregunta_formulacion_problema_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario12Linea68->fecha_ejecucion_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario12Linea68->propuesta_sostenibilidad_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario12Linea68->identificacion_problema_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario12Linea68->arbol_problemas_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario12Linea68->video_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario12Linea68->especificaciones_area_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario12Linea68->ortografia_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario12Linea68->redaccion_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario12Linea68->normas_apa_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario12Linea68->arbol_objetivos_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario12Linea68->impacto_ambiental_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario12Linea68->impacto_social_centro_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario12Linea68->impacto_social_productivo_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario12Linea68->impacto_tecnologico_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario12Linea68->objetivo_general_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario12Linea68->primer_objetivo_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario12Linea68->segundo_objetivo_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario12Linea68->tercer_objetivo_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario12Linea68->cuarto_objetivo_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario12Linea68->resultados_primer_obj_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario12Linea68->resultados_segundo_obj_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario12Linea68->resultados_tercer_obj_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario12Linea68->resultados_cuarto_obj_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario12Linea68->metodologia_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario12Linea68->actividades_primer_obj_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario12Linea68->actividades_segundo_obj_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario12Linea68->actividades_tercer_obj_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario12Linea68->actividades_cuarto_obj_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario12Linea68->productos_primer_obj_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario12Linea68->productos_segundo_obj_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario12Linea68->productos_tercer_obj_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario12Linea68->productos_cuarto_obj_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario12Linea68->cadena_valor_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario12Linea68->bibliografia_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario12Linea68->anexos_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario12Linea68->riesgos_objetivo_general_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario12Linea68->riesgos_productos_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario12Linea68->riesgos_actividades_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoFormulario12Linea68->inventario_equipos_comentario != null ? $total++ : null;
-
-            $this->comentario_evaluador != null ? $total++ : null;
-        }
 
         $total += $this->proyectoPresupuestosEvaluaciones()->where('correcto', false)->count();
         $total += $this->proyectoRolesEvaluaciones()->where('correcto', false)->count();
@@ -601,36 +431,6 @@ class Evaluacion extends Model
     {
         $itemsPorEvaluar = [];
         $countRolesSinEvaluar = 0;
-
-        if ($this->evaluacionProyectoFormulario8Linea66 && $this->proyecto->proyectoFormulario8Linea66()->exists()) {
-            $this->evaluacionProyectoFormulario8Linea66->titulo_puntaje == null ? array_push($itemsPorEvaluar, 'Título') : null;
-            $this->evaluacionProyectoFormulario8Linea66->resumen_puntaje == null ? array_push($itemsPorEvaluar, 'Resumen') : null;
-            $this->evaluacionProyectoFormulario8Linea66->problema_central_puntaje == null ? array_push($itemsPorEvaluar, 'Problema central') : null;
-            $this->evaluacionProyectoFormulario8Linea66->objetivos_puntaje == null ? array_push($itemsPorEvaluar, 'Objetivos') : null;
-            $this->evaluacionProyectoFormulario8Linea66->metodologia_puntaje == null ? array_push($itemsPorEvaluar, 'Metodología') : null;
-            $this->evaluacionProyectoFormulario8Linea66->resultados_puntaje == null ? array_push($itemsPorEvaluar, 'Resultados') : null;
-            $this->evaluacionProyectoFormulario8Linea66->productos_puntaje == null ? array_push($itemsPorEvaluar, 'Productos') : null;
-            $this->evaluacionProyectoFormulario8Linea66->cadena_valor_puntaje == null ? array_push($itemsPorEvaluar, 'Cadena de valor') : null;
-            $this->evaluacionProyectoFormulario8Linea66->analisis_riesgos_puntaje == null ? array_push($itemsPorEvaluar, 'Análisis de riesgos') : null;
-
-            $this->evaluacionProyectoFormulario8Linea66->ortografia_puntaje == null ? array_push($itemsPorEvaluar, 'Ortografía') : null;
-            $this->evaluacionProyectoFormulario8Linea66->redaccion_puntaje == null ? array_push($itemsPorEvaluar, 'Redacción') : null;
-            $this->evaluacionProyectoFormulario8Linea66->normas_apa_puntaje == null ? array_push($itemsPorEvaluar, 'Normas APA') : null;
-        } else if ($this->evaluacionProyectoFormulario1Linea65 && $this->proyecto->proyectoFormulario1Linea65()->exists()) {
-            $this->evaluacionProyectoFormulario1Linea65->titulo_puntaje == null ? array_push($itemsPorEvaluar, 'Título') : null;
-            $this->evaluacionProyectoFormulario1Linea65->resumen_puntaje == null ? array_push($itemsPorEvaluar, 'Resumen') : null;
-            $this->evaluacionProyectoFormulario1Linea65->problema_central_puntaje == null ? array_push($itemsPorEvaluar, 'Problema central') : null;
-            $this->evaluacionProyectoFormulario1Linea65->objetivos_puntaje == null ? array_push($itemsPorEvaluar, 'Objetivos') : null;
-            $this->evaluacionProyectoFormulario1Linea65->metodologia_puntaje == null ? array_push($itemsPorEvaluar, 'Metodología') : null;
-            $this->evaluacionProyectoFormulario1Linea65->resultados_puntaje == null ? array_push($itemsPorEvaluar, 'Resultados') : null;
-            $this->evaluacionProyectoFormulario1Linea65->productos_puntaje == null ? array_push($itemsPorEvaluar, 'Productos') : null;
-            $this->evaluacionProyectoFormulario1Linea65->cadena_valor_puntaje == null ? array_push($itemsPorEvaluar, 'Cadena de valor') : null;
-            $this->evaluacionProyectoFormulario1Linea65->analisis_riesgos_puntaje == null ? array_push($itemsPorEvaluar, 'Análisis de riesgos') : null;
-
-            $this->evaluacionProyectoFormulario1Linea65->ortografia_puntaje == null ? array_push($itemsPorEvaluar, 'Ortografía') : null;
-            $this->evaluacionProyectoFormulario1Linea65->redaccion_puntaje == null ? array_push($itemsPorEvaluar, 'Redacción') : null;
-            $this->evaluacionProyectoFormulario1Linea65->normas_apa_puntaje == null ? array_push($itemsPorEvaluar, 'Normas APA') : null;
-        }
 
         if ($this->proyecto && $this->proyecto->tipoFormularioConvocatoria->lineaProgramatica->codigo != 23) {
             foreach ($this->proyecto->proyectoRolesSennova as $proyectoRol) {
@@ -654,39 +454,39 @@ class Evaluacion extends Model
 
     public function getEstadoProyectoPorEvaluadorAttribute()
     {
-        if ($this->evaluacionProyectoFormulario8Linea66()->exists()) {
-            $causal_rechazo = null;
-            if ($this->evaluacionCausalesRechazo()->where('causal_rechazo', '=', 4)->first()) {
-                $causal_rechazo = 'En revisión por Cord. SENNOVA';
-            } else if ($this->evaluacionCausalesRechazo()->whereIn('causal_rechazo', [1, 2, 3])->first()) {
-                $causal_rechazo = 'Rechazado - Por causal de rechazo';
-            }
-            return $this->proyecto->estadoEvaluacionProyectoFormulario8Linea66($this->total_evaluacion, $this->total_recomendaciones, null, $causal_rechazo);
-        } else if ($this->evaluacionProyectoFormulario6Linea82()->exists()) {
-            $causal_rechazo = null;
-            if ($this->evaluacionCausalesRechazo()->where('causal_rechazo', '=', 4)->first()) {
-                $causal_rechazo = 'En revisión por Cord. SENNOVA';
-            } else if ($this->evaluacionCausalesRechazo()->whereIn('causal_rechazo', [1, 2, 3])->first()) {
-                $causal_rechazo = 'Rechazado - Por causal de rechazo';
-            }
-            return $this->proyecto->estadoEvaluacionProyectoFormulario6Linea82($this->total_evaluacion, $this->total_recomendaciones, null, $causal_rechazo);
-        } else if ($this->evaluacionProyectoFormulario12Linea68()->exists()) {
-            return $this->proyecto->estadoEvaluacionProyectoFormulario12Linea68($this->total_evaluacion, $this->total_recomendaciones, null);
-        } else if ($this->evaluacionProyectoFormulario1Linea65()->exists()) {
-            return $this->proyecto->estadoEvaluacionProyectoFormulario1Linea65($this->total_evaluacion, $this->total_recomendaciones, null);
-        }
+        // if ($this->evaluacionProyectoFormulario8Linea66()->exists()) {
+        //     $causal_rechazo = null;
+        //     if ($this->evaluacionCausalesRechazo()->where('causal_rechazo', '=', 4)->first()) {
+        //         $causal_rechazo = 'En revisión por Cord. SENNOVA';
+        //     } else if ($this->evaluacionCausalesRechazo()->whereIn('causal_rechazo', [1, 2, 3])->first()) {
+        //         $causal_rechazo = 'Rechazado - Por causal de rechazo';
+        //     }
+        //     return $this->proyecto->estadoEvaluacionProyectoFormulario8Linea66($this->total_evaluacion, $this->total_recomendaciones, null, $causal_rechazo);
+        // } else if ($this->evaluacionProyectoFormulario6Linea82()->exists()) {
+        //     $causal_rechazo = null;
+        //     if ($this->evaluacionCausalesRechazo()->where('causal_rechazo', '=', 4)->first()) {
+        //         $causal_rechazo = 'En revisión por Cord. SENNOVA';
+        //     } else if ($this->evaluacionCausalesRechazo()->whereIn('causal_rechazo', [1, 2, 3])->first()) {
+        //         $causal_rechazo = 'Rechazado - Por causal de rechazo';
+        //     }
+        //     return $this->proyecto->estadoEvaluacionProyectoFormulario6Linea82($this->total_evaluacion, $this->total_recomendaciones, null, $causal_rechazo);
+        // } else if ($this->evaluacionProyectoFormulario12Linea68()->exists()) {
+        //     return $this->proyecto->estadoEvaluacionProyectoFormulario12Linea68($this->total_evaluacion, $this->total_recomendaciones, null);
+        // } else if ($this->evaluacionProyectoFormulario1Linea65()->exists()) {
+        //     return $this->proyecto->estadoEvaluacionProyectoFormulario1Linea65($this->total_evaluacion, $this->total_recomendaciones, null);
+        // }
     }
 
     public function getCausalRechazoProyectoFormulario8Linea66Attribute()
     {
         $causal_rechazo = null;
-        if ($this->evaluacionProyectoFormulario8Linea66()->exists()) {
-            if ($this->evaluacionCausalesRechazo()->where('causal_rechazo', '=', 4)->first()) {
-                $causal_rechazo = 'En revisión por Cord. SENNOVA';
-            } else if ($this->evaluacionCausalesRechazo()->whereIn('causal_rechazo', [1, 2, 3])->first()) {
-                $causal_rechazo = 'Rechazado - Por causal de rechazo';
-            }
-        }
+        // if ($this->evaluacionProyectoFormulario8Linea66()->exists()) {
+        //     if ($this->evaluacionCausalesRechazo()->where('causal_rechazo', '=', 4)->first()) {
+        //         $causal_rechazo = 'En revisión por Cord. SENNOVA';
+        //     } else if ($this->evaluacionCausalesRechazo()->whereIn('causal_rechazo', [1, 2, 3])->first()) {
+        //         $causal_rechazo = 'Rechazado - Por causal de rechazo';
+        //     }
+        // }
         return $causal_rechazo;
     }
 
