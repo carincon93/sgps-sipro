@@ -70,7 +70,13 @@ const Form = ({ method = '', setDialogStatus, convocatoria, tipo_formulario_conv
                                 </Grid>
 
                                 <Grid item md={12}>
-                                    <Textarea id="criterio" label="Criterio" value={form.data.criterio} onChange={(e) => form.setData('criterio', e.target.value)} error={form.errors.criterio} />
+                                    <Textarea
+                                        id="criterio"
+                                        label="Criterio / Comentario"
+                                        value={form.data.criterio}
+                                        onChange={(e) => form.setData('criterio', e.target.value)}
+                                        error={form.errors.criterio}
+                                    />
                                 </Grid>
 
                                 <Grid item md={12}>
@@ -91,7 +97,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, tipo_formulario_conv
                                     />
                                     {form.data.convocatorias_id?.find((item) => item == convocatoria.id) == undefined && (
                                         <AlertMui severity="error">
-                                            No ha seleccionado la convocatoria <strong className="uppercase">{convocatoria.descripcion + ' ' + convocatoria.year}</strong>
+                                            No ha seleccionado la convocatoria principal: <strong className="uppercase">{convocatoria.descripcion + ' ' + convocatoria.year}</strong>
                                         </AlertMui>
                                     )}
                                 </Grid>

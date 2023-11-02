@@ -53,7 +53,7 @@ const FormularioEvaluacion = ({ auth, convocatoria, tipo_formulario_convocatoria
                             Actualizar formularios de evaluación
                         </ButtonMui>
                     </AlertMui>
-                    <TableMui rows={['Campo', 'Criterio', 'Puntaje máximo', 'Convocatorias', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                    <TableMui rows={['Campo', 'Criterio / Comentario', 'Puntaje máximo', 'Convocatorias', 'Acciones']} sxCellThead={{ width: '320px' }}>
                         <TableRow onClick={() => (setDialogStatus(true), setMethod('POST'), setItemEvaluacion(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
                             <TableCell colSpan={6}>
                                 <ButtonMui>
