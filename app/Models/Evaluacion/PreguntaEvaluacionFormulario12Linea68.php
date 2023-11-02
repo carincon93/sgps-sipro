@@ -22,10 +22,10 @@ class PreguntaEvaluacionFormulario12Linea68 extends Model
      * @var array
      */
     protected $fillable = [
-        'pregunta_id',
-        'evaluacion_id',
-        'puntaje',
-        'comentario'
+        'campo',
+        'criterio',
+        'puntaje_maximo',
+        'convocatorias_id'
     ];
 
     /**
@@ -54,5 +54,10 @@ class PreguntaEvaluacionFormulario12Linea68 extends Model
     public function evaluacionesProyectoFormulario12Linea68()
     {
         return $this->hasMany(EvaluacionProyectoFormulario12Linea68::class);
+    }
+
+    public function getConvocatoriasIdAttribute($value)
+    {
+        return json_decode($value);
     }
 }

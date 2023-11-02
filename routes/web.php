@@ -515,6 +515,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('convocatorias/{convocatoria}/update-fase', [ConvocatoriaController::class, 'updateFase'])->name('convocatorias.update-fase');
 
     Route::get('convocatorias/{convocatoria}/tipos-formulario-convocatoria/{tipo_formulario_convocatoria}', [ConvocatoriaController::class, 'proyectosPorTipoFormulario'])->name('convocatorias.tipos-formulario-convocatoria.proyectos');
+    Route::get('convocatorias/{convocatoria}/tipos-formulario-convocatoria/{tipo_formulario_convocatoria}/formulario-evaluacion', [ConvocatoriaController::class, 'formularioEvaluacion'])->name('convocatorias.tipos-formulario-convocatoria.formulario-evaluacion');
+    Route::post('convocatorias/{convocatoria}/tipos-formulario-convocatoria/{tipo_formulario_convocatoria}/formulario-evaluacion', [ConvocatoriaController::class, 'storeItemFormularioEvaluacion'])->name('convocatorias.tipos-formulario-convocatoria.store-formulario-evaluacion');
+    Route::put('convocatorias/{convocatoria}/tipos-formulario-convocatoria/{tipo_formulario_convocatoria}/formulario-evaluacion/{item_id}', [ConvocatoriaController::class, 'updateItemFormularioEvaluacion'])->name('convocatorias.tipos-formulario-convocatoria.update-formulario-evaluacion');
+    Route::delete('convocatorias/{convocatoria}/tipos-formulario-convocatoria/{tipo_formulario_convocatoria}/formulario-evaluacion/{item_id}', [ConvocatoriaController::class, 'destroyItemFormularioEvaluacion'])->name('convocatorias.tipos-formulario-convocatoria.destroy-formulario-evaluacion');
     Route::get('convocatorias/{convocatoria}/tipos-formulario-convocatoria', [ConvocatoriaController::class, 'tiposFormularioConvocatoria'])->name('convocatorias.tipos-formulario-convocatoria');
 
     Route::resource('convocatorias.montos-maximos-formulario1-regional', MontoMaximoFormulario1RegionalController::class)->parameters(['convocatorias' => 'convocatoria', 'montos-maximos-formulario1-regional' => 'monto-maximo-regional'])->except(['show']);

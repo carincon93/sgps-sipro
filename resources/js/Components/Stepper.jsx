@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types'
 
+import AlertMui from './Alert'
 import ButtonMui from './Button'
 import DialogMui from './Dialog'
+import DownloadFile from './DownloadFile'
 
 import Stepper from '@mui/material/Stepper'
 import Step from '@mui/material/Step'
@@ -34,8 +36,6 @@ import EvaluacionProyectosFormulario1Linea65 from '@/Pages/Convocatorias/Proyect
 import EvaluacionProyectosFormulario7Linea23 from '@/Pages/Convocatorias/Proyectos/ProyectosFormulario7Linea23/Evaluacion'
 import EvaluacionProyectosFormulario9Linea23 from '@/Pages/Convocatorias/Proyectos/ProyectosFormulario9Linea23/Evaluacion'
 import EvaluacionProyectosFormulario12Linea68 from '@/Pages/Convocatorias/Proyectos/ProyectosFormulario12Linea68/Evaluacion'
-import DownloadFile from './DownloadFile'
-import AlertMui from './Alert'
 
 const useStyles = makeStyles({
     root: {

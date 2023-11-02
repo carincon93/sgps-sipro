@@ -137,6 +137,21 @@ const TabsConvocatoria = ({ convocatoria, tipo_formulario_convocatoria_id, value
                     value="5"
                 />
             )}
+
+            <Tab
+                component="a"
+                onClick={() => {
+                    router.visit(
+                        route('convocatorias.tipos-formulario-convocatoria.formulario-evaluacion', [
+                            convocatoria.id,
+                            tipo_formulario_convocatoria_id,
+                            { tipo_formulario_convocatoria_id: tipo_formulario_convocatoria_id },
+                        ]),
+                    )
+                }}
+                label="Formulario de evaluación"
+                value="6"
+            />
         </Tabs>
     )
 }

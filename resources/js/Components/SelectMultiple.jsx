@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-export default function SelectMultiple({ id = '', label = '', className = '', error = '', isGroupable = false, options = [], bdValues, inputBackground, ...props }) {
+export default function SelectMultiple({ id = '', label = '', className = '', error = '', isGroupable = false, options = [], bdValues, inputBackground, required, ...props }) {
     const [selected_options, setSelectedOptions] = useState([])
     const [options_filtered, setOptions] = useState([])
     const classes = useStyles({ background: inputBackground })
@@ -76,7 +76,7 @@ export default function SelectMultiple({ id = '', label = '', className = '', er
                         </li>
                     )
                 }}
-                renderInput={(params) => <TextField {...params} label={label} />}
+                renderInput={(params) => <TextField {...params} label={label} required={required} />}
                 {...props}
             />
             {error && (

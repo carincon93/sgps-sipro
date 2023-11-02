@@ -7,6 +7,14 @@ use App\Http\Requests\ConvocatoriaRequest;
 use App\Models\Convocatoria;
 use App\Models\ConvocatoriaPresupuesto;
 use App\Models\ConvocatoriaRolSennova;
+use App\Models\Evaluacion\PreguntaEvaluacionFormulario12Linea68;
+use App\Models\Evaluacion\PreguntaEvaluacionFormulario1Linea65;
+use App\Models\Evaluacion\PreguntaEvaluacionFormulario4Linea70;
+use App\Models\Evaluacion\PreguntaEvaluacionFormulario5Linea69;
+use App\Models\Evaluacion\PreguntaEvaluacionFormulario6Linea82;
+use App\Models\Evaluacion\PreguntaEvaluacionFormulario7Linea23;
+use App\Models\Evaluacion\PreguntaEvaluacionFormulario8Linea66;
+use App\Models\Evaluacion\PreguntaEvaluacionFormulario9Linea23;
 use App\Models\Idi;
 use App\Models\LineaProgramatica;
 use App\Models\RolSennova;
@@ -474,5 +482,170 @@ class ConvocatoriaController extends Controller
         } else {
             return back()->with('error', 'No es posible ingresar a este módulo.');
         }
+    }
+
+    public function formularioEvaluacion(Convocatoria $convocatoria, $tipo_formulario_convocatoria_id)
+    {
+        $items_db_evaluacion = [];
+
+        switch ($tipo_formulario_convocatoria_id) {
+            case 1:
+                $items_db_evaluacion = PreguntaEvaluacionFormulario1Linea65::whereJsonContains('convocatorias_id', $convocatoria->id)->get();
+                break;
+            case 4:
+                $items_db_evaluacion = PreguntaEvaluacionFormulario4Linea70::whereJsonContains('convocatorias_id', $convocatoria->id)->get();
+                break;
+            case 5:
+                $items_db_evaluacion = PreguntaEvaluacionFormulario5Linea69::whereJsonContains('convocatorias_id', $convocatoria->id)->get();
+                break;
+            case 6:
+                $items_db_evaluacion = PreguntaEvaluacionFormulario6Linea82::whereJsonContains('convocatorias_id', $convocatoria->id)->get();
+                break;
+            case 7:
+                $items_db_evaluacion = PreguntaEvaluacionFormulario7Linea23::whereJsonContains('convocatorias_id', $convocatoria->id)->get();
+                break;
+            case 8:
+                $items_db_evaluacion = PreguntaEvaluacionFormulario8Linea66::whereJsonContains('convocatorias_id', $convocatoria->id)->get();
+                break;
+            case 9:
+                $items_db_evaluacion = PreguntaEvaluacionFormulario9Linea23::whereJsonContains('convocatorias_id', $convocatoria->id)->get();
+                break;
+            case 12:
+                $items_db_evaluacion = PreguntaEvaluacionFormulario12Linea68::whereJsonContains('convocatorias_id', $convocatoria->id)->get();
+                break;
+            default:
+                break;
+        }
+
+        return Inertia::render('Convocatorias/FormularioEvaluacion/Index', [
+            'convocatoria'                      => $convocatoria,
+            'tipo_formulario_convocatoria_id'   => $tipo_formulario_convocatoria_id,
+            'items_evaluacion'                  => $items_db_evaluacion ?? [],
+            'convocatorias'                     => SelectHelper::convocatorias(),
+        ]);
+    }
+
+    public function storeItemFormularioEvaluacion(Request $request, Convocatoria $convocatoria, $tipo_formulario_convocatoria_id)
+    {
+        $request->validate([
+            'campo'             => 'required|string',
+            'criterio'          => 'nullable|string',
+            'puntaje_maximo'    => 'nullable|numeric|max:100',
+            'convocatorias_id'  => 'required',
+        ]);
+
+        $request->merge([
+            'convocatorias_id'  => json_encode($request->convocatorias_id)
+        ]);
+
+        switch ($tipo_formulario_convocatoria_id) {
+            case 1:
+                PreguntaEvaluacionFormulario1Linea65::create($request->all());
+                break;
+            case 4:
+                PreguntaEvaluacionFormulario4Linea70::create($request->all());
+                break;
+            case 5:
+                PreguntaEvaluacionFormulario5Linea69::create($request->all());
+                break;
+            case 6:
+                PreguntaEvaluacionFormulario6Linea82::create($request->all());
+                break;
+            case 7:
+                PreguntaEvaluacionFormulario7Linea23::create($request->all());
+                break;
+            case 8:
+                PreguntaEvaluacionFormulario8Linea66::create($request->all());
+                break;
+            case 9:
+                PreguntaEvaluacionFormulario9Linea23::create($request->all());
+                break;
+            case 12:
+                PreguntaEvaluacionFormulario12Linea68::create($request->all());
+                break;
+            default:
+                break;
+        }
+
+        return back()->with('success', 'El recurso se ha creado correctamente.');
+    }
+
+    public function updateItemFormularioEvaluacion(Request $request, Convocatoria $convocatoria, $tipo_formulario_convocatoria_id, $item_id)
+    {
+        $request->validate([
+            'campo'             => 'required|string',
+            'criterio'          => 'nullable|string',
+            'puntaje_maximo'    => 'nullable|numeric|max:100',
+            'convocatorias_id'  => 'required',
+        ]);
+
+        $request->merge([
+            'convocatorias_id'  => json_encode($request->convocatorias_id)
+        ]);
+
+        switch ($tipo_formulario_convocatoria_id) {
+            case 1:
+                PreguntaEvaluacionFormulario1Linea65::find($item_id)->update($request->all());
+                break;
+            case 4:
+                PreguntaEvaluacionFormulario4Linea70::find($item_id)->update($request->all());
+                break;
+            case 5:
+                PreguntaEvaluacionFormulario5Linea69::find($item_id)->update($request->all());
+                break;
+            case 6:
+                PreguntaEvaluacionFormulario6Linea82::find($item_id)->update($request->all());
+                break;
+            case 7:
+                PreguntaEvaluacionFormulario7Linea23::find($item_id)->update($request->all());
+                break;
+            case 8:
+                PreguntaEvaluacionFormulario8Linea66::find($item_id)->update($request->all());
+                break;
+            case 9:
+                PreguntaEvaluacionFormulario9Linea23::find($item_id)->update($request->all());
+                break;
+            case 12:
+                PreguntaEvaluacionFormulario12Linea68::find($item_id)->update($request->all());
+                break;
+            default:
+                break;
+        }
+
+        return back()->with('success', 'El recurso se ha modificado correctamente.');
+    }
+
+    public function destroyItemFormularioEvaluacion(Request $request, Convocatoria $convocatoria, $tipo_formulario_convocatoria_id, $item_id)
+    {
+        switch ($tipo_formulario_convocatoria_id) {
+            case 1:
+                PreguntaEvaluacionFormulario1Linea65::find($item_id)->delete();
+                break;
+            case 4:
+                PreguntaEvaluacionFormulario4Linea70::find($item_id)->delete();
+                break;
+            case 5:
+                PreguntaEvaluacionFormulario5Linea69::find($item_id)->delete();
+                break;
+            case 6:
+                PreguntaEvaluacionFormulario6Linea82::find($item_id)->delete();
+                break;
+            case 7:
+                PreguntaEvaluacionFormulario7Linea23::find($item_id)->delete();
+                break;
+            case 8:
+                PreguntaEvaluacionFormulario8Linea66::find($item_id)->delete();
+                break;
+            case 9:
+                PreguntaEvaluacionFormulario9Linea23::find($item_id)->delete();
+                break;
+            case 12:
+                PreguntaEvaluacionFormulario12Linea68::find($item_id)->delete();
+                break;
+            default:
+                break;
+        }
+
+        return back()->with('success', 'El recurso se ha eliminado correctamente.');
     }
 }
