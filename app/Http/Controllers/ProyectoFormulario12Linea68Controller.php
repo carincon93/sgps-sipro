@@ -165,33 +165,18 @@ class ProyectoFormulario12Linea68Controller extends Controller
         $proyecto_formulario_12_linea_68->mostrar_recomendaciones       = $proyecto_formulario_12_linea_68->proyecto->mostrar_recomendaciones;
         $proyecto_formulario_12_linea_68->mostrar_requiere_subsanacion  = $proyecto_formulario_12_linea_68->proyecto->mostrar_requiere_subsanacion;
 
-        /** @var \App\Models\User */
-        $auth_user = Auth::user();
-
-        if ($auth_user->hasRole(13)) {
-            $tipo_proyecto_formulario_12_linea_68 = SelectHelper::laboratoriosServiciosTecnologicos()->where('regional_id', $auth_user->centroFormacion->regional_id)->values()->all();
-        } else {
-            $tipo_proyecto_formulario_12_linea_68 = SelectHelper::laboratoriosServiciosTecnologicos();
-        }
-
-        if ($auth_user->hasRole([1, 5, 17, 18, 19, 20])) {
-            $tipo_proyecto_linea_68 = SelectHelper::laboratoriosServiciosTecnologicos();
-        } else {
-            $tipo_proyecto_linea_68 = SelectHelper::laboratoriosServiciosTecnologicos()->where('regional_id', $auth_user->centroFormacion->regional_id)->values()->all();
-        }
-
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario12Linea68/Edit', [
             'convocatoria'                                  => $convocatoria,
             'proyecto_formulario_12_linea_68'               => $proyecto_formulario_12_linea_68,
             'evaluacion'                                    => $items_evaluacion ?? [],
-            'tipos_proyecto_linea_68'                       => $tipo_proyecto_linea_68,
+            'tipos_proyecto_linea_68'                       => SelectHelper::laboratoriosServiciosTecnologicos(),
             'lineas_programaticas'                          => SelectHelper::lineasProgramaticas()->where('categoria_proyecto', 3)->values()->all(),
             'estados_sistema_gestion'                       => SelectHelper::estadosSistemaGestion(),
             'programas_formacion_sin_registro_calificado'   => SelectHelper::programasFormacion()->where('registro_calificado', false)->values()->all(),
             'programas_formacion_con_registro_calificado'   => SelectHelper::programasFormacion()->where('registro_calificado', true)->values()->all(),
             'sectores_productivos'                          => collect(json_decode(Storage::get('json/sectores-productivos.json'), true)),
             'municipios'                                    => SelectHelper::municipios(),
-            'tipos_proyecto_formulario_12_linea_68'         => $tipo_proyecto_formulario_12_linea_68,
+            'tipos_proyecto_formulario_12_linea_68'         => SelectHelper::laboratoriosServiciosTecnologicos(),
             'roles_sennova'                                 => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
         ]);
     }

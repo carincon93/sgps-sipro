@@ -255,7 +255,8 @@ class Evaluacion extends Model
                 'campo_pregunta_id_' . $item->pregunta_id                       => $item->{$relationship_name}->campo,
                 'puntaje_maximo_pregunta_id_' . $item->pregunta_id              => $item->{$relationship_name}->puntaje_maximo,
                 'criterio_pregunta_id_' . $item->pregunta_id                    => $item->{$relationship_name}->criterio,
-                'allowed'                                                       => $this->allowed
+                'allowed'                                                       => $this->allowed,
+                'finalizado'                                                    => $this->finalizado
             ]);
         }
 
