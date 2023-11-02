@@ -76,7 +76,7 @@ export default function SelectMultiple({ id = '', label = '', className = '', er
                         </li>
                     )
                 }}
-                renderInput={(params) => <TextField {...params} label={label} required={required} />}
+                renderInput={(params) => <TextField {...params} label={label} />}
                 {...props}
             />
             {error && (
