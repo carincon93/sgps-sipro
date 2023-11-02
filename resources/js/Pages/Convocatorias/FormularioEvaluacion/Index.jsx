@@ -48,6 +48,10 @@ const FormularioEvaluacion = ({ auth, convocatoria, tipo_formulario_convocatoria
                 <Grid item md={12}>
                     <AlertMui className="mt-20">
                         Total de la suma de los puntajes máximos: <strong>{sum_puntaje_maximo}</strong>. Recuerde que no debe sobrepasar los 100 puntos.
+                        <br />
+                        <ButtonMui className="!mt-6" onClick={() => router.post(route('convocatorias.tipos-formulario-convocatoria.refresh', [convocatoria.id, tipo_formulario_convocatoria_id]))}>
+                            Actualizar formularios de evaluación
+                        </ButtonMui>
                     </AlertMui>
                     <TableMui rows={['Campo', 'Criterio', 'Puntaje máximo', 'Convocatorias', 'Acciones']} sxCellThead={{ width: '320px' }}>
                         <TableRow onClick={() => (setDialogStatus(true), setMethod('POST'), setItemEvaluacion(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">

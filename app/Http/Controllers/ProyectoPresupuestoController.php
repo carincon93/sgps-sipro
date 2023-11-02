@@ -262,15 +262,15 @@ class ProyectoPresupuestoController extends Controller
     {
         $this->authorize('modificar-evaluacion-autor', $evaluacion);
 
-        if ($evaluacion->evaluacionProyectoFormulario4Linea70()->exists()) {
-            $evaluacion->evaluacionProyectoFormulario4Linea70()->update(
-                ['proyecto_presupuesto_comentario' => $request->proyecto_presupuesto_comentario]
-            );
-        } else if ($evaluacion->evaluacionProyectoFormulario5Linea69()->exists()) {
-            $evaluacion->evaluacionProyectoFormulario5Linea69()->update(
-                ['proyecto_presupuesto_comentario' => $request->proyecto_presupuesto_comentario]
-            );
-        }
+        // if ($evaluacion->evaluacionProyectoFormulario4Linea70()->exists()) {
+        //     $evaluacion->evaluacionProyectoFormulario4Linea70()->update(
+        //         ['proyecto_presupuesto_comentario' => $request->proyecto_presupuesto_comentario]
+        //     );
+        // } else if ($evaluacion->evaluacionProyectoFormulario5Linea69()->exists()) {
+        //     $evaluacion->evaluacionProyectoFormulario5Linea69()->update(
+        //         ['proyecto_presupuesto_comentario' => $request->proyecto_presupuesto_comentario]
+        //     );
+        // }
 
         foreach ($evaluacion->proyecto->proyectoPresupuesto()->get() as $proyectoPresupuesto) {
             ProyectoPresupuestoEvaluacion::updateOrCreate(

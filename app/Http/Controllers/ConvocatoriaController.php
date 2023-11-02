@@ -7,6 +7,15 @@ use App\Http\Requests\ConvocatoriaRequest;
 use App\Models\Convocatoria;
 use App\Models\ConvocatoriaPresupuesto;
 use App\Models\ConvocatoriaRolSennova;
+use App\Models\Evaluacion\Evaluacion;
+use App\Models\Evaluacion\EvaluacionProyectoFormulario12Linea68;
+use App\Models\Evaluacion\EvaluacionProyectoFormulario1Linea65;
+use App\Models\Evaluacion\EvaluacionProyectoFormulario4Linea70;
+use App\Models\Evaluacion\EvaluacionProyectoFormulario5Linea69;
+use App\Models\Evaluacion\EvaluacionProyectoFormulario6Linea82;
+use App\Models\Evaluacion\EvaluacionProyectoFormulario7Linea23;
+use App\Models\Evaluacion\EvaluacionProyectoFormulario8Linea66;
+use App\Models\Evaluacion\EvaluacionProyectoFormulario9Linea23;
 use App\Models\Evaluacion\PreguntaEvaluacionFormulario12Linea68;
 use App\Models\Evaluacion\PreguntaEvaluacionFormulario1Linea65;
 use App\Models\Evaluacion\PreguntaEvaluacionFormulario4Linea70;
@@ -486,32 +495,32 @@ class ConvocatoriaController extends Controller
 
     public function formularioEvaluacion(Convocatoria $convocatoria, $tipo_formulario_convocatoria_id)
     {
-        $items_db_evaluacion = [];
+        $db_items_evaluacion = [];
 
         switch ($tipo_formulario_convocatoria_id) {
             case 1:
-                $items_db_evaluacion = PreguntaEvaluacionFormulario1Linea65::whereJsonContains('convocatorias_id', $convocatoria->id)->get();
+                $db_items_evaluacion = PreguntaEvaluacionFormulario1Linea65::whereJsonContains('convocatorias_id', $convocatoria->id)->get();
                 break;
             case 4:
-                $items_db_evaluacion = PreguntaEvaluacionFormulario4Linea70::whereJsonContains('convocatorias_id', $convocatoria->id)->get();
+                $db_items_evaluacion = PreguntaEvaluacionFormulario4Linea70::whereJsonContains('convocatorias_id', $convocatoria->id)->get();
                 break;
             case 5:
-                $items_db_evaluacion = PreguntaEvaluacionFormulario5Linea69::whereJsonContains('convocatorias_id', $convocatoria->id)->get();
+                $db_items_evaluacion = PreguntaEvaluacionFormulario5Linea69::whereJsonContains('convocatorias_id', $convocatoria->id)->get();
                 break;
             case 6:
-                $items_db_evaluacion = PreguntaEvaluacionFormulario6Linea82::whereJsonContains('convocatorias_id', $convocatoria->id)->get();
+                $db_items_evaluacion = PreguntaEvaluacionFormulario6Linea82::whereJsonContains('convocatorias_id', $convocatoria->id)->get();
                 break;
             case 7:
-                $items_db_evaluacion = PreguntaEvaluacionFormulario7Linea23::whereJsonContains('convocatorias_id', $convocatoria->id)->get();
+                $db_items_evaluacion = PreguntaEvaluacionFormulario7Linea23::whereJsonContains('convocatorias_id', $convocatoria->id)->get();
                 break;
             case 8:
-                $items_db_evaluacion = PreguntaEvaluacionFormulario8Linea66::whereJsonContains('convocatorias_id', $convocatoria->id)->get();
+                $db_items_evaluacion = PreguntaEvaluacionFormulario8Linea66::whereJsonContains('convocatorias_id', $convocatoria->id)->get();
                 break;
             case 9:
-                $items_db_evaluacion = PreguntaEvaluacionFormulario9Linea23::whereJsonContains('convocatorias_id', $convocatoria->id)->get();
+                $db_items_evaluacion = PreguntaEvaluacionFormulario9Linea23::whereJsonContains('convocatorias_id', $convocatoria->id)->get();
                 break;
             case 12:
-                $items_db_evaluacion = PreguntaEvaluacionFormulario12Linea68::whereJsonContains('convocatorias_id', $convocatoria->id)->get();
+                $db_items_evaluacion = PreguntaEvaluacionFormulario12Linea68::whereJsonContains('convocatorias_id', $convocatoria->id)->get();
                 break;
             default:
                 break;
@@ -520,7 +529,7 @@ class ConvocatoriaController extends Controller
         return Inertia::render('Convocatorias/FormularioEvaluacion/Index', [
             'convocatoria'                      => $convocatoria,
             'tipo_formulario_convocatoria_id'   => $tipo_formulario_convocatoria_id,
-            'items_evaluacion'                  => $items_db_evaluacion ?? [],
+            'items_evaluacion'                  => $db_items_evaluacion ?? [],
             'convocatorias'                     => SelectHelper::convocatorias(),
         ]);
     }
@@ -540,28 +549,36 @@ class ConvocatoriaController extends Controller
 
         switch ($tipo_formulario_convocatoria_id) {
             case 1:
-                PreguntaEvaluacionFormulario1Linea65::create($request->all());
+                $db_items_evaluacion = PreguntaEvaluacionFormulario1Linea65::create($request->all());
+                self::createEvaluacionProyectoRecords($convocatoria, $tipo_formulario_convocatoria_id, collect([$db_items_evaluacion]), EvaluacionProyectoFormulario1Linea65::class);
                 break;
             case 4:
-                PreguntaEvaluacionFormulario4Linea70::create($request->all());
+                $db_items_evaluacion = PreguntaEvaluacionFormulario4Linea70::create($request->all());
+                self::createEvaluacionProyectoRecords($convocatoria, $tipo_formulario_convocatoria_id, collect([$db_items_evaluacion]), EvaluacionProyectoFormulario4Linea70::class);
                 break;
             case 5:
-                PreguntaEvaluacionFormulario5Linea69::create($request->all());
+                $db_items_evaluacion = PreguntaEvaluacionFormulario5Linea69::create($request->all());
+                self::createEvaluacionProyectoRecords($convocatoria, $tipo_formulario_convocatoria_id, collect([$db_items_evaluacion]), EvaluacionProyectoFormulario5Linea69::class);
                 break;
             case 6:
-                PreguntaEvaluacionFormulario6Linea82::create($request->all());
+                $db_items_evaluacion = PreguntaEvaluacionFormulario6Linea82::create($request->all());
+                self::createEvaluacionProyectoRecords($convocatoria, $tipo_formulario_convocatoria_id, collect([$db_items_evaluacion]), EvaluacionProyectoFormulario6Linea82::class);
                 break;
             case 7:
-                PreguntaEvaluacionFormulario7Linea23::create($request->all());
+                $db_items_evaluacion = PreguntaEvaluacionFormulario7Linea23::create($request->all());
+                self::createEvaluacionProyectoRecords($convocatoria, $tipo_formulario_convocatoria_id, collect([$db_items_evaluacion]), EvaluacionProyectoFormulario7Linea23::class);
                 break;
             case 8:
-                PreguntaEvaluacionFormulario8Linea66::create($request->all());
+                $db_items_evaluacion = PreguntaEvaluacionFormulario8Linea66::create($request->all());
+                self::createEvaluacionProyectoRecords($convocatoria, $tipo_formulario_convocatoria_id, collect([$db_items_evaluacion]), EvaluacionProyectoFormulario8Linea66::class);
                 break;
             case 9:
-                PreguntaEvaluacionFormulario9Linea23::create($request->all());
+                $db_items_evaluacion = PreguntaEvaluacionFormulario9Linea23::create($request->all());
+                self::createEvaluacionProyectoRecords($convocatoria, $tipo_formulario_convocatoria_id, collect([$db_items_evaluacion]), EvaluacionProyectoFormulario9Linea23::class);
                 break;
             case 12:
-                PreguntaEvaluacionFormulario12Linea68::create($request->all());
+                $db_items_evaluacion = PreguntaEvaluacionFormulario12Linea68::create($request->all());
+                self::createEvaluacionProyectoRecords($convocatoria, $tipo_formulario_convocatoria_id, collect([$db_items_evaluacion]), EvaluacionProyectoFormulario12Linea68::class);
                 break;
             default:
                 break;
@@ -647,5 +664,81 @@ class ConvocatoriaController extends Controller
         }
 
         return back()->with('success', 'El recurso se ha eliminado correctamente.');
+    }
+
+    public function refreshItemsAEvaluar(Convocatoria $convocatoria, $tipo_formulario_convocatoria_id)
+    {
+        switch ($tipo_formulario_convocatoria_id) {
+            case 1:
+                $db_items_evaluacion = PreguntaEvaluacionFormulario1Linea65::whereJsonContains('convocatorias_id', $convocatoria->id)->get();
+                self::createEvaluacionProyectoRecords($convocatoria, $tipo_formulario_convocatoria_id, $db_items_evaluacion, EvaluacionProyectoFormulario1Linea65::class);
+                break;
+            case 4:
+                $db_items_evaluacion = PreguntaEvaluacionFormulario4Linea70::whereJsonContains('convocatorias_id', $convocatoria->id)->get();
+                self::createEvaluacionProyectoRecords($convocatoria, $tipo_formulario_convocatoria_id, $db_items_evaluacion, EvaluacionProyectoFormulario4Linea70::class);
+                break;
+            case 5:
+                $db_items_evaluacion = PreguntaEvaluacionFormulario5Linea69::whereJsonContains('convocatorias_id', $convocatoria->id)->get();
+                self::createEvaluacionProyectoRecords($convocatoria, $tipo_formulario_convocatoria_id, $db_items_evaluacion, EvaluacionProyectoFormulario5Linea69::class);
+                break;
+            case 6:
+                $db_items_evaluacion = PreguntaEvaluacionFormulario6Linea82::whereJsonContains('convocatorias_id', $convocatoria->id)->get();
+                self::createEvaluacionProyectoRecords($convocatoria, $tipo_formulario_convocatoria_id, $db_items_evaluacion, EvaluacionProyectoFormulario6Linea82::class);
+
+                break;
+            case 7:
+                $db_items_evaluacion = PreguntaEvaluacionFormulario7Linea23::whereJsonContains('convocatorias_id', $convocatoria->id)->get();
+                self::createEvaluacionProyectoRecords($convocatoria, $tipo_formulario_convocatoria_id, $db_items_evaluacion, EvaluacionProyectoFormulario7Linea23::class);
+                break;
+            case 8:
+                $db_items_evaluacion = PreguntaEvaluacionFormulario8Linea66::whereJsonContains('convocatorias_id', $convocatoria->id)->get();
+                self::createEvaluacionProyectoRecords($convocatoria, $tipo_formulario_convocatoria_id, $db_items_evaluacion, EvaluacionProyectoFormulario8Linea66::class);
+
+                break;
+            case 9:
+                $db_items_evaluacion = PreguntaEvaluacionFormulario9Linea23::whereJsonContains('convocatorias_id', $convocatoria->id)->get();
+                self::createEvaluacionProyectoRecords($convocatoria, $tipo_formulario_convocatoria_id, $db_items_evaluacion, EvaluacionProyectoFormulario7Linea23::class);
+
+                break;
+            case 12:
+                $db_items_evaluacion = PreguntaEvaluacionFormulario12Linea68::whereJsonContains('convocatorias_id', $convocatoria->id)->get();
+                self::createEvaluacionProyectoRecords($convocatoria, $tipo_formulario_convocatoria_id, $db_items_evaluacion, EvaluacionProyectoFormulario12Linea68::class);
+
+                break;
+            default:
+                break;
+        }
+
+        return back()->with('success', 'Se han actualizado los ítems de cada una de las evaluaciones habilitadas.');
+    }
+
+    function createEvaluacionProyectoRecords($convocatoria, $tipo_formulario_convocatoria_id, $db_items_evaluacion, $model_class_name)
+    {
+        if ($db_items_evaluacion->isNotEmpty()) {
+            // Get the evaluation IDs based on the convocatoria and tipo_formulario_convocatoria_id
+            $evaluaciones_ids = Evaluacion::select('evaluaciones.id')
+                ->join('proyectos', 'evaluaciones.proyecto_id', 'proyectos.id')
+                ->where('evaluaciones.convocatoria_id', $convocatoria->id)
+                ->where('proyectos.tipo_formulario_convocatoria_id', $tipo_formulario_convocatoria_id)
+                ->get()
+                ->pluck('id');
+
+            // Create new records
+            $items_to_create = [];
+            foreach ($db_items_evaluacion as $item) {
+                foreach ($evaluaciones_ids as $evaluacion_id) {
+                    if (!$model_class_name::where('pregunta_id', $item->id)->where('evaluacion_id', $evaluacion_id)->exists()) {
+                        $items_to_create[] = [
+                            'evaluacion_id' => $evaluacion_id,
+                            'pregunta_id' => $item->id,
+                        ];
+                    }
+                }
+            }
+
+            if (!empty($items_to_create)) {
+                $model_class_name::insert($items_to_create);
+            }
+        }
     }
 }

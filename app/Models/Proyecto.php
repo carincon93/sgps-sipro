@@ -1042,23 +1042,23 @@ class Proyecto extends Model
 
                 if ($causal_rechazo == null) {
 
-                    switch ($evaluacion) {
-                        case $evaluacion->evaluacionProyectoFormulario8Linea66()->exists():
+                    //     switch ($evaluacion) {
+                    //         case $evaluacion->evaluacionProyectoFormulario8Linea66()->exists():
 
-                            if ($evaluacion->evaluacionCausalesRechazo()->where('causal_rechazo', '=', 4)->first()) {
-                                $causal_rechazo = 'En revisión por Cord. SENNOVA';
-                            } else if ($evaluacion->evaluacionCausalesRechazo()->whereIn('causal_rechazo', [1, 2, 3])->first()) {
-                                $causal_rechazo = 'Rechazado - Por causal de rechazo';
-                            }
+                    //             if ($evaluacion->evaluacionCausalesRechazo()->where('causal_rechazo', '=', 4)->first()) {
+                    //                 $causal_rechazo = 'En revisión por Cord. SENNOVA';
+                    //             } else if ($evaluacion->evaluacionCausalesRechazo()->whereIn('causal_rechazo', [1, 2, 3])->first()) {
+                    //                 $causal_rechazo = 'Rechazado - Por causal de rechazo';
+                    //             }
 
-                            if ($evaluacion->evaluacionProyectoFormulario8Linea66->anexos_comentario != null) {
-                                $requiere_subsanar = true;
-                            }
-                            break;
+                    //             if ($evaluacion->evaluacionProyectoFormulario8Linea66->anexos_comentario != null) {
+                    //                 $requiere_subsanar = true;
+                    //             }
+                    //             break;
 
-                        default:
-                            break;
-                    }
+                    //         default:
+                    //             break;
+                    //     }
                 }
 
                 if ($causal_rechazo == null && $evaluacion->proyectoPresupuestosEvaluaciones()->count() > 0 && $this->convocatoria->fase == 5) {
@@ -1131,23 +1131,23 @@ class Proyecto extends Model
 
                 if ($causal_rechazo == null) {
 
-                    switch ($evaluacion) {
-                        case $evaluacion->evaluacionProyectoFormulario6Linea82()->exists():
+                    // switch ($evaluacion) {
+                    //     case $evaluacion->evaluacionProyectoFormulario6Linea82()->exists():
 
-                            if ($evaluacion->evaluacionCausalesRechazo()->where('causal_rechazo', '=', 4)->first()) {
-                                $causal_rechazo = 'En revisión por Cord. SENNOVA';
-                            } else if ($evaluacion->evaluacionCausalesRechazo()->whereIn('causal_rechazo', [1, 2, 3])->first()) {
-                                $causal_rechazo = 'Rechazado - Por causal de rechazo';
-                            }
+                    //         if ($evaluacion->evaluacionCausalesRechazo()->where('causal_rechazo', '=', 4)->first()) {
+                    //             $causal_rechazo = 'En revisión por Cord. SENNOVA';
+                    //         } else if ($evaluacion->evaluacionCausalesRechazo()->whereIn('causal_rechazo', [1, 2, 3])->first()) {
+                    //             $causal_rechazo = 'Rechazado - Por causal de rechazo';
+                    //         }
 
-                            if ($evaluacion->evaluacionProyectoFormulario6Linea82->anexos_comentario != null) {
-                                $requiere_subsanar = true;
-                            }
-                            break;
+                    //         if ($evaluacion->evaluacionProyectoFormulario6Linea82->anexos_comentario != null) {
+                    //             $requiere_subsanar = true;
+                    //         }
+                    //         break;
 
-                        default:
-                            break;
-                    }
+                    //     default:
+                    //         break;
+                    // }
                 }
 
                 if ($causal_rechazo == null && $evaluacion->proyectoPresupuestosEvaluaciones()->count() > 0 && $this->convocatoria->fase == 5) {
@@ -1228,16 +1228,16 @@ class Proyecto extends Model
                 array_push($estados, $this->estadoEvaluacionProyectoFormulario1Linea65($evaluacion->total_evaluacion, $total_recomendaciones, $requiere_subsanar)['id']);
 
                 if ($causal_rechazo == null) {
-                    switch ($evaluacion) {
-                        case $evaluacion->evaluacionProyectoFormulario1Linea65()->exists():
-                            if ($evaluacion->evaluacionProyectoFormulario1Linea65->anexos_comentario != null) {
-                                $requiere_subsanar = true;
-                            }
-                            break;
+                    // switch ($evaluacion) {
+                    //     case $evaluacion->evaluacionProyectoFormulario1Linea65()->exists():
+                    //         if ($evaluacion->evaluacionProyectoFormulario1Linea65->anexos_comentario != null) {
+                    //             $requiere_subsanar = true;
+                    //         }
+                    //         break;
 
-                        default:
-                            break;
-                    }
+                    //     default:
+                    //         break;
+                    // }
                 }
 
                 // if ($causal_rechazo == null && $evaluacion->proyectoPresupuestosEvaluaciones()->count() > 0) {
@@ -1317,22 +1317,22 @@ class Proyecto extends Model
                 array_push($estados, $this->estadoEvaluacionProyectoFormulario12Linea68($evaluacion->total_evaluacion, $total_recomendaciones, $requiere_subsanar)['id']);
 
                 if ($causal_rechazo == null) {
-                    switch ($evaluacion) {
-                        case $evaluacion->evaluacionProyectoFormulario12Linea68()->exists():
-                            // if ($evaluacion->evaluacionCausalesRechazo()->where('causal_rechazo', '=', 4)->first()) {
-                            //     $causal_rechazo = 'En revisión por Cord. SENNOVA';
-                            // } else if ($evaluacion->evaluacionCausalesRechazo()->whereIn('causal_rechazo', [1, 2, 3])->first()) {
-                            //     $causal_rechazo = 'Rechazado - Causal de rechazo';
-                            // }
+                    // switch ($evaluacion) {
+                    //     case $evaluacion->evaluacionProyectoFormulario12Linea68()->exists():
+                    //         if ($evaluacion->evaluacionCausalesRechazo()->where('causal_rechazo', '=', 4)->first()) {
+                    //             $causal_rechazo = 'En revisión por Cord. SENNOVA';
+                    //         } else if ($evaluacion->evaluacionCausalesRechazo()->whereIn('causal_rechazo', [1, 2, 3])->first()) {
+                    //             $causal_rechazo = 'Rechazado - Causal de rechazo';
+                    //         }
 
-                            if ($evaluacion->evaluacionProyectoFormulario12Linea68->anexos_comentario != null) {
-                                $requiere_subsanar = true;
-                            }
-                            break;
+                    //         if ($evaluacion->evaluacionProyectoFormulario12Linea68->anexos_comentario != null) {
+                    //             $requiere_subsanar = true;
+                    //         }
+                    //         break;
 
-                        default:
-                            break;
-                    }
+                    //     default:
+                    //         break;
+                    // }
                 }
 
                 // if ($causal_rechazo == null && $evaluacion->proyectoPresupuestosEvaluaciones()->count() > 0) {

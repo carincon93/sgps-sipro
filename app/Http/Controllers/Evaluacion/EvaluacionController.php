@@ -75,41 +75,41 @@ class EvaluacionController extends Controller
 
         $proyecto->save();
 
-        switch ($proyecto) {
+        // switch ($proyecto) {
 
-            case $proyecto->proyectoFormulario4Linea70()->exists():
-                $evaluacion->evaluacionProyectoFormulario4Linea70()->create([
-                    'id' => $evaluacion->id
-                ]);
-                break;
-            case $proyecto->proyectoFormulario5Linea69()->exists():
-                $evaluacion->evaluacionProyectoFormulario5Linea69()->create([
-                    'id' => $evaluacion->id
-                ]);
-                break;
-            case $proyecto->proyectoFormulario6Linea82()->exists():
-                $evaluacion->evaluacionProyectoFormulario6Linea82()->create([
-                    'id' => $evaluacion->id
-                ]);
-                break;
-            case $proyecto->proyectoFormulario8Linea66()->exists():
-                $evaluacion->evaluacionProyectoFormulario8Linea66()->create([
-                    'id' => $evaluacion->id
-                ]);
-                break;
-            case $proyecto->proyectoFormulario12Linea68()->exists():
-                $evaluacion->evaluacionProyectoFormulario12Linea68()->create([
-                    'id' => $evaluacion->id
-                ]);
-                break;
-            case $proyecto->proyectoFormulario1Linea65()->exists():
-                $evaluacion->evaluacionProyectoFormulario1Linea65()->create([
-                    'id' => $evaluacion->id
-                ]);
-                break;
-            default:
-                break;
-        }
+        //     case $proyecto->proyectoFormulario4Linea70()->exists():
+        //         $evaluacion->evaluacionProyectoFormulario4Linea70()->create([
+        //             'id' => $evaluacion->id
+        //         ]);
+        //         break;
+        //     case $proyecto->proyectoFormulario5Linea69()->exists():
+        //         $evaluacion->evaluacionProyectoFormulario5Linea69()->create([
+        //             'id' => $evaluacion->id
+        //         ]);
+        //         break;
+        //     case $proyecto->proyectoFormulario6Linea82()->exists():
+        //         $evaluacion->evaluacionProyectoFormulario6Linea82()->create([
+        //             'id' => $evaluacion->id
+        //         ]);
+        //         break;
+        //     case $proyecto->proyectoFormulario8Linea66()->exists():
+        //         $evaluacion->evaluacionProyectoFormulario8Linea66()->create([
+        //             'id' => $evaluacion->id
+        //         ]);
+        //         break;
+        //     case $proyecto->proyectoFormulario12Linea68()->exists():
+        //         $evaluacion->evaluacionProyectoFormulario12Linea68()->create([
+        //             'id' => $evaluacion->id
+        //         ]);
+        //         break;
+        //     case $proyecto->proyectoFormulario1Linea65()->exists():
+        //         $evaluacion->evaluacionProyectoFormulario1Linea65()->create([
+        //             'id' => $evaluacion->id
+        //         ]);
+        //         break;
+        //     default:
+        //         break;
+        // }
 
         return back()->with('success', 'El recurso se ha creado correctamente.');
     }

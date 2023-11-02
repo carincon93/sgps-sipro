@@ -93,9 +93,9 @@ class Evaluacion extends Model
      *
      * @return object
      */
-    public function evaluacionProyectoFormulario8Linea66()
+    public function evaluacionesProyectoFormulario8Linea66()
     {
-        return $this->hasOne(EvaluacionProyectoFormulario8Linea66::class, 'id');
+        return $this->hasMany(EvaluacionProyectoFormulario8Linea66::class, 'id');
     }
 
     /**
@@ -103,9 +103,9 @@ class Evaluacion extends Model
      *
      * @return object
      */
-    public function evaluacionProyectoFormulario1Linea65()
+    public function evaluacionesProyectoFormulario1Linea65()
     {
-        return $this->hasOne(EvaluacionProyectoFormulario1Linea65::class, 'id');
+        return $this->hasMany(EvaluacionProyectoFormulario1Linea65::class, 'id');
     }
 
     /**
@@ -113,9 +113,9 @@ class Evaluacion extends Model
      *
      * @return object
      */
-    public function evaluacionProyectoFormulario4Linea70()
+    public function evaluacionesProyectoFormulario4Linea70()
     {
-        return $this->hasOne(EvaluacionProyectoFormulario4Linea70::class, 'id');
+        return $this->hasMany(EvaluacionProyectoFormulario4Linea70::class, 'id');
     }
 
     /**
@@ -123,9 +123,9 @@ class Evaluacion extends Model
      *
      * @return object
      */
-    public function evaluacionProyectoFormulario5Linea69()
+    public function evaluacionesProyectoFormulario5Linea69()
     {
-        return $this->hasOne(EvaluacionProyectoFormulario5Linea69::class, 'id');
+        return $this->hasMany(EvaluacionProyectoFormulario5Linea69::class, 'id');
     }
 
     /**
@@ -133,9 +133,9 @@ class Evaluacion extends Model
      *
      * @return object
      */
-    public function evaluacionProyectoFormulario6Linea82()
+    public function evaluacionesProyectoFormulario6Linea82()
     {
-        return $this->hasOne(EvaluacionProyectoFormulario6Linea82::class, 'id');
+        return $this->hasMany(EvaluacionProyectoFormulario6Linea82::class, 'id');
     }
 
     /**
@@ -143,9 +143,9 @@ class Evaluacion extends Model
      *
      * @return object
      */
-    public function evaluacionProyectoFormulario12Linea68()
+    public function evaluacionesProyectoFormulario12Linea68()
     {
-        return $this->hasOne(EvaluacionProyectoFormulario12Linea68::class, 'id');
+        return $this->hasMany(EvaluacionProyectoFormulario12Linea68::class, 'id');
     }
 
     /**

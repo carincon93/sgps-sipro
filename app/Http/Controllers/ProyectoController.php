@@ -703,102 +703,6 @@ class ProyectoController extends Controller
     }
 
     /**
-     * Show summaryEvaluacion.
-     *
-     * @param  \App\Models\Evaluacion  $evaluacion
-     * @return \Illuminate\Http\Response
-     */
-    public function summaryEvaluacion(Convocatoria $convocatoria, Evaluacion $evaluacion)
-    {
-        $this->authorize('visualizar-evaluacion-autor', $evaluacion);
-
-        $evaluacion->proyecto->codigo_linea_programatica = $evaluacion->proyecto->lineaProgramatica->codigo;
-        $evaluacion->proyecto->precio_proyecto           = $evaluacion->proyecto->precioProyecto;
-
-        $evaluacion->proyecto->logs = $evaluacion->proyecto::getLog($evaluacion->proyecto->id);
-
-        switch ($evaluacion) {
-            case $evaluacion->evaluacionProyectoFormulario8Linea66()->exists():
-                $evaluacion->titulo_puntaje             = $evaluacion->evaluacionProyectoFormulario8Linea66->titulo_puntaje;
-                $evaluacion->video_puntaje              = $evaluacion->evaluacionProyectoFormulario8Linea66->video_puntaje;
-                $evaluacion->resumen_puntaje            = $evaluacion->evaluacionProyectoFormulario8Linea66->resumen_puntaje;
-                $evaluacion->problema_central_puntaje   = $evaluacion->evaluacionProyectoFormulario8Linea66->problema_central_puntaje;
-                $evaluacion->objetivos_puntaje          = $evaluacion->evaluacionProyectoFormulario8Linea66->objetivos_puntaje;
-                $evaluacion->metodologia_puntaje        = $evaluacion->evaluacionProyectoFormulario8Linea66->metodologia_puntaje;
-                $evaluacion->entidad_aliada_puntaje     = $evaluacion->evaluacionProyectoFormulario8Linea66->entidad_aliada_puntaje;
-                $evaluacion->resultados_puntaje         = $evaluacion->evaluacionProyectoFormulario8Linea66->resultados_puntaje;
-                $evaluacion->productos_puntaje          = $evaluacion->evaluacionProyectoFormulario8Linea66->productos_puntaje;
-                $evaluacion->cadena_valor_puntaje       = $evaluacion->evaluacionProyectoFormulario8Linea66->cadena_valor_puntaje;
-                $evaluacion->analisis_riesgos_puntaje   = $evaluacion->evaluacionProyectoFormulario8Linea66->analisis_riesgos_puntaje;
-                $evaluacion->ortografia_puntaje         = $evaluacion->evaluacionProyectoFormulario8Linea66->ortografia_puntaje;
-                $evaluacion->redaccion_puntaje          = $evaluacion->evaluacionProyectoFormulario8Linea66->redaccion_puntaje;
-                $evaluacion->normas_apa_puntaje         = $evaluacion->evaluacionProyectoFormulario8Linea66->normas_apa_puntaje;
-                break;
-            case $evaluacion->evaluacionProyectoFormulario1Linea65()->exists():
-                $evaluacion->titulo_puntaje             = $evaluacion->evaluacionProyectoFormulario1Linea65->titulo_puntaje;
-                $evaluacion->video_puntaje              = $evaluacion->evaluacionProyectoFormulario1Linea65->video_puntaje;
-                $evaluacion->resumen_puntaje            = $evaluacion->evaluacionProyectoFormulario1Linea65->resumen_puntaje;
-                $evaluacion->problema_central_puntaje   = $evaluacion->evaluacionProyectoFormulario1Linea65->problema_central_puntaje;
-                $evaluacion->objetivos_puntaje          = $evaluacion->evaluacionProyectoFormulario1Linea65->objetivos_puntaje;
-                $evaluacion->metodologia_puntaje        = $evaluacion->evaluacionProyectoFormulario1Linea65->metodologia_puntaje;
-                $evaluacion->entidad_aliada_puntaje     = $evaluacion->evaluacionProyectoFormulario1Linea65->entidad_aliada_puntaje;
-                $evaluacion->resultados_puntaje         = $evaluacion->evaluacionProyectoFormulario1Linea65->resultados_puntaje;
-                $evaluacion->productos_puntaje          = $evaluacion->evaluacionProyectoFormulario1Linea65->productos_puntaje;
-                $evaluacion->cadena_valor_puntaje       = $evaluacion->evaluacionProyectoFormulario1Linea65->cadena_valor_puntaje;
-                $evaluacion->analisis_riesgos_puntaje   = $evaluacion->evaluacionProyectoFormulario1Linea65->analisis_riesgos_puntaje;
-                $evaluacion->ortografia_puntaje         = $evaluacion->evaluacionProyectoFormulario1Linea65->ortografia_puntaje;
-                $evaluacion->redaccion_puntaje          = $evaluacion->evaluacionProyectoFormulario1Linea65->redaccion_puntaje;
-                $evaluacion->normas_apa_puntaje         = $evaluacion->evaluacionProyectoFormulario1Linea65->normas_apa_puntaje;
-                break;
-            case $evaluacion->evaluacionProyectoFormulario12Linea68()->exists():
-                $evaluacion->titulo_puntaje                         = $evaluacion->evaluacionProyectoFormulario12Linea68->titulo_puntaje;
-                $evaluacion->resumen_puntaje                        = $evaluacion->evaluacionProyectoFormulario12Linea68->resumen_puntaje;
-                $evaluacion->antecedentes_puntaje                   = $evaluacion->evaluacionProyectoFormulario12Linea68->antecedentes_puntaje;
-                $evaluacion->justificacion_problema_puntaje         = $evaluacion->evaluacionProyectoFormulario12Linea68->justificacion_problema_puntaje;
-                $evaluacion->pregunta_formulacion_problema_puntaje  = $evaluacion->evaluacionProyectoFormulario12Linea68->pregunta_formulacion_problema_puntaje;
-                $evaluacion->propuesta_sostenibilidad_puntaje       = $evaluacion->evaluacionProyectoFormulario12Linea68->propuesta_sostenibilidad_puntaje;
-                $evaluacion->identificacion_problema_puntaje        = $evaluacion->evaluacionProyectoFormulario12Linea68->identificacion_problema_puntaje;
-                $evaluacion->arbol_problemas_puntaje                = $evaluacion->evaluacionProyectoFormulario12Linea68->arbol_problemas_puntaje;
-                $evaluacion->impacto_ambiental_puntaje              = $evaluacion->evaluacionProyectoFormulario12Linea68->impacto_ambiental_puntaje;
-                $evaluacion->impacto_social_centro_puntaje          = $evaluacion->evaluacionProyectoFormulario12Linea68->impacto_social_centro_puntaje;
-                $evaluacion->impacto_social_productivo_puntaje      = $evaluacion->evaluacionProyectoFormulario12Linea68->impacto_social_productivo_puntaje;
-                $evaluacion->impacto_tecnologico_puntaje            = $evaluacion->evaluacionProyectoFormulario12Linea68->impacto_tecnologico_puntaje;
-                $evaluacion->objetivo_general_puntaje               = $evaluacion->evaluacionProyectoFormulario12Linea68->objetivo_general_puntaje;
-                $evaluacion->primer_objetivo_puntaje                = $evaluacion->evaluacionProyectoFormulario12Linea68->primer_objetivo_puntaje;
-                $evaluacion->segundo_objetivo_puntaje               = $evaluacion->evaluacionProyectoFormulario12Linea68->segundo_objetivo_puntaje;
-                $evaluacion->tercer_objetivo_puntaje                = $evaluacion->evaluacionProyectoFormulario12Linea68->tercer_objetivo_puntaje;
-                $evaluacion->cuarto_objetivo_puntaje                = $evaluacion->evaluacionProyectoFormulario12Linea68->cuarto_objetivo_puntaje;
-                $evaluacion->resultados_primer_obj_puntaje          = $evaluacion->evaluacionProyectoFormulario12Linea68->resultados_primer_obj_puntaje;
-                $evaluacion->resultados_segundo_obj_puntaje         = $evaluacion->evaluacionProyectoFormulario12Linea68->resultados_segundo_obj_puntaje;
-                $evaluacion->resultados_tercer_obj_puntaje          = $evaluacion->evaluacionProyectoFormulario12Linea68->resultados_tercer_obj_puntaje;
-                $evaluacion->resultados_cuarto_obj_puntaje          = $evaluacion->evaluacionProyectoFormulario12Linea68->resultados_cuarto_obj_puntaje;
-                $evaluacion->metodologia_puntaje                    = $evaluacion->evaluacionProyectoFormulario12Linea68->metodologia_puntaje;
-                $evaluacion->actividades_primer_obj_puntaje         = $evaluacion->evaluacionProyectoFormulario12Linea68->actividades_primer_obj_puntaje;
-                $evaluacion->actividades_segundo_obj_puntaje        = $evaluacion->evaluacionProyectoFormulario12Linea68->actividades_segundo_obj_puntaje;
-                $evaluacion->actividades_tercer_obj_puntaje         = $evaluacion->evaluacionProyectoFormulario12Linea68->actividades_tercer_obj_puntaje;
-                $evaluacion->actividades_cuarto_obj_puntaje         = $evaluacion->evaluacionProyectoFormulario12Linea68->actividades_cuarto_obj_puntaje;
-                $evaluacion->productos_primer_obj_puntaje           = $evaluacion->evaluacionProyectoFormulario12Linea68->productos_primer_obj_puntaje;
-                $evaluacion->productos_segundo_obj_puntaje          = $evaluacion->evaluacionProyectoFormulario12Linea68->productos_segundo_obj_puntaje;
-                $evaluacion->productos_tercer_obj_puntaje           = $evaluacion->evaluacionProyectoFormulario12Linea68->productos_tercer_obj_puntaje;
-                $evaluacion->productos_cuarto_obj_puntaje           = $evaluacion->evaluacionProyectoFormulario12Linea68->productos_cuarto_obj_puntaje;
-                $evaluacion->riesgos_objetivo_general_puntaje       = $evaluacion->evaluacionProyectoFormulario12Linea68->riesgos_objetivo_general_puntaje;
-                $evaluacion->riesgos_productos_puntaje              = $evaluacion->evaluacionProyectoFormulario12Linea68->riesgos_productos_puntaje;
-                $evaluacion->riesgos_actividades_puntaje            = $evaluacion->evaluacionProyectoFormulario12Linea68->riesgos_actividades_puntaje;
-
-                break;
-            default:
-                break;
-        }
-
-        return Inertia::render('Convocatorias/Evaluaciones/Summary', [
-            'convocatoria' => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos', 'max_fecha_finalizacion_proyectos', 'finalizado'),
-            'evaluacion'   => $evaluacion,
-            'proyecto'     => $evaluacion->proyecto->only('id', 'precio_proyecto', 'finalizado', 'modificable', 'habilitado_para_evaluar'),
-            'versiones'    => $evaluacion->proyecto->PdfVersiones,
-        ]);
-    }
-
-    /**
      * Finalizar evaluación.
      *
      * @param  \App\Models\Proyecto  $proyecto
@@ -845,13 +749,13 @@ class ProyectoController extends Controller
 
     public function preguntasFinales(Request $request, Convocatoria $convocatoria, Evaluacion $evaluacion)
     {
-        if ($evaluacion->evaluacionProyectoFormulario8Linea66()->exists()) {
-            $evaluacion->evaluacionProyectoFormulario8Linea66()->update([
-                'impacto_sector_agricola'       => $request->tieneImpactoSectorAgricola ?  $request->impacto_sector_agricola : '',
-                'impacto_poblacion_campesina'   => $request->tieneImpactoPoblacionCampesina ? $request->impacto_poblacion_campesina : '',
-            ]);
-            return back()->with('success', 'Se ha guardado la información correctamente.');
-        }
+        // if ($evaluacion->evaluacionProyectoFormulario8Linea66()->exists()) {
+        //     $evaluacion->evaluacionProyectoFormulario8Linea66()->update([
+        //         'impacto_sector_agricola'       => $request->tieneImpactoSectorAgricola ?  $request->impacto_sector_agricola : '',
+        //         'impacto_poblacion_campesina'   => $request->tieneImpactoPoblacionCampesina ? $request->impacto_poblacion_campesina : '',
+        //     ]);
+        //     return back()->with('success', 'Se ha guardado la información correctamente.');
+        // }
 
         return back()->with('error', 'No se ha podigo guardar.');
     }

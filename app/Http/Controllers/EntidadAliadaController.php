@@ -419,57 +419,57 @@ class EntidadAliadaController extends Controller
         $this->authorize('modificar-evaluacion-autor', $evaluacion);
 
         $tipo = 'Sin información';
-        if ($evaluacion->evaluacionProyectoFormulario8Linea66()->exists() && $evaluacion->evaluacionProyectoFormulario8Linea66->entidad_aliada_verificada) {
-            if ($evaluacion->proyecto->codigo_linea_programatica == 66) {
-                $puntaje = 0;
-                $tipo = '';
-                $detener = false;
-                foreach ($evaluacion->proyecto->entidadesAliadas as $entidad_aliada) {
-                    if ($entidad_aliada->tipo == 'Universidad' || $entidad_aliada->tipo == 'Centro de formación SENA') {
-                        // Universidad / Centro de formación SENA
-                        $puntaje = 5;
-                        $detener = true;
-                        $tipo = $entidad_aliada->tipo;
-                    } else if ($entidad_aliada->tipo == 'Empresa' && $detener == false || $entidad_aliada->tipo == 'Entidades sin ánimo de lucro' && $detener == false || $entidad_aliada->tipo == 'Otra' && $detener == false) {
-                        // Empresa / Entidades sin ánimo de lucro / Otra
-                        $puntaje = 2.5;
-                        $tipo = $entidad_aliada->tipo;
-                    }
-                }
+        // if ($evaluacion->evaluacionProyectoFormulario8Linea66()->exists() && $evaluacion->evaluacionProyectoFormulario8Linea66->entidad_aliada_verificada) {
+        //     if ($evaluacion->proyecto->codigo_linea_programatica == 66) {
+        //         $puntaje = 0;
+        //         $tipo = '';
+        //         $detener = false;
+        //         foreach ($evaluacion->proyecto->entidadesAliadas as $entidad_aliada) {
+        //             if ($entidad_aliada->tipo == 'Universidad' || $entidad_aliada->tipo == 'Centro de formación SENA') {
+        //                 // Universidad / Centro de formación SENA
+        //                 $puntaje = 5;
+        //                 $detener = true;
+        //                 $tipo = $entidad_aliada->tipo;
+        //             } else if ($entidad_aliada->tipo == 'Empresa' && $detener == false || $entidad_aliada->tipo == 'Entidades sin ánimo de lucro' && $detener == false || $entidad_aliada->tipo == 'Otra' && $detener == false) {
+        //                 // Empresa / Entidades sin ánimo de lucro / Otra
+        //                 $puntaje = 2.5;
+        //                 $tipo = $entidad_aliada->tipo;
+        //             }
+        //         }
 
-                $evaluacion->evaluacionProyectoFormulario8Linea66()->update([
-                    'entidad_aliada_puntaje' => $puntaje
-                ]);
-            } else if ($evaluacion->proyecto->codigo_linea_programatica == 82) {
-                $puntaje = 0;
-                $tipo = '';
-                $detener = false;
-                foreach ($evaluacion->proyecto->entidadesAliadas as $entidad_aliada) {
-                    if ($entidad_aliada->tipo == 'Empresa' || $entidad_aliada->tipo == 'Entidades sin ánimo de lucro' || $entidad_aliada->tipo == 'Otra' || $entidad_aliada->tipo == 'Centro de formación SEN') {
-                        // Empresa / Entidades sin ánimo de lucro / Otra / Centro de formación SENA
-                        $puntaje = 5;
-                        $detener = true;
-                        $tipo = $entidad_aliada->tipo;
-                    } else if ($entidad_aliada->tipo == 'Universidad' && $detener == false) {
-                        // Universidad
-                        $puntaje = 2.5;
-                        $tipo = $entidad_aliada->tipo;
-                    }
-                }
+        //         $evaluacion->evaluacionProyectoFormulario8Linea66()->update([
+        //             'entidad_aliada_puntaje' => $puntaje
+        //         ]);
+        //     } else if ($evaluacion->proyecto->codigo_linea_programatica == 82) {
+        //         $puntaje = 0;
+        //         $tipo = '';
+        //         $detener = false;
+        //         foreach ($evaluacion->proyecto->entidadesAliadas as $entidad_aliada) {
+        //             if ($entidad_aliada->tipo == 'Empresa' || $entidad_aliada->tipo == 'Entidades sin ánimo de lucro' || $entidad_aliada->tipo == 'Otra' || $entidad_aliada->tipo == 'Centro de formación SEN') {
+        //                 // Empresa / Entidades sin ánimo de lucro / Otra / Centro de formación SENA
+        //                 $puntaje = 5;
+        //                 $detener = true;
+        //                 $tipo = $entidad_aliada->tipo;
+        //             } else if ($entidad_aliada->tipo == 'Universidad' && $detener == false) {
+        //                 // Universidad
+        //                 $puntaje = 2.5;
+        //                 $tipo = $entidad_aliada->tipo;
+        //             }
+        //         }
 
-                $evaluacion->evaluacionProyectoFormulario8Linea66()->update([
-                    'entidad_aliada_puntaje' => $puntaje
-                ]);
-            }
+        //         $evaluacion->evaluacionProyectoFormulario8Linea66()->update([
+        //             'entidad_aliada_puntaje' => $puntaje
+        //         ]);
+        //     }
 
-            $evaluacion->entidad_aliada_puntaje = $puntaje;
-        } else {
-            $evaluacion->entidad_aliada_puntaje = 0;
-        }
+        //     $evaluacion->entidad_aliada_puntaje = $puntaje;
+        // } else {
+        //     $evaluacion->entidad_aliada_puntaje = 0;
+        // }
 
-        $evaluacion->evaluacionProyectoFormulario4Linea70()->update([
-            'entidad_aliada_comentario'   => $request->entidad_aliada_requiere_comentario == false ? $request->entidad_aliada_comentario : null
-        ]);
+        // $evaluacion->evaluacionProyectoFormulario4Linea70()->update([
+        //     'entidad_aliada_comentario'   => $request->entidad_aliada_requiere_comentario == false ? $request->entidad_aliada_comentario : null
+        // ]);
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
