@@ -142,11 +142,14 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                                     disabled={evaluacion[0]?.finalizado}
                                     placeholder="Puntaje"
                                 />
-                                <AlertMui>
-                                    <h1>Criterios de evaluacion</h1>
-                                    <p className="whitespace-pre-line">{evaluacion['criterio_pregunta_id_' + evaluacion.pregunta_id]}</p>
-                                </AlertMui>
                             </>
+                        )}
+
+                        {evaluacion['criterio_pregunta_id_' + evaluacion.pregunta_id] && (
+                            <AlertMui>
+                                <h1>Criterios de evaluacion / Comentario</h1>
+                                <p className="whitespace-pre-line mt-6">{evaluacion['criterio_pregunta_id_' + evaluacion.pregunta_id]}</p>
+                            </AlertMui>
                         )}
 
                         <div className="mt-10">
