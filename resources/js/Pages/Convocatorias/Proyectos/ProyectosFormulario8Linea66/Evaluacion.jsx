@@ -192,6 +192,8 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                         </ButtonMui>
                     </Grid>
                 ))}
+
+                {proyecto.proyecto_roles_sennova.length == 0 && <AlertMui severity="error">No hay ítems para evaluar</AlertMui>}
             </Grid>
 
             <Divider className="!my-20 font-black">RUBROS PRESUPUESTALES</Divider>
@@ -203,6 +205,8 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                         </ButtonMui>
                     </Grid>
                 ))}
+
+                {proyecto.proyecto_presupuesto.length == 0 && <AlertMui severity="error">No hay ítems para evaluar</AlertMui>}
             </Grid>
 
             <DialogMui
