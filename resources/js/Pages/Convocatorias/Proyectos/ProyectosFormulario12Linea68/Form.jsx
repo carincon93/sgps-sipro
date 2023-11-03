@@ -433,7 +433,7 @@ const Form = ({
                                         programas_formacion_relacionados: selected_values,
                                     }))
                                 }}
-                                disabled={running_sync}
+                                disabled={running_sync || !proyecto_formulario_12_linea_68?.proyecto?.allowed?.to_update}
                                 error={form.errors.programas_formacion_relacionados}
                                 required
                                 onBlur={() => syncColumnLong('programas_formacion_relacionados', form)}
@@ -455,7 +455,7 @@ const Form = ({
                                         programas_formacion: selected_values,
                                     }))
                                 }}
-                                disabled={running_sync}
+                                disabled={running_sync || !proyecto_formulario_12_linea_68?.proyecto?.allowed?.to_update}
                                 error={form.errors.programas_formacion}
                                 required
                                 onBlur={() => syncColumnLong('programas_formacion', form)}

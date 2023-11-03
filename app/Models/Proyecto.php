@@ -1709,7 +1709,7 @@ class Proyecto extends Model
         }
 
         foreach ($this->proyectoAnexo()->with('convocatoriaAnexo')->get() as $proyecto_anexo) {
-            if ($proyecto_anexo) {
+            if ($proyecto_anexo && $proyecto_anexo->archivo) {
                 $collect->push(['id' => $proyecto_anexo->id, 'tipo_archivo' => 'archivo', 'modulo' => 'Anexo', 'nombre' => $proyecto_anexo->convocatoriaAnexo->anexo->nombre, 'path' => $proyecto_anexo->archivo, 'filename' => pathinfo($proyecto_anexo->archivo)['filename'], 'extension' => pathinfo($proyecto_anexo->archivo)['extension']]);
             }
         }
