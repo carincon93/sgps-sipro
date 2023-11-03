@@ -28,14 +28,20 @@ import FileTypeIcon from './FileTypeIcon'
 
 import React, { useState } from 'react'
 
-import EvaluacionProyectosFormulario8Linea66 from '@/Pages/Convocatorias/Proyectos/ProyectosFormulario8Linea66/Evaluacion'
-import EvaluacionProyectosFormulario6Linea82 from '@/Pages/Convocatorias/Proyectos/ProyectosFormulario6Linea82/Evaluacion'
+import EvaluacionProyectosFormulario1Linea65 from '@/Pages/Convocatorias/Proyectos/ProyectosFormulario1Linea65/Evaluacion'
+import EvaluacionProyectosFormulario3Linea61 from '@/Pages/Convocatorias/Proyectos/ProyectosFormulario3Linea61/Evaluacion'
 import EvaluacionProyectosFormulario4Linea70 from '@/Pages/Convocatorias/Proyectos/ProyectosFormulario4Linea70/Evaluacion'
 import EvaluacionProyectosFormulario5Linea69 from '@/Pages/Convocatorias/Proyectos/ProyectosFormulario5Linea69/Evaluacion'
-import EvaluacionProyectosFormulario1Linea65 from '@/Pages/Convocatorias/Proyectos/ProyectosFormulario1Linea65/Evaluacion'
+import EvaluacionProyectosFormulario6Linea82 from '@/Pages/Convocatorias/Proyectos/ProyectosFormulario6Linea82/Evaluacion'
 import EvaluacionProyectosFormulario7Linea23 from '@/Pages/Convocatorias/Proyectos/ProyectosFormulario7Linea23/Evaluacion'
+import EvaluacionProyectosFormulario8Linea66 from '@/Pages/Convocatorias/Proyectos/ProyectosFormulario8Linea66/Evaluacion'
 import EvaluacionProyectosFormulario9Linea23 from '@/Pages/Convocatorias/Proyectos/ProyectosFormulario9Linea23/Evaluacion'
+import EvaluacionProyectosFormulario10Linea69 from '@/Pages/Convocatorias/Proyectos/ProyectosFormulario10Linea69/Evaluacion'
 import EvaluacionProyectosFormulario12Linea68 from '@/Pages/Convocatorias/Proyectos/ProyectosFormulario12Linea68/Evaluacion'
+import EvaluacionProyectosFormulario13Linea65 from '@/Pages/Convocatorias/Proyectos/ProyectosFormulario13Linea65/Evaluacion'
+import EvaluacionProyectosFormulario15Linea65 from '@/Pages/Convocatorias/Proyectos/ProyectosFormulario15Linea65/Evaluacion'
+import EvaluacionProyectosFormulario16Linea65 from '@/Pages/Convocatorias/Proyectos/ProyectosFormulario16Linea65/Evaluacion'
+import EvaluacionProyectosFormulario17Linea69 from '@/Pages/Convocatorias/Proyectos/ProyectosFormulario17Linea69/Evaluacion'
 
 const useStyles = makeStyles({
     root: {
@@ -236,8 +242,8 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                             <>
                                 {evaluacion.length > 0 ? (
                                     <>
-                                        {evaluacion[0]?.tipo_formulario_convocatoria_id == 8 ? (
-                                            <EvaluacionProyectosFormulario8Linea66
+                                        {evaluacion[0]?.tipo_formulario_convocatoria_id == 1 ? (
+                                            <EvaluacionProyectosFormulario1Linea65
                                                 convocatoria={convocatoria}
                                                 allowed={evaluacion[0]?.allowed}
                                                 evaluacion={evaluacion}
@@ -245,8 +251,8 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                                                 setDialogEvaluacionStatus={setDialogEvaluacionStatus}
                                             />
                                         ) : null}
-                                        {evaluacion[0]?.tipo_formulario_convocatoria_id == 6 ? (
-                                            <EvaluacionProyectosFormulario6Linea82
+                                        {evaluacion[0]?.tipo_formulario_convocatoria_id == 3 ? (
+                                            <EvaluacionProyectosFormulario3Linea61
                                                 convocatoria={convocatoria}
                                                 allowed={evaluacion[0]?.allowed}
                                                 evaluacion={evaluacion}
@@ -272,8 +278,8 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                                                 setDialogEvaluacionStatus={setDialogEvaluacionStatus}
                                             />
                                         ) : null}
-                                        {evaluacion[0]?.tipo_formulario_convocatoria_id == 1 ? (
-                                            <EvaluacionProyectosFormulario1Linea65
+                                        {evaluacion[0]?.tipo_formulario_convocatoria_id == 6 ? (
+                                            <EvaluacionProyectosFormulario6Linea82
                                                 convocatoria={convocatoria}
                                                 allowed={evaluacion[0]?.allowed}
                                                 evaluacion={evaluacion}
@@ -290,6 +296,15 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                                                 setDialogEvaluacionStatus={setDialogEvaluacionStatus}
                                             />
                                         ) : null}
+                                        {evaluacion[0]?.tipo_formulario_convocatoria_id == 8 ? (
+                                            <EvaluacionProyectosFormulario8Linea66
+                                                convocatoria={convocatoria}
+                                                allowed={evaluacion[0]?.allowed}
+                                                evaluacion={evaluacion}
+                                                proyecto={proyecto}
+                                                setDialogEvaluacionStatus={setDialogEvaluacionStatus}
+                                            />
+                                        ) : null}
                                         {evaluacion[0]?.tipo_formulario_convocatoria_id == 9 ? (
                                             <EvaluacionProyectosFormulario9Linea23
                                                 convocatoria={convocatoria}
@@ -299,9 +314,53 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                                                 setDialogEvaluacionStatus={setDialogEvaluacionStatus}
                                             />
                                         ) : null}
-
+                                        {evaluacion[0]?.tipo_formulario_convocatoria_id == 10 ? (
+                                            <EvaluacionProyectosFormulario10Linea69
+                                                convocatoria={convocatoria}
+                                                allowed={evaluacion[0]?.allowed}
+                                                evaluacion={evaluacion}
+                                                proyecto={proyecto}
+                                                setDialogEvaluacionStatus={setDialogEvaluacionStatus}
+                                            />
+                                        ) : null}
                                         {evaluacion[0]?.tipo_formulario_convocatoria_id == 12 ? (
                                             <EvaluacionProyectosFormulario12Linea68
+                                                convocatoria={convocatoria}
+                                                allowed={evaluacion[0]?.allowed}
+                                                evaluacion={evaluacion}
+                                                proyecto={proyecto}
+                                                setDialogEvaluacionStatus={setDialogEvaluacionStatus}
+                                            />
+                                        ) : null}
+                                        {evaluacion[0]?.tipo_formulario_convocatoria_id == 13 ? (
+                                            <EvaluacionProyectosFormulario13Linea65
+                                                convocatoria={convocatoria}
+                                                allowed={evaluacion[0]?.allowed}
+                                                evaluacion={evaluacion}
+                                                proyecto={proyecto}
+                                                setDialogEvaluacionStatus={setDialogEvaluacionStatus}
+                                            />
+                                        ) : null}
+                                        {evaluacion[0]?.tipo_formulario_convocatoria_id == 15 ? (
+                                            <EvaluacionProyectosFormulario15Linea65
+                                                convocatoria={convocatoria}
+                                                allowed={evaluacion[0]?.allowed}
+                                                evaluacion={evaluacion}
+                                                proyecto={proyecto}
+                                                setDialogEvaluacionStatus={setDialogEvaluacionStatus}
+                                            />
+                                        ) : null}
+                                        {evaluacion[0]?.tipo_formulario_convocatoria_id == 16 ? (
+                                            <EvaluacionProyectosFormulario16Linea65
+                                                convocatoria={convocatoria}
+                                                allowed={evaluacion[0]?.allowed}
+                                                evaluacion={evaluacion}
+                                                proyecto={proyecto}
+                                                setDialogEvaluacionStatus={setDialogEvaluacionStatus}
+                                            />
+                                        ) : null}
+                                        {evaluacion[0]?.tipo_formulario_convocatoria_id == 17 ? (
+                                            <EvaluacionProyectosFormulario17Linea69
                                                 convocatoria={convocatoria}
                                                 allowed={evaluacion[0]?.allowed}
                                                 evaluacion={evaluacion}
