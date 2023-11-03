@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Evaluacion;
 
 use App\Models\Evaluacion\Evaluacion;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\ConvocatoriaController;
 use App\Http\Requests\Evaluacion\EvaluacionRequest;
 use App\Models\Convocatoria;
 use App\Models\Proyecto;
@@ -75,41 +76,9 @@ class EvaluacionController extends Controller
 
         $proyecto->save();
 
-        // switch ($proyecto) {
+        $convocatoria = Convocatoria::find($proyecto->convocatoria_id);
 
-        //     case $proyecto->proyectoFormulario4Linea70()->exists():
-        //         $evaluacion->evaluacionProyectoFormulario4Linea70()->create([
-        //             'id' => $evaluacion->id
-        //         ]);
-        //         break;
-        //     case $proyecto->proyectoFormulario5Linea69()->exists():
-        //         $evaluacion->evaluacionProyectoFormulario5Linea69()->create([
-        //             'id' => $evaluacion->id
-        //         ]);
-        //         break;
-        //     case $proyecto->proyectoFormulario6Linea82()->exists():
-        //         $evaluacion->evaluacionProyectoFormulario6Linea82()->create([
-        //             'id' => $evaluacion->id
-        //         ]);
-        //         break;
-        //     case $proyecto->proyectoFormulario8Linea66()->exists():
-        //         $evaluacion->evaluacionProyectoFormulario8Linea66()->create([
-        //             'id' => $evaluacion->id
-        //         ]);
-        //         break;
-        //     case $proyecto->proyectoFormulario12Linea68()->exists():
-        //         $evaluacion->evaluacionProyectoFormulario12Linea68()->create([
-        //             'id' => $evaluacion->id
-        //         ]);
-        //         break;
-        //     case $proyecto->proyectoFormulario1Linea65()->exists():
-        //         $evaluacion->evaluacionProyectoFormulario1Linea65()->create([
-        //             'id' => $evaluacion->id
-        //         ]);
-        //         break;
-        //     default:
-        //         break;
-        // }
+        ConvocatoriaController::refreshItemsAEvaluar($convocatoria, $proyecto->tipo_formulario_convocatoria_id);
 
         return back()->with('success', 'El recurso se ha creado correctamente.');
     }

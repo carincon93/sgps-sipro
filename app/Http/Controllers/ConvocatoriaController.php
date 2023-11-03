@@ -756,7 +756,7 @@ class ConvocatoriaController extends Controller
         return back()->with('success', 'El recurso se ha eliminado correctamente.');
     }
 
-    public function refreshItemsAEvaluar(Convocatoria $convocatoria, $tipo_formulario_convocatoria_id)
+    public static function refreshItemsAEvaluar(Convocatoria $convocatoria, $tipo_formulario_convocatoria_id)
     {
         switch ($tipo_formulario_convocatoria_id) {
             case 1:
@@ -822,7 +822,7 @@ class ConvocatoriaController extends Controller
         return back()->with('success', 'Se han actualizado los ítems de cada una de las evaluaciones habilitadas.');
     }
 
-    function createEvaluacionProyectoRecords($convocatoria, $tipo_formulario_convocatoria_id, $db_items_evaluacion, $model_class_name)
+    public static function createEvaluacionProyectoRecords($convocatoria, $tipo_formulario_convocatoria_id, $db_items_evaluacion, $model_class_name)
     {
         if ($db_items_evaluacion->isNotEmpty()) {
             // Get the evaluation IDs based on the convocatoria and tipo_formulario_convocatoria_id
