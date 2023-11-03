@@ -242,43 +242,53 @@ class ProyectoFormulario3Linea61Controller extends Controller
         return back()->with('success', 'El recurso se ha eliminado correctamente.');
     }
 
-    public function updateEvaluacion(EvaluacionProyectoFormulario3Linea61Request $request, Convocatoria $convocatoria, EvaluacionProyectoFormulario3Linea61 $evaluacion_proyecto_formulario_3_linea_61)
+    public function updateEvaluacion(EvaluacionProyectoFormulario3Linea61Request $request, Convocatoria $convocatoria)
     {
-        $this->authorize('modificar-evaluacion-autor', $evaluacion_proyecto_formulario_3_linea_61->evaluacion);
+        $evaluacion = Evaluacion::find($request->evaluacion_id);
 
-        $evaluacion_proyecto_formulario_3_linea_61->evaluacion()->update([
-            'iniciado' => true,
+        $this->authorize('modificar-evaluacion-autor', $evaluacion);
+
+        $items_evaluacion_filtrados = [];
+        $temp_array = [];
+
+        foreach ($request->all() as $key => $value) {
+            // Check if the key starts with "form_"
+            if (strpos($key, "form_") === 0) {
+                $temp_array[$key] = $value;
+
+                // When tempArray has 4 items, add it to the resultArray and reset tempArray
+                if (count($temp_array) === 5) {
+                    $items_evaluacion_filtrados[] = $temp_array;
+                    $temp_array = [];
+                }
+            }
+        }
+
+        // If there are any remaining items in tempArray, add it to the resultArray
+        if (!empty($temp_array)) {
+            $items_evaluacion_filtrados[] = $temp_array;
+        }
+
+        $evaluacion->update([
+            'iniciado'                  => true,
             'clausula_confidencialidad' => $request->clausula_confidencialidad
-
         ]);
 
-        $evaluacion_proyecto_formulario_3_linea_61->titulo_puntaje                                      = $request->titulo_puntaje;
-        $evaluacion_proyecto_formulario_3_linea_61->titulo_comentario                                   = $request->titulo_requiere_comentario == false ? $request->titulo_comentario : null;
-        $evaluacion_proyecto_formulario_3_linea_61->video_puntaje                                       = $request->video_puntaje;
-        $evaluacion_proyecto_formulario_3_linea_61->video_comentario                                    = $request->video_requiere_comentario == false ? $request->video_comentario : null;
+        foreach ($items_evaluacion_filtrados as $item) {
+            $pregunta_id = last($item);
 
-        $evaluacion_proyecto_formulario_3_linea_61->antecedentes_puntaje                                = $request->antecedentes_puntaje;
-        $evaluacion_proyecto_formulario_3_linea_61->antecedentes_comentario                             = $request->antecedentes_requiere_comentario == false ? $request->antecedentes_comentario : null;
-
-        $evaluacion_proyecto_formulario_3_linea_61->resumen_puntaje                                     = $request->resumen_puntaje;
-        $evaluacion_proyecto_formulario_3_linea_61->resumen_comentario                                  = $request->resumen_requiere_comentario == false ? $request->resumen_comentario : null;
-        $evaluacion_proyecto_formulario_3_linea_61->ortografia_puntaje                                  = $request->ortografia_puntaje;
-        $evaluacion_proyecto_formulario_3_linea_61->ortografia_comentario                               = $request->ortografia_requiere_comentario == false ? $request->ortografia_comentario : null;
-        $evaluacion_proyecto_formulario_3_linea_61->redaccion_puntaje                                   = $request->redaccion_puntaje;
-        $evaluacion_proyecto_formulario_3_linea_61->redaccion_comentario                                = $request->redaccion_requiere_comentario == false ? $request->redaccion_comentario : null;
-        $evaluacion_proyecto_formulario_3_linea_61->normas_apa_puntaje                                  = $request->normas_apa_puntaje;
-        $evaluacion_proyecto_formulario_3_linea_61->normas_apa_comentario                               = $request->normas_apa_requiere_comentario == false ? $request->normas_apa_comentario : null;
-
-        $evaluacion_proyecto_formulario_3_linea_61->justificacion_economia_naranja_comentario           = $request->justificacion_economia_naranja_requiere_comentario == false ? $request->justificacion_economia_naranja_comentario : null;
-        $evaluacion_proyecto_formulario_3_linea_61->justificacion_industria_4_comentario                = $request->justificacion_industria_4_requiere_comentario == false ? $request->justificacion_industria_4_comentario : null;
-        $evaluacion_proyecto_formulario_3_linea_61->bibliografia_comentario                             = $request->bibliografia_requiere_comentario == false ? $request->bibliografia_comentario : null;
-        $evaluacion_proyecto_formulario_3_linea_61->fechas_comentario                                   = $request->fechas_requiere_comentario == false ? $request->fechas_comentario : null;
-        $evaluacion_proyecto_formulario_3_linea_61->justificacion_politica_discapacidad_comentario      = $request->justificacion_politica_discapacidad_requiere_comentario == false ? $request->justificacion_politica_discapacidad_comentario : null;
-        $evaluacion_proyecto_formulario_3_linea_61->actividad_economica_comentario                      = $request->actividad_economica_requiere_comentario == false ? $request->actividad_economica_comentario : null;
-        $evaluacion_proyecto_formulario_3_linea_61->area_conocimiento_comentario                        = $request->area_conocimiento_requiere_comentario == false ? $request->area_conocimiento_comentario : null;
-        $evaluacion_proyecto_formulario_3_linea_61->tematica_estrategica_comentario                     = $request->tematica_estrategica_requiere_comentario == false ? $request->tematica_estrategica_comentario : null;
-
-        $evaluacion_proyecto_formulario_3_linea_61->save();
+            EvaluacionProyectoFormulario3Linea61::updateOrCreate(
+                [
+                    'id'            => $item['form_evaluacion_id_pregunta_id_' . $pregunta_id],
+                    'pregunta_id'   => $pregunta_id,
+                    'evaluacion_id' => $request->evaluacion_id
+                ],
+                [
+                    'comentario'    => $item['form_comentario_pregunta_id_' . $pregunta_id],
+                    'puntaje'       => $item['form_puntaje_pregunta_id_' . $pregunta_id],
+                ],
+            );
+        }
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
