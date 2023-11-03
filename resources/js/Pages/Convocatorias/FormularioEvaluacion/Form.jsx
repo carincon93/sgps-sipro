@@ -61,6 +61,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, tipo_formulario_conv
                                         label="Puntaje máximo"
                                         type="number"
                                         inputProps={{
+                                            step: 0.1,
                                             min: 0,
                                         }}
                                         value={form.data.puntaje_maximo}

@@ -115,12 +115,14 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                 </div>
                 {evaluacion.map((evaluacion, i) => (
                     <div key={i}>
-                        <Divider className="!my-20 font-black uppercase">{evaluacion['campo_pregunta_id_' + evaluacion.pregunta_id]}</Divider>
+                        <Divider className="!my-20" />
+
+                        <h1 className="font-black uppercase my-4">{evaluacion['campo_pregunta_id_' + evaluacion.pregunta_id]}</h1>
 
                         {evaluacion['puntaje_maximo_pregunta_id_' + evaluacion.pregunta_id] && (
                             <>
                                 <Label
-                                    className="!mb-10"
+                                    className="!mb-6"
                                     labelFor={evaluacion['campo_pregunta_id_' + evaluacion.pregunta_id]}
                                     value={`Puntaje (Máximo ${evaluacion['puntaje_maximo_pregunta_id_' + evaluacion.pregunta_id]})`}
                                 />
