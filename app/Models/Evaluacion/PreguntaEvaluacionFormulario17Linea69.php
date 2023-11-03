@@ -5,7 +5,7 @@ namespace App\Models\Evaluacion;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PreguntaEvaluacionFormulario1Linea65 extends Model
+class PreguntaEvaluacionFormulario17Linea69 extends Model
 {
     use HasFactory;
 
@@ -14,7 +14,7 @@ class PreguntaEvaluacionFormulario1Linea65 extends Model
      *
      * @var string
      */
-    protected $table = 'preguntas_evaluacion_formulario_1_linea_65';
+    protected $table = 'preguntas_evaluacion_formulario_17_linea_69';
 
     /**
      * The attributes that are mass assignable.
@@ -47,13 +47,13 @@ class PreguntaEvaluacionFormulario1Linea65 extends Model
     ];
 
     /**
-     * Relationship with EvaluacionProyectoFormulario1Linea65
+     * Relationship with EvaluacionProyectoFormulario17Linea69
      *
      * @return object
      */
-    public function evaluacionesProyectoFormulario1Linea65()
+    public function evaluacionesProyectoFormulario17Linea69()
     {
-        return $this->hasMany(EvaluacionProyectoFormulario1Linea65::class);
+        return $this->hasMany(EvaluacionProyectoFormulario17Linea69::class);
     }
 
     public function getConvocatoriasIdAttribute($value)

@@ -51,7 +51,7 @@ class PreguntaEvaluacionFormulario5Linea69 extends Model
      *
      * @return object
      */
-    public function evaluacionesProyectoFormulario6Linea82()
+    public function evaluacionesProyectoFormulario5Linea69()
     {
         return $this->hasMany(EvaluacionProyectoFormulario5Linea69::class);
     }
