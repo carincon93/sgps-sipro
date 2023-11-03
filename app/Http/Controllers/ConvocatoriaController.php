@@ -511,46 +511,46 @@ class ConvocatoriaController extends Controller
 
         switch ($tipo_formulario_convocatoria_id) {
             case 1:
-                $db_items_evaluacion = PreguntaEvaluacionFormulario1Linea65::whereJsonContains('convocatorias_id', $convocatoria->id)->get();
+                $db_items_evaluacion = PreguntaEvaluacionFormulario1Linea65::whereJsonContains('convocatorias_id', $convocatoria->id)->orderBy('id', 'ASC')->get();
                 break;
             case 3:
-                $db_items_evaluacion = PreguntaEvaluacionFormulario3Linea61::whereJsonContains('convocatorias_id', $convocatoria->id)->get();
+                $db_items_evaluacion = PreguntaEvaluacionFormulario3Linea61::whereJsonContains('convocatorias_id', $convocatoria->id)->orderBy('id', 'ASC')->get();
                 break;
             case 4:
-                $db_items_evaluacion = PreguntaEvaluacionFormulario4Linea70::whereJsonContains('convocatorias_id', $convocatoria->id)->get();
+                $db_items_evaluacion = PreguntaEvaluacionFormulario4Linea70::whereJsonContains('convocatorias_id', $convocatoria->id)->orderBy('id', 'ASC')->get();
                 break;
             case 5:
-                $db_items_evaluacion = PreguntaEvaluacionFormulario5Linea69::whereJsonContains('convocatorias_id', $convocatoria->id)->get();
+                $db_items_evaluacion = PreguntaEvaluacionFormulario5Linea69::whereJsonContains('convocatorias_id', $convocatoria->id)->orderBy('id', 'ASC')->get();
                 break;
             case 6:
-                $db_items_evaluacion = PreguntaEvaluacionFormulario6Linea82::whereJsonContains('convocatorias_id', $convocatoria->id)->get();
+                $db_items_evaluacion = PreguntaEvaluacionFormulario6Linea82::whereJsonContains('convocatorias_id', $convocatoria->id)->orderBy('id', 'ASC')->get();
                 break;
             case 7:
-                $db_items_evaluacion = PreguntaEvaluacionFormulario7Linea23::whereJsonContains('convocatorias_id', $convocatoria->id)->get();
+                $db_items_evaluacion = PreguntaEvaluacionFormulario7Linea23::whereJsonContains('convocatorias_id', $convocatoria->id)->orderBy('id', 'ASC')->get();
                 break;
             case 8:
-                $db_items_evaluacion = PreguntaEvaluacionFormulario8Linea66::whereJsonContains('convocatorias_id', $convocatoria->id)->get();
+                $db_items_evaluacion = PreguntaEvaluacionFormulario8Linea66::whereJsonContains('convocatorias_id', $convocatoria->id)->orderBy('id', 'ASC')->get();
                 break;
             case 9:
-                $db_items_evaluacion = PreguntaEvaluacionFormulario9Linea23::whereJsonContains('convocatorias_id', $convocatoria->id)->get();
+                $db_items_evaluacion = PreguntaEvaluacionFormulario9Linea23::whereJsonContains('convocatorias_id', $convocatoria->id)->orderBy('id', 'ASC')->get();
                 break;
             case 10:
-                $db_items_evaluacion = PreguntaEvaluacionFormulario10Linea69::whereJsonContains('convocatorias_id', $convocatoria->id)->get();
+                $db_items_evaluacion = PreguntaEvaluacionFormulario10Linea69::whereJsonContains('convocatorias_id', $convocatoria->id)->orderBy('id', 'ASC')->get();
                 break;
             case 12:
-                $db_items_evaluacion = PreguntaEvaluacionFormulario12Linea68::whereJsonContains('convocatorias_id', $convocatoria->id)->get();
+                $db_items_evaluacion = PreguntaEvaluacionFormulario12Linea68::whereJsonContains('convocatorias_id', $convocatoria->id)->orderBy('id', 'ASC')->get();
                 break;
             case 13:
-                $db_items_evaluacion = PreguntaEvaluacionFormulario13Linea65::whereJsonContains('convocatorias_id', $convocatoria->id)->get();
+                $db_items_evaluacion = PreguntaEvaluacionFormulario13Linea65::whereJsonContains('convocatorias_id', $convocatoria->id)->orderBy('id', 'ASC')->get();
                 break;
             case 15:
-                $db_items_evaluacion = PreguntaEvaluacionFormulario15Linea65::whereJsonContains('convocatorias_id', $convocatoria->id)->get();
+                $db_items_evaluacion = PreguntaEvaluacionFormulario15Linea65::whereJsonContains('convocatorias_id', $convocatoria->id)->orderBy('id', 'ASC')->get();
                 break;
             case 16:
-                $db_items_evaluacion = PreguntaEvaluacionFormulario16Linea65::whereJsonContains('convocatorias_id', $convocatoria->id)->get();
+                $db_items_evaluacion = PreguntaEvaluacionFormulario16Linea65::whereJsonContains('convocatorias_id', $convocatoria->id)->orderBy('id', 'ASC')->get();
                 break;
             case 17:
-                $db_items_evaluacion = PreguntaEvaluacionFormulario17Linea69::whereJsonContains('convocatorias_id', $convocatoria->id)->get();
+                $db_items_evaluacion = PreguntaEvaluacionFormulario17Linea69::whereJsonContains('convocatorias_id', $convocatoria->id)->orderBy('id', 'ASC')->get();
                 break;
             default:
                 break;
