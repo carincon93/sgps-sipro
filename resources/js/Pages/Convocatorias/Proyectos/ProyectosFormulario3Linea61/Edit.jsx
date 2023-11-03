@@ -13,7 +13,7 @@ import { checkRole } from '@/Utils'
 import { Chip, Grid, TableCell, TableRow } from '@mui/material'
 
 import { useState } from 'react'
-import { Head } from '@inertiajs/react'
+import { Head, usePage } from '@inertiajs/react'
 
 const Edit = ({
     auth,
@@ -41,6 +41,9 @@ const Edit = ({
 
     const [evaluacion_index, setEvaluacionIndex] = useState(0)
     const [dialog_status, setDialogStatus] = useState(true)
+
+    const { props: page_props } = usePage()
+    const evaluacion_id = page_props.ziggy.query.evaluacion_id
 
     const comentarios_evaluaciones =
         proyecto_formulario_3_linea_61?.proyecto?.evaluaciones?.length > 0
@@ -132,27 +135,49 @@ const Edit = ({
                             SENNOVA | <SenaLogo className="w-10" />
                         </span>
                         <h1 className="text-center text-3xl mt-6 mb-10">PROYECTO {proyecto_formulario_3_linea_61?.proyecto.codigo}</h1>
+                        {!evaluacion_id ? (
+                            <>
+                                <figure>
+                                    <img src="/images/proyecto-sgps.png" alt="" className="mx-auto w-44" />
+                                </figure>
 
-                        <figure>
-                            <img src="/images/proyecto-sgps.png" alt="" className="mx-auto w-44" />
-                        </figure>
+                                {!proyecto_formulario_3_linea_61.bibliografia && (
+                                    <>
+                                        <p className="mt-10">
+                                            Por favor, termine de diligenciar la información del formulario <strong>1. Generalidades</strong>. Luego continúe con el resto del flujo de formulación.
+                                        </p>
 
-                        <p className="mt-10">
-                            Por favor, termine de diligenciar la información del formulario <strong>1. Generalidades</strong>. Luego continúe con el resto del flujo de formulación.
-                        </p>
+                                        <figure className="mt-4">
+                                            <img src="/images/flujo-formulacion.png" alt="" className="mx-auto rounded" />
+                                        </figure>
+                                    </>
+                                )}
 
-                        <figure className="mt-4">
-                            <img src="/images/flujo-formulacion.png" alt="" className="mx-auto rounded" />
-                        </figure>
+                                <p className="mt-10">No olvide darle un vistazo al instructivo de formulación.</p>
 
-                        <p className="mt-10">No olvide darle un vistazo al instructivo de formulación.</p>
+                                <a
+                                    href="/storage/documentos-descarga/Instructivo_formulacion_sgps_sipro.pdf"
+                                    className="bg-white text-black text-center p-2 rounded block mt-6 hover:opacity-90"
+                                    target="_blank">
+                                    Descargar el instructivo de formulación
+                                </a>
+                            </>
+                        ) : (
+                            <>
+                                <p className="mt-10"></p>
 
-                        <a
-                            href="/storage/documentos-descarga/Instructivo_formulacion_sgps_sipro.pdf"
-                            className="bg-white text-black text-center p-2 rounded block mt-6 hover:opacity-90"
-                            target="_blank">
-                            Descargar el instructivo de formulación
-                        </a>
+                                <figure className="mt-4">
+                                    <img src="/images/evaluadores.png" alt="" className="mx-auto rounded" width="250" />
+                                </figure>
+
+                                <a
+                                    href="/storage/documentos-descarga/Instructivo_evaluacion_sgps_sipro.pdf"
+                                    className="bg-white text-black text-center p-2 rounded block mt-6 hover:opacity-90"
+                                    target="_blank">
+                                    Descargar el instructivo de evaluación
+                                </a>
+                            </>
+                        )}
                     </div>
                 }
                 dialogActions={

@@ -11,13 +11,16 @@ import Form from './Form'
 import { checkRole } from '@/Utils'
 import { Chip, Grid, TableCell, TableRow } from '@mui/material'
 import { useState } from 'react'
-import { Head } from '@inertiajs/react'
+import { Head, usePage } from '@inertiajs/react'
 
 const Edit = ({ auth, convocatoria, proyecto_formulario_10_linea_69, evaluacion, hubs_innovacion, centros_formacion, roles_sennova }) => {
     const auth_user = auth.user
 
     const [evaluacion_index, setEvaluacionIndex] = useState(0)
     const [dialog_status, setDialogStatus] = useState(true)
+
+    const { props: page_props } = usePage()
+    const evaluacion_id = page_props.ziggy.query.evaluacion_id
 
     const comentarios_evaluaciones =
         proyecto_formulario_10_linea_69?.proyecto?.evaluaciones?.length > 0
@@ -98,26 +101,49 @@ const Edit = ({ auth, convocatoria, proyecto_formulario_10_linea_69, evaluacion,
                         </span>
                         <h1 className="text-center text-3xl mt-6 mb-10">PROYECTO {proyecto_formulario_10_linea_69?.proyecto.codigo}</h1>
 
-                        <figure>
-                            <img src="/images/proyecto-sgps.png" alt="" className="mx-auto w-44" />
-                        </figure>
+                        {!evaluacion_id ? (
+                            <>
+                                <figure>
+                                    <img src="/images/proyecto-sgps.png" alt="" className="mx-auto w-44" />
+                                </figure>
 
-                        <p className="mt-10">
-                            Por favor, termine de diligenciar la información del formulario <strong>1. Generalidades</strong>. Luego continúe con el resto del flujo de formulación.
-                        </p>
+                                {!proyecto_formulario_10_linea_69.bibliografia && (
+                                    <>
+                                        <p className="mt-10">
+                                            Por favor, termine de diligenciar la información del formulario <strong>1. Generalidades</strong>. Luego continúe con el resto del flujo de formulación.
+                                        </p>
 
-                        <figure className="mt-4">
-                            <img src="/images/flujo-formulacion.png" alt="" className="mx-auto rounded" />
-                        </figure>
+                                        <figure className="mt-4">
+                                            <img src="/images/flujo-formulacion.png" alt="" className="mx-auto rounded" />
+                                        </figure>
+                                    </>
+                                )}
 
-                        <p className="mt-10">No olvide darle un vistazo al instructivo de formulación.</p>
+                                <p className="mt-10">No olvide darle un vistazo al instructivo de formulación.</p>
 
-                        <a
-                            href="/storage/documentos-descarga/Instructivo_formulacion_sgps_sipro.pdf"
-                            className="bg-white text-black text-center p-2 rounded block mt-6 hover:opacity-90"
-                            target="_blank">
-                            Descargar el instructivo de formulación
-                        </a>
+                                <a
+                                    href="/storage/documentos-descarga/Instructivo_formulacion_sgps_sipro.pdf"
+                                    className="bg-white text-black text-center p-2 rounded block mt-6 hover:opacity-90"
+                                    target="_blank">
+                                    Descargar el instructivo de formulación
+                                </a>
+                            </>
+                        ) : (
+                            <>
+                                <p className="mt-10"></p>
+
+                                <figure className="mt-4">
+                                    <img src="/images/evaluadores.png" alt="" className="mx-auto rounded" width="250" />
+                                </figure>
+
+                                <a
+                                    href="/storage/documentos-descarga/Instructivo_evaluacion_sgps_sipro.pdf"
+                                    className="bg-white text-black text-center p-2 rounded block mt-6 hover:opacity-90"
+                                    target="_blank">
+                                    Descargar el instructivo de evaluación
+                                </a>
+                            </>
+                        )}
                     </div>
                 }
                 dialogActions={
