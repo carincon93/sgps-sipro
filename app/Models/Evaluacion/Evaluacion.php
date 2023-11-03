@@ -230,7 +230,6 @@ class Evaluacion extends Model
                 break;
             case 8:
                 $items_db_evaluacion = EvaluacionProyectoFormulario8Linea66::select('evaluaciones_proyectos_formulario_8_linea_66.*')->with('preguntaEvaluacionFormulario8Linea66')->join('preguntas_evaluacion_formulario_8_linea_66', 'evaluaciones_proyectos_formulario_8_linea_66.pregunta_id',  'preguntas_evaluacion_formulario_8_linea_66.id')->where('evaluacion_id', $this->id)->whereJsonContains('preguntas_evaluacion_formulario_8_linea_66.convocatorias_id', $convocatoria_id)->get();
-                dd($items_db_evaluacion);
                 $relationship_name = 'preguntaEvaluacionFormulario8Linea66';
                 break;
             case 9:
