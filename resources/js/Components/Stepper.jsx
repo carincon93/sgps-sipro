@@ -16,6 +16,7 @@ import { makeStyles } from '@mui/styles'
 import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
 import Check from '@mui/icons-material/Check'
+import ChecklistIcon from '@mui/icons-material/Checklist'
 import GroupAddIcon from '@mui/icons-material/GroupAdd'
 import SettingsIcon from '@mui/icons-material/Settings'
 import SouthOutlinedIcon from '@mui/icons-material/SouthOutlined'
@@ -233,13 +234,23 @@ export default function StepperMui({ auth_user, convocatoria, proyecto, evaluaci
         <>
             {evaluacion && (
                 <>
-                    <ButtonMui className="!fixed bottom-32 left-6 z-[1200]" onClick={() => setDialogEvaluacionStatus(true)} primary={true}>
+                    <ButtonMui className="!fixed bottom-20 z-[1200] !bg-red-500" onClick={() => setDialogEvaluacionStatus(true)} primary={true}>
+                        <ChecklistIcon className="mr-2" />
                         Evaluar
                     </ButtonMui>
                     <DialogMui
                         fullWidth={true}
                         maxWidth="lg"
                         open={dialog_evaluacion_status}
+                        dialogTitle={
+                            <AlertMui>
+                                <figure className="mt-4">
+                                    <img src="/images/evaluadores.png" alt="" className="mx-auto rounded" width="120" />
+                                </figure>
+
+                                <h1 className="text-1xl text-center my-4">Código: #{evaluacion[0]?.evaluacion_id}</h1>
+                            </AlertMui>
+                        }
                         dialogContent={
                             <>
                                 {evaluacion.length > 0 ? (
@@ -392,7 +403,7 @@ export default function StepperMui({ auth_user, convocatoria, proyecto, evaluaci
                         }
                         dialogActions={
                             <>
-                                {evaluacion.length > 0 && evaluacion[0]?.allowed.to_update && !evaluacion[0]?.finalizado ? (
+                                {(evaluacion.length > 0 && evaluacion[0]?.allowed.to_update && !evaluacion[0]?.finalizado) || checkRole(auth_user, [1, 5, 17, 18, 19, 20]) ? (
                                     <ButtonMui type="submit" form="form-evaluacion" className="!mr-8">
                                         Guardar y cerrar
                                     </ButtonMui>

@@ -210,7 +210,7 @@ const ResumenFinal = ({
                                                     },
                                                 )
                                             }
-                                            label="Proyecto finalizado"
+                                            label="Finalizar proyecto"
                                         />
                                     </AlertMui>
                                 )}
@@ -255,7 +255,7 @@ const ResumenFinal = ({
                                             },
                                         )
                                     }
-                                    label="Evaluación finalizada"
+                                    label="Finalizar evaluación"
                                 />
                             </AlertMui>
                         )}
