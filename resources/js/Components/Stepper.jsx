@@ -250,7 +250,7 @@ export default function StepperMui({ auth_user, convocatoria, proyecto, evaluaci
 
                                 <h1 className="text-1xl text-center my-4">Código: #{evaluacion[0]?.evaluacion_id}</h1>
 
-                                {evaluacion[0]?.puntaje_total && (
+                                {evaluacion[0]?.puntaje_total > 0 && (
                                     <p className="text-center">
                                         <strong>Puntaje total:</strong> {evaluacion[0]?.puntaje_total}
                                     </p>
