@@ -166,6 +166,33 @@ export default function Reportes({ auth, centros_formacion, convocatorias }) {
                         </Grid>
                     </Grid>
                 )}
+
+                {checkRole(auth_user, [1, 5, 17, 18, 19]) && (
+                    <Grid item md={12} className="bg-white overflow-hidden !my-10 rounded-lg px-6 pb-12 shadow-md">
+                        <Grid container alignItems="center">
+                            <Grid item md={4}>
+                                <h1>Evaluaciones de convocatoria</h1>
+                            </Grid>
+                            <Grid item md={8}>
+                                <Autocomplete
+                                    id="convocatoria_id"
+                                    options={convocatorias}
+                                    selectedValue={form.data.convocatoria_id}
+                                    onChange={(event, newValue) => form.setData('convocatoria_id', newValue.value)}
+                                    error={form.errors.convocatoria_id}
+                                    label="Seleccione una convocatoria"
+                                    required
+                                />
+                                {form.data.convocatoria_id && (
+                                    <a target="_blank" href={route('reportes.evaluaciones', [form.data.convocatoria_id])} className="flex mt-10 items-center underline">
+                                        <FileTypeIcon fileType="xlsx" className="w-6 mr-4" />
+                                        Descargar reporte
+                                    </a>
+                                )}
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                )}
             </Grid>
         </AuthenticatedLayout>
     )

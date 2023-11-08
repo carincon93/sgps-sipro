@@ -89,23 +89,23 @@ class Evaluacion extends Model
     }
 
     /**
-     * Relationship with EvaluacionProyectoFormulario8Linea66
-     *
-     * @return object
-     */
-    public function evaluacionesProyectoFormulario8Linea66()
-    {
-        return $this->hasMany(EvaluacionProyectoFormulario8Linea66::class, 'id');
-    }
-
-    /**
      * Relationship with EvaluacionProyectoFormulario1Linea65
      *
      * @return object
      */
     public function evaluacionesProyectoFormulario1Linea65()
     {
-        return $this->hasMany(EvaluacionProyectoFormulario1Linea65::class, 'id');
+        return $this->hasMany(EvaluacionProyectoFormulario1Linea65::class);
+    }
+
+    /**
+     * Relationship with EvaluacionProyectoFormulario3Linea61
+     *
+     * @return object
+     */
+    public function evaluacionesProyectoFormulario3Linea61()
+    {
+        return $this->hasMany(EvaluacionProyectoFormulario3Linea61::class);
     }
 
     /**
@@ -115,7 +115,7 @@ class Evaluacion extends Model
      */
     public function evaluacionesProyectoFormulario4Linea70()
     {
-        return $this->hasMany(EvaluacionProyectoFormulario4Linea70::class, 'id');
+        return $this->hasMany(EvaluacionProyectoFormulario4Linea70::class);
     }
 
     /**
@@ -125,7 +125,7 @@ class Evaluacion extends Model
      */
     public function evaluacionesProyectoFormulario5Linea69()
     {
-        return $this->hasMany(EvaluacionProyectoFormulario5Linea69::class, 'id');
+        return $this->hasMany(EvaluacionProyectoFormulario5Linea69::class);
     }
 
     /**
@@ -135,7 +135,47 @@ class Evaluacion extends Model
      */
     public function evaluacionesProyectoFormulario6Linea82()
     {
-        return $this->hasMany(EvaluacionProyectoFormulario6Linea82::class, 'id');
+        return $this->hasMany(EvaluacionProyectoFormulario6Linea82::class);
+    }
+
+    /**
+     * Relationship with EvaluacionProyectoFormulario7Linea23
+     *
+     * @return object
+     */
+    public function evaluacionesProyectoFormulario7Linea23()
+    {
+        return $this->hasMany(EvaluacionProyectoFormulario7Linea23::class);
+    }
+
+    /**
+     * Relationship with EvaluacionProyectoFormulario8Linea66
+     *
+     * @return object
+     */
+    public function evaluacionesProyectoFormulario8Linea66()
+    {
+        return $this->hasMany(EvaluacionProyectoFormulario8Linea66::class);
+    }
+
+    /**
+     * Relationship with EvaluacionProyectoFormulario9Linea23
+     *
+     * @return object
+     */
+    public function evaluacionesProyectoFormulario9Linea23()
+    {
+        return $this->hasMany(EvaluacionProyectoFormulario9Linea23::class);
+    }
+
+    /**
+     * Relationship with EvaluacionProyectoFormulario10Linea69
+     *
+     * @return object
+     */
+    public function evaluacionesProyectoFormulario10Linea69()
+    {
+        return $this->hasMany(EvaluacionProyectoFormulario10Linea69::class);
     }
 
     /**
@@ -145,7 +185,47 @@ class Evaluacion extends Model
      */
     public function evaluacionesProyectoFormulario12Linea68()
     {
-        return $this->hasMany(EvaluacionProyectoFormulario12Linea68::class, 'id');
+        return $this->hasMany(EvaluacionProyectoFormulario12Linea68::class);
+    }
+
+    /**
+     * Relationship with EvaluacionProyectoFormulario13Linea65
+     *
+     * @return object
+     */
+    public function evaluacionesProyectoFormulario13Linea65()
+    {
+        return $this->hasMany(EvaluacionProyectoFormulario13Linea65::class);
+    }
+
+    /**
+     * Relationship with EvaluacionProyectoFormulario15Linea65
+     *
+     * @return object
+     */
+    public function evaluacionesProyectoFormulario15Linea65()
+    {
+        return $this->hasMany(EvaluacionProyectoFormulario15Linea65::class);
+    }
+
+    /**
+     * Relationship with EvaluacionProyectoFormulario16Linea65
+     *
+     * @return object
+     */
+    public function evaluacionesProyectoFormulario16Linea65()
+    {
+        return $this->hasMany(EvaluacionProyectoFormulario16Linea65::class);
+    }
+
+    /**
+     * Relationship with EvaluacionProyectoFormulario17Linea69
+     *
+     * @return object
+     */
+    public function evaluacionesProyectoFormulario17Linea69()
+    {
+        return $this->hasMany(EvaluacionProyectoFormulario17Linea69::class);
     }
 
     /**

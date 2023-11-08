@@ -3,17 +3,16 @@
 namespace App\Exports;
 
 use App\Models\Convocatoria;
-use App\Models\Evaluacion\Evaluacion;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
-use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
-use Maatwebsite\Excel\Concerns\WithColumnFormatting;
-use Maatwebsite\Excel\Concerns\WithProperties;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithTitle;
 
-class EvaluacionesExport implements FromCollection, WithHeadings, WithMapping, WithStyles, WithProperties, WithColumnFormatting
+class EvaluacionesExport implements FromCollection, WithHeadings, WithMapping, WithStyles, ShouldAutoSize, WithTitle
 {
     protected $convocatoria;
 
@@ -27,7 +26,7 @@ class EvaluacionesExport implements FromCollection, WithHeadings, WithMapping, W
      */
     public function collection()
     {
-        return Evaluacion::select('evaluaciones.*')->join('proyectos', 'evaluaciones.proyecto_id', 'proyectos.id')->where('proyectos.convocatoria_id', $this->convocatoria->id)->whereNotIn('proyectos.id', [1052, 1113])->get();
+        return $this->convocatoria->evaluaciones()->orderBy('evaluaciones.proyecto_id')->get();
     }
 
     /**
@@ -35,88 +34,138 @@ class EvaluacionesExport implements FromCollection, WithHeadings, WithMapping, W
      */
     public function map($evaluacion): array
     {
-        return [
+        $informacion_celdas = [
+            $this->convocatoria->descripcion . ' ' . $this->convocatoria->year,
+            $evaluacion->proyecto->tipoFormularioConvocatoria->nombre,
+            $evaluacion->proyecto->codigo,
             $evaluacion->proyecto->centroFormacion->regional->nombre,
             $evaluacion->proyecto->centroFormacion->codigo,
             $evaluacion->proyecto->centroFormacion->nombre,
             $evaluacion->id,
-            $evaluacion->proyecto->codigo,
-            $evaluacion->proyecto->lineaProgramatica->codigo,
             $evaluacion->evaluador->nombre,
-            $evaluacion->evaluador->numero_documento,
             $evaluacion->evaluador->email,
-            $evaluacion->proyecto->proyectoLinea66()->exists() ? $evaluacion->proyecto->estadoEvaluacionIdi($evaluacion->getTotalEvaluacionAttribute(), $evaluacion->getTotalRecomendacionesAttribute(), null, $evaluacion->causal_rechazo_idi)['estado'] : ($evaluacion->proyecto->proyectoLinea65()->exists() ? $evaluacion->proyecto->estadoEvaluacionCulturaInnovacion($evaluacion->getTotalEvaluacionAttribute(), $evaluacion->getTotalRecomendacionesAttribute(), null)['estado'] : ($evaluacion->proyecto->proyectoLinea70()->exists() ? $evaluacion->proyecto->estado_evaluacion_ta['estado'] : ($evaluacion->proyecto->proyectoLinea69()->exists() ? $evaluacion->proyecto->estado_evaluacion_tp['estado'] : ($evaluacion->proyecto->proyectoLinea68()->exists() ? $evaluacion->proyecto->estadoEvaluacionServiciosTecnologicos($evaluacion->getTotalEvaluacionAttribute(), $evaluacion->getTotalRecomendacionesAttribute(), null)['estado'] : 'Sin información registrada')))),
-            $evaluacion->proyecto->proyectoLinea66()->exists() ? $evaluacion->getTotalEvaluacionAttribute() : ($evaluacion->proyecto->proyectoLinea65()->exists() ? $evaluacion->getTotalEvaluacionAttribute() : ($evaluacion->proyecto->proyectoLinea68()->exists() ? $evaluacion->getTotalEvaluacionAttribute() : 'Sin información registrada')),
-            $evaluacion->getTotalRecomendacionesAttribute(),
-            $evaluacion->evaluacionCausalesRechazo()->count() > 0 ? $evaluacion->evaluacionCausalesRechazo()->get()->map(function ($causalesRechazo) {
-                return  strtr(utf8_decode($causalesRechazo->causal_rechazo_formateado), utf8_decode('àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ'), 'aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY');
-            }) : 'Sin causal de rechazo',
-            $evaluacion->getVerificarEstadoEvaluacionAttribute(),
-            $evaluacion->habilitado ? 'Evaluación habilitada' : 'Evaluación deshabilitada',
-            $this->mapParticipantes($evaluacion->proyecto->participantes),
+            'N/A',
+            $evaluacion->habilitado ? 'SI' : 'NO',
+            $evaluacion->finalizado ? 'SI' : 'NO',
+            // $evaluacion->sum('puntaje'),
         ];
+
+        $this->setEstadosEvaluacionPorFormulario($evaluacion, $informacion_celdas);
+
+        return $informacion_celdas;
+    }
+
+    private function setEstadosEvaluacionPorFormulario($evaluacion, &$informacion_celdas)
+    {
+        if ($evaluacion->evaluacionesProyectoFormulario1Linea65()->exists()) {
+            $informacion_celdas[9] = $evaluacion->evaluacionesProyectoFormulario1Linea65->sum(function ($record) {
+                return (float) $record->puntaje;
+            });
+        }
+        if ($evaluacion->evaluacionesProyectoFormulario3Linea61()->exists()) {
+            $informacion_celdas[9] = $evaluacion->evaluacionesProyectoFormulario3Linea61->sum(function ($record) {
+                return (float) $record->puntaje;
+            });
+        }
+        if ($evaluacion->evaluacionesProyectoFormulario4Linea70()->exists()) {
+            $informacion_celdas[9] = $evaluacion->evaluacionesProyectoFormulario4Linea70->sum(function ($record) {
+                return (float) $record->puntaje;
+            });
+        }
+        if ($evaluacion->evaluacionesProyectoFormulario5Linea69()->exists()) {
+            $informacion_celdas[9] = $evaluacion->evaluacionesProyectoFormulario5Linea69->sum(function ($record) {
+                return (float) $record->puntaje;
+            });
+        }
+        if ($evaluacion->evaluacionesProyectoFormulario6Linea82()->exists()) {
+            $informacion_celdas[9] = $evaluacion->evaluacionesProyectoFormulario6Linea82->sum(function ($record) {
+                return (float) $record->puntaje;
+            });
+        }
+        if ($evaluacion->evaluacionesProyectoFormulario7Linea23()->exists()) {
+            $informacion_celdas[9] = $evaluacion->evaluacionesProyectoFormulario7Linea23->sum(function ($record) {
+                return (float) $record->puntaje;
+            });
+        }
+        if ($evaluacion->evaluacionesProyectoFormulario8Linea66()->exists()) {
+            $informacion_celdas[9] = $evaluacion->evaluacionesProyectoFormulario8Linea66->sum(function ($record) {
+                return (float) $record->puntaje;
+            });
+        }
+        if ($evaluacion->evaluacionesProyectoFormulario9Linea23()->exists()) {
+            $informacion_celdas[9] = $evaluacion->evaluacionesProyectoFormulario9Linea23->sum(function ($record) {
+                return (float) $record->puntaje;
+            });
+        }
+        if ($evaluacion->evaluacionesProyectoFormulario10Linea69()->exists()) {
+            $informacion_celdas[9] = $evaluacion->evaluacionesProyectoFormulario10Linea69->sum(function ($record) {
+                return (float) $record->puntaje;
+            });
+        }
+        if ($evaluacion->evaluacionesProyectoFormulario12Linea68()->exists()) {
+            $informacion_celdas[9] = $evaluacion->evaluacionesProyectoFormulario12Linea68->sum(function ($record) {
+                return (float) $record->puntaje;
+            });
+        }
+        if ($evaluacion->evaluacionesProyectoFormulario13Linea65()->exists()) {
+            $informacion_celdas[9] = $evaluacion->evaluacionesProyectoFormulario13Linea65->sum(function ($record) {
+                return (float) $record->puntaje;
+            });
+        }
+        if ($evaluacion->evaluacionesProyectoFormulario15Linea65()->exists()) {
+            $informacion_celdas[9] = $evaluacion->evaluacionesProyectoFormulario15Linea65->sum(function ($record) {
+                return (float) $record->puntaje;
+            });
+        }
+        if ($evaluacion->evaluacionesProyectoFormulario16Linea65()->exists()) {
+            $informacion_celdas[9] = $evaluacion->evaluacionesProyectoFormulario16Linea65->sum(function ($record) {
+                return (float) $record->puntaje;
+            });
+        }
+        if ($evaluacion->evaluacionesProyectoFormulario17Linea69()->exists()) {
+            $informacion_celdas[9] = $evaluacion->evaluacionesProyectoFormulario17Linea69->sum(function ($record) {
+                return (float) $record->puntaje;
+            });
+        }
     }
 
     public function headings(): array
     {
         return [
+            'Convocatoria',
+            'Formulario',
+            'Código SGPS',
             'Regional',
-            'Código Centro de formación',
+            'Código del centro formación',
             'Centro de formación',
-            'Evaluación ID',
-            'Código proyecto',
-            'Línea programática',
+            'Código de evalaución',
             'Evaluador',
-            'Número de documento',
             'Correo electrónico',
-            'Estado proyecto',
             'Puntaje',
-            'Total recomendaciones',
-            'Causales de rechazo',
-            'Estado evaluación',
-            'Habilitado',
-            'Autores'
+            '¿Evaluación habilitada?',
+            '¿Evaluación finalizada?',
         ];
     }
 
-    public function columnFormats(): array
+    /**
+     * @return string
+     */
+    public function title(): string
     {
-        return [
-            'O' => NumberFormat::FORMAT_CURRENCY_USD_SIMPLE,
-            'P' => NumberFormat::FORMAT_CURRENCY_USD_SIMPLE,
-            'Q' => NumberFormat::FORMAT_CURRENCY_USD_SIMPLE,
-        ];
-    }
-
-    public function properties(): array
-    {
-        return [
-            'title' => 'Evaluaciones Convocatoria SENNOVA',
-        ];
+        return  'Evaluaciones ' . $this->convocatoria->descripcion . ' '  . $this->convocatoria->year;
     }
 
     public function styles(Worksheet $sheet)
     {
-        return [
-            // Style the first row as bold text.
-            1    => ['font' => ['bold' => true]],
-        ];
-    }
-
-    private function mapParticipantes($participantes)
-    {
-        $mapParticipantes = [];
-
-        foreach ($participantes as $participante) {
-            array_push($mapParticipantes, [
-                'nombre'        => strtr(utf8_decode($participante->nombre), utf8_decode('àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ'), 'aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY'),
-                'documento'     => $participante->numero_documento,
-                'correo'        => $participante->email,
-                'vinculacion'   => $participante->tipo_vinculacion_text,
-                'meses'         => $participante->pivot->cantidad_meses,
-                'horas'         => $participante->pivot->cantidad_horas,
-            ]);
-        }
-        return $mapParticipantes;
+        $sheet->getStyle('A1:' . $sheet->getHighestColumn() . '1')->applyFromArray([
+            'font' => [
+                'bold' => true,
+                'color' => ['rgb' => '000000'],
+            ],
+            'fill' => [
+                'fillType'   => Fill::FILL_SOLID,
+                'startColor' => ['rgb' => 'edfdf3'],
+            ],
+        ]);
     }
 }
