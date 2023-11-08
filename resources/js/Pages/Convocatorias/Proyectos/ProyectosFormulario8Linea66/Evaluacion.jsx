@@ -7,13 +7,14 @@ import PrimaryButton from '@/Components/PrimaryButton'
 import SwitchMui from '@/Components/Switch'
 import TextInput from '@/Components/TextInput'
 import Textarea from '@/Components/Textarea'
+import { checkRole } from '@/Utils'
 
 import { useForm, usePage } from '@inertiajs/react'
 import { Divider, Grid } from '@mui/material'
 
 import React, { useEffect, useState } from 'react'
 
-const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEvaluacionStatus, ...props }) => {
+const Evaluacion = ({ auth_user, convocatoria, evaluacion, allowed, proyecto, setDialogEvaluacionStatus, ...props }) => {
     const { props: page_props } = usePage()
 
     const evaluacion_id = page_props.ziggy.query.evaluacion_id
@@ -108,10 +109,10 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
     return (
         <>
             <DialogMui
-                open={!evaluacion[0]?.clausula_confidencialidad}
+                open={!evaluacion[0]?.clausula_confidencialidad && !checkRole(auth_user, [1, 5, 17, 18, 19, 20])}
                 dialogContent={
                     <div>
-                        <Divider className="font-black">CLÁUSULA DE CONFIDENCIALIDAD</Divider>
+                        <Divider className="!mb-6 font-black">CLÁUSULA DE CONFIDENCIALIDAD</Divider>
 
                         <AlertMui severity={form.data.clausula_confidencialidad ? 'success' : 'error'}>
                             Para poder evaluar debe aceptar la cláusula de confidencialidad
@@ -132,6 +133,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
             <form onSubmit={submit} className="space-y-10" id="form-evaluacion">
                 {evaluacion.map((evaluacion, i) => (
                     <div key={i}>
+                        <Divider className="!my-20" />
                         <h1 className="font-black uppercase my-4">{evaluacion['campo_pregunta_id_' + evaluacion.pregunta_id]}</h1>
 
                         {evaluacion['puntaje_maximo_pregunta_id_' + evaluacion.pregunta_id] && (
@@ -170,10 +172,10 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                         <div className="mt-10">
                             <p>
                                 Si considera que la información del ítem <strong className="uppercase">{evaluacion['campo_pregunta_id_' + evaluacion.pregunta_id]}</strong> puede mejorarse, por favor
-                                seleccione <strong>NO</strong> y haga la respectiva recomendación.
+                                seleccione <strong>SI</strong> y haga la respectiva recomendación.
                             </p>
+                            <p className="!mt-6 font-black">¿Debe mejorarse el ítem?</p>
                             <SwitchMui
-                                className="!my-6"
                                 checked={form.data['form_requiere_comentario_pregunta_id_' + evaluacion.pregunta_id]}
                                 onChange={(e) => form.setData('form_requiere_comentario_pregunta_id_' + evaluacion.pregunta_id, e.target.checked)}
                                 disabled={evaluacion[0]?.finalizado}

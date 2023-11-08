@@ -55,7 +55,7 @@ const Edit = ({
             <Head title={proyecto_formulario_3_linea_61.titulo} />
 
             <Grid item md={12} className="!mb-20">
-                <StepperMui convocatoria={convocatoria} proyecto={proyecto_formulario_3_linea_61?.proyecto} evaluacion={evaluacion} />
+                <StepperMui auth_user={auth_user} convocatoria={convocatoria} proyecto={proyecto_formulario_3_linea_61?.proyecto} evaluacion={evaluacion} />
             </Grid>
 
             {/* <Grid item md={4}>

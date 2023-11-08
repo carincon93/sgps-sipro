@@ -35,7 +35,7 @@ const AnalisisRiesgos = ({ auth, convocatoria, proyecto, analisis_riesgos, nivel
             <Head title="Análisis de riesgos" />
 
             <Grid item md={12} className="!mb-20">
-                <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
+                <StepperMui auth_user={auth_user} convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
             </Grid>
             {/*
             <Grid item md={4}>

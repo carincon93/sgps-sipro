@@ -51,7 +51,7 @@ const Municipios = ({
             <Head title="Municipios" />
 
             <Grid item md={12} className="!mb-20">
-                <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} label="Municipios" />
+                <StepperMui auth_user={auth_user} convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} label="Municipios" />
             </Grid>
 
             <Grid item md={12}>

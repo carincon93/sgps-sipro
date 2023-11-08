@@ -98,7 +98,7 @@ const Indicadores = ({ auth, convocatoria, proyecto, evaluacion, ...props }) => 
             <Head title="Indicadores" />
 
             <Grid item md={12} className="!mb-20">
-                <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
+                <StepperMui auth_user={auth_user} convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
             </Grid>
 
             <Grid item md={12} className="!mb-20">

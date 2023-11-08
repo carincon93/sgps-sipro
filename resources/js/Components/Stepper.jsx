@@ -42,6 +42,7 @@ import EvaluacionProyectosFormulario13Linea65 from '@/Pages/Convocatorias/Proyec
 import EvaluacionProyectosFormulario15Linea65 from '@/Pages/Convocatorias/Proyectos/ProyectosFormulario15Linea65/Evaluacion'
 import EvaluacionProyectosFormulario16Linea65 from '@/Pages/Convocatorias/Proyectos/ProyectosFormulario16Linea65/Evaluacion'
 import EvaluacionProyectosFormulario17Linea69 from '@/Pages/Convocatorias/Proyectos/ProyectosFormulario17Linea69/Evaluacion'
+import { checkRole } from '@/Utils'
 
 const useStyles = makeStyles({
     root: {
@@ -205,8 +206,9 @@ ColorlibStepIcon.propTypes = {
     icon: PropTypes.node,
 }
 
-export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evaluacion, ...props }) {
+export default function StepperMui({ auth_user, convocatoria, proyecto, evaluacion, ...props }) {
     const classes = useStyles()
+    const is_super_admin = checkRole(auth_user, [1])
     const [dialog_evaluacion_status, setDialogEvaluacionStatus] = useState(false)
     const [dialog_archivos_status, setDialogArchivoStatus] = useState(false)
 
@@ -244,6 +246,7 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                                     <>
                                         {evaluacion[0]?.tipo_formulario_convocatoria_id == 1 ? (
                                             <EvaluacionProyectosFormulario1Linea65
+                                                auth_user={auth_user}
                                                 convocatoria={convocatoria}
                                                 allowed={evaluacion[0]?.allowed}
                                                 evaluacion={evaluacion}
@@ -253,6 +256,7 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                                         ) : null}
                                         {evaluacion[0]?.tipo_formulario_convocatoria_id == 3 ? (
                                             <EvaluacionProyectosFormulario3Linea61
+                                                auth_user={auth_user}
                                                 convocatoria={convocatoria}
                                                 allowed={evaluacion[0]?.allowed}
                                                 evaluacion={evaluacion}
@@ -262,6 +266,7 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                                         ) : null}
                                         {evaluacion[0]?.tipo_formulario_convocatoria_id == 4 ? (
                                             <EvaluacionProyectosFormulario4Linea70
+                                                auth_user={auth_user}
                                                 convocatoria={convocatoria}
                                                 allowed={evaluacion[0]?.allowed}
                                                 evaluacion={evaluacion}
@@ -271,6 +276,7 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                                         ) : null}
                                         {evaluacion[0]?.tipo_formulario_convocatoria_id == 5 ? (
                                             <EvaluacionProyectosFormulario5Linea69
+                                                auth_user={auth_user}
                                                 convocatoria={convocatoria}
                                                 allowed={evaluacion[0]?.allowed}
                                                 evaluacion={evaluacion}
@@ -280,6 +286,7 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                                         ) : null}
                                         {evaluacion[0]?.tipo_formulario_convocatoria_id == 6 ? (
                                             <EvaluacionProyectosFormulario6Linea82
+                                                auth_user={auth_user}
                                                 convocatoria={convocatoria}
                                                 allowed={evaluacion[0]?.allowed}
                                                 evaluacion={evaluacion}
@@ -289,6 +296,7 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                                         ) : null}
                                         {evaluacion[0]?.tipo_formulario_convocatoria_id == 7 ? (
                                             <EvaluacionProyectosFormulario7Linea23
+                                                auth_user={auth_user}
                                                 convocatoria={convocatoria}
                                                 allowed={evaluacion[0]?.allowed}
                                                 evaluacion={evaluacion}
@@ -298,6 +306,7 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                                         ) : null}
                                         {evaluacion[0]?.tipo_formulario_convocatoria_id == 8 ? (
                                             <EvaluacionProyectosFormulario8Linea66
+                                                auth_user={auth_user}
                                                 convocatoria={convocatoria}
                                                 allowed={evaluacion[0]?.allowed}
                                                 evaluacion={evaluacion}
@@ -307,6 +316,7 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                                         ) : null}
                                         {evaluacion[0]?.tipo_formulario_convocatoria_id == 9 ? (
                                             <EvaluacionProyectosFormulario9Linea23
+                                                auth_user={auth_user}
                                                 convocatoria={convocatoria}
                                                 allowed={evaluacion[0]?.allowed}
                                                 evaluacion={evaluacion}
@@ -316,6 +326,7 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                                         ) : null}
                                         {evaluacion[0]?.tipo_formulario_convocatoria_id == 10 ? (
                                             <EvaluacionProyectosFormulario10Linea69
+                                                auth_user={auth_user}
                                                 convocatoria={convocatoria}
                                                 allowed={evaluacion[0]?.allowed}
                                                 evaluacion={evaluacion}
@@ -325,6 +336,7 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                                         ) : null}
                                         {evaluacion[0]?.tipo_formulario_convocatoria_id == 12 ? (
                                             <EvaluacionProyectosFormulario12Linea68
+                                                auth_user={auth_user}
                                                 convocatoria={convocatoria}
                                                 allowed={evaluacion[0]?.allowed}
                                                 evaluacion={evaluacion}
@@ -334,6 +346,7 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                                         ) : null}
                                         {evaluacion[0]?.tipo_formulario_convocatoria_id == 13 ? (
                                             <EvaluacionProyectosFormulario13Linea65
+                                                auth_user={auth_user}
                                                 convocatoria={convocatoria}
                                                 allowed={evaluacion[0]?.allowed}
                                                 evaluacion={evaluacion}
@@ -343,6 +356,7 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                                         ) : null}
                                         {evaluacion[0]?.tipo_formulario_convocatoria_id == 15 ? (
                                             <EvaluacionProyectosFormulario15Linea65
+                                                auth_user={auth_user}
                                                 convocatoria={convocatoria}
                                                 allowed={evaluacion[0]?.allowed}
                                                 evaluacion={evaluacion}
@@ -352,6 +366,7 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                                         ) : null}
                                         {evaluacion[0]?.tipo_formulario_convocatoria_id == 16 ? (
                                             <EvaluacionProyectosFormulario16Linea65
+                                                auth_user={auth_user}
                                                 convocatoria={convocatoria}
                                                 allowed={evaluacion[0]?.allowed}
                                                 evaluacion={evaluacion}
@@ -361,6 +376,7 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                                         ) : null}
                                         {evaluacion[0]?.tipo_formulario_convocatoria_id == 17 ? (
                                             <EvaluacionProyectosFormulario17Linea69
+                                                auth_user={auth_user}
                                                 convocatoria={convocatoria}
                                                 allowed={evaluacion[0]?.allowed}
                                                 evaluacion={evaluacion}
@@ -673,7 +689,7 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                     </Link>
                 </Step>
 
-                {/* {(isSuperAdmin && convocatoria?.tipo_convocatoria == 1) || (proyecto?.mostrar_recomendaciones && convocatoria?.tipo_convocatoria == 1) ? (
+                {/* {(is_super_admin && convocatoria?.tipo_convocatoria == 1) || (proyecto?.mostrar_recomendaciones && convocatoria?.tipo_convocatoria == 1) ? (
                 <Step active={route().current('convocatorias.proyectos.comentarios-generales-form')}>
                     <Link href={route('convocatorias.proyectos.comentarios-generales-form', [proyecto?.convocatoria_id, proyecto?.id])}>
                         <StepLabel classes={{ root: classes.root }}>Comentarios generales</StepLabel>

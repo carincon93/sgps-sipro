@@ -110,7 +110,7 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, evaluacion, proye
             <Head title="Estudio de mercado / Soportes" />
 
             <Grid item md={12} className="!mb-20">
-                <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} label="Estudios de mercado" />
+                <StepperMui auth_user={auth_user} convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} label="Estudios de mercado" />
             </Grid>
 
             <Grid item md={12}>

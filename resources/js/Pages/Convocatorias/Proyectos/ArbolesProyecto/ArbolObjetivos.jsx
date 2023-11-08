@@ -12,6 +12,7 @@ import { useState } from 'react'
 import { Head } from '@inertiajs/react'
 
 const ArbolObjetivos = ({ auth, convocatoria, proyecto, evaluacion, efectos_directos, causas_directas, tipos_impacto, resultados, objetivos_especificos }) => {
+    const auth_user = auth.user
     const [dialog_status, setDialogStatus] = useState(false)
 
     return (
@@ -19,7 +20,7 @@ const ArbolObjetivos = ({ auth, convocatoria, proyecto, evaluacion, efectos_dire
             <Head title="Objetivos, resultados, impactos y actividades" />
 
             <Grid item md={12} className="!mb-20">
-                <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
+                <StepperMui auth_user={auth_user} convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
             </Grid>
 
             {/* <Grid item md={4}>

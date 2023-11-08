@@ -32,7 +32,7 @@ const EDT = ({ auth, convocatoria, proyecto, evaluacion, presupuesto, eventos, t
             <Head title="EDT" />
 
             <Grid item md={12} className="!mb-20">
-                <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} label="EDT" />
+                <StepperMui auth_user={auth_user} convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} label="EDT" />
             </Grid>
 
             {/* <Grid item md={12}>

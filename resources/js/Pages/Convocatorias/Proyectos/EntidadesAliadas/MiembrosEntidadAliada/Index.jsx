@@ -33,7 +33,7 @@ const MiembrosEntidadAliada = ({ auth, convocatoria, proyecto, evaluacion, entid
             <Head title="Miembros de la entidad aliada" />
 
             <Grid item md={12} className="!mb-20">
-                <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} label="Miembros entidad aliada" />
+                <StepperMui auth_user={auth_user} convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} label="Miembros entidad aliada" />
             </Grid>
 
             <Grid item md={12}>

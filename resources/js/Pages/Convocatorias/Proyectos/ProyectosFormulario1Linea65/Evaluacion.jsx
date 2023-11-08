@@ -111,7 +111,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                 open={!evaluacion[0]?.clausula_confidencialidad}
                 dialogContent={
                     <div>
-                        <Divider className="!my-20 font-black">CLÁUSULA DE CONFIDENCIALIDAD</Divider>
+                        <Divider className="!mb-6 font-black">CLÁUSULA DE CONFIDENCIALIDAD</Divider>
 
                         <AlertMui severity={form.data.clausula_confidencialidad ? 'success' : 'error'}>
                             Para poder evaluar debe aceptar la cláusula de confidencialidad
@@ -170,8 +170,9 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                         <div className="mt-10">
                             <p>
                                 Si considera que la información del ítem <strong className="uppercase">{evaluacion['campo_pregunta_id_' + evaluacion.pregunta_id]}</strong> puede mejorarse, por favor
-                                seleccione <strong>NO</strong> y haga la respectiva recomendación.
+                                seleccione <strong>SI</strong> y haga la respectiva recomendación.
                             </p>
+                            <p className="mt-6">¿Debe mejorarse el ítem?</p>
                             <SwitchMui
                                 className="!my-6"
                                 checked={form.data['form_requiere_comentario_pregunta_id_' + evaluacion.pregunta_id]}

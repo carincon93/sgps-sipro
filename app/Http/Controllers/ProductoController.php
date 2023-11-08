@@ -30,6 +30,14 @@ class ProductoController extends Controller
             return abort(404);
         }
 
+        if (request()->filled('evaluacion_id')) {
+            $evaluacion = Evaluacion::find(request()->evaluacion_id);
+
+            $this->authorize('modificar-evaluacion-autor', [$evaluacion]);
+
+            $items_evaluacion = $evaluacion->getItemsAEvaluar($convocatoria->id, $proyecto->tipo_formulario_convocatoria_id);
+        }
+
         $proyecto->load('proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
         // $proyecto->load('evaluaciones.evaluacionProyectoFormulario8Linea66');
 
@@ -42,7 +50,7 @@ class ProductoController extends Controller
         return Inertia::render('Convocatorias/Proyectos/Productos/Index', [
             'convocatoria'              =>  $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones'),
             'proyecto'                  =>  $proyecto,
-            'evaluacion'                =>  Evaluacion::with('proyecto')->where('id', request()->evaluacion_id)->first(),
+            'evaluacion'                =>  $items_evaluacion ?? [],
             'productos'                 =>  Producto::whereIn(
                 'resultado_id',
                 $resultado->map(function ($resultado) {
