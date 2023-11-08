@@ -18,6 +18,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
 
     const form = useForm({
         evaluacion_id: evaluacion_id,
+        clausula_confidencialidad: evaluacion[0]?.clausula_confidencialidad,
     })
 
     useEffect(() => {
@@ -34,6 +35,10 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
     const submit = (e) => {
         e.preventDefault()
 
+        putEvaluacion()
+    }
+
+    const putEvaluacion = () => {
         if (form.data.allowed.to_update) {
             form.put(route('convocatorias.evaluaciones-formulario-4-linea-70.update', [convocatoria.id, evaluacion_id]), {
                 onSuccess: () => setDialogEvaluacionStatus(false),
@@ -41,6 +46,12 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
             })
         }
     }
+
+    useEffect(() => {
+        if (!evaluacion[0]?.clausula_confidencialidad && form.data.clausula_confidencialidad) {
+            putEvaluacion()
+        }
+    }, [form.data.clausula_confidencialidad])
 
     const [evaluacion_rol_sennova, setEvaluacionRolSennova] = useState(null)
     const [dialog_evaluacion_rol_status, setDialogEvaluacionRolStatus] = useState(false)
@@ -94,28 +105,31 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
 
     return (
         <>
-            <form onSubmit={submit} className="space-y-10" id="form-evaluacion">
-                <div>
-                    <Divider className="!my-20 font-black">CLÁUSULA DE CONFIDENCIALIDAD</Divider>
+            <DialogMui
+                open={!evaluacion[0]?.clausula_confidencialidad}
+                dialogContent={
+                    <div>
+                        <Divider className="!my-20 font-black">CLÁUSULA DE CONFIDENCIALIDAD</Divider>
 
-                    <AlertMui severity={form.data.clausula_confidencialidad ? 'success' : 'error'}>
-                        Por favor acepte la la cláusula de confidencialidad
-                        <br />
-                        <Checkbox
-                            className="mt-8"
-                            name="clausula_confidencialidad"
-                            checked={form.data.clausula_confidencialidad}
-                            error={form.errors.clausula_confidencialidad}
-                            onChange={(e) => form.setData('clausula_confidencialidad', e.target.checked)}
-                            disabled={evaluacion[0]?.finalizado}
-                            label={form.data.clausula_confidencialidad ? 'He aceptado la cláusula de confidencialidad' : 'Acepto la cláusula de confidencialidad'}
-                        />
-                    </AlertMui>
-                </div>
+                        <AlertMui severity={form.data.clausula_confidencialidad ? 'success' : 'error'}>
+                            Para poder evaluar debe aceptar la cláusula de confidencialidad
+                            <br />
+                            <Checkbox
+                                className="mt-8"
+                                name="clausula_confidencialidad"
+                                checked={form.data.clausula_confidencialidad}
+                                error={form.errors.clausula_confidencialidad}
+                                onChange={(e) => form.setData('clausula_confidencialidad', e.target.checked)}
+                                disabled={evaluacion[0]?.finalizado}
+                                label={form.data.clausula_confidencialidad ? 'He aceptado la cláusula de confidencialidad' : 'Acepto la cláusula de confidencialidad'}
+                            />
+                        </AlertMui>
+                    </div>
+                }
+            />
+            <form onSubmit={submit} className="space-y-10" id="form-evaluacion">
                 {evaluacion.map((evaluacion, i) => (
                     <div key={i}>
-                        <Divider className="!my-20" />
-
                         <h1 className="font-black uppercase my-4">{evaluacion['campo_pregunta_id_' + evaluacion.pregunta_id]}</h1>
 
                         {evaluacion['puntaje_maximo_pregunta_id_' + evaluacion.pregunta_id] && (

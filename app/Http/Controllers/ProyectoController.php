@@ -702,51 +702,6 @@ class ProyectoController extends Controller
         ]);
     }
 
-    /**
-     * Finalizar evaluación.
-     *
-     * @param  \App\Models\Proyecto  $proyecto
-     * @return \Illuminate\Http\Response
-     */
-    public function finalizarEvaluacion(Request $request, Convocatoria $convocatoria, Evaluacion $evaluacion)
-    {
-        if ($request->filled('habilitado')) {
-            if ($request->habilitado) {
-                $evaluacion->update([
-                    'habilitado'  => true,
-                ]);
-            } else {
-                $evaluacion->update([
-                    'habilitado'  => false, 'finalizado'  => true,
-                ]);
-            }
-        }
-
-        if ($request->finalizado) {
-            $evaluacion->update([
-                'iniciado'    => false,
-                'finalizado'  => true,
-                'modificable' => false,
-            ]);
-        } else if ($request->modificar) {
-            $evaluacion->update([
-                'iniciado'    => true,
-                'finalizado'  => false,
-                'modificable' => true,
-            ]);
-        }
-
-        if ($evaluacion->proyecto->evaluaciones()->where('evaluaciones.habilitado', true)->count() == $evaluacion->proyecto->evaluaciones()->where('evaluaciones.finalizado', true)->where('evaluaciones.habilitado', true)->count()) {
-            $proyecto = $evaluacion->proyecto;
-
-            $proyecto->update([
-                'estado' => $evaluacion->proyecto->estado_evaluacion_proyecto_formulario_8_linea_66 ?? $evaluacion->proyecto->estado_evaluacion_proyecto_formulario_6_linea_82
-            ]);
-        }
-
-        return back()->with('success', 'El estado de la evaluación ha cambiado correctamente.');
-    }
-
     public function preguntasFinales(Request $request, Convocatoria $convocatoria, Evaluacion $evaluacion)
     {
         // if ($evaluacion->evaluacionProyectoFormulario8Linea66()->exists()) {

@@ -226,10 +226,10 @@ const ResumenFinal = ({
                                 <Checkbox
                                     name="modificar_evaluacion"
                                     className="mt-3"
-                                    checked={!evaluacion?.finalizado}
+                                    checked={!evaluacion[0]?.finalizado}
                                     onChange={(e) =>
                                         router.put(
-                                            route('convocatorias.evaluaciones.finalizar', [convocatoria.id, evaluacion.id]),
+                                            route('convocatorias.evaluaciones.finalizar', [convocatoria.id, evaluacion_id]),
                                             {
                                                 modificar: e.target.checked,
                                             },
@@ -243,10 +243,10 @@ const ResumenFinal = ({
                                 <Checkbox
                                     name="finalizar_evaluacion"
                                     className="mt-3"
-                                    checked={evaluacion?.finalizado}
+                                    checked={evaluacion[0]?.finalizado}
                                     onChange={(e) =>
                                         router.put(
-                                            route('convocatorias.evaluaciones.finalizar', [convocatoria.id, evaluacion.id]),
+                                            route('convocatorias.evaluaciones.finalizar', [convocatoria.id, evaluacion_id]),
                                             {
                                                 finalizado: e.target.checked,
                                             },
