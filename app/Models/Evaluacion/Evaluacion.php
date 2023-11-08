@@ -281,7 +281,8 @@ class Evaluacion extends Model
                 'criterio_pregunta_id_' . $item->pregunta_id                    => $item->{$relationship_name}->criterio,
                 'allowed'                                                       => $this->allowed,
                 'finalizado'                                                    => $this->finalizado,
-                'clausula_confidencialidad'                                     => $this->clausula_confidencialidad
+                'clausula_confidencialidad'                                     => $this->clausula_confidencialidad,
+                'puntaje_total'                                                 => $items_db_evaluacion->sum('puntaje')
             ]);
         }
 
@@ -393,52 +394,7 @@ class Evaluacion extends Model
 
     protected function getFormPuntaje($evaluacion)
     {
-        $puntaje_campos = [
-            'titulo_puntaje',
-            'video_puntaje',
-            'resumen_puntaje',
-            'problema_central_puntaje',
-            'objetivos_puntaje',
-            'metodologia_puntaje',
-            'entidad_aliada_puntaje',
-            'resultados_puntaje',
-            'productos_puntaje',
-            'cadena_valor_puntaje',
-            'analisis_riesgos_puntaje',
-            'ortografia_puntaje',
-            'redaccion_puntaje',
-            'normas_apa_puntaje',
-            'antecedentes_puntaje',
-            'justificacion_problema_puntaje',
-            'pregunta_formulacion_problema_puntaje',
-            'identificacion_problema_puntaje',
-            'arbol_problemas_puntaje',
-            'propuesta_sostenibilidad_puntaje',
-            'impacto_ambiental_puntaje',
-            'impacto_social_centro_puntaje',
-            'impacto_social_productivo_puntaje',
-            'impacto_tecnologico_puntaje',
-            'riesgos_objetivo_general_puntaje',
-            'riesgos_productos_puntaje',
-            'riesgos_actividades_puntaje',
-            'objetivo_general_puntaje',
-            'primer_objetivo_puntaje',
-            'segundo_objetivo_puntaje',
-            'tercer_objetivo_puntaje',
-            'cuarto_objetivo_puntaje',
-            'resultados_primer_obj_puntaje',
-            'resultados_segundo_obj_puntaje',
-            'resultados_tercer_obj_puntaje',
-            'resultados_cuarto_obj_puntaje',
-            'actividades_primer_obj_puntaje',
-            'actividades_segundo_obj_puntaje',
-            'actividades_tercer_obj_puntaje',
-            'actividades_cuarto_obj_puntaje',
-            'productos_primer_obj_puntaje',
-            'productos_segundo_obj_puntaje',
-            'productos_tercer_obj_puntaje',
-            'productos_cuarto_obj_puntaje',
-        ];
+        $puntaje_campos = [];
 
         return collect($puntaje_campos)->sum(fn ($field) => $evaluacion->$field);
     }
@@ -537,37 +493,37 @@ class Evaluacion extends Model
                 $query->orWhere('evaluaciones.proyecto_id', $search - 8000);
             }
         })->when($filters['estado'] ?? null, function ($query, $estado) {
-            if ($estado == 'finalizados idi') {
-                $query->join('evaluaciones_proyectos_formulario_8_linea_66', 'evaluaciones.id', 'evaluaciones_proyectos_formulario_8_linea_66.id');
-                $query->where('evaluaciones.finalizado', true);
-            } else if ($estado == 'finalizados cultira innovacion') {
-                $query->join('evaluaciones_proyectos_formulario_1_linea_65', 'evaluaciones.id', 'evaluaciones_proyectos_formulario_1_linea_65.id');
-                $query->where('evaluaciones.finalizado', true);
-            } else if ($estado == 'finalizados ta') {
-                $query->join('evaluaciones_proyectos_formulario_4_linea_70', 'evaluaciones.id', 'evaluaciones_proyectos_formulario_4_linea_70.id');
-                $query->where('evaluaciones.finalizado', true);
-            } else if ($estado == 'finalizados tp') {
-                $query->join('evaluaciones_proyectos_formulario_5_linea_69', 'evaluaciones.id', 'evaluaciones_proyectos_formulario_5_linea_69.id');
-                $query->where('evaluaciones.finalizado', true);
-            } else if ($estado == 'finalizados st') {
-                $query->join('evaluaciones_proyectos_formulario_12_linea_68', 'evaluaciones.id', 'evaluaciones_proyectos_formulario_12_linea_68.id');
-                $query->where('evaluaciones.finalizado', true);
-            } else if ($estado == 'sin evaluar idi') {
-                $query->join('evaluaciones_proyectos_formulario_8_linea_66', 'evaluaciones.id', 'evaluaciones_proyectos_formulario_8_linea_66.id');
-                $query->where('evaluaciones_proyectos_formulario_8_linea_66.updated_at', null);
-            } else if ($estado == 'sin evaluar cultura innovacion') {
-                $query->join('evaluaciones_proyectos_formulario_1_linea_65', 'evaluaciones.id', 'evaluaciones_proyectos_formulario_1_linea_65.id');
-                $query->where('evaluaciones_proyectos_formulario_1_linea_65.updated_at', null);
-            } else if ($estado == 'sin evaluar ta') {
-                $query->join('evaluaciones_proyectos_formulario_4_linea_70', 'evaluaciones.id', 'evaluaciones_proyectos_formulario_4_linea_70.id');
-                $query->where('evaluaciones_proyectos_formulario_4_linea_70.updated_at', null);
-            } else if ($estado == 'sin evaluar tp') {
-                $query->join('evaluaciones_proyectos_formulario_5_linea_69', 'evaluaciones.id', 'evaluaciones_proyectos_formulario_5_linea_69.id');
-                $query->where('evaluaciones_proyectos_formulario_5_linea_69.updated_at', null);
-            } else if ($estado == 'sin evaluar st') {
-                $query->join('evaluaciones_proyectos_formulario_12_linea_68', 'evaluaciones.id', 'evaluaciones_proyectos_formulario_12_linea_68.id');
-                $query->where('evaluaciones_proyectos_formulario_12_linea_68.updated_at', null);
-            }
+            // if ($estado == 'finalizados idi') {
+            //     $query->join('evaluaciones_proyectos_formulario_8_linea_66', 'evaluaciones.id', 'evaluaciones_proyectos_formulario_8_linea_66.id');
+            //     $query->where('evaluaciones.finalizado', true);
+            // } else if ($estado == 'finalizados cultira innovacion') {
+            //     $query->join('evaluaciones_proyectos_formulario_1_linea_65', 'evaluaciones.id', 'evaluaciones_proyectos_formulario_1_linea_65.id');
+            //     $query->where('evaluaciones.finalizado', true);
+            // } else if ($estado == 'finalizados ta') {
+            //     $query->join('evaluaciones_proyectos_formulario_4_linea_70', 'evaluaciones.id', 'evaluaciones_proyectos_formulario_4_linea_70.id');
+            //     $query->where('evaluaciones.finalizado', true);
+            // } else if ($estado == 'finalizados tp') {
+            //     $query->join('evaluaciones_proyectos_formulario_5_linea_69', 'evaluaciones.id', 'evaluaciones_proyectos_formulario_5_linea_69.id');
+            //     $query->where('evaluaciones.finalizado', true);
+            // } else if ($estado == 'finalizados st') {
+            //     $query->join('evaluaciones_proyectos_formulario_12_linea_68', 'evaluaciones.id', 'evaluaciones_proyectos_formulario_12_linea_68.id');
+            //     $query->where('evaluaciones.finalizado', true);
+            // } else if ($estado == 'sin evaluar idi') {
+            //     $query->join('evaluaciones_proyectos_formulario_8_linea_66', 'evaluaciones.id', 'evaluaciones_proyectos_formulario_8_linea_66.id');
+            //     $query->where('evaluaciones_proyectos_formulario_8_linea_66.updated_at', null);
+            // } else if ($estado == 'sin evaluar cultura innovacion') {
+            //     $query->join('evaluaciones_proyectos_formulario_1_linea_65', 'evaluaciones.id', 'evaluaciones_proyectos_formulario_1_linea_65.id');
+            //     $query->where('evaluaciones_proyectos_formulario_1_linea_65.updated_at', null);
+            // } else if ($estado == 'sin evaluar ta') {
+            //     $query->join('evaluaciones_proyectos_formulario_4_linea_70', 'evaluaciones.id', 'evaluaciones_proyectos_formulario_4_linea_70.id');
+            //     $query->where('evaluaciones_proyectos_formulario_4_linea_70.updated_at', null);
+            // } else if ($estado == 'sin evaluar tp') {
+            //     $query->join('evaluaciones_proyectos_formulario_5_linea_69', 'evaluaciones.id', 'evaluaciones_proyectos_formulario_5_linea_69.id');
+            //     $query->where('evaluaciones_proyectos_formulario_5_linea_69.updated_at', null);
+            // } else if ($estado == 'sin evaluar st') {
+            //     $query->join('evaluaciones_proyectos_formulario_12_linea_68', 'evaluaciones.id', 'evaluaciones_proyectos_formulario_12_linea_68.id');
+            //     $query->where('evaluaciones_proyectos_formulario_12_linea_68.updated_at', null);
+            // }
         });
     }
 

@@ -249,6 +249,12 @@ export default function StepperMui({ auth_user, convocatoria, proyecto, evaluaci
                                 </figure>
 
                                 <h1 className="text-1xl text-center my-4">Código: #{evaluacion[0]?.evaluacion_id}</h1>
+
+                                {evaluacion[0]?.puntaje_total && (
+                                    <p className="text-center">
+                                        <strong>Puntaje total:</strong> {evaluacion[0]?.puntaje_total}
+                                    </p>
+                                )}
                             </AlertMui>
                         }
                         dialogContent={
