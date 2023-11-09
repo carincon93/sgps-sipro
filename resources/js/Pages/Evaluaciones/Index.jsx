@@ -33,10 +33,6 @@ const Index = ({ auth, evaluaciones, evaluadores, proyectos, allowed_to_create }
 
             <Grid container>
                 <Grid item md={12}>
-                    <ButtonMui className="!my-4">
-                        <PublishIcon className="mr-1" /> Importar CSV de evaluadores
-                    </ButtonMui>
-
                     <SearchBar className="mt-20" />
 
                     <TableMui className="mt-16" rows={['ID', 'Código', 'Título', 'Evaluador/a', 'Estados evaluación', 'Estado del proyecto', 'Acciones']} sxCellThead={{ width: '320px' }}>
