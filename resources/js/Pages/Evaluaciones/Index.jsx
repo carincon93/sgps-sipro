@@ -120,8 +120,9 @@ const Index = ({ auth, evaluaciones, evaluadores, proyectos, allowed_to_create }
                                                             <br />
                                                             Ítems por mejorar: {evaluacion.total_recomendaciones}
                                                             <hr />
-                                                            <strong>Puntaje total: {evaluacion.proyecto.estado_evaluacion_proyecto.puntaje.toFixed(1)}</strong>
-                                                            <br />
+                                                            {checkRole(auth_user, [1, 5, 17, 18, 19]) && (
+                                                                <strong>Puntaje total: {evaluacion.proyecto.estado_evaluacion_proyecto.puntaje.toFixed(1)}</strong>
+                                                            )}
                                                         </small>
                                                     </>
                                                 )}

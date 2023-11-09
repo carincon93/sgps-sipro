@@ -47,7 +47,7 @@ const FormularioEvaluacion = ({ auth, convocatoria, tipo_formulario_convocatoria
 
                 <Grid item md={12}>
                     <AlertMui className="mt-20">
-                        Total de la suma de los puntajes máximos: <strong>{sum_puntaje_maximo}</strong>. Recuerde que no debe sobrepasar los 100 puntos.
+                        Total de la suma de los puntajes máximos: <strong>{sum_puntaje_maximo.toFixed(1)}</strong>. Recuerde que no debe sobrepasar los 100 puntos.
                         <br />
                         <ButtonMui className="!mt-6" onClick={() => router.post(route('convocatorias.tipos-formulario-convocatoria.refresh', [convocatoria.id, tipo_formulario_convocatoria_id]))}>
                             Actualizar formularios de evaluación
