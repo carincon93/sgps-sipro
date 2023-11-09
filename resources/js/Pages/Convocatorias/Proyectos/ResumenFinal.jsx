@@ -71,7 +71,7 @@ const ResumenFinal = ({
                                 </ul>
                             </AlertMui>
                         )}
-                        {proyecto.finalizado == false && any_validation_is_false && evaluacion_id == null ? (
+                        {[1, 3].includes(convocatoria.fase) && convocatoria.esta_activa && proyecto.finalizado == false && any_validation_is_false && evaluacion_id == null ? (
                             <AlertMui severity="error">
                                 <p>
                                     <strong>La información del proyecto está incompleta. Para poder finalizar el proyecto debe completar / corregir los siguientes ítems:</strong>
@@ -82,46 +82,46 @@ const ResumenFinal = ({
                                     {!validaciones?.efectosDirectos && (
                                         <li>
                                             Efectos directos. (Asegúrese que no hayan casillas en el paso de definición del problema con el mensaje{' '}
-                                            <strong>Debe diligenciar este efecto directo'.</strong>
+                                            <strong>Debe diligenciar este efecto directo'.</strong>)
                                         </li>
                                     )}
                                     {!validaciones?.efectosIndirectos && (
                                         <li>
                                             Efectos indirectos. (Asegúrese que no hayan casillas en el paso de definición del problema con el mensaje{' '}
-                                            <strong>Debe diligenciar este efecto indirecto'.</strong>
+                                            <strong>Debe diligenciar este efecto indirecto'.</strong>)
                                         </li>
                                     )}
                                     {!validaciones?.causasDirectas && (
                                         <li>
                                             Causas directas. (Asegúrese que no hayan casillas en el paso de definición del problema con el mensaje{' '}
-                                            <strong>Debe diligenciar esta causa directa'.</strong>
+                                            <strong>Debe diligenciar esta causa directa'.</strong>)
                                         </li>
                                     )}
                                     {!validaciones?.causasIndirectas && (
                                         <li>
                                             Causas indirectas. (Asegúrese que no hayan casillas en el paso de definición del problema con el mensaje{' '}
-                                            <strong>Debe diligenciar esta causa indirecta'.</strong>
+                                            <strong>Debe diligenciar esta causa indirecta'.</strong>)
                                         </li>
                                     )}
                                     {!validaciones?.objetivoGeneral && <li>Objetivo general</li>}
                                     {!validaciones?.resultados && (
                                         <li>
-                                            Resultados. (Asegúrese que no hayan casillas en el paso de objetivos con el mensaje <strong>Debe diligenciar este resultado'.</strong>
+                                            Resultados. (Asegúrese que no hayan casillas en el paso de objetivos con el mensaje <strong>Debe diligenciar este resultado'.</strong>)
                                         </li>
                                     )}
                                     {!validaciones?.objetivosEspecificos && (
                                         <li>
-                                            Objetivos específicos. (Asegúrese que no hayan casillas en el paso de objetivos con el mensaje <strong>Debe diligenciar este objetivo específico'.</strong>
+                                            Objetivos específicos. (Asegúrese que no hayan casillas en el paso de objetivos con el mensaje <strong>Debe diligenciar este objetivo específico'.</strong>)
                                         </li>
                                     )}
                                     {!validaciones?.actividades && (
                                         <li>
-                                            Actividades. (Asegúrese que no hayan casillas en el paso de objetivos con el mensaje <strong>Debe diligenciar esta actividad'.</strong>
+                                            Actividades. (Asegúrese que no hayan casillas en el paso de objetivos con el mensaje <strong>Debe diligenciar esta actividad'.</strong>)
                                         </li>
                                     )}
                                     {!validaciones?.impactos && (
                                         <li>
-                                            Impactos. (Asegúrese que no hayan casillas en el paso de objetivos con el mensaje <strong>Debe diligenciar este impacto'.</strong>
+                                            Impactos. (Asegúrese que no hayan casillas en el paso de objetivos con el mensaje <strong>Debe diligenciar este impacto'.</strong>)
                                         </li>
                                     )}
                                     {!validaciones?.metodologia && <li>Metodología (Metodología y actividades)</li>}
@@ -171,7 +171,7 @@ const ResumenFinal = ({
                             </AlertMui>
                         ) : (
                             <>
-                                {convocatoria.esta_activa && evaluacion_id == null && (
+                                {[1, 3].includes(convocatoria.fase) && convocatoria.esta_activa && evaluacion_id == null && (
                                     <AlertMui>
                                         <strong className="block mb-8">El proyecto ha sido diligenciado correctamente.</strong>
                                         {proyecto?.finalizado

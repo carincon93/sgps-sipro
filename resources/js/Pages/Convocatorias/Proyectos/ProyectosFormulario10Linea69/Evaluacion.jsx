@@ -105,6 +105,8 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
         })
     }
 
+    const evaluacion_finalizada = evaluacion[0]?.finalizado
+
     return (
         <>
             <DialogMui
@@ -122,7 +124,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                                 checked={form.data.clausula_confidencialidad}
                                 error={form.errors.clausula_confidencialidad}
                                 onChange={(e) => form.setData('clausula_confidencialidad', e.target.checked)}
-                                disabled={evaluacion[0]?.finalizado}
+                                disabled={evaluacion_finalizada}
                                 label={form.data.clausula_confidencialidad ? 'He aceptado la cláusula de confidencialidad' : 'Acepto la cláusula de confidencialidad'}
                             />
                         </AlertMui>
@@ -156,7 +158,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                                     onChange={(e) => form.setData('form_puntaje_pregunta_id_' + evaluacion.pregunta_id, e.target.value)}
                                     value={form.data['form_puntaje_pregunta_id_' + evaluacion.pregunta_id]}
                                     error={form.errors['form_puntaje_pregunta_id_' + evaluacion.pregunta_id]}
-                                    disabled={evaluacion[0]?.finalizado}
+                                    disabled={evaluacion_finalizada}
                                     placeholder="Puntaje"
                                 />
                             </>
@@ -178,7 +180,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                             <SwitchMui
                                 checked={form.data['form_requiere_comentario_pregunta_id_' + evaluacion.pregunta_id]}
                                 onChange={(e) => form.setData('form_requiere_comentario_pregunta_id_' + evaluacion.pregunta_id, e.target.checked)}
-                                disabled={evaluacion[0]?.finalizado}
+                                disabled={evaluacion_finalizada}
                             />
 
                             {form.data['form_requiere_comentario_pregunta_id_' + evaluacion.pregunta_id] && (
@@ -190,7 +192,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                                     onChange={(e) => form.setData('form_comentario_pregunta_id_' + evaluacion.pregunta_id, e.target.value)}
                                     value={form.data['form_comentario_pregunta_id_' + evaluacion.pregunta_id]}
                                     error={form.errors['form_comentario_pregunta_id_' + evaluacion.pregunta_id]}
-                                    disabled={evaluacion[0]?.finalizado}
+                                    disabled={evaluacion_finalizada}
                                     required
                                 />
                             )}
@@ -247,7 +249,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                                 value={form_evaluacion_rol.data.comentario}
                                 error={form_evaluacion_rol.errors.comentario}
                                 onChange={(e) => form_evaluacion_rol.setData('comentario', e.target.value)}
-                                disabled={evaluacion.finalizado}
+                                disabled={evaluacion_finalizada}
                                 required
                             />
                         )}
@@ -257,9 +259,11 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                                 Cerrar
                             </ButtonMui>
 
-                            <PrimaryButton disabled={form_evaluacion_rol.processing} type="submit">
-                                Guardar
-                            </PrimaryButton>
+                            {!evaluacion_finalizada && (
+                                <PrimaryButton disabled={form_evaluacion_rol.processing} type="submit">
+                                    Guardar
+                                </PrimaryButton>
+                            )}
                         </div>
                     </form>
                 }
@@ -287,7 +291,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                                 value={form_evaluacion_rubro.data.comentario}
                                 error={form_evaluacion_rubro.errors.comentario}
                                 onChange={(e) => form_evaluacion_rubro.setData('comentario', e.target.value)}
-                                disabled={evaluacion.finalizado}
+                                disabled={evaluacion_finalizada}
                                 required
                             />
                         )}
@@ -296,9 +300,11 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                             <ButtonMui onClick={() => setDialogEvaluacionRubroStatus(false)} className="!bg-transparent !text-app-700 !mr-2">
                                 Cerrar
                             </ButtonMui>
-                            <PrimaryButton disabled={form_evaluacion_rubro.processing} type="submit">
-                                Guardar
-                            </PrimaryButton>
+                            {!evaluacion_finalizada && (
+                                <PrimaryButton disabled={form_evaluacion_rubro.processing} type="submit">
+                                    Guardar
+                                </PrimaryButton>
+                            )}
                         </div>
                     </form>
                 }

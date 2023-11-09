@@ -215,7 +215,12 @@ const Form = ({ is_super_admin, method = '', convocatoria, convocatorias, tipos_
                     </Grid>
 
                     <Grid item md={9}>
-                        <Label required labelFor="esta_activa" value="¿Desea activar esta convocatoria para que los usuarios formulen proyectos?" className="inline-block text-justify mb-4" />
+                        <Label
+                            required
+                            labelFor="esta_activa"
+                            value="¿Desea activar esta convocatoria para que los usuarios formulen y evaluen proyectos?"
+                            className="inline-block text-justify mb-4"
+                        />
                     </Grid>
                     <Grid item md={3}>
                         <SwitchMui className="!ml-4" checked={form.data.esta_activa} onChange={(e) => form.setData('esta_activa', e.target.checked)} />

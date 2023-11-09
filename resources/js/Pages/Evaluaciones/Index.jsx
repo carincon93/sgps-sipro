@@ -91,7 +91,11 @@ const Index = ({ auth, evaluaciones, evaluadores, proyectos, allowed_to_create }
 
                                 <TableCell>{evaluacion.evaluador.nombre}</TableCell>
                                 <TableCell>
-                                    <Chip className="mr-2 mb-2" size="small" label={evaluacion.verificar_estado_evaluacion ? evaluacion.verificar_estado_evaluacion : 'Sin información'} />
+                                    <Chip
+                                        className="mr-2 mb-2"
+                                        size="small"
+                                        label={evaluacion.iniciado ? 'Evaluación iniciada' : evaluacion.finalizado ? 'Evaluación finalizada' : 'Evaluación sin iniciar'}
+                                    />
                                     <br />
                                     <Chip
                                         className={`${evaluacion.habilitado ? '!bg-blue-200 !text-blue-500' : '!bg-red-200 !text-red-500'} mb-2`}
