@@ -138,7 +138,7 @@ class EvaluacionesExport implements FromCollection, WithHeadings, WithMapping, W
             'Regional',
             'Código del centro formación',
             'Centro de formación',
-            'Código de evalaución',
+            'Código de evaluación',
             'Evaluador',
             'Correo electrónico',
             'Puntaje',

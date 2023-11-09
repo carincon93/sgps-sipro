@@ -102,7 +102,7 @@ const Index = ({ auth, evaluaciones, evaluadores, proyectos, allowed_to_create }
                                         size="small"
                                         label={
                                             <>
-                                                <div className="group-hover:hidden">{evaluacion.habilitado ? 'Habilitado/a' : 'Deshabilitado/a'}</div>
+                                                <div className="group-hover:hidden">{evaluacion.habilitado ? 'Habilitado' : 'Deshabilitado'}</div>
                                             </>
                                         }
                                     />
