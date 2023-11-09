@@ -218,7 +218,7 @@ const Form = ({ is_super_admin, method = '', convocatoria, convocatorias, tipos_
                         <Label
                             required
                             labelFor="esta_activa"
-                            value="¿Desea activar esta convocatoria para que los usuarios formulen y evaluen proyectos?"
+                            value="¿Desea activar esta convocatoria para que los usuarios formulen y evalúen proyectos?"
                             className="inline-block text-justify mb-4"
                         />
                     </Grid>
