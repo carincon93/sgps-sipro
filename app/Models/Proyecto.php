@@ -26,7 +26,7 @@ class Proyecto extends Model
      *
      * @var array
      */
-    protected $appends = ['codigo', 'diff_meses', 'precio_proyecto', 'total_roles_sennova', 'fecha_inicio', 'fecha_finalizacion', 'estado_evaluacion_proyecto_formulario_8_linea_66', 'estado_evaluacion_proyecto_formulario_6_linea_82', 'estado_evaluacion_proyecto_formulario_1_linea_65', 'estado_evaluacion_proyecto_formulario_4_linea_70', 'estado_evaluacion_proyecto_formulario_5_linea_69', 'estado_evaluacion_proyecto_formulario_12_linea_68', 'cantidad_objetivos', 'total_proyecto_presupuesto_aprobado', 'total_roles_sennova_aprobado', 'precio_proyecto_aprobado', 'total_proyecto_presupuesto', 'lista_archivos', 'allowed', 'resultados', 'filename', 'extension'];
+    protected $appends = ['codigo', 'diff_meses', 'precio_proyecto', 'total_roles_sennova', 'fecha_inicio', 'fecha_finalizacion', 'estado_evaluacion_proyecto', 'cantidad_objetivos', 'total_proyecto_presupuesto_aprobado', 'total_roles_sennova_aprobado', 'precio_proyecto_aprobado', 'total_proyecto_presupuesto', 'lista_archivos', 'allowed', 'resultados', 'filename', 'extension'];
 
     /**
      * The attributes that are mass assignable.
@@ -610,139 +610,76 @@ class Proyecto extends Model
      */
     public function getCodigoAttribute()
     {
+        // Initialize $fecha_finalizacion to null
         $fecha_finalizacion = null;
-        if ($this->proyectoFormulario1Linea65()->exists()) {
-            $fecha_finalizacion = $this->proyectoFormulario1Linea65->fecha_finalizacion;
+
+        // Define an array of relationships to check
+        $relationships = [
+            'proyectoFormulario1Linea65',
+            'proyectoFormulario3Linea61',
+            'proyectoFormulario4Linea70',
+            'proyectoFormulario5Linea69',
+            'proyectoFormulario6Linea82',
+            'proyectoFormulario7Linea23',
+            'proyectoFormulario8Linea66',
+            'proyectoFormulario9Linea23',
+            'proyectoFormulario10Linea69',
+            'proyectoFormulario11Linea83',
+            'proyectoFormulario12Linea68',
+            'proyectoFormulario13Linea65',
+            'proyectoFormulario15Linea65',
+            'proyectoFormulario16Linea65',
+            'proyectoFormulario17Linea69',
+        ];
+
+        // Loop through the relationships and update $fecha_finalizacion if the relationship exists
+        foreach ($relationships as $relationship) {
+            if ($this->$relationship()->exists()) {
+                $fecha = $this->$relationship->fecha_finalizacion;
+                if ($fecha_finalizacion === null || $fecha > $fecha_finalizacion) {
+                    $fecha_finalizacion = $fecha;
+                }
+            }
         }
 
-        if ($this->proyectoFormulario3Linea61()->exists()) {
-            $fecha_finalizacion = $this->proyectoFormulario3Linea61->fecha_finalizacion;
-        }
-
-        if ($this->proyectoFormulario4Linea70()->exists()) {
-            $fecha_finalizacion = $this->proyectoFormulario4Linea70->fecha_finalizacion;
-        }
-
-        if ($this->proyectoFormulario5Linea69()->exists()) {
-            $fecha_finalizacion = $this->proyectoFormulario5Linea69->fecha_finalizacion;
-        }
-
-        if ($this->proyectoFormulario6Linea82()->exists()) {
-            $fecha_finalizacion = $this->proyectoFormulario6Linea82->fecha_finalizacion;
-        }
-
-        if ($this->proyectoFormulario7Linea23()->exists()) {
-            $fecha_finalizacion = $this->proyectoFormulario7Linea23->fecha_finalizacion;
-        }
-
-        if ($this->proyectoFormulario8Linea66()->exists()) {
-            $fecha_finalizacion = $this->proyectoFormulario8Linea66->fecha_finalizacion;
-        }
-
-        if ($this->proyectoFormulario9Linea23()->exists()) {
-            $fecha_finalizacion = $this->proyectoFormulario9Linea23->fecha_finalizacion;
-        }
-
-        if ($this->proyectoFormulario10Linea69()->exists()) {
-            $fecha_finalizacion = $this->proyectoFormulario10Linea69->fecha_finalizacion;
-        }
-
-        if ($this->proyectoFormulario11Linea83()->exists()) {
-            $fecha_finalizacion = $this->proyectoFormulario11Linea83->fecha_finalizacion;
-        }
-
-        if ($this->proyectoFormulario12Linea68()->exists()) {
-            $fecha_finalizacion = $this->proyectoFormulario12Linea68->fecha_finalizacion;
-        }
-
-        if ($this->proyectoFormulario13Linea65()->exists()) {
-            $fecha_finalizacion = $this->proyectoFormulario13Linea65->fecha_finalizacion;
-        }
-
-        if ($this->proyectoFormulario15Linea65()->exists()) {
-            $fecha_finalizacion = $this->proyectoFormulario15Linea65->fecha_finalizacion;
-        }
-
-        if ($this->proyectoFormulario16Linea65()->exists()) {
-            $fecha_finalizacion = $this->proyectoFormulario16Linea65->fecha_finalizacion;
-        }
-
-        if ($this->proyectoFormulario17Linea69()->exists()) {
-            $fecha_finalizacion = $this->proyectoFormulario17Linea69->fecha_finalizacion;
-        }
-
-        $codigo = 'SGPS-' . ($this->id + 8000) . '-' . date('Y', strtotime($fecha_finalizacion));
-        // if ($this->proyectoDemo()->exists()) {
-        //     $numero_consecutivo = sprintf("%05s", $this->proyectoDemo->id);
-        //     $codigo = 'DEMO-' . $numero_consecutivo . '-' . date('Y', strtotime($fecha_finalizacion));
-        //     $fecha_finalizacion =  $this->proyectoFormulario8Linea66->fecha_finalizacion;
-        // }
+        // Generate the codigo using $fecha_finalizacion
+        $codigo = $fecha_finalizacion ? 'SGPS-' . ($this->id + 8000) . '-' . date('Y', strtotime($fecha_finalizacion)) : null;
 
         return $codigo;
     }
 
     public function getFechaInicioAttribute()
     {
+        // Define an array of relationships to check
+        $relationships = [
+            'proyectoFormulario1Linea65',
+            'proyectoFormulario3Linea61',
+            'proyectoFormulario4Linea70',
+            'proyectoFormulario5Linea69',
+            'proyectoFormulario6Linea82',
+            'proyectoFormulario7Linea23',
+            'proyectoFormulario8Linea66',
+            'proyectoFormulario9Linea23',
+            'proyectoFormulario10Linea69',
+            'proyectoFormulario11Linea83',
+            'proyectoFormulario12Linea68',
+            'proyectoFormulario13Linea65',
+            'proyectoFormulario15Linea65',
+            'proyectoFormulario16Linea65',
+            'proyectoFormulario17Linea69',
+        ];
+
+        // Initialize $fecha_inicio to null
         $fecha_inicio = null;
 
-        if ($this->proyectoFormulario1Linea65()->exists()) {
-            $fecha_inicio = $this->proyectoFormulario1Linea65->fecha_inicio;
-        }
-
-        if ($this->proyectoFormulario3Linea61()->exists()) {
-            $fecha_inicio = $this->proyectoFormulario3Linea61->fecha_inicio;
-        }
-
-        if ($this->proyectoFormulario4Linea70()->exists()) {
-            $fecha_inicio = $this->proyectoFormulario4Linea70->fecha_inicio;
-        }
-
-        if ($this->proyectoFormulario5Linea69()->exists()) {
-            $fecha_inicio = $this->proyectoFormulario5Linea69->fecha_inicio;
-        }
-
-        if ($this->proyectoFormulario6Linea82()->exists()) {
-            $fecha_inicio = $this->proyectoFormulario6Linea82->fecha_inicio;
-        }
-
-        if ($this->proyectoFormulario7Linea23()->exists()) {
-            $fecha_inicio = $this->proyectoFormulario7Linea23->fecha_inicio;
-        }
-
-        if ($this->proyectoFormulario8Linea66()->exists()) {
-            $fecha_inicio = $this->proyectoFormulario8Linea66->fecha_inicio;
-        }
-
-        if ($this->proyectoFormulario9Linea23()->exists()) {
-            $fecha_inicio = $this->proyectoFormulario9Linea23->fecha_inicio;
-        }
-
-        if ($this->proyectoFormulario10Linea69()->exists()) {
-            $fecha_inicio = $this->proyectoFormulario10Linea69->fecha_inicio;
-        }
-
-        if ($this->proyectoFormulario11Linea83()->exists()) {
-            $fecha_inicio = $this->proyectoFormulario11Linea83->fecha_inicio;
-        }
-
-        if ($this->proyectoFormulario12Linea68()->exists()) {
-            $fecha_inicio = $this->proyectoFormulario12Linea68->fecha_inicio;
-        }
-
-        if ($this->proyectoFormulario13Linea65()->exists()) {
-            $fecha_inicio = $this->proyectoFormulario13Linea65->fecha_inicio;
-        }
-
-        if ($this->proyectoFormulario15Linea65()->exists()) {
-            $fecha_inicio = $this->proyectoFormulario15Linea65->fecha_inicio;
-        }
-
-        if ($this->proyectoFormulario16Linea65()->exists()) {
-            $fecha_inicio = $this->proyectoFormulario16Linea65->fecha_inicio;
-        }
-
-        if ($this->proyectoFormulario17Linea69()->exists()) {
-            $fecha_inicio = $this->proyectoFormulario17Linea69->fecha_inicio;
+        // Loop through the relationships and update $fecha_inicio if the relationship exists
+        foreach ($relationships as $relationship) {
+            if ($this->$relationship()->exists()) {
+                $fecha = $this->$relationship->fecha_inicio;
+                if ($fecha_inicio === null || $fecha < $fecha_inicio) {
+                    $fecha_inicio = $fecha;
+                }
+            }
         }
 
         return $fecha_inicio;
@@ -750,66 +687,36 @@ class Proyecto extends Model
 
     public function getFechaFinalizacionAttribute()
     {
+        // Define an array of relationships to check
+        $relationships = [
+            'proyectoFormulario1Linea65',
+            'proyectoFormulario3Linea61',
+            'proyectoFormulario4Linea70',
+            'proyectoFormulario5Linea69',
+            'proyectoFormulario6Linea82',
+            'proyectoFormulario7Linea23',
+            'proyectoFormulario8Linea66',
+            'proyectoFormulario9Linea23',
+            'proyectoFormulario10Linea69',
+            'proyectoFormulario11Linea83',
+            'proyectoFormulario12Linea68',
+            'proyectoFormulario13Linea65',
+            'proyectoFormulario15Linea65',
+            'proyectoFormulario16Linea65',
+            'proyectoFormulario17Linea69',
+        ];
+
+        // Initialize $fecha_finalizacion to null
         $fecha_finalizacion = null;
 
-        if ($this->proyectoFormulario1Linea65()->exists()) {
-            $fecha_finalizacion = $this->proyectoFormulario1Linea65->fecha_finalizacion;
-        }
-
-        if ($this->proyectoFormulario3Linea61()->exists()) {
-            $fecha_finalizacion = $this->proyectoFormulario3Linea61->fecha_finalizacion;
-        }
-
-        if ($this->proyectoFormulario4Linea70()->exists()) {
-            $fecha_finalizacion = $this->proyectoFormulario4Linea70->fecha_finalizacion;
-        }
-
-        if ($this->proyectoFormulario5Linea69()->exists()) {
-            $fecha_finalizacion = $this->proyectoFormulario5Linea69->fecha_finalizacion;
-        }
-
-        if ($this->proyectoFormulario6Linea82()->exists()) {
-            $fecha_finalizacion = $this->proyectoFormulario6Linea82->fecha_finalizacion;
-        }
-
-        if ($this->proyectoFormulario7Linea23()->exists()) {
-            $fecha_finalizacion = $this->proyectoFormulario7Linea23->fecha_finalizacion;
-        }
-
-        if ($this->proyectoFormulario8Linea66()->exists()) {
-            $fecha_finalizacion = $this->proyectoFormulario8Linea66->fecha_finalizacion;
-        }
-
-        if ($this->proyectoFormulario9Linea23()->exists()) {
-            $fecha_finalizacion = $this->proyectoFormulario9Linea23->fecha_finalizacion;
-        }
-
-        if ($this->proyectoFormulario10Linea69()->exists()) {
-            $fecha_finalizacion = $this->proyectoFormulario10Linea69->fecha_finalizacion;
-        }
-
-        if ($this->proyectoFormulario11Linea83()->exists()) {
-            $fecha_finalizacion = $this->proyectoFormulario11Linea83->fecha_finalizacion;
-        }
-
-        if ($this->proyectoFormulario12Linea68()->exists()) {
-            $fecha_finalizacion = $this->proyectoFormulario12Linea68->fecha_finalizacion;
-        }
-
-        if ($this->proyectoFormulario13Linea65()->exists()) {
-            $fecha_finalizacion = $this->proyectoFormulario13Linea65->fecha_finalizacion;
-        }
-
-        if ($this->proyectoFormulario15Linea65()->exists()) {
-            $fecha_finalizacion = $this->proyectoFormulario15Linea65->fecha_finalizacion;
-        }
-
-        if ($this->proyectoFormulario16Linea65()->exists()) {
-            $fecha_finalizacion = $this->proyectoFormulario16Linea65->fecha_finalizacion;
-        }
-
-        if ($this->proyectoFormulario17Linea69()->exists()) {
-            $fecha_finalizacion = $this->proyectoFormulario17Linea69->fecha_finalizacion;
+        // Loop through the relationships and update $fecha_finalizacion if the relationship exists
+        foreach ($relationships as $relationship) {
+            if ($this->$relationship()->exists()) {
+                $fecha = $this->$relationship->fecha_finalizacion;
+                if ($fecha_finalizacion === null || $fecha > $fecha_finalizacion) {
+                    $fecha_finalizacion = $fecha;
+                }
+            }
         }
 
         return $fecha_finalizacion;
@@ -822,66 +729,35 @@ class Proyecto extends Model
      */
     public function getDiffMesesAttribute()
     {
+        // Define an array of relationships to check
+        $relationships = [
+            'proyectoFormulario1Linea65',
+            'proyectoFormulario3Linea61',
+            'proyectoFormulario4Linea70',
+            'proyectoFormulario5Linea69',
+            'proyectoFormulario6Linea82',
+            'proyectoFormulario7Linea23',
+            'proyectoFormulario8Linea66',
+            'proyectoFormulario9Linea23',
+            'proyectoFormulario10Linea69',
+            'proyectoFormulario11Linea83',
+            'proyectoFormulario12Linea68',
+            'proyectoFormulario13Linea65',
+            'proyectoFormulario15Linea65',
+            'proyectoFormulario16Linea65',
+            'proyectoFormulario17Linea69',
+        ];
+
         $cantidad_meses_ejecucion = 0;
 
-        if ($this->proyectoFormulario1Linea65()->exists()) {
-            $cantidad_meses_ejecucion = $this->proyectoFormulario1Linea65->max_meses_ejecucion;
-        }
-
-        if ($this->proyectoFormulario3Linea61()->exists()) {
-            $cantidad_meses_ejecucion = $this->proyectoFormulario3Linea61->max_meses_ejecucion;
-        }
-
-        if ($this->proyectoFormulario4Linea70()->exists()) {
-            $cantidad_meses_ejecucion = $this->proyectoFormulario4Linea70->max_meses_ejecucion;
-        }
-
-        if ($this->proyectoFormulario5Linea69()->exists()) {
-            $cantidad_meses_ejecucion = $this->proyectoFormulario5Linea69->max_meses_ejecucion;
-        }
-
-        if ($this->proyectoFormulario6Linea82()->exists()) {
-            $cantidad_meses_ejecucion = $this->proyectoFormulario6Linea82->max_meses_ejecucion;
-        }
-
-        if ($this->proyectoFormulario7Linea23()->exists()) {
-            $cantidad_meses_ejecucion = $this->proyectoFormulario7Linea23->max_meses_ejecucion;
-        }
-
-        if ($this->proyectoFormulario8Linea66()->exists()) {
-            $cantidad_meses_ejecucion = $this->proyectoFormulario8Linea66->max_meses_ejecucion;
-        }
-
-        if ($this->proyectoFormulario9Linea23()->exists()) {
-            $cantidad_meses_ejecucion = $this->proyectoFormulario9Linea23->max_meses_ejecucion;
-        }
-
-        if ($this->proyectoFormulario10Linea69()->exists()) {
-            $cantidad_meses_ejecucion = $this->proyectoFormulario10Linea69->max_meses_ejecucion;
-        }
-
-        if ($this->proyectoFormulario11Linea83()->exists()) {
-            $cantidad_meses_ejecucion = $this->proyectoFormulario11Linea83->max_meses_ejecucion;
-        }
-
-        if ($this->proyectoFormulario12Linea68()->exists()) {
-            $cantidad_meses_ejecucion = $this->proyectoFormulario12Linea68->max_meses_ejecucion;
-        }
-
-        if ($this->proyectoFormulario13Linea65()->exists()) {
-            $cantidad_meses_ejecucion = $this->proyectoFormulario13Linea65->max_meses_ejecucion;
-        }
-
-        if ($this->proyectoFormulario15Linea65()->exists()) {
-            $cantidad_meses_ejecucion = $this->proyectoFormulario15Linea65->max_meses_ejecucion;
-        }
-
-        if ($this->proyectoFormulario16Linea65()->exists()) {
-            $cantidad_meses_ejecucion = $this->proyectoFormulario16Linea65->max_meses_ejecucion;
-        }
-
-        if ($this->proyectoFormulario17Linea69()->exists()) {
-            $cantidad_meses_ejecucion = $this->proyectoFormulario17Linea69->max_meses_ejecucion;
+        // Loop through the relationships and update $cantidad_meses_ejecucion if the relationship exists
+        foreach ($relationships as $relationship) {
+            if ($this->$relationship()->exists()) {
+                $max_meses_ejecucion = $this->$relationship->max_meses_ejecucion;
+                if ($max_meses_ejecucion > $cantidad_meses_ejecucion) {
+                    $cantidad_meses_ejecucion = $max_meses_ejecucion;
+                }
+            }
         }
 
         return $cantidad_meses_ejecucion;
@@ -1015,92 +891,65 @@ class Proyecto extends Model
     }
 
     /**
-     * getEstadoEvaluacionProyectoFormulario8Linea66Attribute - Estrategia regional
+     * getEstadoEvaluacionProyectoAttribute
      *
      * @return void
      */
-    public function getEstadoEvaluacionProyectoFormulario8Linea66Attribute()
+    public function getEstadoEvaluacionProyectoAttribute()
     {
-        if ($this->proyectoFormulario8Linea66()->exists()) {
-            $evaluaciones               = $this->evaluaciones()->where('habilitado', true)->get();
-            $evaluaciones_finalizadas   = $this->evaluaciones()->where('habilitado', true)->where('finalizado', true)->count();
+        $evaluaciones               = $this->evaluaciones()->where('habilitado', true)->get();
+        $evaluaciones_finalizadas   = $this->evaluaciones()->where('habilitado', true)->where('finalizado', true)->count();
 
-            $puntaje_total = 0;
-            $total_recomendaciones = 0;
-            $estado_evaluacion = '';
-            $causal_rechazo  = null;
-            $requiere_subsanar = false;
-            $total_presupuestos_evaluados = 0;
+        $puntaje_total = 0;
+        $total_recomendaciones = 0;
+        $cantidad_evaluaciones = count($evaluaciones);
+        // $estado_evaluacion = '';
+        // $causal_rechazo  = null;
+        // $requiere_subsanar = false;
+        // $total_presupuestos_evaluados = 0;
 
-            $estados = array(1, 2);
+        // $estados = array(1, 2);
 
-            foreach ($evaluaciones as $key => $evaluacion) {
-                $puntaje_total += $evaluacion->total_evaluacion;
-                $total_recomendaciones += $evaluacion->total_recomendaciones;
-
-                array_push($estados, $this->estadoEvaluacionProyectoFormulario8Linea66($evaluacion->total_evaluacion, $total_recomendaciones, $requiere_subsanar, null)['id']);
-
-                if ($causal_rechazo == null) {
-
-                    //     switch ($evaluacion) {
-                    //         case $evaluacion->evaluacionProyectoFormulario8Linea66()->exists():
-
-                    //             if ($evaluacion->evaluacionCausalesRechazo()->where('causal_rechazo', '=', 4)->first()) {
-                    //                 $causal_rechazo = 'En revisión por Cord. SENNOVA';
-                    //             } else if ($evaluacion->evaluacionCausalesRechazo()->whereIn('causal_rechazo', [1, 2, 3])->first()) {
-                    //                 $causal_rechazo = 'Rechazado - Por causal de rechazo';
-                    //             }
-
-                    //             if ($evaluacion->evaluacionProyectoFormulario8Linea66->anexos_comentario != null) {
-                    //                 $requiere_subsanar = true;
-                    //             }
-                    //             break;
-
-                    //         default:
-                    //             break;
-                    //     }
-                }
-
-                if ($causal_rechazo == null && $evaluacion->proyectoPresupuestosEvaluaciones()->count() > 0 && $this->convocatoria->fase == 5) {
-                    $this->precio_proyecto - $this->getPrecioProyectoAprobadoAttribute() >= floor($this->precio_proyecto * 0.8) ? $causal_rechazo = 'Rechazado - No cumple con el presupuesto' : $causal_rechazo = null;
-                }
-            }
-
-            $cantidad_evaluaciones = count($evaluaciones);
-
-            $sq = 0;
-            $sq = $this->getDesviacionEstandarAttribute();
-            $alerta = null;
-            if (in_array(2, $estados) && $sq >= 25  || in_array(3, $estados) && $sq >= 25) {
-                if (in_array(2, $estados)) {
-                    $estadoArr = 'Pre-aprobado';
-                } else if (in_array(3, $estados)) {
-                    $estadoArr = 'Pre-aprobado con observaciones';
-                }
-                $alerta = "Hay una evaluación en estado '{$estadoArr}' y la desviación estándar de las {$cantidad_evaluaciones} evaluaciones es {$sq}.";
-            }
-
-            $cantidad_evaluaciones > 0 ? $puntaje_total = $puntaje_total / $cantidad_evaluaciones : $puntaje_total = 0;
-
-            if ($causal_rechazo == null && $cantidad_evaluaciones > 0) {
-                $estado_evaluacion = $this->estadoEvaluacionProyectoFormulario8Linea66($puntaje_total, $total_recomendaciones, $requiere_subsanar, null)['estado'];
-                $requiere_subsanar = $this->estadoEvaluacionProyectoFormulario8Linea66($puntaje_total, $total_recomendaciones, $requiere_subsanar, null)['requiere_subsanar'];
-            } else {
-                $estado_evaluacion = $causal_rechazo;
-            }
-
-            if ($cantidad_evaluaciones == 0) {
-                $estados_evaluacion = collect(json_decode(Storage::get('json/estados-evaluacion.json'), true));
-                $estado_evaluacion  = $estados_evaluacion->where('value', 1)->first()['label'];
-            }
-
-            if ($this->estado_cord_sennova != NULL && request()->isMethod('GET')) {
-                $estados_evaluacion = collect(json_decode($this->estado_cord_sennova, true));
-                $estado_evaluacion  = $estados_evaluacion['estado'];
-            }
-
-            return collect(['estado' => $estado_evaluacion, 'puntaje' => $puntaje_total, 'numero_recomendaciones' => $total_recomendaciones, 'evaluaciones_habilitadas' => $cantidad_evaluaciones, 'evaluaciones_finalizadas' => $evaluaciones_finalizadas, 'requiere_subsanar' => $requiere_subsanar, 'alerta' => $alerta]);
+        foreach ($evaluaciones as $evaluacion) {
+            $puntaje_total          += $evaluacion->total_evaluacion;
+            $total_recomendaciones  += $evaluacion->total_recomendaciones;
         }
+
+        $cantidad_evaluaciones > 0 ? $puntaje_total = $puntaje_total / $cantidad_evaluaciones : $puntaje_total = 0;
+
+        // $sq = 0;
+        // $sq = $this->getDesviacionEstandarAttribute();
+        // $alerta = null;
+        // if (in_array(2, $estados) && $sq >= 25  || in_array(3, $estados) && $sq >= 25) {
+        //     if (in_array(2, $estados)) {
+        //         $estadoArr = 'Pre-aprobado';
+        //     } else if (in_array(3, $estados)) {
+        //         $estadoArr = 'Pre-aprobado con observaciones';
+        //     }
+        //     $alerta = "Hay una evaluación en estado '{$estadoArr}' y la desviación estándar de las {$cantidad_evaluaciones} evaluaciones es {$sq}.";
+        // }
+
+
+        // if ($causal_rechazo == null && $cantidad_evaluaciones > 0) {
+        //     $estado_evaluacion = $this->estadoEvaluacionProyectoFormulario8Linea66($puntaje_total, $total_recomendaciones, $requiere_subsanar, null)['estado'];
+        //     $requiere_subsanar = $this->estadoEvaluacionProyectoFormulario8Linea66($puntaje_total, $total_recomendaciones, $requiere_subsanar, null)['requiere_subsanar'];
+        // } else {
+        //     $estado_evaluacion = $causal_rechazo;
+        // }
+
+        // if ($cantidad_evaluaciones == 0) {
+        //     $estados_evaluacion = collect(json_decode(Storage::get('json/estados-evaluacion.json'), true));
+        //     $estado_evaluacion  = $estados_evaluacion->where('value', 1)->first()['label'];
+        // }
+
+        // if ($this->estado_cord_sennova != NULL && request()->isMethod('GET')) {
+        //     $estados_evaluacion = collect(json_decode($this->estado_cord_sennova, true));
+        //     $estado_evaluacion  = $estados_evaluacion['estado'];
+        // }
+
+        // return collect(['estado' => $estado_evaluacion, 'puntaje' => $puntaje_total, 'numero_recomendaciones' => $total_recomendaciones, 'evaluaciones_habilitadas' => $cantidad_evaluaciones, 'evaluaciones_finalizadas' => $evaluaciones_finalizadas, 'requiere_subsanar' => $requiere_subsanar, 'alerta' => $alerta]);
+
+        return collect(['puntaje' => $puntaje_total, 'numero_recomendaciones' => $total_recomendaciones, 'evaluaciones_habilitadas' => $cantidad_evaluaciones, 'evaluaciones_finalizadas' => $evaluaciones_finalizadas]);
     }
 
     /**
@@ -1128,27 +977,6 @@ class Proyecto extends Model
                 $total_recomendaciones  += $evaluacion->total_recomendaciones;
 
                 array_push($estados, $this->estadoEvaluacionProyectoFormulario6Linea82($evaluacion->total_evaluacion, $total_recomendaciones, $requiere_subsanar, null)['id']);
-
-                if ($causal_rechazo == null) {
-
-                    // switch ($evaluacion) {
-                    //     case $evaluacion->evaluacionProyectoFormulario6Linea82()->exists():
-
-                    //         if ($evaluacion->evaluacionCausalesRechazo()->where('causal_rechazo', '=', 4)->first()) {
-                    //             $causal_rechazo = 'En revisión por Cord. SENNOVA';
-                    //         } else if ($evaluacion->evaluacionCausalesRechazo()->whereIn('causal_rechazo', [1, 2, 3])->first()) {
-                    //             $causal_rechazo = 'Rechazado - Por causal de rechazo';
-                    //         }
-
-                    //         if ($evaluacion->evaluacionProyectoFormulario6Linea82->anexos_comentario != null) {
-                    //             $requiere_subsanar = true;
-                    //         }
-                    //         break;
-
-                    //     default:
-                    //         break;
-                    // }
-                }
 
                 if ($causal_rechazo == null && $evaluacion->proyectoPresupuestosEvaluaciones()->count() > 0 && $this->convocatoria->fase == 5) {
                     $this->precio_proyecto - $this->getPrecioProyectoAprobadoAttribute() >= floor($this->precio_proyecto * 0.8) ? $causal_rechazo = 'Rechazado - No cumple con el presupuesto' : $causal_rechazo = null;
@@ -1226,23 +1054,6 @@ class Proyecto extends Model
                 }
 
                 array_push($estados, $this->estadoEvaluacionProyectoFormulario1Linea65($evaluacion->total_evaluacion, $total_recomendaciones, $requiere_subsanar)['id']);
-
-                if ($causal_rechazo == null) {
-                    // switch ($evaluacion) {
-                    //     case $evaluacion->evaluacionProyectoFormulario1Linea65()->exists():
-                    //         if ($evaluacion->evaluacionProyectoFormulario1Linea65->anexos_comentario != null) {
-                    //             $requiere_subsanar = true;
-                    //         }
-                    //         break;
-
-                    //     default:
-                    //         break;
-                    // }
-                }
-
-                // if ($causal_rechazo == null && $evaluacion->proyectoPresupuestosEvaluaciones()->count() > 0) {
-                //     $count_presupuesto_no_aprobado >= floor($total_presupuestos_evaluados * 0.8) ? $causal_rechazo = 'Rechazado - No cumple con el presupuesto' : $causal_rechazo = null;
-                // }
             }
 
             $cantidad_evaluaciones = count($evaluaciones);
@@ -1597,7 +1408,6 @@ class Proyecto extends Model
         return collect(['id' => $id, 'estado' => $estado_evaluacion, 'requiere_subsanar' => $requiere_subsanar]);
     }
 
-
     /**
      * estadoEvaluacionProyectoFormulario1Linea65
      *
@@ -1649,31 +1459,6 @@ class Proyecto extends Model
         }
 
         return $dvst;
-    }
-
-    public function updateValoresProyecto()
-    {
-        $proyecto = $this;
-        $proyecto->update(['precio_proyecto' => $proyecto->precio_proyecto]);
-        switch ($proyecto) {
-            case $proyecto->estado_evaluacion_proyecto_formulario_8_linea_66 != null:
-                $proyecto->update(['estado' => $proyecto->estado_evaluacion_proyecto_formulario_8_linea_66]);
-                break;
-            case $proyecto->estado_evaluacion_proyecto_formulario_1_linea_65 != null:
-                $proyecto->update(['estado' => $proyecto->estado_evaluacion_proyecto_formulario_1_linea_65]);
-                break;
-            case $proyecto->estado_evaluacion_proyecto_formulario_4_linea_70 != null:
-                $proyecto->update(['estado' => $proyecto->estado_evaluacion_proyecto_formulario_4_linea_70]);
-                break;
-            case $proyecto->estado_evaluacion_proyecto_formulario_5_linea_69 != null:
-                $proyecto->update(['estado' => $proyecto->estado_evaluacion_proyecto_formulario_5_linea_69]);
-                break;
-            case $proyecto->estado_evaluacion_proyecto_formulario_12_linea_68 != null:
-                $proyecto->update(['estado' => $proyecto->estado_evaluacion_proyecto_formulario_12_linea_68]);
-                break;
-            default:
-                break;
-        }
     }
 
     public function getListaArchivosAttribute()

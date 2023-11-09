@@ -252,7 +252,7 @@ export default function StepperMui({ auth_user, convocatoria, proyecto, evaluaci
 
                                 {evaluacion[0]?.puntaje_total > 0 && (
                                     <p className="text-center">
-                                        <strong>Puntaje total:</strong> {evaluacion[0]?.puntaje_total}
+                                        <strong>Puntaje total:</strong> {evaluacion[0]?.puntaje_total.toFixed(1)}
                                     </p>
                                 )}
                             </AlertMui>

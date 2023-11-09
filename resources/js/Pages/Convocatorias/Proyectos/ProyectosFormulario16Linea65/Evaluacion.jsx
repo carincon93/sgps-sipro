@@ -183,7 +183,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                             {form.data['form_requiere_comentario_pregunta_id_' + evaluacion.pregunta_id] && (
                                 <Textarea
                                     label="Comentario"
-                                    className="mt-4"
+                                    className="!mt-4"
                                     inputBackground="#fff"
                                     id={'form_comentario_pregunta_id_' + evaluacion.pregunta_id}
                                     onChange={(e) => form.setData('form_comentario_pregunta_id_' + evaluacion.pregunta_id, e.target.value)}
@@ -231,7 +231,10 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                         <Divider className="!mb-20 font-black">ROL - CÓDIGO #{evaluacion_rol_sennova?.id}</Divider>
 
                         <p>
-                            ¿El rol es correcto? Si considera que la información puede mejorarse, por favor seleccione <strong>NO</strong> y haga la respectiva recomendación.
+                            Si considera que la información puede mejorarse, por favor seleccione <strong>NO</strong> y haga la respectiva recomendación.
+                            <br />
+                            <br />
+                            ¿El rol es correcto?
                         </p>
                         <SwitchMui className="!my-6" checked={form_evaluacion_rol.data.correcto} onChange={(e) => form_evaluacion_rol.setData('correcto', e.target.checked)} />
                         {form_evaluacion_rol.data.correcto == false && (
@@ -268,7 +271,10 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                         <Divider className="!mb-20 font-black">RUBRO PRESUPUESTAL - CÓDIGO #{evaluacion_rubro?.id}</Divider>
 
                         <p>
-                            ¿El rubro es correcto? Si considera que la información puede mejorarse, por favor seleccione <strong>NO</strong> y haga la respectiva recomendación.
+                            Si considera que la información puede mejorarse, por favor seleccione <strong>NO</strong> y haga la respectiva recomendación.
+                            <br />
+                            <br />
+                            ¿El rubro es correcto?
                         </p>
                         <SwitchMui className="!my-6" checked={form_evaluacion_rubro.data.correcto} onChange={(e) => form_evaluacion_rubro.setData('correcto', e.target.checked)} />
                         {form_evaluacion_rubro.data.correcto == false && (

@@ -41,7 +41,7 @@ const Evaluacion = ({ auth_user, proyecto, evaluacion }) => {
                                 <Textarea
                                     disabled={is_super_admin ? false : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : false}
                                     label="Comentario"
-                                    className="mt-4"
+                                    className="!mt-4"
                                     id="edt_comentario"
                                     bind:value={form.data.edt_comentario}
                                     error={form.errors.edt_comentario}

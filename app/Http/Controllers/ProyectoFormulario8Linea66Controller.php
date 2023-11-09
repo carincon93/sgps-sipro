@@ -330,7 +330,7 @@ class ProyectoFormulario8Linea66Controller extends Controller
                     'evaluacion_id' => $request->evaluacion_id
                 ],
                 [
-                    'comentario'    => $item['form_comentario_pregunta_id_' . $pregunta_id],
+                    'comentario'    => $item['form_requiere_comentario_pregunta_id_' . $pregunta_id] ? $item['form_comentario_pregunta_id_' . $pregunta_id] : null,
                     'puntaje'       => $item['form_puntaje_pregunta_id_' . $pregunta_id],
                 ],
             );

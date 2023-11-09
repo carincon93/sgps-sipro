@@ -109,37 +109,25 @@ const Index = ({ auth, evaluaciones, evaluadores, proyectos, allowed_to_create }
                                 </TableCell>
 
                                 <TableCell>
-                                    <AlertMui>
-                                        {evaluacion.proyecto.estado_evaluacion_proyecto_formulario_8_linea_66 ||
-                                        evaluacion.proyecto.estado_evaluacion_proyecto_formulario_1_linea_65 ||
-                                        evaluacion.proyecto.estado_evaluacion_proyecto_formulario_1_linea_68 ? (
+                                    <div className="bg-yellow-100 p-2 rounded">
+                                        {evaluacion.proyecto.estado_evaluacion_proyecto && (
                                             <>
                                                 {evaluacion.estado_proyecto_por_evaluador?.estado}
                                                 {evaluacion.allowed.to_view && (
                                                     <>
-                                                        <br />
                                                         <small>
                                                             Puntaje: {evaluacion.total_evaluacion}
                                                             <br />
-                                                            Número de recomendaciones: {evaluacion.total_recomendaciones}
+                                                            Ítems por mejorar: {evaluacion.total_recomendaciones}
+                                                            <hr />
+                                                            <strong>Puntaje total: {evaluacion.proyecto.estado_evaluacion_proyecto.puntaje.toFixed(1)}</strong>
+                                                            <br />
                                                         </small>
                                                     </>
                                                 )}
                                             </>
-                                        ) : evaluacion.proyecto.estado_evaluacion_proyecto_formulario_4_linea_70 ? (
-                                            <>
-                                                {evaluacion.proyecto.estado_evaluacion_proyecto_formulario_4_linea_70.estado}
-                                                <br />| {evaluacion.allowed.to_view && <small>Número de recomendaciones: {evaluacion.total_recomendaciones}</small>}
-                                            </>
-                                        ) : evaluacion.proyecto.estado_evaluacion_proyecto_formulario_5_linea_69 ? (
-                                            <>
-                                                {evaluacion.proyecto.estado_evaluacion_proyecto_formulario_5_linea_69.estado}
-                                                <br />| {evaluacion.allowed.to_view && <small>Número de recomendaciones: {evaluacion.total_recomendaciones}</small>}
-                                            </>
-                                        ) : (
-                                            'Sin información registrada'
                                         )}
-                                    </AlertMui>
+                                    </div>
                                 </TableCell>
                                 <TableCell>
                                     <MenuMui text={<MoreVertIcon />}>

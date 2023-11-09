@@ -26,7 +26,7 @@ class Evaluacion extends Model
      *
      * @var array
      */
-    protected $appends = ['total_evaluacion', 'validar_evaluacion', 'total_recomendaciones', 'verificar_estado_evaluacion', 'estado_proyecto_por_evaluador', 'causal_rechazo_proyecto_formulario_8_linea_66', 'allowed'];
+    protected $appends = ['total_evaluacion', 'total_recomendaciones', 'validar_evaluacion', 'verificar_estado_evaluacion', 'estado_proyecto_por_evaluador', 'causal_rechazo_proyecto_formulario_8_linea_66', 'allowed'];
 
     /**
      * The attributes that are mass assignable.
@@ -442,9 +442,19 @@ class Evaluacion extends Model
     {
         $nombres_formularios = [
             'Formulario1Linea65',
+            'Formulario3Linea61',
+            'Formulario4Linea70',
+            'Formulario5Linea69',
             'Formulario6Linea82',
+            'Formulario7Linea23',
             'Formulario8Linea66',
+            'Formulario9Linea23',
+            'Formulario10Linea69',
             'Formulario12Linea68',
+            'Formulario13Linea65',
+            'Formulario15Linea65',
+            'Formulario16Linea65',
+            'Formulario17Linea69',
         ];
 
         $total = 0;
@@ -460,9 +470,41 @@ class Evaluacion extends Model
         return round($total, 2);
     }
 
+    public function getTotalRecomendacionesAttribute()
+    {
+        $nombres_formularios = [
+            'Formulario1Linea65',
+            'Formulario3Linea61',
+            'Formulario4Linea70',
+            'Formulario5Linea69',
+            'Formulario6Linea82',
+            'Formulario7Linea23',
+            'Formulario8Linea66',
+            'Formulario9Linea23',
+            'Formulario10Linea69',
+            'Formulario12Linea68',
+            'Formulario13Linea65',
+            'Formulario15Linea65',
+            'Formulario16Linea65',
+            'Formulario17Linea69',
+        ];
+
+        $total = 0;
+
+        foreach ($nombres_formularios as $nombre_formulario) {
+            $evaluacion = $this->getEvaluacion($nombre_formulario);
+
+            if ($evaluacion) {
+                $total += $this->getFormRecomendaciones($evaluacion);
+            }
+        }
+
+        return $total;
+    }
+
     protected function getEvaluacion($nombre_form)
     {
-        $nombre_relacion = 'evaluacionProyecto' . $nombre_form;
+        $nombre_relacion = 'evaluacionesProyecto' . $nombre_form;
 
         return $this->evaluacionExists($nombre_relacion) ? $this->$nombre_relacion : null;
     }
@@ -474,44 +516,50 @@ class Evaluacion extends Model
 
     protected function getFormPuntaje($evaluacion)
     {
-        $puntaje_campos = [];
-
-        return collect($puntaje_campos)->sum(fn ($field) => $evaluacion->$field);
+        return $evaluacion->sum(function ($record) {
+            return (float) $record->puntaje;
+        });
     }
 
-    public function getTotalRecomendacionesAttribute()
+    public function getFormRecomendaciones($evaluacion)
     {
         $total = 0;
 
         $total += $this->proyectoPresupuestosEvaluaciones()->where('correcto', false)->count();
         $total += $this->proyectoRolesEvaluaciones()->where('correcto', false)->count();
 
+        foreach ($evaluacion as $item) {
+            if ($item->comentario) {
+                $total++;
+            }
+        }
+
         return $total;
     }
 
     public function getValidarEvaluacionAttribute()
     {
-        $itemsPorEvaluar = [];
-        $countRolesSinEvaluar = 0;
+        $items_por_evaluar = [];
+        $count_roles_sin_evaluar = 0;
 
         if ($this->proyecto && $this->proyecto->tipoFormularioConvocatoria->lineaProgramatica->codigo != 23) {
             foreach ($this->proyecto->proyectoRolesSennova as $proyectoRol) {
-                !$proyectoRol->proyectoRolesEvaluaciones()->where('evaluacion_id', $this->id)->first() ? $countRolesSinEvaluar++ : null;
+                !$proyectoRol->proyectoRolesEvaluaciones()->where('evaluacion_id', $this->id)->first() ? $count_roles_sin_evaluar++ : null;
             }
         }
 
-        $countRolesSinEvaluar > 0 ? array_push($itemsPorEvaluar, 'Hay ' . $countRolesSinEvaluar . ' rol(es) sin evaluar') : null;
+        $count_roles_sin_evaluar > 0 ? array_push($items_por_evaluar, 'Hay ' . $count_roles_sin_evaluar . ' rol(es) sin evaluar') : null;
 
-        $countPresupuestosSinEvaluar = 0;
+        $count_presupuestos_sin_evaluar = 0;
         if ($this->proyecto) {
             foreach ($this->proyecto->proyectoPresupuesto as $proyectoPresupuesto) {
-                !$proyectoPresupuesto->proyectoPresupuestosEvaluaciones()->where('evaluacion_id', $this->id)->first() ? $countPresupuestosSinEvaluar++ : null;
+                !$proyectoPresupuesto->proyectoPresupuestosEvaluaciones()->where('evaluacion_id', $this->id)->first() ? $count_presupuestos_sin_evaluar++ : null;
             }
         }
 
-        $countPresupuestosSinEvaluar > 0 ? array_push($itemsPorEvaluar, 'Hay ' . $countPresupuestosSinEvaluar . ' rubro(s) presupuestal(es) sin evaluar') : null;
+        $count_presupuestos_sin_evaluar > 0 ? array_push($items_por_evaluar, 'Hay ' . $count_presupuestos_sin_evaluar . ' rubro(s) presupuestal(es) sin evaluar') : null;
 
-        return $itemsPorEvaluar;
+        return $items_por_evaluar;
     }
 
     public function getEstadoProyectoPorEvaluadorAttribute()
