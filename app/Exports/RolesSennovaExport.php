@@ -4,6 +4,7 @@ namespace App\Exports;
 
 use App\Models\ProyectoRolSennova;
 use App\Models\Convocatoria;
+use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -12,9 +13,10 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithTitle;
-use Maatwebsite\Excel\Concerns\WithProperties;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
 
-class RolesSennovaExport implements FromCollection, WithHeadings, WithMapping, WithStyles, WithProperties, WithColumnFormatting, WithTitle
+class RolesSennovaExport implements FromCollection, WithHeadings, WithMapping, WithStyles, WithColumnFormatting, ShouldAutoSize, WithTitle
 {
     protected $datos;
     protected $convocatoria;
@@ -29,8 +31,9 @@ class RolesSennovaExport implements FromCollection, WithHeadings, WithMapping, W
      */
     public function collection()
     {
-        $idproyectos = explode(',', $this->convocatoria->proyectos->implode('id', ','));
-        return ProyectoRolSennova::whereIn('proyecto_id', $idproyectos)->with('convocatoriaRolSennova.rolSennova', 'convocatoriaRolSennova.lineaProgramatica',)->get();
+        $proyectos_ids = explode(',', $this->convocatoria->proyectos->implode('id', ','));
+
+        return ProyectoRolSennova::whereIn('proyecto_id', $proyectos_ids)->with('convocatoriaRolSennova.rolSennova')->get();
     }
 
     /**
@@ -38,46 +41,38 @@ class RolesSennovaExport implements FromCollection, WithHeadings, WithMapping, W
      */
     public function map($rolSennova): array
     {
-        $data = [
-            $rolSennova->proyecto->convocatoria->descripcion,
+        $informacion_celdas = [
+            $this->convocatoria->descripcion . ' ' . $this->convocatoria->year,
+            $rolSennova->proyecto->tipoFormularioConvocatoria->nombre,
+            $rolSennova->proyecto->codigo,
             $rolSennova->proyecto->centroFormacion->regional->nombre,
             $rolSennova->proyecto->centroFormacion->codigo,
             $rolSennova->proyecto->centroFormacion->nombre,
-            $rolSennova->proyecto->lineaProgramatica->codigo,
-            $rolSennova->proyecto->codigo,
             $rolSennova->convocatoriaRolSennova->rolSennova->nombre,
-            $rolSennova->convocatoriaRolSennova->lineaProgramatica->nombre,
             $rolSennova->descripcion,
             $rolSennova->numero_meses,
             $rolSennova->numero_roles,
             $rolSennova->convocatoriaRolSennova->experiencia,
-            // ucfirst($rolSennova->convocatoriaRolSennova->nivel_academico_formateado),
+            collect(json_decode(Storage::get('json/niveles-academicos.json'), true))->firstWhere('value', $rolSennova->convocatoriaRolSennova->nivel_academico)['label'],
             $rolSennova->convocatoriaRolSennova->asignacion_mensual,
             $rolSennova->getTotalRolSennova(),
-            $rolSennova->getRolAprobadoAttribute(),
+            // $rolSennova->getRolAprobadoAttribute(),
 
         ];
 
-        foreach ($rolSennova->proyectoRolesEvaluaciones as $rolEvaluacion) {
-            $data[] = $rolEvaluacion->evaluacion->evaluador->nombre;
-            $data[] = $rolEvaluacion->correcto ? 'Cumple' : 'No cumple';
-            $data[] = $rolEvaluacion->comentario;
-        }
-
-        return $data;
+        return $informacion_celdas;
     }
 
     public function headings(): array
     {
         return [
             'Convocatoria',
+            'Formulario',
+            'Código SGPS',
             'Regional',
-            'Código Centro de formación',
+            'Código del centro formación',
             'Centro de formación',
-            'Línea programática',
-            'Código proyecto',
             'Rol SENNOVA',
-            'Linea programática',
             'Descripción',
             'Número de meses',
             'Número de roles',
@@ -85,24 +80,15 @@ class RolesSennovaExport implements FromCollection, WithHeadings, WithMapping, W
             'Nivel académico',
             'Asignación mensual',
             'Total',
-            'Estado final',
-            'Evaluador 1',
-            'Evaluación',
-            'Comentario',
-            'Evaluador 2',
-            'Evaluación',
-            'Comentario',
-            'Evaluador 3',
-            'Evaluación',
-            'Comentario',
+            // 'Estado final',
         ];
     }
 
     public function columnFormats(): array
     {
         return [
-            'N' => NumberFormat::FORMAT_CURRENCY_USD_SIMPLE,
-            'O' => NumberFormat::FORMAT_CURRENCY_USD_SIMPLE,
+            'M' => NumberFormat::FORMAT_CURRENCY_USD,
+            'N' => NumberFormat::FORMAT_CURRENCY_USD,
         ];
     }
 
@@ -111,21 +97,20 @@ class RolesSennovaExport implements FromCollection, WithHeadings, WithMapping, W
      */
     public function title(): string
     {
-        return 'Resumen Roles SENNOVA';
-    }
-
-    public function properties(): array
-    {
-        return [
-            'title' => 'Resumen Roles SENNOVA ' . $this->convocatoria->descripcion,
-        ];
+        return 'Roles SENNOVA';
     }
 
     public function styles(Worksheet $sheet)
     {
-        return [
-            // Style the first row as bold text.
-            1    => ['font' => ['bold' => true]],
-        ];
+        $sheet->getStyle('A1:' . $sheet->getHighestColumn() . '1')->applyFromArray([
+            'font' => [
+                'bold' => true,
+                'color' => ['rgb' => '000000'],
+            ],
+            'fill' => [
+                'fillType'   => Fill::FILL_SOLID,
+                'startColor' => ['rgb' => 'edfdf3'],
+            ],
+        ]);
     }
 }

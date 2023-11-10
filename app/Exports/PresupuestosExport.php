@@ -12,9 +12,10 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithTitle;
-use Maatwebsite\Excel\Concerns\WithProperties;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
 
-class PresupuestosExport implements FromCollection, WithHeadings, WithMapping, WithStyles, WithProperties, WithColumnFormatting, WithTitle
+class PresupuestosExport implements FromCollection, WithHeadings, WithMapping, WithStyles, WithColumnFormatting, ShouldAutoSize, WithTitle
 {
     protected $datos;
     protected $convocatoria;
@@ -29,8 +30,9 @@ class PresupuestosExport implements FromCollection, WithHeadings, WithMapping, W
      */
     public function collection()
     {
-        $idproyectos = explode(',', $this->convocatoria->proyectos->implode('id', ','));
-        return ProyectoPresupuesto::whereIn('proyecto_id', $idproyectos)->whereNotIn('proyecto_id', [1052, 1113])->with('convocatoriaProyectoRubrosPresupuestales.rubroPresupuestal.usoPresupuestal')->get();
+        $proyectos_id = explode(',', $this->convocatoria->proyectos->implode('id', ','));
+
+        return ProyectoPresupuesto::whereIn('proyecto_id', $proyectos_id)->with('convocatoriaProyectoRubrosPresupuestales.rubroPresupuestal.usoPresupuestal')->get();
     }
 
     /**
@@ -38,67 +40,50 @@ class PresupuestosExport implements FromCollection, WithHeadings, WithMapping, W
      */
     public function map($presupuesto): array
     {
-        $data = [
-            $presupuesto->proyecto->convocatoria->descripcion,
+        $informacion_celdas = [
+            $this->convocatoria->descripcion . ' ' . $this->convocatoria->year,
+            $presupuesto->proyecto->tipoFormularioConvocatoria->nombre,
+            $presupuesto->proyecto->codigo,
             $presupuesto->proyecto->centroFormacion->regional->nombre,
             $presupuesto->proyecto->centroFormacion->codigo,
             $presupuesto->proyecto->centroFormacion->nombre,
-            $presupuesto->proyecto->lineaProgramatica->codigo,
-            $presupuesto->proyecto->codigo,
             $presupuesto->proyecto->titulo,
-            $presupuesto->convocatoriaPresupuesto->rubroPresupuestal->primerGrupoPresupuestal->nombre,
             $presupuesto->convocatoriaPresupuesto->rubroPresupuestal->tercerGrupoPresupuestal->nombre,
             $presupuesto->convocatoriaPresupuesto->rubroPresupuestal->segundoGrupoPresupuestal->nombre,
             $presupuesto->convocatoriaPresupuesto->rubroPresupuestal->usoPresupuestal->nombre,
             $presupuesto->descripcion,
             $presupuesto->justificacion,
             $presupuesto->valor_total,
-            $presupuesto->getPresupuestoAprobadoAttribute(),
+            // $presupuesto->getPresupuestoAprobadoAttribute(),
         ];
 
-        foreach ($presupuesto->proyectoPresupuestosEvaluaciones as $presupuestoEvaluacion) {
-            $data[] = $presupuestoEvaluacion->evaluacion->evaluador->nombre;
-            $data[] = $presupuestoEvaluacion->correcto ? 'Cumple' : 'No cumple';
-            $data[] = $presupuestoEvaluacion->comentario;
-        }
-
-        return $data;
+        return $informacion_celdas;
     }
 
     public function headings(): array
     {
         return [
             'Convocatoria',
+            'Formulario',
+            'Código SGPS',
             'Regional',
-            'Código Centro de formación',
+            'Código del centro formación',
             'Centro de formación',
-            'Línea programática',
-            'Código proyecto',
             'Título',
-            'Rubro 2018',
-            'Homologable 2018',
-            'Rubro 2019',
+            'Concepto inerno SENA',
+            'Concepto MinHacienda',
             'Uso presupuestal',
             'Descripción',
             'Justificación',
             'Valor',
             'Estado final',
-            'Evaluador 1',
-            'Evaluación',
-            'Comentario',
-            'Evaluador 2',
-            'Evaluación',
-            'Comentario',
-            'Evaluador 3',
-            'Evaluación',
-            'Comentario',
         ];
     }
 
     public function columnFormats(): array
     {
         return [
-            'N' => NumberFormat::FORMAT_CURRENCY_USD_SIMPLE,
+            'N' => NumberFormat::FORMAT_CURRENCY_USD,
         ];
     }
 
@@ -107,21 +92,20 @@ class PresupuestosExport implements FromCollection, WithHeadings, WithMapping, W
      */
     public function title(): string
     {
-        return 'Resumen presupuestal';
-    }
-
-    public function properties(): array
-    {
-        return [
-            'title' => 'Resumen Presupuestal ' . $this->convocatoria->descripcion,
-        ];
+        return 'Rúbrica presupuestal';
     }
 
     public function styles(Worksheet $sheet)
     {
-        return [
-            // Style the first row as bold text.
-            1    => ['font' => ['bold' => true]],
-        ];
+        $sheet->getStyle('A1:' . $sheet->getHighestColumn() . '1')->applyFromArray([
+            'font' => [
+                'bold' => true,
+                'color' => ['rgb' => '000000'],
+            ],
+            'fill' => [
+                'fillType'   => Fill::FILL_SOLID,
+                'startColor' => ['rgb' => 'edfdf3'],
+            ],
+        ]);
     }
 }

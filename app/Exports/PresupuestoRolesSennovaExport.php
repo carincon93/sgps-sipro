@@ -25,7 +25,7 @@ class PresupuestoRolesSennovaExport implements WithMultipleSheets, WithTitle
     {
         $sheets = [];
 
-        $sheets[] = new PresupuestosExport($this->convocatoria);
+        // $sheets[] = new PresupuestosExport($this->convocatoria);
         $sheets[] = new RolesSennovaExport($this->convocatoria);
 
         return $sheets;
@@ -36,6 +36,6 @@ class PresupuestoRolesSennovaExport implements WithMultipleSheets, WithTitle
      */
     public function title(): string
     {
-        return 'Resumen presupuestos y roles SENNOVA';
+        return 'Rúbrica presupuestal y roles SENNOVA';
     }
 }

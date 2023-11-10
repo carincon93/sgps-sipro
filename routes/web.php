@@ -859,7 +859,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('reportes/convocatoria/{convocatoria}/evaluaciones', [ReporteController::class, 'evaluacionesExcel'])->name('reportes.evaluaciones');
 
     Route::get('reportes/convocatoria/{convocatoria}/resumen', [ReporteController::class, 'resumenProyectos'])->name('reportes.resumen-proyectos');
-    Route::get('reportes/convocatoria/{convocatoria}/presupuestos-roles', [ReporteController::class, 'resumenPresupuestos'])->name('reportes.resumePresupuestos');
+    Route::get('reportes/convocatoria/{convocatoria}/presupuestos-roles', [ReporteController::class, 'resumenPresupuestos'])->name('reportes.presupuestos-roles');
     Route::get('reportes/convocatoria/{convocatoria}/comentarios-evaluaciones', [ReporteController::class, 'comentariosEvaluacionesExcel'])->name('reportes.comentarios-evaluaciones');
     Route::get('reportes/convocatoria/{convocatoria}/resumen-presupuesto-aprobado', [ReporteController::class, 'EvaluacionesProyectosPresupuestoExport'])->name('reportes.resumeProyectoPresupuestoAprobado');
     Route::get('reportes/grupos-lineas-semilleros', [ReporteController::class, 'gruposLineasSemillerosExport'])->name('reportes.grupos-lineas-semilleros');

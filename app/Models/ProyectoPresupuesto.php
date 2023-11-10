@@ -89,16 +89,6 @@ class ProyectoPresupuesto extends Model
     }
 
     /**
-     * Relationship with SoftwareInfo
-     *
-     * @return object
-     */
-    public function softwareInfo()
-    {
-        return $this->hasOne(SoftwareInfo::class);
-    }
-
-    /**
      * Relationship with RubroPresupuestalProyectoLinea68
      *
      * @return object
@@ -106,6 +96,16 @@ class ProyectoPresupuesto extends Model
     public function rubroPresupuestalProyectoLinea68()
     {
         return $this->hasOne(RubroPresupuestalProyectoLinea68::class);
+    }
+
+    /**
+     * Relationship with SoftwareInfo
+     *
+     * @return object
+     */
+    public function softwareInfo()
+    {
+        return $this->hasOne(SoftwareInfo::class);
     }
 
     /**
