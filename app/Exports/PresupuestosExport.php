@@ -32,7 +32,7 @@ class PresupuestosExport implements FromCollection, WithHeadings, WithMapping, W
     {
         $proyectos_id = explode(',', $this->convocatoria->proyectos->implode('id', ','));
 
-        return ProyectoPresupuesto::whereIn('proyecto_id', $proyectos_id)->with('convocatoriaProyectoRubrosPresupuestales.rubroPresupuestal.usoPresupuestal')->get();
+        return ProyectoPresupuesto::whereIn('proyecto_id', $proyectos_id)->with('convocatoriaProyectoRubrosPresupuestales.rubroPresupuestal.segundoGrupoPresupuestal', 'convocatoriaProyectoRubrosPresupuestales.rubroPresupuestal.tercerGrupoPresupuestal', 'convocatoriaProyectoRubrosPresupuestales.rubroPresupuestal.usoPresupuestal')->get();
     }
 
     /**
@@ -47,10 +47,13 @@ class PresupuestosExport implements FromCollection, WithHeadings, WithMapping, W
             $presupuesto->proyecto->centroFormacion->regional->nombre,
             $presupuesto->proyecto->centroFormacion->codigo,
             $presupuesto->proyecto->centroFormacion->nombre,
-            $presupuesto->proyecto->titulo,
-            $presupuesto->convocatoriaPresupuesto->rubroPresupuestal->tercerGrupoPresupuestal->nombre,
-            $presupuesto->convocatoriaPresupuesto->rubroPresupuestal->segundoGrupoPresupuestal->nombre,
-            $presupuesto->convocatoriaPresupuesto->rubroPresupuestal->usoPresupuestal->nombre,
+            optional(optional(optional($presupuesto->convocatoriaProyectoRubrosPresupuestales->first())->rubroPresupuestal)->segundoGrupoPresupuestal)->nombre,
+            optional(optional(optional($presupuesto->convocatoriaProyectoRubrosPresupuestales->first())->rubroPresupuestal)->tercerGrupoPresupuestal)->nombre,
+            $presupuesto->convocatoriaProyectoRubrosPresupuestales
+                ->map(function ($convocatoria_rubro_presupuestal) {
+                    return optional($convocatoria_rubro_presupuestal->rubroPresupuestal)->usoPresupuestal->descripcion;
+                })
+                ->implode(', '),
             $presupuesto->descripcion,
             $presupuesto->justificacion,
             $presupuesto->valor_total,
@@ -69,14 +72,13 @@ class PresupuestosExport implements FromCollection, WithHeadings, WithMapping, W
             'Regional',
             'Código del centro formación',
             'Centro de formación',
-            'Título',
             'Concepto inerno SENA',
             'Concepto MinHacienda',
-            'Uso presupuestal',
+            'Usos presupuestales',
             'Descripción',
             'Justificación',
             'Valor',
-            'Estado final',
+            // 'Estado final',
         ];
     }
 
