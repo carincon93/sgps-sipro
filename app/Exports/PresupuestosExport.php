@@ -85,7 +85,7 @@ class PresupuestosExport implements FromCollection, WithHeadings, WithMapping, W
     public function columnFormats(): array
     {
         return [
-            'N' => NumberFormat::FORMAT_CURRENCY_USD,
+            'L' => NumberFormat::FORMAT_CURRENCY_USD,
         ];
     }
 
