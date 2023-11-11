@@ -833,7 +833,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('evaluaciones/actualizar-estados-evaluaciones', [EvaluacionController::class, 'udpdateEstadosEvaluaciones'])->name('evaluaciones.update.actualizar-estados-evaluaciones');
     Route::put('convocatorias/{convocatoria}/evaluaciones/{evaluacion}/finalizar-evaluacion', [EvaluacionController::class, 'finalizarEvaluacion'])->name('convocatorias.evaluaciones.finalizar');
     Route::post('convocatorias/evaluaciones/deshabilitar-evaluaciones', [EvaluacionController::class, 'deshabilitarEvaluacionesNoIniciadas'])->name('convocatorias.evaluaciones.deshabilitar');
-    Route::post('convocatorias/{convocatoria}/evaluaciones/{evaluacion}/comentarios-generales', [EvaluacionController::class, 'udpdateComentariosGenerales'])->name('convocatorias.evaluaciones.update-comentarios-generales');
+    Route::post('convocatorias/{convocatoria}/evaluaciones/{evaluacion}/comentario-evaluador', [EvaluacionController::class, 'udpdateComentarioEvaluador'])->name('convocatorias.evaluaciones.comentario-evaluador');
     Route::post('convocatorias/{convocatoria}/evaluaciones/{evaluacion}/causales-rechazo', [EvaluacionController::class, 'updateCausalRechazo'])->name('convocatorias.evaluaciones.update-causal-rechazo');
 
 

@@ -191,21 +191,19 @@ class EvaluacionController extends Controller
     }
 
     /**
-     * udpdateComentariosGenerales
+     * udpdateComentarioEvaluador
      *
      * @param  mixed $convocatoria
      * @param  mixed $evaluacion
      * @return void
      */
-    public function udpdateComentariosGenerales(Request $request, Convocatoria $convocatoria, Evaluacion $evaluacion)
+    public function udpdateComentarioEvaluador(Request $request, Convocatoria $convocatoria, Evaluacion $evaluacion)
     {
         $this->authorize('modificar-evaluacion-autor', $evaluacion);
 
-        if ($request->filled('comentario_evaluador')) {
-            $evaluacion->update(
-                ['evaluacion_id' => $evaluacion->id, 'comentario_evaluador' => $request->comentario_evaluador],
-            );
-        }
+        $evaluacion->update(
+            ['evaluacion_id' => $evaluacion->id, 'comentario_evaluador' => $request->comentario_evaluador],
+        );
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }

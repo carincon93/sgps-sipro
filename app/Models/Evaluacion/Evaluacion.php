@@ -362,6 +362,8 @@ class Evaluacion extends Model
                 'allowed'                                                       => $this->allowed,
                 'finalizado'                                                    => $this->finalizado,
                 'clausula_confidencialidad'                                     => $this->clausula_confidencialidad,
+                'comentario_evaluador'                                          => $this->comentario_evaluador,
+                'comentario_formulador'                                         => $this->comentario_formulador,
                 'puntaje_total'                                                 => $items_db_evaluacion->sum('puntaje')
             ]);
         }

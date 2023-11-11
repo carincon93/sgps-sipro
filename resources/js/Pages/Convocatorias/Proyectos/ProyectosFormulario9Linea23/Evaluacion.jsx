@@ -7,13 +7,14 @@ import PrimaryButton from '@/Components/PrimaryButton'
 import SwitchMui from '@/Components/Switch'
 import TextInput from '@/Components/TextInput'
 import Textarea from '@/Components/Textarea'
+import { checkRole } from '@/Utils'
 
 import { useForm, usePage } from '@inertiajs/react'
 import { Divider, Grid } from '@mui/material'
 
 import React, { useEffect, useState } from 'react'
 
-const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEvaluacionStatus, ...props }) => {
+const Evaluacion = ({ auth_user, convocatoria, evaluacion, allowed, proyecto, setDialogEvaluacionStatus, ...props }) => {
     const { props: page_props } = usePage()
 
     const evaluacion_id = page_props.ziggy.query.evaluacion_id
@@ -110,7 +111,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
     return (
         <>
             <DialogMui
-                open={!evaluacion[0]?.clausula_confidencialidad}
+                open={!evaluacion[0]?.clausula_confidencialidad && !checkRole(auth_user, [1, 5, 17, 18, 19, 20])}
                 dialogContent={
                     <div>
                         <Divider className="!mb-6 font-black">CLÁUSULA DE CONFIDENCIALIDAD</Divider>

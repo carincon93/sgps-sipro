@@ -4,11 +4,13 @@ import AlertMui from '@/Components/Alert'
 import Checkbox from '@/Components/Checkbox'
 import StepperMui from '@/Components/Stepper'
 
-import { Grid } from '@mui/material'
+import { Divider, Grid } from '@mui/material'
 
-import { Head, router, usePage } from '@inertiajs/react'
+import { Head, router, useForm, usePage } from '@inertiajs/react'
 import React from 'react'
 import { checkRole } from '@/Utils'
+import Textarea from '@/Components/Textarea'
+import PrimaryButton from '@/Components/PrimaryButton'
 
 const ResumenFinal = ({
     auth,
@@ -25,6 +27,20 @@ const ResumenFinal = ({
     const any_validation_is_false = Object.values(validaciones).includes(false)
 
     const evaluacion_id = page_props.ziggy.query.evaluacion_id
+
+    const form_comentario_evaluador = useForm({
+        comentario_evaluador: evaluacion[0]?.comentario_evaluador,
+    })
+
+    const submitComentarioEvaluador = (e) => {
+        e.preventDefault()
+
+        if (evaluacion[0]?.allowed.to_update) {
+            form_comentario_evaluador.post(route('convocatorias.evaluaciones.comentario-evaluador', [convocatoria.id, evaluacion_id]), {
+                preserveScroll: true,
+            })
+        }
+    }
 
     return (
         <AuthenticatedLayout>
@@ -178,6 +194,7 @@ const ResumenFinal = ({
                                             ? 'Si desea seguir modificando el proyecto haga clic en la casilla "Modificar"'
                                             : 'Por favor habilite la casilla para confirmar que ha finalizado el proyecto'}
                                         <br />
+
                                         <Checkbox
                                             name="modificar_proyecto"
                                             className="mt-3"
@@ -223,6 +240,7 @@ const ResumenFinal = ({
                                     ? 'Si desea seguir modificando la evaluación haga clic en la casilla "Modificar"'
                                     : 'Por favor habilite la casilla para confirmar que ha finalizado la evaluación'}
                                 <br />
+
                                 <Checkbox
                                     name="modificar_evaluacion"
                                     className="mt-3"
@@ -257,6 +275,34 @@ const ResumenFinal = ({
                                     }
                                     label="Finalizar evaluación"
                                 />
+
+                                <Divider className="text-2xl !my-10">Comentario / Observación / Dudas</Divider>
+
+                                <p>
+                                    Si requiere hacer un comentario, tiene una duda u observación sobre la formulación del proyecto y que el/la formulador/a deba responder en la fase de subsanación,
+                                    por favor diligencie el siguiente campo:
+                                </p>
+
+                                <form onSubmit={submitComentarioEvaluador}>
+                                    <Textarea
+                                        label="Comentario"
+                                        className="!mt-4"
+                                        inputBackground="#fff"
+                                        id="comentario_evaluador"
+                                        onChange={(e) => form_comentario_evaluador.setData('comentario_evaluador', e.target.value)}
+                                        value={form_comentario_evaluador.data.comentario_evaluador}
+                                        error={form_comentario_evaluador.errors.comentario_evaluador}
+                                        // disabled={}
+                                    />
+
+                                    <div className="flex items-center justify-between py-4">
+                                        <PrimaryButton type="submit" className="ml-auto" disabled={form_comentario_evaluador.processing || !form_comentario_evaluador.isDirty}>
+                                            Guardar
+                                        </PrimaryButton>
+                                    </div>
+                                </form>
+
+                                <h1></h1>
                             </AlertMui>
                         )}
                     </>
