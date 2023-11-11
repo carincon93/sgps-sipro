@@ -1467,12 +1467,12 @@ class Proyecto extends Model
 
         foreach ($this->proyectoPresupuesto()->get() as $presupuesto) {
             if ($presupuesto->formato_estudio_mercado) {
-                $collect->push(['id' => $presupuesto->id, 'tipo_archivo' => 'formato_estudio_mercado', 'modulo' => 'Estudio de mercado #' . $presupuesto->id, 'path' => $presupuesto->formato_estudio_mercado, 'filename' => pathinfo($presupuesto->formato_estudio_mercado)['filename'], 'extension' => pathinfo($presupuesto->formato_estudio_mercado)['extension']]);
+                $collect->push(['id' => $presupuesto->id, 'tipo_archivo' => 'formato_estudio_mercado', 'modulo' => 'Estudio de mercado #' . $presupuesto->id, 'path' => $presupuesto->formato_estudio_mercado, 'filename' => pathinfo($presupuesto->formato_estudio_mercado)['filename'], 'extension' => optional(pathinfo($presupuesto->formato_estudio_mercado))['extension']]);
             }
 
             foreach ($presupuesto->soportesEstudioMercado()->get() as $estudio_mercado) {
                 if ($estudio_mercado->soporte) {
-                    $collect->push(['id' => $estudio_mercado->id, 'tipo_archivo' => 'soporte', 'modulo' => 'Soporte / Cotización', 'nombre' => $estudio_mercado->concepto, 'path' => $estudio_mercado->soporte, 'filename' => pathinfo($estudio_mercado->soporte)['filename'], 'extension' => pathinfo($estudio_mercado->soporte)['extension']]);
+                    $collect->push(['id' => $estudio_mercado->id, 'tipo_archivo' => 'soporte', 'modulo' => 'Soporte / Cotización', 'nombre' => $estudio_mercado->concepto, 'path' => $estudio_mercado->soporte, 'filename' => pathinfo($estudio_mercado->soporte)['filename'], 'extension' => optional(pathinfo($estudio_mercado->soporte))['extension']]);
                 }
             }
         }
@@ -1480,16 +1480,16 @@ class Proyecto extends Model
         foreach ($this->entidadesAliadas()->get() as $entidad_aliada) {
             if ($entidad_aliada->entidadAliadaLinea66_82()->exists()) {
                 if ($entidad_aliada->entidadAliadaLinea66_82->carta_intencion) {
-                    $collect->push(['id' => $entidad_aliada->id, 'tipo_archivo' => 'carta_intencion', 'modulo' => 'Entidad aliada', 'nombre' => $entidad_aliada->nombre, 'path' => $entidad_aliada->entidadAliadaLinea66_82->carta_intencion, 'filename' => pathinfo($entidad_aliada->entidadAliadaLinea66_82->carta_intencion)['filename'], 'extension' => pathinfo($entidad_aliada->entidadAliadaLinea66_82->carta_intencion)['extension']]);
+                    $collect->push(['id' => $entidad_aliada->id, 'tipo_archivo' => 'carta_intencion', 'modulo' => 'Entidad aliada', 'nombre' => $entidad_aliada->nombre, 'path' => $entidad_aliada->entidadAliadaLinea66_82->carta_intencion, 'filename' => pathinfo($entidad_aliada->entidadAliadaLinea66_82->carta_intencion)['filename'], 'extension' => optional(pathinfo($entidad_aliada->entidadAliadaLinea66_82->carta_intencion))['extension']]);
                 }
 
                 if ($entidad_aliada->entidadAliadaLinea66_82->carta_propiedad_intelectual) {
-                    $collect->push(['id' => $entidad_aliada->id, 'tipo_archivo' => 'carta_propiedad_intelectual', 'modulo' => 'Entidad aliada', 'nombre' => $entidad_aliada->nombre, 'path' => $entidad_aliada->entidadAliadaLinea66_82->carta_propiedad_intelectual, 'filename' => pathinfo($entidad_aliada->entidadAliadaLinea66_82->carta_propiedad_intelectual)['filename'], 'extension' => pathinfo($entidad_aliada->entidadAliadaLinea66_82->carta_propiedad_intelectual)['extension']]);
+                    $collect->push(['id' => $entidad_aliada->id, 'tipo_archivo' => 'carta_propiedad_intelectual', 'modulo' => 'Entidad aliada', 'nombre' => $entidad_aliada->nombre, 'path' => $entidad_aliada->entidadAliadaLinea66_82->carta_propiedad_intelectual, 'filename' => pathinfo($entidad_aliada->entidadAliadaLinea66_82->carta_propiedad_intelectual)['filename'], 'extension' => optional(pathinfo($entidad_aliada->entidadAliadaLinea66_82->carta_propiedad_intelectual))['extension']]);
                 }
             } else if ($entidad_aliada->entidadAliadaLinea69()->exists() && $entidad_aliada->entidadAliadaLinea69->soporte_convenio) {
-                $collect->push(['id' => $entidad_aliada->id, 'tipo_archivo' => 'soporte_convenio', 'modulo' => 'Entidad aliada', 'nombre' => $entidad_aliada->nombre, 'path' => $entidad_aliada->entidadAliadaLinea69->soporte_convenio, 'filename' => pathinfo($entidad_aliada->entidadAliadaLinea69->soporte_convenio)['filename'], 'extension' => pathinfo($entidad_aliada->entidadAliadaLinea69->soporte_convenio)['extension']]);
+                $collect->push(['id' => $entidad_aliada->id, 'tipo_archivo' => 'soporte_convenio', 'modulo' => 'Entidad aliada', 'nombre' => $entidad_aliada->nombre, 'path' => $entidad_aliada->entidadAliadaLinea69->soporte_convenio, 'filename' => pathinfo($entidad_aliada->entidadAliadaLinea69->soporte_convenio)['filename'], 'extension' => optional(pathinfo($entidad_aliada->entidadAliadaLinea69->soporte_convenio))['extension']]);
             } else if ($entidad_aliada->entidadAliadaLinea70()->exists() && $entidad_aliada->entidadAliadaLinea70->soporte_convenio) {
-                $collect->push(['id' => $entidad_aliada->id, 'tipo_archivo' => 'soporte_convenio', 'modulo' => 'Entidad aliada', 'nombre' => $entidad_aliada->nombre, 'path' => $entidad_aliada->entidadAliadaLinea70->soporte_convenio, 'filename' => pathinfo($entidad_aliada->entidadAliadaLinea70->soporte_convenio)['filename'], 'extension' => pathinfo($entidad_aliada->entidadAliadaLinea70->soporte_convenio)['extension']]);
+                $collect->push(['id' => $entidad_aliada->id, 'tipo_archivo' => 'soporte_convenio', 'modulo' => 'Entidad aliada', 'nombre' => $entidad_aliada->nombre, 'path' => $entidad_aliada->entidadAliadaLinea70->soporte_convenio, 'filename' => pathinfo($entidad_aliada->entidadAliadaLinea70->soporte_convenio)['filename'], 'extension' => optional(pathinfo($entidad_aliada->entidadAliadaLinea70->soporte_convenio))['extension']]);
             }
         }
 
@@ -1503,11 +1503,11 @@ class Proyecto extends Model
             foreach ($this->proyectoFormulario4Linea70->aulasMoviles as $aula_movil) {
                 if ($aula_movil) {
                     if ($aula_movil->soat) {
-                        $collect->push(['id' => $aula_movil->id, 'tipo_archivo' => 'SOAT', 'modulo' => 'Aula móvil', 'nombre' => 'Placa: ' . $aula_movil->placa, 'path' => $aula_movil->soat, 'filename' => pathinfo($aula_movil->soat)['filename'], 'extension' => pathinfo($aula_movil->soat)['extension']]);
+                        $collect->push(['id' => $aula_movil->id, 'tipo_archivo' => 'SOAT', 'modulo' => 'Aula móvil', 'nombre' => 'Placa: ' . $aula_movil->placa, 'path' => $aula_movil->soat, 'filename' => pathinfo($aula_movil->soat)['filename'], 'extension' => optional(pathinfo($aula_movil->soat))['extension']]);
                     }
 
                     if ($aula_movil->tecnicomecanica) {
-                        $collect->push(['id' => $aula_movil->id, 'tipo_archivo' => 'Técnico mecánica', 'modulo' => 'Aula móvil', 'nombre' => 'Placa: ' . $aula_movil->placa, 'path' => $aula_movil->tecnicomecanica, 'filename' => pathinfo($aula_movil->tecnicomecanica)['filename'], 'extension' => pathinfo($aula_movil->tecnicomecanica)['extension']]);
+                        $collect->push(['id' => $aula_movil->id, 'tipo_archivo' => 'Técnico mecánica', 'modulo' => 'Aula móvil', 'nombre' => 'Placa: ' . $aula_movil->placa, 'path' => $aula_movil->tecnicomecanica, 'filename' => pathinfo($aula_movil->tecnicomecanica)['filename'], 'extension' => optional(pathinfo($aula_movil->tecnicomecanica))['extension']]);
                     }
                 }
             }
