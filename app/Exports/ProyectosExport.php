@@ -55,6 +55,7 @@ class ProyectosExport implements FromCollection, WithHeadings, WithMapping, With
             $proyecto->total_proyecto_presupuesto + $proyecto->total_roles_sennova,
             $proyecto->finalizado ? 'SI' : 'NO',
             $proyecto->radicado ? 'SI' : 'NO',
+            $proyecto->evaluaciones->count(),
             $proyecto->participantes()->firstWhere('es_formulador', true) ? mb_strtoupper($proyecto->participantes()->firstWhere('es_formulador', true)->nombre) : 'Sin información registrada',
         ];
 
@@ -159,6 +160,7 @@ class ProyectosExport implements FromCollection, WithHeadings, WithMapping, With
             'Total valor del proyecto',
             'Finalizado',
             'Priorizado',
+            '# Evaluaciones asignadas',
             'Autor(a) principal',
         ];
     }
