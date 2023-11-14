@@ -45,9 +45,9 @@ class EvaluacionesExport implements FromCollection, WithHeadings, WithMapping, W
             $evaluacion->evaluador->nombre,
             $evaluacion->evaluador->email,
             'N/A',
+            $evaluacion->total_recomendaciones,
             $evaluacion->habilitado ? 'SI' : 'NO',
             $evaluacion->finalizado ? 'SI' : 'NO',
-            // $evaluacion->sum('puntaje'),
         ];
 
         $this->setEstadosEvaluacionPorFormulario($evaluacion, $informacion_celdas);
@@ -142,6 +142,7 @@ class EvaluacionesExport implements FromCollection, WithHeadings, WithMapping, W
             'Evaluador',
             'Correo electrónico',
             'Puntaje',
+            'ïtems por mejorar',
             '¿Evaluación habilitada?',
             '¿Evaluación finalizada?',
         ];

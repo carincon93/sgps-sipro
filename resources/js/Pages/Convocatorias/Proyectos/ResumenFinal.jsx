@@ -292,7 +292,7 @@ const ResumenFinal = ({
                                         onChange={(e) => form_comentario_evaluador.setData('comentario_evaluador', e.target.value)}
                                         value={form_comentario_evaluador.data.comentario_evaluador}
                                         error={form_comentario_evaluador.errors.comentario_evaluador}
-                                        // disabled={}
+                                        disabled={evaluacion[0]?.finalizado}
                                     />
 
                                     <div className="flex items-center justify-between py-4">
