@@ -104,7 +104,7 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('visualizar-evaluacion-autor', function (User $user, Evaluacion $evaluacion) {
-            if ($user->hasRole([20, 18, 19, 5, 17]) || $user->hasRole([11]) && $evaluacion->user_id == $user->id) {
+            if ($user->hasRole([20, 18, 19, 5, 17]) || $user->hasRole([11, 33]) && $evaluacion->user_id == $user->id) {
                 return true;
             }
 
@@ -112,7 +112,7 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('modificar-evaluacion-autor', function (User $user, Evaluacion $evaluacion) {
-            if ($user->hasRole([5, 17, 18, 19, 20]) || $user->hasRole([11]) && $evaluacion->user_id == $user->id) {
+            if ($user->hasRole([5, 17, 18, 19, 20]) || $user->hasRole([11, 33]) && $evaluacion->user_id == $user->id) {
                 return true;
             }
 
