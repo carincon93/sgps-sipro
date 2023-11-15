@@ -9,6 +9,8 @@ import { Head, router, useForm } from '@inertiajs/react'
 import { Grid } from '@mui/material'
 
 const Indicadores = ({ auth, convocatoria, proyecto, evaluacion, ...props }) => {
+    const auth_user = auth.user
+
     const form = useForm({
         productividad_beneficiaros:
             proyecto.proyecto_formulario8_linea66?.productividad_beneficiaros ??
