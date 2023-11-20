@@ -838,13 +838,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
     Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/evaluacion-formulario-1-linea-65', [ProyectoFormulario1Linea65Controller::class, 'updateEvaluacion'])->name('convocatorias.evaluaciones-formulario-1-linea-65.update');
+    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/evaluacion-formulario-3-linea-61', [ProyectoFormulario3Linea61Controller::class, 'updateEvaluacion'])->name('convocatorias.evaluaciones-formulario-3-linea-61.update');
     Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/evaluacion-formulario-4-linea-70', [ProyectoFormulario4Linea70Controller::class, 'updateEvaluacion'])->name('convocatorias.evaluaciones-formulario-4-linea-70.update');
     Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/evaluacion-formulario-5-linea-69', [ProyectoFormulario5Linea69Controller::class, 'updateEvaluacion'])->name('convocatorias.evaluaciones-formulario-5-linea-69.update');
     Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/evaluacion-formulario-6-linea-82', [ProyectoFormulario6Linea82Controller::class, 'updateEvaluacion'])->name('convocatorias.evaluaciones-formulario-6-linea-82.update');
     Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/evaluacion-formulario-7-linea-23', [ProyectoFormulario7Linea23Controller::class, 'updateEvaluacion'])->name('convocatorias.evaluaciones-formulario-7-linea-23.update');
     Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/evaluacion-formulario-8-linea-66', [ProyectoFormulario8Linea66Controller::class, 'updateEvaluacion'])->name('convocatorias.evaluaciones-formulario-8-linea-66.update');
     Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/evaluacion-formulario-9-linea-23', [ProyectoFormulario9Linea23Controller::class, 'updateEvaluacion'])->name('convocatorias.evaluaciones-formulario-9-linea-23.update');
+    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/evaluacion-formulario-10-linea-69', [ProyectoFormulario10Linea69Controller::class, 'updateEvaluacion'])->name('convocatorias.evaluaciones-formulario-10-linea-69.update');
     Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/evaluacion-formulario-12-linea-68', [ProyectoFormulario12Linea68Controller::class, 'updateEvaluacion'])->name('convocatorias.evaluaciones-formulario-12-linea-68.update');
+    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/evaluacion-formulario-13-linea-65', [ProyectoFormulario13Linea65Controller::class, 'updateEvaluacion'])->name('convocatorias.evaluaciones-formulario-13-linea-65.update');
+    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/evaluacion-formulario-15-linea-65', [ProyectoFormulario15Linea65Controller::class, 'updateEvaluacion'])->name('convocatorias.evaluaciones-formulario-15-linea-65.update');
+    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/evaluacion-formulario-16-linea-65', [ProyectoFormulario16Linea65Controller::class, 'updateEvaluacion'])->name('convocatorias.evaluaciones-formulario-16-linea-65.update');
+    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/evaluacion-formulario-17-linea-69', [ProyectoFormulario17Linea69Controller::class, 'updateEvaluacion'])->name('convocatorias.evaluaciones-formulario-17-linea-69.update');
 
 
     Route::get('evaluadores', [EvaluacionController::class, 'evaluadores'])->name('evaluadores.index');

@@ -232,7 +232,7 @@ export default function StepperMui({ auth_user, convocatoria, proyecto, evaluaci
 
     return (
         <>
-            {evaluacion && (
+            {evaluacion.length > 0 && (
                 <>
                     <ButtonMui className="!fixed bottom-20 z-[1200] !bg-red-500" onClick={() => setDialogEvaluacionStatus(true)} primary={true}>
                         <ChecklistIcon className="mr-2" />
@@ -723,7 +723,7 @@ export default function StepperMui({ auth_user, convocatoria, proyecto, evaluaci
                             proyecto?.id,
                             evaluacion.length > 0 ? { evaluacion_id: evaluacion[0]?.evaluacion_id } : null,
                         ])}>
-                        <StepLabel classes={{ root: classes.root }}>Finalizar {evaluacion ? 'evaluación' : 'proyecto'}</StepLabel>
+                        <StepLabel classes={{ root: classes.root }}>Finalizar {evaluacion[0]?.evaluacion_id ? 'evaluación' : 'proyecto'}</StepLabel>
                     </Link>
                 </Step>
             </Stepper>

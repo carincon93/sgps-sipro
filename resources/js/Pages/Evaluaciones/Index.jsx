@@ -36,13 +36,15 @@ const Index = ({ auth, evaluaciones, evaluadores, proyectos, allowed_to_create }
                     <SearchBar className="mt-20" />
 
                     <TableMui className="mt-16" rows={['ID', 'Código', 'Título', 'Evaluador/a', 'Estados evaluación', 'Estado del proyecto', 'Acciones']} sxCellThead={{ width: '320px' }}>
-                        <TableRow onClick={() => (setDialogStatus(true), setMethod('POST'), setEvaluacion(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
-                            <TableCell colSpan={8}>
-                                <ButtonMui>
-                                    <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar evaluacion
-                                </ButtonMui>
-                            </TableCell>
-                        </TableRow>
+                        {is_super_admin && (
+                            <TableRow onClick={() => (setDialogStatus(true), setMethod('POST'), setEvaluacion(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
+                                <TableCell colSpan={8}>
+                                    <ButtonMui>
+                                        <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar evaluacion
+                                    </ButtonMui>
+                                </TableCell>
+                            </TableRow>
+                        )}
                         {evaluaciones.data.map((evaluacion, i) => (
                             <TableRow key={i}>
                                 <TableCell>{evaluacion.id}</TableCell>

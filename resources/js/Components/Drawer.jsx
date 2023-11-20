@@ -183,7 +183,7 @@ export default function MiniDrawer({ user, children }) {
                             <ListItemText primary="Mis proyectos SGPS" sx={{ opacity: open ? 1 : 0 }} />
                         </ListItemButton>
 
-                        {/* {checkRole(user, [1, 5, 11, 17, 18, 19, 33]) && (
+                        {checkRole(user, [1, 5, 11, 17, 18, 19, 33]) && (
                             <ListItemButton
                                 sx={{
                                     borderRadius: '20px',
@@ -200,7 +200,7 @@ export default function MiniDrawer({ user, children }) {
                                     }}></ListItemIcon>
                                 <ListItemText primary="Evaluaciones" sx={{ opacity: open ? 1 : 0 }} />
                             </ListItemButton>
-                        )} */}
+                        )}
 
                         {checkRole(user, [1, 5, 17, 18, 19]) && (
                             <ListItemButton
