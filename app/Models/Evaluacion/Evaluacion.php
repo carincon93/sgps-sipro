@@ -406,7 +406,10 @@ class Evaluacion extends Model
         if ($auth_user->hasRole([11, 33]) && !$auth_user->hasRole([1, 5, 17, 18, 19])) {
             $query->where('user_id', $auth_user->id);
         }
-        $query->where('convocatoria_id', $convocatoria_id);
+
+        if ($convocatoria_id) {
+            $query->where('convocatoria_id', $convocatoria_id);
+        }
         $query->orderBy('id', 'DESC');
         $query->orderBy('iniciado', 'ASC');
         $query->orderBy('habilitado', 'DESC');
