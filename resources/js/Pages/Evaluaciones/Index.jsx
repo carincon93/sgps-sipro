@@ -14,14 +14,21 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 import PublishIcon from '@mui/icons-material/Publish'
 
 import { checkRole } from '@/Utils'
-import { Head, router } from '@inertiajs/react'
+import { Head, router, usePage } from '@inertiajs/react'
 import { Chip, Divider, Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 import { useState } from 'react'
+import Autocomplete from '@/Components/Autocomplete'
+import Label from '@/Components/Label'
 
-const Index = ({ auth, evaluaciones, evaluadores, proyectos, allowed_to_create }) => {
+const Index = ({ auth, convocatorias, evaluaciones, evaluadores, proyectos, allowed_to_create }) => {
+    const { props: page_props } = usePage()
+
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
+    const convocatoria_id = page_props.ziggy.query.convocatoria_id
+
+    const [loading, setLoading] = useState(false)
     const [dialog_status, setDialogStatus] = useState(false)
     const [method, setMethod] = useState('')
     const [evaluacion, setEvaluacion] = useState(null)
@@ -215,6 +222,34 @@ const Index = ({ auth, evaluaciones, evaluadores, proyectos, allowed_to_create }
                         blurEnabled={true}
                         dialogContent={
                             <Form is_super_admin={is_super_admin} setDialogStatus={setDialogStatus} method={method} evaluacion={evaluacion} evaluadores={evaluadores} proyectos={proyectos} />
+                        }
+                    />
+
+                    <DialogMui
+                        open={!convocatoria_id}
+                        fullWidth={true}
+                        maxWidth="lg"
+                        blurEnabled={true}
+                        dialogContent={
+                            <form>
+                                <Grid container rowSpacing={6}>
+                                    <Grid item md={12}>
+                                        <Label value="Por favor seleccione una convocatoria" className="mb-4 font-black" required />
+                                        <Autocomplete
+                                            className="mb-4"
+                                            id="convocatoria_id"
+                                            options={convocatorias}
+                                            onChange={(event, newValue) => {
+                                                router.visit(route('evaluaciones.index', { convocatoria_id: newValue.value })), setLoading(true)
+                                            }}
+                                            label="Convocatoria"
+                                            required
+                                        />
+
+                                        {loading && <>Redireccionando...</>}
+                                    </Grid>
+                                </Grid>
+                            </form>
                         }
                     />
                 </Grid>
