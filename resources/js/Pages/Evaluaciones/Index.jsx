@@ -213,7 +213,7 @@ const Index = ({ auth, convocatorias, evaluaciones, evaluadores, proyectos, allo
                         ))}
                     </TableMui>
 
-                    <PaginationMui links={evaluaciones.links} className="mt-8" />
+                    <PaginationMui links={evaluaciones.links} className="mt-8" route_params={'convocatoria_id=' + convocatoria_id} />
 
                     <DialogMui
                         open={dialog_status}
