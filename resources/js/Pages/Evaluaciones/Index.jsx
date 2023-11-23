@@ -40,7 +40,7 @@ const Index = ({ auth, convocatorias, evaluaciones, evaluadores, proyectos, allo
 
             <Grid container>
                 <Grid item md={12}>
-                    <SearchBar className="mt-20" />
+                    <SearchBar className="mt-20" routeParams={'convocatoria_id=' + convocatoria_id} />
 
                     <TableMui className="mt-16" rows={['ID', 'Código', 'Título', 'Evaluador/a', 'Estados evaluación', 'Estado del proyecto', 'Acciones']} sxCellThead={{ width: '320px' }}>
                         {is_super_admin && (
