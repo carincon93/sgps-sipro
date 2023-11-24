@@ -11,6 +11,7 @@ use App\Models\Convocatoria;
 use App\Models\Proyecto;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
@@ -26,9 +27,24 @@ class EvaluacionController extends Controller
     {
         // $this->authorize('viewAny', [Evaluacion::class]);
 
+        /** @var \App\Models\User */
+        $auth_user = Auth::user();
+
+        $evaluaciones = Evaluacion::getEvaluacionesPorRol(preg_replace('/[^0-9]/', '', $request->convocatoria_id))->appends(['search' => request()->search, 'estado' => request()->estado]);
+
+        if ($auth_user->hasRole([1, 5, 17, 18, 19, 20])) {
+            $evaluadores = $evaluaciones->pluck('evaluador');
+
+            foreach ($evaluadores as $evaluador) {
+                if (!$evaluador->hasRole([11, 33])) {
+                    $evaluador->assignRole(11);
+                }
+            }
+        }
+
         return Inertia::render('Evaluaciones/Index', [
             'convocatorias'         => SelectHelper::convocatorias(),
-            'evaluaciones'          => Evaluacion::getEvaluacionesPorRol(preg_replace('/[^0-9]/', '', $request->convocatoria_id))->appends(['search' => request()->search, 'estado' => request()->estado]),
+            'evaluaciones'          => $evaluaciones,
             'proyectos'             => DB::table('proyectos')->selectRaw("id as value, concat('SGPS-', id + 8000, '-SIPRO') as label")->orderBy('id', 'ASC')->get(),
             'evaluadores'           => User::select('users.id as value', 'users.nombre as label')->join('model_has_roles', 'users.id', 'model_has_roles.model_id')->join('roles', 'model_has_roles.role_id', 'roles.id')->where('users.habilitado', true)->whereIn('roles.id', [11, 33])->distinct('users.id', 'users.nombre')->orderBy('users.nombre', 'ASC')->get(),
             'allowed_to_create'     => Gate::inspect('create', [Evaluacion::class])->allowed()
@@ -277,9 +293,9 @@ class EvaluacionController extends Controller
      */
     public function udpdateEstadosEvaluaciones(Request $request)
     {
-        $proyectosId = collect([]);
-        collect(json_decode($request->proyectos_id))->pluck('value')->map(function ($item) use ($proyectosId) {
-            return $proyectosId->push($item - 8000);
+        $proyectos_id = collect([]);
+        collect(json_decode($request->proyectos_id))->pluck('value')->map(function ($item) use ($proyectos_id) {
+            return $proyectos_id->push($item - 8000);
         });
 
         if ($request->estado['value'] == 'finalizado') {
@@ -291,12 +307,12 @@ class EvaluacionController extends Controller
         }
 
         if ($request->habilitado['value'] == 'habilitado') {
-            Evaluacion::whereIn('proyecto_id', $proyectosId)->update(['habilitado' => true]);
+            Evaluacion::whereIn('proyecto_id', $proyectos_id)->update(['habilitado' => true]);
         } else if ($request->habilitado['value'] == 'deshabilitado') {
-            Evaluacion::whereIn('proyecto_id', $proyectosId)->update(['habilitado' => false]);
+            Evaluacion::whereIn('proyecto_id', $proyectos_id)->update(['habilitado' => false]);
         }
 
-        Evaluacion::whereIn('proyecto_id', $proyectosId)->update(['modificable' => $modificable, 'finalizado' => $finalizado]);
+        Evaluacion::whereIn('proyecto_id', $proyectos_id)->update(['modificable' => $modificable, 'finalizado' => $finalizado]);
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
