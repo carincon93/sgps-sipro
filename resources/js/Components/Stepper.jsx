@@ -237,8 +237,7 @@ export default function StepperMui({ auth_user, convocatoria, proyecto, evaluaci
 
     return (
         <>
-            {/* {proyecto.evaluaciones.length > 0 && [3, 5].includes(convocatoria.fase) && ( */}
-            {proyecto.evaluaciones.length > 0 && is_super_admin && (
+            {(proyecto.evaluaciones.length > 0 && is_super_admin) || (proyecto.evaluaciones.length > 0 && [3, 5].includes(convocatoria.fase)) ? (
                 <>
                     <ButtonMui className="!fixed bottom-10 z-[1200]" onClick={() => setDialogEvaluacionesStatus(true)} primary={true}>
                         <ChecklistIcon className="mr-2" />
@@ -413,7 +412,7 @@ export default function StepperMui({ auth_user, convocatoria, proyecto, evaluaci
                         }
                     />
                 </>
-            )}
+            ) : null}
 
             {evaluacion.length > 0 && (
                 <>
