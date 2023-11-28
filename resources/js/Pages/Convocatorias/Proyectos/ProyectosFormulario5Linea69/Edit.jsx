@@ -16,16 +16,10 @@ import { Head, usePage } from '@inertiajs/react'
 const Edit = ({ auth, convocatoria, proyecto_formulario_5_linea_69, evaluacion, nodos_tecnoparque, lineas_programaticas, lineas_tecnoacademia, roles_sennova }) => {
     const auth_user = auth.user
 
-    const [evaluacion_index, setEvaluacionIndex] = useState(0)
     const [dialog_status, setDialogStatus] = useState(true)
 
     const { props: page_props } = usePage()
     const evaluacion_id = page_props.ziggy.query.evaluacion_id
-
-    const comentarios_evaluaciones =
-        proyecto_formulario_5_linea_69?.proyecto?.evaluaciones?.length > 0
-            ? Object.keys(proyecto_formulario_5_linea_69?.proyecto.evaluaciones[evaluacion_index].evaluacion_proyecto_formulario5_linea69).filter((field) => field.endsWith('_comentario'))
-            : null
 
     return (
         <AuthenticatedLayout>
@@ -35,47 +29,6 @@ const Edit = ({ auth, convocatoria, proyecto_formulario_5_linea_69, evaluacion, 
                 <StepperMui auth_user={auth_user} convocatoria={convocatoria} proyecto={proyecto_formulario_5_linea_69?.proyecto} evaluacion={evaluacion} />
             </Grid>
 
-            {/* <Grid item md={4}>
-                Evaluación
-            </Grid>
-
-            <Grid item md={8}>
-                <ButtonMui onClick={() => setDialogStatus(true)} primary={true}>
-                    Revisar evaluaciones
-                </ButtonMui>
-                <DialogMui
-                    fullWidth={true}
-                    maxWidth="lg"
-                    open={dialog_status}
-                    dialogContent={
-                        <>
-                            {proyecto_formulario_5_linea_69?.proyecto.evaluaciones.map((evaluacion, i) => (
-                                <ButtonMui onClick={() => setEvaluacionIndex(i)} primary={evaluacion_index == i} key={i} className="!ml-2">
-                                    Comentarios de la evaluación #{i + 1} <Chip className="ml-2 !text-white" label={evaluacion.id} size="small" />
-                                </ButtonMui>
-                            ))}
-                            <TableMui className="mt-20" rows={['Ítem', 'Comentario']}>
-                                {comentarios_evaluaciones &&
-                                    comentarios_evaluaciones
-                                        .sort((a, b) => a.toString().localeCompare(b.toString()))
-                                        .map((field, i) => (
-                                            <TableRow key={i}>
-                                                <TableCell>
-                                                    <p className="first-letter:uppercase">{field.replace(/_comentario/g, '').replace(/_/g, ' ')}</p>
-                                                </TableCell>
-                                                <TableCell>{proyecto_formulario_5_linea_69?.proyecto.evaluaciones[evaluacion_index]?.evaluacion_proyecto_linea69[field] ?? 'Sin comentarios'}</TableCell>
-                                            </TableRow>
-                                        ))}
-                            </TableMui>
-                        </>
-                    }
-                    dialogActions={
-                        <ButtonMui onClick={() => setDialogStatus(false)} primary={true} className="!mr-6">
-                            Cerrar
-                        </ButtonMui>
-                    }
-                />
-            </Grid> */}
             <Grid item md={12}>
                 <Form
                     auth_user={auth_user}

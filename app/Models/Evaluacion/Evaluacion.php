@@ -95,7 +95,7 @@ class Evaluacion extends Model
      */
     public function evaluacionesProyectoFormulario1Linea65()
     {
-        return $this->hasMany(EvaluacionProyectoFormulario1Linea65::class);
+        return $this->hasMany(EvaluacionProyectoFormulario1Linea65::class)->with('preguntaEvaluacionFormulario1Linea65')->orderBy('pregunta_id');
     }
 
     /**
@@ -105,7 +105,7 @@ class Evaluacion extends Model
      */
     public function evaluacionesProyectoFormulario3Linea61()
     {
-        return $this->hasMany(EvaluacionProyectoFormulario3Linea61::class);
+        return $this->hasMany(EvaluacionProyectoFormulario3Linea61::class)->with('preguntaEvaluacionFormulario3Linea61')->orderBy('pregunta_id');
     }
 
     /**
@@ -115,7 +115,7 @@ class Evaluacion extends Model
      */
     public function evaluacionesProyectoFormulario4Linea70()
     {
-        return $this->hasMany(EvaluacionProyectoFormulario4Linea70::class);
+        return $this->hasMany(EvaluacionProyectoFormulario4Linea70::class)->with('preguntaEvaluacionFormulario4Linea70')->orderBy('pregunta_id');
     }
 
     /**
@@ -125,7 +125,7 @@ class Evaluacion extends Model
      */
     public function evaluacionesProyectoFormulario5Linea69()
     {
-        return $this->hasMany(EvaluacionProyectoFormulario5Linea69::class);
+        return $this->hasMany(EvaluacionProyectoFormulario5Linea69::class)->with('preguntaEvaluacionFormulario5Linea69')->orderBy('pregunta_id');
     }
 
     /**
@@ -135,7 +135,7 @@ class Evaluacion extends Model
      */
     public function evaluacionesProyectoFormulario6Linea82()
     {
-        return $this->hasMany(EvaluacionProyectoFormulario6Linea82::class);
+        return $this->hasMany(EvaluacionProyectoFormulario6Linea82::class)->with('preguntaEvaluacionFormulario6Linea82')->orderBy('pregunta_id');
     }
 
     /**
@@ -145,7 +145,7 @@ class Evaluacion extends Model
      */
     public function evaluacionesProyectoFormulario7Linea23()
     {
-        return $this->hasMany(EvaluacionProyectoFormulario7Linea23::class);
+        return $this->hasMany(EvaluacionProyectoFormulario7Linea23::class)->with('preguntaEvaluacionFormulario7Linea23')->orderBy('pregunta_id');
     }
 
     /**
@@ -155,7 +155,7 @@ class Evaluacion extends Model
      */
     public function evaluacionesProyectoFormulario8Linea66()
     {
-        return $this->hasMany(EvaluacionProyectoFormulario8Linea66::class);
+        return $this->hasMany(EvaluacionProyectoFormulario8Linea66::class)->with('preguntaEvaluacionFormulario8Linea66')->orderBy('pregunta_id');
     }
 
     /**
@@ -165,7 +165,7 @@ class Evaluacion extends Model
      */
     public function evaluacionesProyectoFormulario9Linea23()
     {
-        return $this->hasMany(EvaluacionProyectoFormulario9Linea23::class);
+        return $this->hasMany(EvaluacionProyectoFormulario9Linea23::class)->with('preguntaEvaluacionFormulario9Linea23')->orderBy('pregunta_id');
     }
 
     /**
@@ -175,7 +175,7 @@ class Evaluacion extends Model
      */
     public function evaluacionesProyectoFormulario10Linea69()
     {
-        return $this->hasMany(EvaluacionProyectoFormulario10Linea69::class);
+        return $this->hasMany(EvaluacionProyectoFormulario10Linea69::class)->with('preguntaEvaluacionFormulario10Linea69')->orderBy('pregunta_id');
     }
 
     /**
@@ -185,7 +185,7 @@ class Evaluacion extends Model
      */
     public function evaluacionesProyectoFormulario12Linea68()
     {
-        return $this->hasMany(EvaluacionProyectoFormulario12Linea68::class);
+        return $this->hasMany(EvaluacionProyectoFormulario12Linea68::class)->with('preguntaEvaluacionFormulario12Linea68')->orderBy('pregunta_id');
     }
 
     /**
@@ -195,7 +195,7 @@ class Evaluacion extends Model
      */
     public function evaluacionesProyectoFormulario13Linea65()
     {
-        return $this->hasMany(EvaluacionProyectoFormulario13Linea65::class);
+        return $this->hasMany(EvaluacionProyectoFormulario13Linea65::class)->with('preguntaEvaluacionFormulario13Linea65')->orderBy('pregunta_id');
     }
 
     /**
@@ -205,7 +205,7 @@ class Evaluacion extends Model
      */
     public function evaluacionesProyectoFormulario15Linea65()
     {
-        return $this->hasMany(EvaluacionProyectoFormulario15Linea65::class);
+        return $this->hasMany(EvaluacionProyectoFormulario15Linea65::class)->with('preguntaEvaluacionFormulario15Linea65')->orderBy('pregunta_id');
     }
 
     /**
@@ -215,7 +215,7 @@ class Evaluacion extends Model
      */
     public function evaluacionesProyectoFormulario16Linea65()
     {
-        return $this->hasMany(EvaluacionProyectoFormulario16Linea65::class);
+        return $this->hasMany(EvaluacionProyectoFormulario16Linea65::class)->with('preguntaEvaluacionFormulario16Linea65')->orderBy('pregunta_id');
     }
 
     /**
@@ -225,7 +225,7 @@ class Evaluacion extends Model
      */
     public function evaluacionesProyectoFormulario17Linea69()
     {
-        return $this->hasMany(EvaluacionProyectoFormulario17Linea69::class);
+        return $this->hasMany(EvaluacionProyectoFormulario17Linea69::class)->with('preguntaEvaluacionFormulario17Linea69')->orderBy('pregunta_id');
     }
 
     /**

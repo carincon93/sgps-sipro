@@ -53,7 +53,7 @@ class SoporteEstudioMercadoController extends Controller
         }
 
         $presupuesto->load('convocatoriaProyectoRubrosPresupuestales.rubroPresupuestal.segundoGrupoPresupuestal', 'convocatoriaProyectoRubrosPresupuestales.rubroPresupuestal.usoPresupuestal');
-        $proyecto->load('proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
+        $proyecto->load('evaluaciones', 'proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
 
         $proyecto->tipoFormularioConvocatoria->lineaProgramatica;
         $presupuesto->rubroPresupuestalProyectoLinea68;

@@ -180,8 +180,7 @@ class ProyectoFormulario6Linea82Controller extends Controller
             return abort(404);
         }
 
-        $proyecto_formulario_6_linea_82->load('proyecto.proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyecto.proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
-        // $proyecto_formulario_6_linea_82->load('proyecto.evaluaciones.evaluacionProyectoFormulario6Linea82');
+        $proyecto_formulario_6_linea_82->load('proyecto.evaluaciones.evaluacionesProyectoFormulario6Linea82', 'proyecto.proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyecto.proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
 
         $proyecto_formulario_6_linea_82->proyecto->precio_proyecto = $proyecto_formulario_6_linea_82->proyecto->precioProyecto;
 
@@ -199,8 +198,6 @@ class ProyectoFormulario6Linea82Controller extends Controller
 
         $proyecto_formulario_6_linea_82->mostrar_recomendaciones        = $proyecto_formulario_6_linea_82->proyecto->mostrar_recomendaciones;
         $proyecto_formulario_6_linea_82->mostrar_requiere_subsanacion   = $proyecto_formulario_6_linea_82->proyecto->mostrar_requiere_subsanacion;
-
-
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario6Linea82/Edit', [
             'convocatoria'                                      => $convocatoria,

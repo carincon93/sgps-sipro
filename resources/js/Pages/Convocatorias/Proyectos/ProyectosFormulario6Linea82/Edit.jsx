@@ -7,7 +7,6 @@ import SenaLogo from '@/Components/SenaLogo'
 import StepperMui from '@/Components/Stepper'
 
 import Form from './Form'
-import Evaluacion from './Evaluacion'
 
 import { checkRole } from '@/Utils'
 import { Chip, Grid, TableCell, TableRow } from '@mui/material'
@@ -43,17 +42,10 @@ const Edit = ({
 }) => {
     const auth_user = auth.user
 
-    const [evaluacion_index, setEvaluacionIndex] = useState(0)
     const [dialog_status, setDialogStatus] = useState(true)
-    const [dialog_evaluacion_status, setDialogEvaluacionStatus] = useState(false)
 
     const { props: page_props } = usePage()
     const evaluacion_id = page_props.ziggy.query.evaluacion_id
-
-    const comentarios_evaluaciones =
-        proyecto_formulario_6_linea_82?.proyecto?.evaluaciones?.length > 0
-            ? Object.keys(proyecto_formulario_6_linea_82?.proyecto.evaluaciones[evaluacion_index].evaluacion_proyecto_formulario6_linea82).filter((field) => field.endsWith('_comentario'))
-            : null
 
     return (
         <AuthenticatedLayout>
@@ -62,58 +54,6 @@ const Edit = ({
             <Grid item md={12} className="!mb-20">
                 <StepperMui auth_user={auth_user} convocatoria={convocatoria} proyecto={proyecto_formulario_6_linea_82?.proyecto} evaluacion={evaluacion} />
             </Grid>
-
-            {!evaluacion && (
-                <>
-                    <Grid item md={4}>
-                        Evaluación
-                    </Grid>
-                    <Grid item md={8}>
-                        {comentarios_evaluaciones && (
-                            <>
-                                <ButtonMui onClick={() => setDialogEvaluacionStatus(true)} primary={true}>
-                                    Revisar evaluaciones
-                                </ButtonMui>
-                                <DialogMui
-                                    fullWidth={true}
-                                    maxWidth="lg"
-                                    open={dialog_evaluacion_status}
-                                    dialogContent={
-                                        <>
-                                            {proyecto_formulario_6_linea_82?.proyecto.evaluaciones.map((evaluacion, i) => (
-                                                <ButtonMui onClick={() => setEvaluacionIndex(i)} primary={evaluacion_index == i} key={i} className="!ml-2">
-                                                    Comentarios de la evaluación #{i + 1} <Chip className="ml-2 !text-white" label={evaluacion.id} size="small" />
-                                                </ButtonMui>
-                                            ))}
-                                            <TableMui className="mt-20" rows={['Ítem', 'Comentario']}>
-                                                {comentarios_evaluaciones &&
-                                                    comentarios_evaluaciones
-                                                        .sort((a, b) => a.toString().localeCompare(b.toString()))
-                                                        .map((field, i) => (
-                                                            <TableRow key={i}>
-                                                                <TableCell>
-                                                                    <p className="first-letter:uppercase">{field.replace(/_comentario/g, '').replace(/_/g, ' ')}</p>
-                                                                </TableCell>
-                                                                <TableCell>
-                                                                    {proyecto_formulario_6_linea_82?.proyecto.evaluaciones[evaluacion_index]?.evaluacion_proyecto_formulario6_linea82[field] ??
-                                                                        'Sin comentarios'}
-                                                                </TableCell>
-                                                            </TableRow>
-                                                        ))}
-                                            </TableMui>
-                                        </>
-                                    }
-                                    dialogActions={
-                                        <ButtonMui onClick={() => setDialogEvaluacionStatus(false)} primary={true} className="!mr-6">
-                                            Cerrar
-                                        </ButtonMui>
-                                    }
-                                />
-                            </>
-                        )}
-                    </Grid>
-                </>
-            )}
 
             <Grid item md={12}>
                 <Form

@@ -108,7 +108,7 @@ class ArbolProyectoController extends Controller
 
         $this->generarArboles($proyecto);
 
-        $proyecto->load('proyectoRolesSennova.proyectoRolesEvaluaciones');
+        $proyecto->load('evaluaciones', 'proyectoRolesSennova.proyectoRolesEvaluaciones');
         $proyecto->load('proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
         // $proyecto->load('evaluaciones.evaluacionProyectoFormulario8Linea66');
 
@@ -522,7 +522,7 @@ class ArbolProyectoController extends Controller
 
 
 
-        $proyecto->load('proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
+        $proyecto->load('evaluaciones', 'proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
         // $proyecto->load('evaluaciones.evaluacionProyectoFormulario8Linea66');
 
         $proyecto->tipoFormularioConvocatoria->lineaProgramatica;

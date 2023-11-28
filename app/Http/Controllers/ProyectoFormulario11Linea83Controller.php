@@ -137,7 +137,7 @@ class ProyectoFormulario11Linea83Controller extends Controller
         /** @var \App\Models\User */
         $auth_user = Auth::user();
 
-        // $proyecto_formulario_11_linea_83->load('proyecto.evaluaciones.evaluacionProyectoFormulario11Linea83');
+        // $proyecto_formulario_11_linea_83->load('proyecto.evaluaciones.evaluacionesProyectoFormulario11Linea83');
 
         $proyecto_formulario_11_linea_83->proyecto->precio_proyecto               = $proyecto_formulario_11_linea_83->proyecto->precioProyecto;
         $proyecto_formulario_11_linea_83->proyecto->centroFormacion;

@@ -14,7 +14,6 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { MenuItem, Grid, TableRow, TableCell } from '@mui/material'
 
 import Form from './Form'
-import Evaluacion from './Evaluacion'
 
 import React from 'react'
 
@@ -30,7 +29,6 @@ const Productos = ({ auth, convocatoria, proyecto, evaluacion, productos, result
     const [producto_to_destroy, setProductoToDestroy] = useState(null)
     const [dialog_productos_minciencias_status, setDialogProductoMincienciasStatus] = useState(false)
     const [dialog_productos_indicadores_status, setDialogProductoIndicadoresStatus] = useState(false)
-    const [evaluacion_dialog_status, setEvaluacionDialogStatus] = useState(false)
     const [method, setMethod] = useState('')
     const [producto, setProducto] = useState(null)
 
@@ -48,102 +46,6 @@ const Productos = ({ auth, convocatoria, proyecto, evaluacion, productos, result
             <Grid item md={12} className="!mb-20">
                 <StepperMui auth_user={auth_user} convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
             </Grid>
-
-            {/* <Grid item md={4}>
-                Evaluación
-            </Grid>
-            <Grid item md={8}>
-                {evaluacion && (
-                    <>
-                        <ButtonMui onClick={() => setEvaluacionDialogStatus(true)} primary={true}>
-                            Evaluar
-                        </ButtonMui>
-                        <DialogMui
-                            fullWidth={true}
-                            maxWidth="lg"
-                            open={evaluacion_dialog_status}
-                            dialogContent={
-                                <>
-                                    <Evaluacion auth_user={auth.user} proyecto={proyecto} evaluacion={evaluacion} />
-                                </>
-                            }
-                            dialogActions={
-                                <ButtonMui onClick={() => setEvaluacionDialogStatus(false)} primary={true} className="!mr-6">
-                                    Cerrar
-                                </ButtonMui>
-                            }
-                        />
-                    </>
-                )}
-            </Grid> */}
-
-            {/* <Grid item md={12} className="!mt-20">
-                        {is_super_admin || proyecto.mostrar_recomendaciones ? (
-                            <>
-                                {proyecto.evaluaciones.map((evaluacion, i) =>
-                                    is_super_admin || (evaluacion.finalizado && evaluacion.habilitado) ? (
-                                        <ToolTipMui
-                                            key={i}
-                                            title={
-                                                <div>
-                                                    <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
-                                                    {evaluacion.evaluacion_proyecto_linea66 ? (
-                                                        <p className="whitespace-pre-line text-xs">
-                                                            {evaluacion.evaluacion_proyecto_linea66?.productos_comentario
-                                                                ? evaluacion.evaluacion_proyecto_linea66.productos_comentario
-                                                                : 'Sin recomendación'}
-                                                        </p>
-                                                    ) : evaluacion.evaluacion_proyecto_linea65 ? (
-                                                        <p className="whitespace-pre-line text-xs">
-                                                            {evaluacion.evaluacion_proyecto_linea65?.productos_comentario
-                                                                ? evaluacion.evaluacion_proyecto_linea65.productos_comentario
-                                                                : 'Sin recomendación'}
-                                                        </p>
-                                                    ) : (
-                                                        evaluacion.evaluacion_proyecto_linea68 && (
-                                                            <>
-                                                                <hr className="mt-10 mb-10 border-black-200" />
-                                                                <h1 className="font-black">Productos</h1>
-
-                                                                <ul className="list-disc pl-4">
-                                                                    <li className="whitespace-pre-line text-xs mb-10">
-                                                                        {evaluacion.evaluacion_proyecto_linea68?.productos_primer_obj_comentario
-                                                                            ? 'Recomendación productos del primer objetivo específico: ' +
-                                                                              evaluacion.evaluacion_proyecto_linea68.productos_primer_obj_comentario
-                                                                            : 'Sin recomendación'}
-                                                                    </li>
-                                                                    <li className="whitespace-pre-line text-xs mb-10">
-                                                                        {evaluacion.evaluacion_proyecto_linea68?.productos_segundo_obj_comentario
-                                                                            ? 'Recomendación productos del segundo objetivo específico: ' +
-                                                                              evaluacion.evaluacion_proyecto_linea68.productos_segundo_obj_comentario
-                                                                            : 'Sin recomendación'}
-                                                                    </li>
-                                                                    <li className="whitespace-pre-line text-xs mb-10">
-                                                                        {evaluacion.evaluacion_proyecto_linea68?.productos_tercer_obj_comentario
-                                                                            ? 'Recomendación productos del tercer objetivo específico: ' +
-                                                                              evaluacion.evaluacion_proyecto_linea68.productos_tercer_obj_comentario
-                                                                            : 'Sin recomendación'}
-                                                                    </li>
-                                                                    <li className="whitespace-pre-line text-xs mb-10">
-                                                                        {evaluacion.evaluacion_proyecto_linea68?.productos_cuarto_obj_comentario
-                                                                            ? 'Recomendación productos del cuarto objetivo específico: ' +
-                                                                              evaluacion.evaluacion_proyecto_linea68.productos_cuarto_obj_comentario
-                                                                            : 'Sin recomendación'}
-                                                                    </li>
-                                                                </ul>
-                                                            </>
-                                                        )
-                                                    )}
-                                                </div>
-                                            }>
-                                            Evaluación {i + 1}
-                                        </ToolTipMui>
-                                    ) : null,
-                                )}
-                                {proyecto.evaluaciones.length === 0 ? <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p> : null}
-                            </>
-                        ) : null}
-                    </Grid> */}
 
             <Grid item md={12}>
                 <h1 className="text-3xl mt-24 mb-8  text-center">Productos</h1>

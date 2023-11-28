@@ -17,7 +17,6 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney'
 import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 
-import Evaluacion from './Evaluacion'
 import Form from './Form'
 
 import { route, checkRole } from '@/Utils'
@@ -54,7 +53,6 @@ const Actividades = ({
     const [dialog_rubro_presupuestal_status, setDialogRubroPresupuestalStatus] = useState(false)
     const [dialog_tutorial_status, setDialogTutorialStatus] = useState(true)
 
-    const [evaluacion_dialog_status, setEvaluacionDialogStatus] = useState(false)
     const [method, setMethod] = useState('')
     const [actividad, setActividad] = useState(null)
 
@@ -140,120 +138,6 @@ const Actividades = ({
             <Grid item md={12} className="!mb-20">
                 <StepperMui auth_user={auth_user} convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
             </Grid>
-
-            {/* <Grid item md={4}>
-                Evaluación
-            </Grid>
-            <Grid item md={8}>
-                {evaluacion && (
-                    <>
-                        <ButtonMui onClick={() => setEvaluacionDialogStatus(true)} primary={true}>
-                            Evaluar
-                        </ButtonMui>
-                        <DialogMui
-                            fullWidth={true}
-                            maxWidth="lg"
-                            open={evaluacion_dialog_status}
-                            dialogContent={
-                                <>
-                                    <Evaluacion auth_user={auth.user} convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
-                                </>
-                            }
-                            dialogActions={
-                                <ButtonMui onClick={() => setEvaluacionDialogStatus(false)} primary={true} className="!mr-6">
-                                    Cerrar
-                                </ButtonMui>
-                            }
-                        />
-                    </>
-                )}
-            </Grid> */}
-
-            {/* {is_super_admin || proyecto.mostrar_recomendaciones ? (
-                <>
-                    {proyecto.evaluaciones.map((evaluacion, i) =>
-                        is_super_admin || (evaluacion.finalizado && evaluacion.habilitado) ? (
-                            <ToolTipMui
-                                key={i}
-                                title={
-                                    <div>
-                                        <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
-                                        {evaluacion.evaluacion_proyecto_linea66 && (
-                                            <p className="whitespace-pre-line text-xs">
-                                                {evaluacion.evaluacion_proyecto_linea66.metodologia_comentario ? evaluacion.evaluacion_proyecto_linea66.metodologia_comentario : 'Sin recomendación'}
-                                            </p>
-                                        )}
-                                        {!evaluacion.evaluacion_proyecto_linea66 && evaluacion.evaluacion_proyecto_linea65 && (
-                                            <p className="whitespace-pre-line text-xs">
-                                                {evaluacion.evaluacion_proyecto_linea65.metodologia_comentario ? evaluacion.evaluacion_proyecto_linea65.metodologia_comentario : 'Sin recomendación'}
-                                            </p>
-                                        )}
-                                        {!evaluacion.evaluacion_proyecto_linea66 && !evaluacion.evaluacion_proyecto_linea65 && evaluacion.evaluacion_proyecto_linea70 && (
-                                            <p className="whitespace-pre-line text-xs">
-                                                {evaluacion.evaluacion_proyecto_linea70.metodologia_comentario ? evaluacion.evaluacion_proyecto_linea70.metodologia_comentario : 'Sin recomendación'}
-                                            </p>
-                                        )}
-                                        {!evaluacion.evaluacion_proyecto_linea66 &&
-                                            !evaluacion.evaluacion_proyecto_linea65 &&
-                                            !evaluacion.evaluacion_proyecto_linea70 &&
-                                            evaluacion.evaluacion_proyecto_linea69 && (
-                                                <p className="whitespace-pre-line text-xs">
-                                                    {evaluacion.evaluacion_proyecto_linea69.metodologia_comentario
-                                                        ? evaluacion.evaluacion_proyecto_linea69.metodologia_comentario
-                                                        : 'Sin recomendación'}
-                                                </p>
-                                            )}
-                                        {!evaluacion.evaluacion_proyecto_linea66 &&
-                                            !evaluacion.evaluacion_proyecto_linea65 &&
-                                            !evaluacion.evaluacion_proyecto_linea70 &&
-                                            !evaluacion.evaluacion_proyecto_linea69 &&
-                                            evaluacion.evaluacion_proyecto_linea68 && (
-                                                <div>
-                                                    <h1 className="font-black mt-10">Metodología</h1>
-                                                    <p className="whitespace-pre-line text-xs">
-                                                        {evaluacion.evaluacion_proyecto_linea68.metodologia_comentario
-                                                            ? evaluacion.evaluacion_proyecto_linea68.metodologia_comentario
-                                                            : 'Sin recomendación'}
-                                                    </p>
-                                                    <hr className="mt-10 mb-10 border-black-200" />
-                                                    <h1 className="font-black">Actividades</h1>
-                                                    <ul className="list-disc pl-4">
-                                                        <li className="whitespace-pre-line text-xs mb-10">
-                                                            {evaluacion.evaluacion_proyecto_linea68.actividades_primer_obj_comentario
-                                                                ? 'Recomendación actividades del primer objetivo específico: ' +
-                                                                  evaluacion.evaluacion_proyecto_linea68.actividades_primer_obj_comentario
-                                                                : 'Sin recomendación'}
-                                                        </li>
-                                                        <li className="whitespace-pre-line text-xs mb-10">
-                                                            {evaluacion.evaluacion_proyecto_linea68.actividades_segundo_obj_comentario
-                                                                ? 'Recomendación actividades del segundo objetivo específico: ' +
-                                                                  evaluacion.evaluacion_proyecto_linea68.actividades_segundo_obj_comentario
-                                                                : 'Sin recomendación'}
-                                                        </li>
-                                                        <li className="whitespace-pre-line text-xs mb-10">
-                                                            {evaluacion.evaluacion_proyecto_linea68.actividades_tercer_obj_comentario
-                                                                ? 'Recomendación actividades del tercer objetivo específico: ' +
-                                                                  evaluacion.evaluacion_proyecto_linea68.actividades_tercer_obj_comentario
-                                                                : 'Sin recomendación'}
-                                                        </li>
-                                                        <li className="whitespace-pre-line text-xs mb-10">
-                                                            {evaluacion.evaluacion_proyecto_linea68.actividades_cuarto_obj_comentario
-                                                                ? 'Recomendación actividades del cuarto objetivo específico: ' +
-                                                                  evaluacion.evaluacion_proyecto_linea68.actividades_cuarto_obj_comentario
-                                                                : 'Sin recomendación'}
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            )}
-                                    </div>
-                                }>
-                                Evaluación {i + 1}
-                            </ToolTipMui>
-                        ) : null,
-                    )}
-                    {proyecto.evaluaciones.length === 0 ? <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p> : null}
-                </>
-            ) : null} */}
 
             <Grid item md={12}>
                 <TabsMui tabs={tabs}>

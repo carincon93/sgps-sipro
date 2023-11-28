@@ -188,8 +188,7 @@ class ProyectoFormulario8Linea66Controller extends Controller
             return abort(404);
         }
 
-        $proyecto_formulario_8_linea_66->load('proyecto.proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyecto.proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
-        // $proyecto_formulario_8_linea_66->load('proyecto.evaluaciones.evaluacionProyectoFormulario8Linea66');
+        $proyecto_formulario_8_linea_66->load('proyecto.evaluaciones.evaluacionesProyectoFormulario8Linea66', 'proyecto.proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyecto.proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
 
         $proyecto_formulario_8_linea_66->proyecto->precio_proyecto = $proyecto_formulario_8_linea_66->proyecto->precioProyecto;
 

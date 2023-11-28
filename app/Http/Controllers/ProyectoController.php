@@ -197,7 +197,7 @@ class ProyectoController extends Controller
             $items_evaluacion = $evaluacion->getItemsAEvaluar($convocatoria->id, $proyecto->tipo_formulario_convocatoria_id);
         }
 
-        $proyecto->load('proyectoRolesSennova.proyectoRolesEvaluaciones');
+        $proyecto->load('evaluaciones', 'proyectoRolesSennova.proyectoRolesEvaluaciones');
         $proyecto->load('proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
         // $proyecto->load('evaluaciones.evaluacionProyectoFormulario8Linea66');
         // $proyecto->load('evaluaciones.evaluacionProyectoFormulario4Linea70');
@@ -651,7 +651,7 @@ class ProyectoController extends Controller
             $items_evaluacion = $evaluacion->getItemsAEvaluar($convocatoria->id, $proyecto->tipo_formulario_convocatoria_id);
         }
 
-        $proyecto->load('proyectoRolesSennova.proyectoRolesEvaluaciones');
+        $proyecto->load('evaluaciones', 'proyectoRolesSennova.proyectoRolesEvaluaciones');
         $proyecto->load('proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
 
         $proyecto->precio_proyecto = $proyecto->precioProyecto;
@@ -805,7 +805,7 @@ class ProyectoController extends Controller
 
         $proyecto->load('participantes.centroFormacion.regional');
         $proyecto->load('semillerosInvestigacion.lineaInvestigacion.grupoInvestigacion');
-        $proyecto->load('proyectoRolesSennova.proyectoRolesEvaluaciones');
+        $proyecto->load('evaluaciones', 'proyectoRolesSennova.proyectoRolesEvaluaciones');
         $proyecto->load('proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
 
         $proyecto->participantes;
@@ -1248,7 +1248,7 @@ class ProyectoController extends Controller
             $items_evaluacion = $evaluacion->getItemsAEvaluar($convocatoria->id, $proyecto->tipo_formulario_convocatoria_id);
         }
 
-        $proyecto->load('proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
+        $proyecto->load('evaluaciones', 'proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
 
         $proyecto->precio_proyecto = $proyecto->precioProyecto;
         $proyecto->tipoFormularioConvocatoria->lineaProgramatica;

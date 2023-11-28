@@ -145,9 +145,7 @@ class ProyectoFormulario5Linea69Controller extends Controller
             $items_evaluacion = $evaluacion->getItemsAEvaluar($convocatoria->id, $proyecto_formulario_5_linea_69->proyecto->tipo_formulario_convocatoria_id);
         }
 
-
-        $proyecto_formulario_5_linea_69->load('proyecto.proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyecto.proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
-        // $proyecto_formulario_5_linea_69->load('proyecto.evaluaciones.evaluacionProyectoFormulario5Linea69');
+        $proyecto_formulario_5_linea_69->load('proyecto.evaluaciones.evaluacionesProyectoFormulario5Linea69', 'proyecto.proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyecto.proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
 
         /** @var \App\Models\User */
         $auth_user = Auth::user();

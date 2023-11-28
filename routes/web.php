@@ -62,6 +62,7 @@ use App\Http\Controllers\UserController;
 
 use App\Http\Controllers\Evaluacion\EvaluacionController;
 use App\Http\Controllers\HubInnovacionController;
+use App\Http\Controllers\Intangible\IntangibleController;
 use App\Http\Controllers\LaboratorioServicioTecnologicoController;
 use App\Http\Controllers\MontoMaximoFormulario1RegionalController;
 use App\Http\Controllers\Perfil\EstudioAcademicoController;
@@ -855,6 +856,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('evaluadores', [EvaluacionController::class, 'evaluadores'])->name('evaluadores.index');
     Route::resource('evaluaciones', EvaluacionController::class)->parameters(['evaluaciones' => 'evaluacion'])->except(['show']);
+
+
+    /**
+     * Intangibles
+     *
+     */
+    Route::resource('intangibles', IntangibleController::class)->parameters(['intangibles' => 'intangible'])->except(['show']);
 
     /**
      * Reportes

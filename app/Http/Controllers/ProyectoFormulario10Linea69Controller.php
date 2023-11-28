@@ -142,8 +142,7 @@ class ProyectoFormulario10Linea69Controller extends Controller
         /** @var \App\Models\User */
         $auth_user = Auth::user();
 
-        $proyecto_formulario_10_linea_69->load('proyecto.proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyecto.proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
-        // $proyecto_formulario_10_linea_69->load('proyecto.evaluaciones.evaluacionProyectoFormulario10Linea69');
+        $proyecto_formulario_10_linea_69->load('proyecto.evaluaciones.evaluacionesProyectoFormulario10Linea69', 'proyecto.proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyecto.proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
 
         $proyecto_formulario_10_linea_69->proyecto->precio_proyecto      = $proyecto_formulario_10_linea_69->proyecto->precioProyecto;
         $proyecto_formulario_10_linea_69->proyecto->centroFormacion;

@@ -158,8 +158,7 @@ class ProyectoFormulario4Linea70Controller extends Controller
             $items_evaluacion = $evaluacion->getItemsAEvaluar($convocatoria->id, $proyecto_formulario_4_linea_70->proyecto->tipo_formulario_convocatoria_id);
         }
 
-        $proyecto_formulario_4_linea_70->load('proyecto.proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyecto.proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
-        // $proyecto_formulario_4_linea_70->load('proyecto.evaluaciones.evaluacionProyectoFormulario4Linea70');
+        $proyecto_formulario_4_linea_70->load('proyecto.evaluaciones.evaluacionesProyectoFormulario4Linea70', 'proyecto.proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyecto.proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
 
         $proyecto_formulario_4_linea_70->proyecto->precio_proyecto           = $proyecto_formulario_4_linea_70->proyecto->precioProyecto;
         $proyecto_formulario_4_linea_70->proyecto->centroFormacion;

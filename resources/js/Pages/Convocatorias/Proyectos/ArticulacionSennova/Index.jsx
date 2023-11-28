@@ -43,7 +43,6 @@ const ArticulacionSennova = ({
 }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
-    const [evaluacion_dialog_status, setEvaluacionDialogStatus] = useState(false)
 
     const tabs =
         proyecto.tipo_formulario_convocatoria_id == 4 && tecnoacademia_relacionada?.modalidad == 2
@@ -64,34 +63,6 @@ const ArticulacionSennova = ({
                 <Grid item md={12} className="!mb-20">
                     <StepperMui auth_user={auth_user} convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
                 </Grid>
-
-                {/* <Grid item md={4}>
-                Evaluación
-            </Grid>
-            <Grid item md={8}>
-                {evaluacion && (
-                    <>
-                        <ButtonMui onClick={() => setEvaluacionDialogStatus(true)} primary={true}>
-                            Evaluar
-                        </ButtonMui>
-                        <DialogMui
-                            fullWidth={true}
-                            maxWidth="lg"
-                            open={evaluacion_dialog_status}
-                            dialogContent={
-                                <>
-                                    <Evaluacion auth_user={auth.user} proyecto={proyecto} evaluacion={evaluacion} />
-                                </>
-                            }
-                            dialogActions={
-                                <ButtonMui onClick={() => setEvaluacionDialogStatus(false)} primary={true} className="!mr-6">
-                                    Cerrar
-                                </ButtonMui>
-                            }
-                        />
-                    </>
-                )}
-            </Grid> */}
 
                 <Grid item md={12}>
                     <TabsMui tabs={tabs}>

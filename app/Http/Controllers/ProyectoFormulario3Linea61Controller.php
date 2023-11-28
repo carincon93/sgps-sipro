@@ -163,8 +163,7 @@ class ProyectoFormulario3Linea61Controller extends Controller
             $items_evaluacion = $evaluacion->getItemsAEvaluar($convocatoria->id, $proyecto_formulario_3_linea_61->proyecto->tipo_formulario_convocatoria_id);
         }
 
-        $proyecto_formulario_3_linea_61->load('proyecto.proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyecto.proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
-        // $proyecto_formulario_3_linea_61->load('proyecto.evaluaciones.evaluacion_proyecto_formulario_3_linea_61');
+        $proyecto_formulario_3_linea_61->load('proyecto.evaluaciones.evaluacion_proyecto_formulario_3_linea_61', 'proyecto.proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyecto.proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
 
         $proyecto_formulario_3_linea_61->proyecto->precio_proyecto           = $proyecto_formulario_3_linea_61->proyecto->precioProyecto;
         $proyecto_formulario_3_linea_61->proyecto->centroFormacion;

@@ -153,8 +153,7 @@ class ProyectoFormulario12Linea68Controller extends Controller
             $items_evaluacion = $evaluacion->getItemsAEvaluar($convocatoria->id, $proyecto_formulario_12_linea_68->proyecto->tipo_formulario_convocatoria_id);
         }
 
-        $proyecto_formulario_12_linea_68->load('proyecto.proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyecto.proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
-        // $proyecto_formulario_12_linea_68->load('proyecto.evaluaciones.evaluacionProyectoFormulario12Linea68');
+        $proyecto_formulario_12_linea_68->load('proyecto.evaluaciones.evaluacionesProyectoFormulario12Linea68', 'proyecto.proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyecto.proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
 
         $proyecto_formulario_12_linea_68->proyecto->precio_proyecto = $proyecto_formulario_12_linea_68->proyecto->precioProyecto;
         $proyecto_formulario_12_linea_68->proyecto->centroFormacion;

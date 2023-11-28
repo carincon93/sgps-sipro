@@ -174,8 +174,7 @@ class ProyectoFormulario9Linea23Controller extends Controller
             $items_evaluacion = $evaluacion->getItemsAEvaluar($convocatoria->id, $proyecto_formulario_9_linea_23->proyecto->tipo_formulario_convocatoria_id);
         }
 
-        $proyecto_formulario_9_linea_23->load('proyecto.proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyecto.proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
-        // $proyecto_formulario_9_linea_23->load('proyecto.evaluaciones.evaluacionProyectoFormulario9Linea23');
+        $proyecto_formulario_9_linea_23->load('proyecto.evaluaciones.evaluacionesProyectoFormulario9Linea23', 'proyecto.proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyecto.proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
 
         $proyecto_formulario_9_linea_23->proyecto->precio_proyecto = $proyecto_formulario_9_linea_23->proyecto->precioProyecto;
 

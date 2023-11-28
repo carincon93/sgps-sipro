@@ -23,14 +23,12 @@ import { Chip, Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 import { useState } from 'react'
 
 import Form from './Form'
-import Evaluacion from './Evaluacion'
 
 const EntidadesAliadas = ({ auth, convocatoria, proyecto, evaluacion, entidades_aliadas, actividades, tipos_entidad_aliada, naturaleza_entidad_aliada, tipos_empresa, ...props }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
     const [entidad_aliada_to_destroy, setEntidadAliadaToDestroy] = useState(null)
-    const [evaluacion_dialog_status, setEvaluacionDialogStatus] = useState(false)
     const [dialog_status, setDialogStatus] = useState(false)
     const [dialog_formato_status, setDialogFormatoStatus] = useState(false)
     const [tipo_archivo, setTipoArchivo] = useState('')
@@ -60,67 +58,6 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, evaluacion, entidades_
             <Grid item md={12} className="!mb-20">
                 <StepperMui auth_user={auth_user} convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
             </Grid>
-
-            {/* <Grid item md={4}>
-                Evaluación
-            </Grid>
-            <Grid item md={8}>
-                {evaluacion && (
-                    <>
-                        <ButtonMui onClick={() => setEvaluacionDialogStatus(true)} primary={true}>
-                            Evaluar
-                        </ButtonMui>
-                        <DialogMui
-                            fullWidth={true}
-                            maxWidth="lg"
-                            open={evaluacion_dialog_status}
-                            dialogContent={
-                                <>
-                                    <Evaluacion auth_user={auth.user} proyecto={proyecto} evaluacion={evaluacion} />
-                                </>
-                            }
-                            dialogActions={
-                                <ButtonMui onClick={() => setEvaluacionDialogStatus(false)} primary={true} className="!mr-6">
-                                    Cerrar
-                                </ButtonMui>
-                            }
-                        />
-                    </>
-                )}
-            </Grid>
-
-            {is_super_admin || proyecto.mostrar_recomendaciones ? (
-                <>
-                    {proyecto.evaluaciones.map((evaluacion, i) =>
-                        is_super_admin || (evaluacion.finalizado && evaluacion.habilitado) ? (
-                            <ToolTipMui
-                                key={i}
-                                title={
-                                    <div>
-                                        <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
-                                        {evaluacion.evaluacion_proyecto_linea66 && (
-                                            <p className="whitespace-pre-line text-xs">
-                                                {evaluacion.evaluacion_proyecto_linea66?.entidad_aliada_comentario
-                                                    ? evaluacion.evaluacion_proyecto_linea66.entidad_aliada_comentario
-                                                    : 'Sin recomendación'}
-                                            </p>
-                                        )}
-                                        {evaluacion.evaluacion_proyecto_linea70 && (
-                                            <p className="whitespace-pre-line text-xs">
-                                                {evaluacion.evaluacion_proyecto_linea70?.entidad_aliada_comentario
-                                                    ? evaluacion.evaluacion_proyecto_linea70.entidad_aliada_comentario
-                                                    : 'Sin recomendación'}
-                                            </p>
-                                        )}
-                                    </div>
-                                }>
-                                Evaluación {i + 1}
-                            </ToolTipMui>
-                        ) : null,
-                    )}
-                    {proyecto.evaluaciones.length === 0 ? <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p> : null}
-                </>
-            ) : null} */}
 
             <Grid item md={12}>
                 <h1 className="text-3xl mb-8 text-center">Entidades aliadas</h1>
