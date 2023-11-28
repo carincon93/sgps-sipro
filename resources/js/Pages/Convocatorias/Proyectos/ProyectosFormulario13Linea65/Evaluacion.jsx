@@ -65,7 +65,7 @@ const Evaluacion = ({ auth_user, convocatoria, evaluacion, allowed, proyecto, se
 
     useEffect(() => {
         if (evaluacion_rol_sennova) {
-            const evaluacion_rol_sennova_seleccionado = evaluacion_rol_sennova.proyecto_roles_evaluaciones.find((evaluacion_rol) => evaluacion_rol.evaluacion_id == evaluacion_id)
+            const evaluacion_rol_sennova_seleccionado = evaluacion_rol_sennova.proyecto_roles_evaluaciones?.find((evaluacion_rol) => evaluacion_rol.evaluacion_id == evaluacion_id)
             if (evaluacion_rol_sennova_seleccionado) {
                 form_evaluacion_rol.setData({ correcto: evaluacion_rol_sennova_seleccionado.correcto, comentario: evaluacion_rol_sennova_seleccionado.comentario })
             }
@@ -90,7 +90,7 @@ const Evaluacion = ({ auth_user, convocatoria, evaluacion, allowed, proyecto, se
 
     useEffect(() => {
         if (evaluacion_rubro) {
-            const evaluacion_rubro_seleccionado = evaluacion_rubro.proyecto_presupuestos_evaluaciones.find((evaluacion_rubro) => evaluacion_rubro.evaluacion_id == evaluacion_id)
+            const evaluacion_rubro_seleccionado = evaluacion_rubro.proyecto_presupuestos_evaluaciones?.find((evaluacion_rubro) => evaluacion_rubro.evaluacion_id == evaluacion_id)
             if (evaluacion_rubro_seleccionado) {
                 form_evaluacion_rubro.setData({ correcto: evaluacion_rubro_seleccionado.correcto, comentario: evaluacion_rubro_seleccionado.comentario })
             }
