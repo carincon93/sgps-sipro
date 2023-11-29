@@ -235,6 +235,7 @@ export default function StepperMui({ auth_user, convocatoria, proyecto, evaluaci
     const evaluacion_tabs = []
     proyecto.evaluaciones.map((evaluacion) => evaluacion_tabs.push({ label: 'Evaluación #' + evaluacion.id }))
 
+    console.log(proyecto.evaluaciones)
     return (
         <>
             {(proyecto.evaluaciones.length > 0 && is_super_admin) || (proyecto.evaluaciones.length > 0 && [3, 5].includes(convocatoria.fase)) ? (
@@ -369,37 +370,27 @@ export default function StepperMui({ auth_user, convocatoria, proyecto, evaluaci
                                                     </p>
                                                 </div>
                                             ))}
+                                            <Divider className="!my-10">RUBROS PRESUPUESTALES</Divider>
+                                            {evaluacion.proyecto_presupuestos_evaluaciones
+                                                .filter((item) => item.correcto == false)
+                                                .map((evaluacion_presupuesto, k) => (
+                                                    <p className="whitespace-pre-line mb-10" key={k}>
+                                                        <strong>Código del presupuesto #{evaluacion_presupuesto.proyecto_presupuesto_id}</strong> {' - Recomendación: '}
+                                                        {evaluacion_presupuesto.comentario}
+                                                    </p>
+                                                ))}
+                                            {evaluacion.proyecto_presupuestos_evaluaciones.filter((item) => item.correcto == false).length == 0 && <>Sin recomendaciones</>}
 
-                                            <Divider>RUBROS PRESUPUESTALES</Divider>
-                                            {proyecto.proyecto_presupuesto.map((rubro, j) => (
-                                                <div key={j} className="my-10">
-                                                    <strong>Código: #{rubro.id}</strong> {' - '}
-                                                    {rubro.proyecto_presupuestos_evaluaciones.map((evaluacion_presupuesto, k) => (
-                                                        <p className="whitespace-pre-line mb-10" key={k}>
-                                                            {evaluacion_presupuesto.comentario}
-                                                        </p>
-                                                    ))}
-                                                    {rubro.proyecto_presupuestos_evaluaciones.length == 0 && <>Sin recomendaciones</>}
-                                                </div>
-                                            ))}
-
-                                            {proyecto.proyecto_presupuesto.length == 0 && <p className="!mt-10">Sin recomendaciones</p>}
-
-                                            <Divider className="!mt-10">ROLES</Divider>
-
-                                            {proyecto.proyecto_roles_sennova.map((rol_sennova, j) => (
-                                                <div key={j} className="my-10">
-                                                    <strong>Código: #{rol_sennova.id}</strong> {' - '}
-                                                    {rol_sennova.proyecto_roles_evaluaciones.map((evaluacion_rol, k) => (
-                                                        <p className="whitespace-pre-line mb-10" key={k}>
-                                                            {evaluacion_rol.comentario}
-                                                        </p>
-                                                    ))}
-                                                    {rol_sennova.proyecto_roles_evaluaciones.length == 0 && <>Sin recomendaciones</>}
-                                                </div>
-                                            ))}
-
-                                            {proyecto.proyecto_roles_sennova.length == 0 && <p className="!mt-10">Sin recomendaciones</p>}
+                                            <Divider className="!my-10">ROLES</Divider>
+                                            {evaluacion.proyecto_roles_evaluaciones
+                                                .filter((item) => item.correcto == false)
+                                                .map((evaluacion_rol, k) => (
+                                                    <p className="whitespace-pre-line mb-10" key={k}>
+                                                        <strong>Código del rol #{evaluacion_rol.proyecto_rol_sennova_id}</strong> {' - '}
+                                                        {evaluacion_rol.comentario}
+                                                    </p>
+                                                ))}
+                                            {evaluacion.proyecto_roles_evaluaciones.filter((item) => item.correcto == false).length == 0 && <>Sin recomendaciones</>}
                                         </React.Fragment>
                                     ))}
                                 </TabsMui>
