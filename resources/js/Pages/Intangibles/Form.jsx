@@ -10,7 +10,7 @@ import Textarea from '@/Components/Textarea'
 import { useForm } from '@inertiajs/react'
 import { Grid, Paper } from '@mui/material'
 
-const Form = ({ method = '', is_super_admin, setDialogStatus, intangible, ...props }) => {
+const Form = ({ method = '', is_super_admin, setDialogStatus, intangible, tipos_intangibles, ...props }) => {
     const form = useForm({
         _method: method,
         codigo_intangible: intangible?.codigo_intangible,
@@ -62,23 +62,48 @@ const Form = ({ method = '', is_super_admin, setDialogStatus, intangible, ...pro
                     <form onSubmit={submit}>
                         <Grid container rowSpacing={8}>
                             <Grid item md={12}>
-                                <Label required labelFor="codigo" value="Código" />
-                                <TextInput id="codigo" type="number" value={form.data.codigo} error={form.errors.codigo} onChange={(e) => form.setData('codigo', e.target.value)} required />
+                                <Label required labelFor="codigo_intangible" value="Código" />
+                                <TextInput
+                                    id="codigo_intangible"
+                                    type="text"
+                                    value={form.data.codigo_intangible}
+                                    error={form.errors.codigo_intangible}
+                                    onChange={(e) => form.setData('codigo_intangible', e.target.value)}
+                                    required
+                                />
                             </Grid>
                             <Grid item md={12}>
-                                <Label required labelFor="nombre" value="Nombre del intangible" />
-                                <TextInput id="nombre" type="text" value={form.data.nombre} error={form.errors.nombre} onChange={(e) => form.setData('nombre', e.target.value)} required />
+                                <Label required labelFor="nombre_intangible" value="Nombre del intangible" />
+                                <TextInput
+                                    id="nombre_intangible"
+                                    type="text"
+                                    value={form.data.nombre_intangible}
+                                    error={form.errors.nombre_intangible}
+                                    onChange={(e) => form.setData('nombre_intangible', e.target.value)}
+                                    required
+                                />
                             </Grid>
 
                             <Grid item md={12}>
+                                <Label required labelFor="tipo_intangible" value="Tipo de intangible" />
                                 <Autocomplete
                                     id="tipo_intangible"
-                                    options={[]}
+                                    options={tipos_intangibles}
                                     selectedValue={form.data.tipo_intangible}
                                     onChange={(event, newValue) => form.setData('tipo_intangible', newValue.value)}
                                     error={form.errors.tipo_intangible}
-                                    placeholder="Seleccione un tipo de convocatoria"
                                     required
+                                />
+                            </Grid>
+
+                            <Grid item md={12}>
+                                <Label required labelFor="clase_intangible" value="Clase de intangible" />
+                                <Autocomplete
+                                    id="clase_intangible"
+                                    options={[]}
+                                    selectedValue={form.data.clase_intangible}
+                                    onChange={(event, newValue) => form.setData('clase_intangible', newValue.value)}
+                                    error={form.errors.tipo_intangible}
                                 />
                             </Grid>
 

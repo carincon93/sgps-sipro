@@ -18,7 +18,7 @@ import { route, checkRole } from '@/Utils'
 
 import Form from './Form'
 
-const Index = ({ auth, intangibles }) => {
+const Index = ({ auth, intangibles, tipos_intangibles }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
@@ -77,7 +77,7 @@ const Index = ({ auth, intangibles }) => {
                                                 onClick={(e) => {
                                                     e.stopPropagation()
                                                     if (is_super_admin) {
-                                                        router.delete(route('centros-formacion.destroy', [intangible.id]), {
+                                                        router.delete(route('intangibles.destroy', [intangible.id]), {
                                                             preserveScroll: true,
                                                         })
                                                     }
@@ -99,7 +99,7 @@ const Index = ({ auth, intangibles }) => {
                     fullWidth={true}
                     maxWidth="lg"
                     blurEnabled={true}
-                    dialogContent={<Form is_super_admin={is_super_admin} setDialogStatus={setDialogStatus} method={method} intangible={intangible} />}
+                    dialogContent={<Form is_super_admin={is_super_admin} setDialogStatus={setDialogStatus} method={method} intangible={intangible} tipos_intangibles={tipos_intangibles} />}
                 />
             </Grid>
         </AuthenticatedLayout>

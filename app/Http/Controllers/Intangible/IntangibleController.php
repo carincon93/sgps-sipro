@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Intangible;
 
 use App\Models\Intangible\Intangible;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Intangible\IntangibleRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class IntangibleController extends Controller
@@ -18,8 +20,9 @@ class IntangibleController extends Controller
         $this->authorize('viewAny', [Intangible::class]);
 
         return Inertia::render('Intangibles/Index', [
-            'intangibles'            => Intangible::orderBy('nombre', 'ASC')
-                ->filterIntangible(request()->only('search'))->paginate()->appends(['search' => request()->search]),
+            'intangibles'            => Intangible::filterIntangible(request()->only('search'))->paginate()->appends(['search' => request()->search]),
+            'tipos_intangibles'      => json_decode(Storage::get('json/tipos-intangibles.json'), true),
+
         ]);
     }
 
@@ -34,9 +37,13 @@ class IntangibleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(IntangibleRequest $request)
     {
-        //
+        $this->authorize('create', [Intangible::class]);
+
+        $intangible = Intangible::create($request->validated());
+
+        return back()->with('success', 'El recurso se ha creado correctamente.');
     }
 
     /**
@@ -58,9 +65,13 @@ class IntangibleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Intangible $intangible)
+    public function update(IntangibleRequest $request, Intangible $intangible)
     {
-        //
+        $this->authorize('update', [Intangible::class, $intangible]);
+
+        $intangible->update($request->validated());
+
+        return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
 
     /**
@@ -68,6 +79,10 @@ class IntangibleController extends Controller
      */
     public function destroy(Intangible $intangible)
     {
-        //
+        $this->authorize('delete', [Intangible::class, $intangible]);
+
+        $intangible->delete();
+
+        return back()->with('success', 'El recurso se ha eliminado correctamente.');
     }
 }
