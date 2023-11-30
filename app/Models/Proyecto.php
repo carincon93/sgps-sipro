@@ -891,574 +891,167 @@ class Proyecto extends Model
     }
 
     /**
-     * getEstadoEvaluacionProyectoAttribute
+     * calcularEvaluacion
      *
      * @return void
      */
+    private function calcularEvaluacion($evaluaciones, $evaluaciones_finalizadas)
+    {
+        $puntaje_total                      = $total_recomendaciones = 0;
+        $causal_rechazo                     = null;
+        $estado_evaluacion                  = null;
+        $requiere_subsanar                  = false;
+        $total_presupuestos_evaluados       = 0;
+        $cantidad_presupuesto_no_aprobado   = 0;
+        $estados                            = [1, 2];
+
+        foreach ($evaluaciones as $evaluacion) {
+            $puntaje_total += $evaluacion->total_evaluacion;
+            $total_recomendaciones += $evaluacion->total_recomendaciones;
+
+            // Sumar los presupuestos no aprobados
+            $total_presupuestos_evaluados += $evaluacion->proyectoPresupuestosEvaluaciones()->count();
+
+            foreach ($evaluacion->proyectoPresupuestosEvaluaciones()->get() as $presupuesto_evaluacion) {
+                $cantidad_presupuesto_no_aprobado += $presupuesto_evaluacion->correcto == false ? 1 : 0;
+            }
+
+            array_push($estados, $this->estadoEvaluacionProyecto(count($evaluaciones), $evaluaciones_finalizadas, $evaluacion->total_evaluacion, $total_recomendaciones)['id']);
+        }
+
+        $cantidad_evaluaciones  = count($evaluaciones);
+        $desviacion_estandar    = $this->getDesviacionEstandarAttribute($evaluaciones);
+        $alerta                 = null;
+
+        if (in_array(2, $estados) && $desviacion_estandar >= 25 || in_array(3, $estados) && $desviacion_estandar >= 25) {
+            $estado_arr = in_array(2, $estados) ? 'Pre-aprobado' : 'Pre-aprobado con observaciones';
+            $alerta = "Hay una evaluación en estado '{$estado_arr}' y la desviación estándar de las {$cantidad_evaluaciones} evaluaciones es {$desviacion_estandar}.";
+        }
+
+        $puntaje_total = $cantidad_evaluaciones > 0 ? $puntaje_total / $cantidad_evaluaciones : 0;
+
+        if ($causal_rechazo == null && $cantidad_evaluaciones > 0) {
+            $estado_evaluacion = $this->estadoEvaluacionProyecto(count($evaluaciones), $evaluaciones_finalizadas, $puntaje_total, $total_recomendaciones)['estado'];
+        } else {
+            $estado_evaluacion = $causal_rechazo;
+        }
+
+        if ($cantidad_evaluaciones == 0) {
+            $estados_evaluacion = collect(json_decode(Storage::get('json/estados-evaluacion.json'), true));
+            $estado_evaluacion  = $estados_evaluacion->where('value', 1)->first()['label'];
+        }
+
+        if ($this->estado_cord_sennova != null && request()->isMethod('GET')) {
+            $estados_evaluacion = collect(json_decode($this->estado_cord_sennova, true));
+            $estado_evaluacion  = $estados_evaluacion['estado'];
+        }
+
+        return compact('estado_evaluacion', 'puntaje_total', 'total_recomendaciones', 'cantidad_evaluaciones', 'evaluaciones_finalizadas', 'total_presupuestos_evaluados', 'cantidad_presupuesto_no_aprobado', 'requiere_subsanar', 'alerta');
+    }
+
     public function getEstadoEvaluacionProyectoAttribute()
     {
         $evaluaciones               = $this->evaluaciones()->where('habilitado', true)->get();
         $evaluaciones_finalizadas   = $this->evaluaciones()->where('habilitado', true)->where('finalizado', true)->count();
 
-        $puntaje_total = 0;
-        $total_recomendaciones = 0;
-        $cantidad_evaluaciones = count($evaluaciones);
-        // $estado_evaluacion = '';
-        // $causal_rechazo  = null;
-        // $requiere_subsanar = false;
-        // $total_presupuestos_evaluados = 0;
-
-        // $estados = array(1, 2);
-
-        foreach ($evaluaciones as $evaluacion) {
-            $puntaje_total          += $evaluacion->total_evaluacion;
-            $total_recomendaciones  += $evaluacion->total_recomendaciones;
-        }
-
-        $cantidad_evaluaciones > 0 ? $puntaje_total = $puntaje_total / $cantidad_evaluaciones : $puntaje_total = 0;
-
-        // $sq = 0;
-        // $sq = $this->getDesviacionEstandarAttribute();
-        // $alerta = null;
-        // if (in_array(2, $estados) && $sq >= 25  || in_array(3, $estados) && $sq >= 25) {
-        //     if (in_array(2, $estados)) {
-        //         $estadoArr = 'Pre-aprobado';
-        //     } else if (in_array(3, $estados)) {
-        //         $estadoArr = 'Pre-aprobado con observaciones';
-        //     }
-        //     $alerta = "Hay una evaluación en estado '{$estadoArr}' y la desviación estándar de las {$cantidad_evaluaciones} evaluaciones es {$sq}.";
-        // }
-
-
-        // if ($causal_rechazo == null && $cantidad_evaluaciones > 0) {
-        //     $estado_evaluacion = $this->estadoEvaluacionProyectoFormulario8Linea66($puntaje_total, $total_recomendaciones, $requiere_subsanar, null)['estado'];
-        //     $requiere_subsanar = $this->estadoEvaluacionProyectoFormulario8Linea66($puntaje_total, $total_recomendaciones, $requiere_subsanar, null)['requiere_subsanar'];
-        // } else {
-        //     $estado_evaluacion = $causal_rechazo;
-        // }
-
-        // if ($cantidad_evaluaciones == 0) {
-        //     $estados_evaluacion = collect(json_decode(Storage::get('json/estados-evaluacion.json'), true));
-        //     $estado_evaluacion  = $estados_evaluacion->where('value', 1)->first()['label'];
-        // }
-
-        // if ($this->estado_cord_sennova != NULL && request()->isMethod('GET')) {
-        //     $estados_evaluacion = collect(json_decode($this->estado_cord_sennova, true));
-        //     $estado_evaluacion  = $estados_evaluacion['estado'];
-        // }
-
-        // return collect(['estado' => $estado_evaluacion, 'puntaje' => $puntaje_total, 'numero_recomendaciones' => $total_recomendaciones, 'evaluaciones_habilitadas' => $cantidad_evaluaciones, 'evaluaciones_finalizadas' => $evaluaciones_finalizadas, 'requiere_subsanar' => $requiere_subsanar, 'alerta' => $alerta]);
-
-        return collect(['puntaje' => $puntaje_total, 'numero_recomendaciones' => $total_recomendaciones, 'evaluaciones_habilitadas' => $cantidad_evaluaciones, 'evaluaciones_finalizadas' => $evaluaciones_finalizadas]);
+        return collect($this->calcularEvaluacion($evaluaciones, $evaluaciones_finalizadas));
     }
 
-    /**
-     * getEstadoEvaluacionProyectoFormulario6Linea82Attribute - Estrategia regional
-     *
-     * @return void
-     */
-    public function getEstadoEvaluacionProyectoFormulario6Linea82Attribute()
-    {
-        if ($this->proyectoFormulario6Linea82()->exists()) {
-            $evaluaciones               = $this->evaluaciones()->where('habilitado', true)->get();
-            $evaluaciones_finalizadas   = $this->evaluaciones()->where('habilitado', true)->where('finalizado', true)->count();
-
-            $puntaje_total                  = 0;
-            $total_recomendaciones          = 0;
-            $estado_evaluacion              = '';
-            $causal_rechazo                 = null;
-            $requiere_subsanar              = false;
-            $total_presupuestos_evaluados   = 0;
-
-            $estados = array(1, 2);
-
-            foreach ($evaluaciones as $key => $evaluacion) {
-                $puntaje_total          += $evaluacion->total_evaluacion;
-                $total_recomendaciones  += $evaluacion->total_recomendaciones;
-
-                array_push($estados, $this->estadoEvaluacionProyectoFormulario6Linea82($evaluacion->total_evaluacion, $total_recomendaciones, $requiere_subsanar, null)['id']);
-
-                if ($causal_rechazo == null && $evaluacion->proyectoPresupuestosEvaluaciones()->count() > 0 && $this->convocatoria->fase == 5) {
-                    $this->precio_proyecto - $this->getPrecioProyectoAprobadoAttribute() >= floor($this->precio_proyecto * 0.8) ? $causal_rechazo = 'Rechazado - No cumple con el presupuesto' : $causal_rechazo = null;
-                }
-            }
-
-            $cantidad_evaluaciones = count($evaluaciones);
-
-            $sq = 0;
-            $sq = $this->getDesviacionEstandarAttribute();
-            $alerta = null;
-            if (in_array(2, $estados) && $sq >= 25  || in_array(3, $estados) && $sq >= 25) {
-                if (in_array(2, $estados)) {
-                    $estadoArr = 'Pre-aprobado';
-                } else if (in_array(3, $estados)) {
-                    $estadoArr = 'Pre-aprobado con observaciones';
-                }
-                $alerta = "Hay una evaluación en estado '{$estadoArr}' y la desviación estándar de las {$cantidad_evaluaciones} evaluaciones es {$sq}.";
-            }
-
-            $cantidad_evaluaciones > 0 ? $puntaje_total = $puntaje_total / $cantidad_evaluaciones : $puntaje_total = 0;
-
-            if ($causal_rechazo == null && $cantidad_evaluaciones > 0) {
-                $estado_evaluacion = $this->estadoEvaluacionProyectoFormulario8Linea66($puntaje_total, $total_recomendaciones, $requiere_subsanar, null)['estado'];
-                $requiere_subsanar = $this->estadoEvaluacionProyectoFormulario8Linea66($puntaje_total, $total_recomendaciones, $requiere_subsanar, null)['requiere_subsanar'];
-            } else {
-                $estado_evaluacion = $causal_rechazo;
-            }
-
-            if ($cantidad_evaluaciones == 0) {
-                $estados_evaluacion = collect(json_decode(Storage::get('json/estados-evaluacion.json'), true));
-                $estado_evaluacion  = $estados_evaluacion->where('value', 1)->first()['label'];
-            }
-
-            if ($this->estado_cord_sennova != NULL && request()->isMethod('GET')) {
-                $estados_evaluacion = collect(json_decode($this->estado_cord_sennova, true));
-                $estado_evaluacion  = $estados_evaluacion['estado'];
-            }
-
-            return collect(['estado' => $estado_evaluacion, 'puntaje' => $puntaje_total, 'numero_recomendaciones' => $total_recomendaciones, 'evaluaciones_habilitadas' => $cantidad_evaluaciones, 'evaluaciones_finalizadas' => $evaluaciones_finalizadas, 'requiere_subsanar' => $requiere_subsanar, 'alerta' => $alerta]);
-        }
-    }
-
-    /**
-     * getEstadoEvaluacionProyectoFormulario1Linea65Attribute
-     *
-     * @return void
-     */
-    public function getEstadoEvaluacionProyectoFormulario1Linea65Attribute()
-    {
-        if ($this->proyectoFormulario1Linea65()->exists()) {
-
-            $evaluaciones                   = $this->evaluaciones()->where('habilitado', true)->get();
-            $evaluaciones_finalizadas       = $this->evaluaciones()->where('habilitado', true)->where('finalizado', true)->count();
-
-            $puntaje_total                  = 0;
-            $total_recomendaciones          = 0;
-            $estado_evaluacion              = '';
-            $causal_rechazo                 = null;
-            $requiere_subsanar              = false;
-            $total_presupuestos_evaluados   = 0;
-            $count_presupuesto_no_aprobado  = 0;
-
-            $estados = array(1, 2);
-
-            foreach ($evaluaciones as $evaluacion) {
-                $puntaje_total += $evaluacion->total_evaluacion;
-                $total_recomendaciones += $evaluacion->total_recomendaciones;
-
-                // Sumar los presupuesto no aprobados
-                $total_presupuestos_evaluados += $evaluacion->proyectoPresupuestosEvaluaciones()->count();
-
-                foreach ($evaluacion->proyectoPresupuestosEvaluaciones()->get() as $presupuesto_evaluacion) {
-                    $presupuesto_evaluacion->correcto == false ? $count_presupuesto_no_aprobado++ : null;
-                }
-
-                array_push($estados, $this->estadoEvaluacionProyectoFormulario1Linea65($evaluacion->total_evaluacion, $total_recomendaciones, $requiere_subsanar)['id']);
-            }
-
-            $cantidad_evaluaciones = count($evaluaciones);
-
-            $sq = 0;
-            $sq = $this->getDesviacionEstandarAttribute();
-            $alerta = null;
-            if (in_array(2, $estados) && $sq >= 25  || in_array(3, $estados) && $sq >= 25) {
-                if (in_array(2, $estados)) {
-                    $estadoArr = 'Pre-aprobado';
-                } else if (in_array(3, $estados)) {
-                    $estadoArr = 'Pre-aprobado con observaciones';
-                }
-                $alerta = "Hay una evaluación en estado '{$estadoArr}' y la desviación estándar de las {$cantidad_evaluaciones} evaluaciones es {$sq}.";
-            }
-
-            $cantidad_evaluaciones > 0 ? $puntaje_total = $puntaje_total / $cantidad_evaluaciones : $puntaje_total = 0;
-
-            if ($causal_rechazo == null && $cantidad_evaluaciones > 0) {
-                $estado_evaluacion = $this->estadoEvaluacionProyectoFormulario1Linea65($puntaje_total, $total_recomendaciones, $requiere_subsanar)['estado'];
-                $requiere_subsanar = $this->estadoEvaluacionProyectoFormulario1Linea65($puntaje_total, $total_recomendaciones, $requiere_subsanar)['requiere_subsanar'];
-            } else {
-                $estado_evaluacion = $causal_rechazo;
-            }
-
-            if ($cantidad_evaluaciones == 0) {
-                $estados_evaluacion = collect(json_decode(Storage::get('json/estados-evaluacion.json'), true));
-                $estado_evaluacion  = $estados_evaluacion->where('value', 1)->first()['label'];
-            }
-
-            if ($this->estado_cord_sennova != NULL && request()->isMethod('GET')) {
-                $estados_evaluacion = collect(json_decode($this->estado_cord_sennova, true));
-                $estado_evaluacion  = $estados_evaluacion['estado'];
-            }
-
-            return collect(['estado' => $estado_evaluacion, 'puntaje' => $puntaje_total, 'numero_recomendaciones' => $total_recomendaciones, 'evaluaciones_habilitadas' => $cantidad_evaluaciones, 'evaluaciones_finalizadas' => $evaluaciones_finalizadas, 'requiere_subsanar' => $requiere_subsanar, 'alerta' => $alerta]);
-        }
-    }
-
-    /**
-     * getEstadoEvaluacionProyectoFormulario12Linea68Attribute - Estrategia regional
-     *
-     * @return void
-     */
-    public function getEstadoEvaluacionProyectoFormulario12Linea68Attribute()
-    {
-        if ($this->proyectoFormulario12Linea68()->exists()) {
-
-            $evaluaciones                   = $this->evaluaciones()->where('habilitado', true)->get();
-            $evaluaciones_finalizadas       = $this->evaluaciones()->where('habilitado', true)->where('finalizado', true)->count();
-
-            $puntaje_total                  = 0;
-            $total_recomendaciones          = 0;
-            $estado_evaluacion              = '';
-            $causal_rechazo                 = null;
-            $requiere_subsanar              = false;
-            $total_presupuestos_evaluados   = 0;
-            $count_presupuesto_no_aprobado  = 0;
-
-            $estados = array(1, 2);
-
-            foreach ($evaluaciones as $evaluacion) {
-                $puntaje_total += $evaluacion->total_evaluacion;
-                $total_recomendaciones += $evaluacion->total_recomendaciones;
-
-                // Sumar los presupuesto no aprobados
-                $total_presupuestos_evaluados += $evaluacion->proyectoPresupuestosEvaluaciones()->count();
-                foreach ($evaluacion->proyectoPresupuestosEvaluaciones()->get() as $presupuesto_evaluacion) {
-                    $presupuesto_evaluacion->correcto == false ? $count_presupuesto_no_aprobado++ : null;
-                }
-
-                array_push($estados, $this->estadoEvaluacionProyectoFormulario12Linea68($evaluacion->total_evaluacion, $total_recomendaciones, $requiere_subsanar)['id']);
-
-                if ($causal_rechazo == null) {
-                    // switch ($evaluacion) {
-                    //     case $evaluacion->evaluacionProyectoFormulario12Linea68()->exists():
-                    //         if ($evaluacion->evaluacionCausalesRechazo()->where('causal_rechazo', '=', 4)->first()) {
-                    //             $causal_rechazo = 'En revisión por Cord. SENNOVA';
-                    //         } else if ($evaluacion->evaluacionCausalesRechazo()->whereIn('causal_rechazo', [1, 2, 3])->first()) {
-                    //             $causal_rechazo = 'Rechazado - Causal de rechazo';
-                    //         }
-
-                    //         if ($evaluacion->evaluacionProyectoFormulario12Linea68->anexos_comentario != null) {
-                    //             $requiere_subsanar = true;
-                    //         }
-                    //         break;
-
-                    //     default:
-                    //         break;
-                    // }
-                }
-
-                // if ($causal_rechazo == null && $evaluacion->proyectoPresupuestosEvaluaciones()->count() > 0) {
-                //     $count_presupuesto_no_aprobado >= floor($total_presupuestos_evaluados * 0.8) ? $causal_rechazo = 'Rechazado - No cumple con el presupuesto' : $causal_rechazo = null;
-                // }
-            }
-
-            $cantidad_evaluaciones = count($evaluaciones);
-
-            $sq = 0;
-            $sq = $this->getDesviacionEstandarAttribute();
-            $alerta = null;
-            if (in_array(2, $estados) && $sq >= 25  || in_array(3, $estados) && $sq >= 25) {
-                if (in_array(2, $estados)) {
-                    $estadoArr = 'Pre-aprobado';
-                } else if (in_array(3, $estados)) {
-                    $estadoArr = 'Pre-aprobado con observaciones';
-                }
-                $alerta = "Hay una evaluación en estado '{$estadoArr}' y la desviación estándar de las {$cantidad_evaluaciones} evaluaciones es {$sq}.";
-            }
-
-            $cantidad_evaluaciones > 0 ? $puntaje_total = $puntaje_total / $cantidad_evaluaciones : $puntaje_total = 0;
-
-            if ($causal_rechazo == null && $cantidad_evaluaciones > 0) {
-                $estado_evaluacion = $this->estadoEvaluacionProyectoFormulario12Linea68($puntaje_total, $total_recomendaciones, $requiere_subsanar)['estado'];
-                $requiere_subsanar = $this->estadoEvaluacionProyectoFormulario12Linea68($puntaje_total, $total_recomendaciones, $requiere_subsanar)['requiere_subsanar'];
-            } else {
-                $estado_evaluacion = $causal_rechazo;
-            }
-
-            if ($cantidad_evaluaciones == 0) {
-                $estados_evaluacion = collect(json_decode(Storage::get('json/estados_evaluacion_st.json'), true));
-                $estado_evaluacion = $estados_evaluacion->where('value', 1)->first()['label'];
-            }
-
-            if ($this->estado_cord_sennova != NULL && request()->isMethod('GET')) {
-                $estados_evaluacion = collect(json_decode($this->estado_cord_sennova, true));
-                $estado_evaluacion = $estados_evaluacion['estado'];
-            }
-
-            return collect(['estado' => $estado_evaluacion, 'puntaje' => $puntaje_total, 'numero_recomendaciones' => $total_recomendaciones, 'evaluaciones_habilitadas' => $cantidad_evaluaciones, 'evaluaciones_finalizadas' => $evaluaciones_finalizadas, 'requiere_subsanar' => $requiere_subsanar, 'alerta' => $alerta]);
-        }
-    }
-
-    /**
-     * getEstadoEvaluacionProyectoFormulario4Linea70Attribute - Tecnoacademia
-     *
-     * @return void
-     */
-    public function getEstadoEvaluacionProyectoFormulario4Linea70Attribute()
-    {
-        if ($this->proyectoFormulario4Linea70()->exists()) {
-
-            $evaluaciones = $this->evaluaciones()->where('habilitado', true)->get();
-            $evaluaciones_finalizadas = $this->evaluaciones()->where('habilitado', true)->where('finalizado', true)->count();
-            $cantidad_evaluaciones = count($evaluaciones);
-
-            $total_recomendaciones = 0;
-            $requiere_subsanar = false;
-            $total_presupuestos_evaluados = 0;
-            $count_presupuesto_no_aprobado = 0;
-
-            foreach ($evaluaciones as $evaluacion) {
-                $total_recomendaciones += $evaluacion->total_recomendaciones;
-
-                // if ($evaluacion->evaluacionProyectoFormulario4Linea70->anexos_comentario != null) {
-                //     $requiere_subsanar = true;
-                // }
-
-                // Sumar los presupuestos no aprobados
-                $total_presupuestos_evaluados += $evaluacion->proyectoPresupuestosEvaluaciones()->count();
-                foreach ($evaluacion->proyectoPresupuestosEvaluaciones()->get() as $presupuesto_evaluacion) {
-                    $presupuesto_evaluacion->correcto == false ? $count_presupuesto_no_aprobado++ : null;
-                }
-            }
-
-            $estado_evaluacion = null;
-
-            $estado_evaluacion = $total_recomendaciones == 0 &&  $evaluaciones_finalizadas > 0 ? 'Cumple' : ($total_recomendaciones == 0 &&  $evaluaciones_finalizadas == 0 ? 'No priorizado' : 'Proyecto con asignación de apoyo técnico para la formulación');
-            $requiere_subsanar = $total_recomendaciones == 0 &&  $evaluaciones_finalizadas > 0 ? false : ($total_recomendaciones == 0 &&  $evaluaciones_finalizadas == 0 ? false : true);
-
-            if ($this->estado_cord_sennova != NULL && request()->isMethod('GET')) {
-                $estados_evaluacion = collect(json_decode($this->estado_cord_sennova, true));
-                $estado_evaluacion = $estados_evaluacion['estado'];
-            }
-
-            return collect(['estado' => $estado_evaluacion, 'numero_recomendaciones' => $total_recomendaciones, 'evaluaciones_habilitadas' => $cantidad_evaluaciones, 'evaluaciones_finalizadas' => $evaluaciones_finalizadas, 'requiere_subsanar' => $requiere_subsanar, 'alerta' => null]);
-        }
-    }
-
-    /**
-     * getEstadoEvaluacionProyectoFormulario5Linea69Attribute - Tecnoacademia
-     *
-     * @return void
-     */
-    public function getEstadoEvaluacionProyectoFormulario5Linea69Attribute()
-    {
-        if ($this->proyectoFormulario5Linea69()->exists()) {
-            $evaluaciones               = $this->evaluaciones()->where('habilitado', true)->get();
-            $evaluaciones_finalizadas   = $this->evaluaciones()->where('habilitado', true)->where('finalizado', true)->count();
-            $cantidad_evaluaciones      = count($evaluaciones);
-
-            $total_recomendaciones          = 0;
-            $requiere_subsanar              = false;
-            $total_presupuestos_evaluados   = 0;
-            $count_presupuesto_no_aprobado  = 0;
-
-
-            foreach ($evaluaciones as $evaluacion) {
-                $total_recomendaciones += $evaluacion->total_recomendaciones;
-
-                // if ($evaluacion->evaluacionProyectoFormulario5Linea69->anexos_comentario != null) {
-                //     $requiere_subsanar = true;
-                // }
-
-                // Sumar los presupuestos no aprobados
-                $total_presupuestos_evaluados += $evaluacion->proyectoPresupuestosEvaluaciones()->count();
-                foreach ($evaluacion->proyectoPresupuestosEvaluaciones()->get() as $presupuesto_evaluacion) {
-                    $presupuesto_evaluacion->correcto == false ? $count_presupuesto_no_aprobado++ : null;
-                }
-            }
-
-            $estado_evaluacion = null;
-
-            $estado_evaluacion = $total_recomendaciones == 0 &&  $evaluaciones_finalizadas > 0 ? 'Cumple' : ($total_recomendaciones == 0 &&  $evaluaciones_finalizadas == 0 ? 'No priorizado' : 'Proyecto con asignación de apoyo técnico para la formulación');
-            $requiere_subsanar = $total_recomendaciones == 0 &&  $evaluaciones_finalizadas > 0 ? false : ($total_recomendaciones == 0 &&  $evaluaciones_finalizadas == 0 ? false : true);
-
-            if ($this->estado_cord_sennova != NULL && request()->isMethod('GET')) {
-                $estados_evaluacion = collect(json_decode($this->estado_cord_sennova, true));
-                $estado_evaluacion = $estados_evaluacion['estado'];
-            }
-
-            return collect(['estado' => $estado_evaluacion, 'numero_recomendaciones' => $total_recomendaciones, 'evaluaciones_habilitadas' => $cantidad_evaluaciones, 'evaluaciones_finalizadas' => $evaluaciones_finalizadas, 'requiere_subsanar' => $requiere_subsanar, 'alerta' => null]);
-        }
-    }
-
-    /**
-     * estadoEvaluacionProyectoFormulario8Linea66
-     *
-     * @param  mixed $puntaje_total
-     * @param  mixed $total_recomendaciones
-     * @param  mixed $requiere_subsanar
-     * @param  mixed $causal_rechazo
-     * @return void
-     */
-    public function estadoEvaluacionProyectoFormulario8Linea66($puntaje_total, $total_recomendaciones, $requiere_subsanar, $causal_rechazo)
+    public function estadoEvaluacionProyecto($cantidad_evaluaciones, $cantidad_evaluaciones_finalizadas, $puntaje_total, $total_recomendaciones)
     {
         $estados_evaluacion = collect(json_decode(Storage::get('json/estados-evaluacion.json'), true));
 
-        $id = null;
-        $estado_evaluacion = '';
-        if ($puntaje_total == 0 && $total_recomendaciones == 0) {
-            $estado_evaluacion = $estados_evaluacion->where('value', 1)->first()['label'];
-            $id = $estados_evaluacion->where('value', 1)->first()['value'];
-        } elseif ($puntaje_total >= 91 && $total_recomendaciones == 0) { // Preaprobado - No requiere ser subsanado
-            $estado_evaluacion = $estados_evaluacion->where('value', 2)->first()['label'];
-            $id = $estados_evaluacion->where('value', 2)->first()['value'];
-        } elseif ($puntaje_total >= 91 && $total_recomendaciones > 0) { // Pre-aprobado con observaciones
-            $estado_evaluacion = $estados_evaluacion->where('value', 3)->first()['label'];
-            $id = $estados_evaluacion->where('value', 3)->first()['value'];
-            $requiere_subsanar = true;
-        } elseif ($puntaje_total >= 70 && $puntaje_total < 91 && $total_recomendaciones == 0) { // Pre-aprobado con observaciones
-            $estado_evaluacion = $estados_evaluacion->where('value', 3)->first()['label'];
-            $id = $estados_evaluacion->where('value', 3)->first()['value'];
-            $requiere_subsanar = true;
-        } elseif ($puntaje_total >= 70 && $puntaje_total < 91 && $total_recomendaciones > 0) { // Pre-aprobado con observaciones
-            $estado_evaluacion = $estados_evaluacion->where('value', 3)->first()['label'];
-            $id = $estados_evaluacion->where('value', 3)->first()['value'];
-            $requiere_subsanar = true;
-        } elseif ($puntaje_total < 70) { // Rechazado - No requiere ser subsanado
-            $estado_evaluacion = $estados_evaluacion->where('value', 4)->first()['label'];
-            $id = $estados_evaluacion->where('value', 4)->first()['value'];
-            $requiere_subsanar = false;
+        $tipo_proyecto = $this->determinarTipoProyecto();
+
+        if ($tipo_proyecto == 'continuidad') {
+            $estado_evaluacion = $this->evaluarContinuidad($total_recomendaciones, $cantidad_evaluaciones_finalizadas);
+
+            return collect(['id' => null, 'estado' => $estado_evaluacion]);
         }
 
-        if ($causal_rechazo) {
-            $estado_evaluacion = $causal_rechazo;
-        }
-
-        return collect(['id' => $id, 'estado' => $estado_evaluacion, 'requiere_subsanar' => $requiere_subsanar]);
+        return $this->evaluarNoContinuidad($estados_evaluacion, $cantidad_evaluaciones, $puntaje_total, $total_recomendaciones);
     }
 
-    /**
-     * estadoEvaluacionProyectoFormulario6Linea82
-     *
-     * @param  mixed $puntaje_total
-     * @param  mixed $total_recomendaciones
-     * @param  mixed $requiere_subsanar
-     * @param  mixed $causal_rechazo
-     * @return void
-     */
-    public function estadoEvaluacionProyectoFormulario6Linea82($puntaje_total, $total_recomendaciones, $requiere_subsanar, $causal_rechazo)
+    private function determinarTipoProyecto()
     {
-        $estados_evaluacion = collect(json_decode(Storage::get('json/estados-evaluacion.json'), true));
+        $proyectos_continuidad = [
+            'proyectoFormulario3Linea61',
+            'proyectoFormulario4Linea70',
+            'proyectoFormulario5Linea69',
+            'proyectoFormulario7Linea23',
+            'proyectoFormulario9Linea23',
+            'proyectoFormulario10Linea69',
+            'proyectoFormulario11Linea83',
+            'proyectoFormulario12Linea68',
+            'proyectoFormulario17Linea69',
+        ];
 
-        $id = null;
-        $estado_evaluacion = '';
-        if ($puntaje_total == 0 && $total_recomendaciones == 0) {
-            $estado_evaluacion = $estados_evaluacion->where('value', 1)->first()['label'];
-            $id = $estados_evaluacion->where('value', 1)->first()['value'];
-        } elseif ($puntaje_total >= 91 && $total_recomendaciones == 0) { // Preaprobado - No requiere ser subsanado
-            $estado_evaluacion = $estados_evaluacion->where('value', 2)->first()['label'];
-            $id = $estados_evaluacion->where('value', 2)->first()['value'];
-        } elseif ($puntaje_total >= 91 && $total_recomendaciones > 0) { // Pre-aprobado con observaciones
-            $estado_evaluacion = $estados_evaluacion->where('value', 3)->first()['label'];
-            $id = $estados_evaluacion->where('value', 3)->first()['value'];
-            $requiere_subsanar = true;
-        } elseif ($puntaje_total >= 70 && $puntaje_total < 91 && $total_recomendaciones == 0) { // Pre-aprobado con observaciones
-            $estado_evaluacion = $estados_evaluacion->where('value', 3)->first()['label'];
-            $id = $estados_evaluacion->where('value', 3)->first()['value'];
-            $requiere_subsanar = true;
-        } elseif ($puntaje_total >= 70 && $puntaje_total < 91 && $total_recomendaciones > 0) { // Pre-aprobado con observaciones
-            $estado_evaluacion = $estados_evaluacion->where('value', 3)->first()['label'];
-            $id = $estados_evaluacion->where('value', 3)->first()['value'];
-            $requiere_subsanar = true;
-        } elseif ($puntaje_total < 70) { // Rechazado - No requiere ser subsanado
-            $estado_evaluacion = $estados_evaluacion->where('value', 4)->first()['label'];
-            $id = $estados_evaluacion->where('value', 4)->first()['value'];
-            $requiere_subsanar = false;
+        foreach ($proyectos_continuidad as $proyecto) {
+            if ($this->$proyecto()->exists()) {
+                return 'continuidad';
+            }
         }
 
-        if ($causal_rechazo) {
-            $estado_evaluacion = $causal_rechazo;
-        }
-
-        return collect(['id' => $id, 'estado' => $estado_evaluacion, 'requiere_subsanar' => $requiere_subsanar]);
+        return '';
     }
 
-    /**
-     * estadoEvaluacionProyectoFormulario8Linea66
-     *
-     * @param  mixed $puntaje_total
-     * @param  mixed $total_recomendaciones
-     * @param  mixed $requiere_subsanar
-     * @return void
-     */
-    public function estadoEvaluacionProyectoFormulario12Linea68($puntaje_total, $total_recomendaciones, $requiere_subsanar)
+    private function evaluarContinuidad($total_recomendaciones, $cantidad_evaluaciones_finalizadas)
     {
-        $estados_evaluacion = collect(json_decode(Storage::get('json/estados_evaluacion_st.json'), true));
-
-        $id = null;
-        $estado_evaluacion = '';
-        if ($puntaje_total == 0 && $total_recomendaciones == 0) {
-            $estado_evaluacion = $estados_evaluacion->where('value', 1)->first()['label'];
-            $id = $estados_evaluacion->where('value', 1)->first()['value'];
-        } elseif ($puntaje_total >= 90 && $total_recomendaciones == 0) { // Pre-aprobado
-            $estado_evaluacion = $estados_evaluacion->where('value', 2)->first()['label'];
-            $id = $estados_evaluacion->where('value', 2)->first()['value'];
-        } elseif ($puntaje_total >= 90 && $total_recomendaciones >= 0) { // Pre-aprobado con observaciones
-            $estado_evaluacion = $estados_evaluacion->where('value', 5)->first()['label'];
-            $id = $estados_evaluacion->where('value', 5)->first()['value'];
-            $requiere_subsanar = true;
-        } elseif ($puntaje_total >= 70 && $puntaje_total < 90 && $total_recomendaciones >= 0) { // Pre-aprobado con observaciones
-            $estado_evaluacion = $estados_evaluacion->where('value', 5)->first()['label'];
-            $id = $estados_evaluacion->where('value', 5)->first()['value'];
-            $requiere_subsanar = true;
-        } elseif ($puntaje_total >= 0 && $puntaje_total <= 69 && $total_recomendaciones >= 0) { // Rechazado
-            $estado_evaluacion = $estados_evaluacion->where('value', 3)->first()['label'];
-            $id = $estados_evaluacion->where('value', 3)->first()['value'];
-        }
-
-        return collect(['id' => $id, 'estado' => $estado_evaluacion, 'requiere_subsanar' => $requiere_subsanar]);
+        return ($total_recomendaciones == 0 && $cantidad_evaluaciones_finalizadas > 0)
+            ? 'Cumple'
+            : ($total_recomendaciones == 0 && $cantidad_evaluaciones_finalizadas == 0
+                ? 'No priorizado'
+                : 'Proyecto con asignación de apoyo técnico para la formulación');
     }
 
-    /**
-     * estadoEvaluacionProyectoFormulario1Linea65
-     *
-     * @param  mixed $puntaje_total
-     * @param  mixed $total_recomendaciones
-     * @param  mixed $requiere_subsanar
-     * @return void
-     */
-    public function estadoEvaluacionProyectoFormulario1Linea65($puntaje_total, $total_recomendaciones, $requiere_subsanar)
+    private function evaluarNoContinuidad($estados_evaluacion, $cantidad_evaluaciones, $puntaje_total, $total_recomendaciones)
     {
-        $id = null;
-        $estado_evaluacion = '';
-        if ($puntaje_total == 0 && $total_recomendaciones == 0) {
-            $estado_evaluacion = 'No priorizado anexo 1C. Comuníquese con el Dinamizador SENNOVA.';
-            $id = 1;
-        } elseif ($puntaje_total >= 70) { // Cumple
-            $estado_evaluacion = 'Cumple';
-            $id = 2;
-        } elseif ($puntaje_total >= 0 && $puntaje_total <= 69) { // Cumple
-            $estado_evaluacion = 'Proyecto con asignación de apoyo técnico para la formulación';
-            $id = 2;
+        if ($cantidad_evaluaciones == 0) {
+            $estado_evaluacion = $estados_evaluacion->where('value', 1)->first();
+        } elseif ($puntaje_total >= 91 && $total_recomendaciones == 0) {
+            $estado_evaluacion = $estados_evaluacion->where('value', 2)->first();
+        } elseif ($puntaje_total >= 91 && $total_recomendaciones > 0) {
+            $estado_evaluacion = $estados_evaluacion->where('value', 3)->first();
+        } elseif ($puntaje_total >= 70 && $puntaje_total < 91 && $total_recomendaciones == 0) {
+            $estado_evaluacion = $estados_evaluacion->where('value', 3)->first();
+        } elseif ($puntaje_total >= 70 && $puntaje_total < 91 && $total_recomendaciones > 0) {
+            $estado_evaluacion = $estados_evaluacion->where('value', 3)->first();
+        } elseif ($puntaje_total < 70) {
+            $estado_evaluacion = $estados_evaluacion->where('value', 4)->first();
         }
 
-        $requiere_subsanar = $total_recomendaciones > 0 ? true : false;
-
-        return collect(['id' => $id, 'estado' => $estado_evaluacion, 'requiere_subsanar' => $requiere_subsanar]);
+        return collect(['id' => $estado_evaluacion['value'], 'estado' => $estado_evaluacion['label']]);
     }
 
-    public function getDesviacionEstandarAttribute()
+    public function getDesviacionEstandarAttribute($evaluaciones)
     {
-        $evaluaciones = $this->evaluaciones()->where('habilitado', true)->get();
-        $nums = [];
-        $sample = true;
-        $dvst = 0;
+        $datos = [];
+        $es_muestra = true; // Si estás calculando la desviación estándar de una muestra
 
         foreach ($evaluaciones as $evaluacion) {
-            array_push($nums, $evaluacion->total_evaluacion);
+            array_push($datos, $evaluacion->total_evaluacion);
         }
-        if (count($nums) > 0 && ($sample ? count($nums) - 1 : count($nums)) > 0) {
-            $fMean = array_sum($nums) / count($nums);
-            $fVariance = 0.0;
-            foreach ($nums as $i) {
-                $fVariance += pow($i - $fMean, 2);
+
+        $num_elementos = count($datos);
+
+        if ($num_elementos > 0 && ($es_muestra ? ($num_elementos - 1) : $num_elementos) > 0) {
+            // Calcular la media
+            $media = array_sum($datos) / $num_elementos;
+
+            // Calcular la varianza
+            $varianza = 0.0;
+            foreach ($datos as $dato) {
+                $varianza += pow($dato - $media, 2);
             }
 
-            $fVariance /= ($sample ? count($nums) - 1 : count($nums));
+            // Aplicar la corrección de Bessel y calcular la desviación estándar
+            $varianza /= ($es_muestra ? ($num_elementos - 1) : $num_elementos);
+            $desviacion_estandar = sqrt($varianza);
 
-            $dvst = (float) sqrt($fVariance);
+            return (float) $desviacion_estandar;
         }
 
-        return $dvst;
+        return 0; // Devolver 0 si no hay elementos en el conjunto de datos
     }
 
     public function getListaArchivosAttribute()

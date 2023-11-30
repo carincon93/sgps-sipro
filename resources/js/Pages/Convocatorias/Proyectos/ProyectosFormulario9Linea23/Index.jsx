@@ -70,47 +70,33 @@ const Index = ({ auth, convocatoria, proyectos_formulario_9_linea_23, allowed_to
                                     <p>{fecha_ejecucion}</p>
                                 </TableCell>
                                 <TableCell>
-                                    {is_super_admin ||
-                                    checkRole(auth_user, [18]) ||
-                                    (checkRole(auth_user, [4, 6]) && proyecto?.mostrar_recomendaciones && convocatoria.tipo_convocatoria == 1) ||
-                                    (checkRole(auth_user, [4, 6]) && proyecto?.mostrar_recomendaciones && convocatoria.tipo_convocatoria == 3) ||
-                                    (convocatoria.fase == 5 && proyecto?.mostrar_recomendaciones && convocatoria.tipo_convocatoria == 1) ||
-                                    (convocatoria.fase == 5 && proyecto?.mostrar_recomendaciones && convocatoria.tipo_convocatoria == 3) ? (
+                                    {checkRole(auth_user, [1]) || proyecto?.mostrar_recomendaciones ? (
                                         <>
                                             <AlertMui>
-                                                {proyecto?.estado_evaluacion_proyecto_formulario_9_linea_23?.estado}
-                                                <div>Puntaje: {proyecto?.estado_evaluacion_proyecto_formulario_9_linea_23?.puntaje}</div>
-                                                <small>
-                                                    Número de recomendaciones: {proyecto?.estado_evaluacion_proyecto_formulario_9_linea_23?.numero_recomendaciones}
-                                                    <br />
-                                                    Evaluaciones: {proyecto?.estado_evaluacion_proyecto_formulario_9_linea_23?.evaluaciones_habilitadas} habilitada(s) /{' '}
-                                                    {proyecto?.estado_evaluacion_proyecto_formulario_9_linea_23?.evaluaciones_finalizadas} finalizada(s)
-                                                </small>
+                                                {proyecto?.estado_evaluacion_proyecto?.estado_evaluacion}
+                                                {checkRole(auth_user, [1]) && (
+                                                    <>
+                                                        <Divider className="!my-2" />
+                                                        <div>Puntaje: {proyecto?.estado_evaluacion_proyecto?.puntaje_total}</div>
+                                                        <small>
+                                                            Número de recomendaciones: {proyecto?.estado_evaluacion_proyecto?.total_recomendaciones}
+                                                            <br />
+                                                            Evaluaciones: {proyecto?.estado_evaluacion_proyecto?.cantidad_evaluaciones} habilitada(s) /{' '}
+                                                            {proyecto?.estado_evaluacion_proyecto?.evaluaciones_finalizadas} finalizada(s)
+                                                        </small>
+                                                    </>
+                                                )}
                                             </AlertMui>
-
-                                            {JSON.parse(proyecto.estado_cord_sennova)?.requiereSubsanar && proyecto.mostrar_recomendaciones == true && proyecto.mostrar_requiere_subsanacion == true ? (
-                                                <AlertMui error={true} className="mt-2">
-                                                    Requiere ser subsanado
-                                                </AlertMui>
-                                            ) : (
-                                                JSON.parse(proyecto.estado)?.requiereSubsanar &&
-                                                proyecto.mostrar_recomendaciones == true &&
-                                                proyecto.mostrar_requiere_subsanacion == true && (
-                                                    <AlertMui error={true} className="mt-2">
-                                                        Requiere ser subsanado
-                                                    </AlertMui>
-                                                )
-                                            )}
                                         </>
                                     ) : (
                                         <AlertMui>Aún no tiene permisos para ver el estado de evaluación de este proyecto.</AlertMui>
                                     )}
 
-                                    {is_super_admin || checkRole(auth_user, [18]) ? (
+                                    {checkRole(auth_user, [1]) ? (
                                         <>
-                                            {proyecto?.estado_evaluacion_proyecto_formulario_9_linea_23?.alerta && (
-                                                <AlertMui severity="error" className="mt-4">
-                                                    Importante: {proyecto?.estado_evaluacion_proyecto_formulario_9_linea_23?.alerta}
+                                            {proyecto?.estado_evaluacion_proyecto?.alerta && (
+                                                <AlertMui severity="error" className="mt-4 !text-xs">
+                                                    Importante: {proyecto?.estado_evaluacion_proyecto?.alerta}
                                                 </AlertMui>
                                             )}
                                         </>

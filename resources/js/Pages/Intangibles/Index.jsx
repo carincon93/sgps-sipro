@@ -29,7 +29,7 @@ const Index = ({ auth, intangibles, tipos_intangibles }) => {
 
     return (
         <AuthenticatedLayout>
-            <Head title="Regionales" />
+            <Head title="Intangibles" />
 
             <Grid item md={12}>
                 <SearchBar />
