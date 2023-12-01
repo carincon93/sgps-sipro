@@ -964,7 +964,7 @@ class Proyecto extends Model
         $tipo_proyecto = $this->determinarTipoProyecto();
 
         if ($tipo_proyecto == 'continuidad') {
-            $estado_evaluacion = $this->evaluarContinuidad($total_recomendaciones, $cantidad_evaluaciones_finalizadas);
+            $estado_evaluacion = $this->evaluarContinuidad($total_recomendaciones, $cantidad_evaluaciones, $cantidad_evaluaciones_finalizadas);
 
             return collect(['id' => null, 'estado' => $estado_evaluacion]);
         }
@@ -995,11 +995,11 @@ class Proyecto extends Model
         return '';
     }
 
-    private function evaluarContinuidad($total_recomendaciones, $cantidad_evaluaciones_finalizadas)
+    private function evaluarContinuidad($total_recomendaciones, $cantidad_evaluaciones, $cantidad_evaluaciones_finalizadas)
     {
         return ($total_recomendaciones == 0 && $cantidad_evaluaciones_finalizadas > 0)
             ? 'Cumple'
-            : ($total_recomendaciones == 0 && $cantidad_evaluaciones_finalizadas == 0
+            : ($cantidad_evaluaciones == 0
                 ? 'No priorizado'
                 : 'Proyecto con asignación de apoyo técnico para la formulación');
     }
