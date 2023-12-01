@@ -862,6 +862,7 @@
                     </td>
                 </tr>
 
+                @if ($entidad->entidadAliadaLinea66_82)
                 <tr>
                     <th align="left" width="30%">Descipción del convenio</th>
                     <td>
@@ -869,7 +870,6 @@
                     </td>
                 </tr>
 
-                @if ($entidad->entidadAliadaLinea66_82->grupo_investigacion)
                 <tr>
                     <th align="left" width="30%">Grupo de investigación</th>
                     <td>
@@ -890,7 +890,6 @@
                         {{ $entidad->entidadAliadaLinea66_82->enlace_gruplac }}
                     </td>
                 </tr>
-                @endif
 
                 <tr>
                     <th align="left" width="30%">Recursos en especie entidad aliada ($COP)</th>
@@ -926,6 +925,7 @@
                         {{ $entidad->entidadAliadaLinea66_82->actividades_transferencia_conocimiento }}
                     </td>
                 </tr>
+                @endif
 
                 <tr>
                     <th align="left" width="30%">Actividades</th>
