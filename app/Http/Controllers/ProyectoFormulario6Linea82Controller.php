@@ -180,8 +180,6 @@ class ProyectoFormulario6Linea82Controller extends Controller
             return abort(404);
         }
 
-        dd($proyecto_formulario_6_linea_82->proyecto->estadoEvaluacionProyecto);
-
         $proyecto_formulario_6_linea_82->load('proyecto.evaluaciones.evaluacionesProyectoFormulario6Linea82', 'proyecto.proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyecto.proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
 
         $proyecto_formulario_6_linea_82->proyecto->precio_proyecto = $proyecto_formulario_6_linea_82->proyecto->precioProyecto;
