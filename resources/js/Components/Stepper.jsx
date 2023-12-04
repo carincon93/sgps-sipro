@@ -391,6 +391,9 @@ export default function StepperMui({ auth_user, convocatoria, proyecto, evaluaci
                                                     </p>
                                                 ))}
                                             {evaluacion.proyecto_roles_evaluaciones.filter((item) => item.correcto == false).length == 0 && <>Sin recomendaciones</>}
+
+                                            <Divider className="!my-10">COMENTARIO GENERAL</Divider>
+                                            {evaluacion.comentario_evaluador ?? 'No hay comentarios'}
                                         </React.Fragment>
                                     ))}
                                 </TabsMui>

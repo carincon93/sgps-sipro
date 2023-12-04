@@ -46,6 +46,7 @@ class EvaluacionesExport implements FromCollection, WithHeadings, WithMapping, W
             $evaluacion->evaluador->email,
             'N/A',
             $evaluacion->total_recomendaciones,
+            $evaluacion->iniciado ? 'SI' : 'NO',
             $evaluacion->habilitado ? 'SI' : 'NO',
             $evaluacion->finalizado ? 'SI' : 'NO',
         ];
@@ -143,6 +144,7 @@ class EvaluacionesExport implements FromCollection, WithHeadings, WithMapping, W
             'Correo electrónico',
             'Puntaje',
             'ïtems por mejorar',
+            '¿Evaluación iniciada?',
             '¿Evaluación habilitada?',
             '¿Evaluación finalizada?',
         ];
