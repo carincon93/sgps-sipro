@@ -946,7 +946,7 @@ class Proyecto extends Model
             $estado_evaluacion  = $estados_evaluacion['estado'];
         }
 
-        return compact('estado_evaluacion', 'puntaje_total', 'total_recomendaciones', 'cantidad_evaluaciones', 'evaluaciones_finalizadas', 'total_presupuestos_evaluados', 'cantidad_presupuesto_no_aprobado', 'requiere_subsanar', 'alerta');
+        return compact('estado_evaluacion', 'puntaje_total', 'total_recomendaciones', 'cantidad_evaluaciones', 'evaluaciones_finalizadas', 'total_presupuestos_evaluados', 'cantidad_presupuesto_no_aprobado', 'alerta');
     }
 
     public function getEstadoEvaluacionProyectoAttribute()
