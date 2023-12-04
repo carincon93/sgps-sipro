@@ -88,7 +88,6 @@ export default function Dashboard({ auth, roles_sistema }) {
                         </div>
                     </div>
                 </Grid>
-
                 <Grid item md={4}>
                     <Link
                         className="bg-white overflow-hidden rounded-lg px-6 py-2 hover:bg-app-800 hover:text-white h-[200px] shadow-md flex justify-around items-center flex-col"
@@ -96,7 +95,6 @@ export default function Dashboard({ auth, roles_sistema }) {
                         Convocatorias
                     </Link>
                 </Grid>
-
                 <Grid item md={4}>
                     <Link
                         className="bg-white overflow-hidden rounded-lg px-6 py-2 hover:bg-app-800 hover:text-white h-[200px] shadow-md flex justify-around items-center flex-col"
@@ -104,8 +102,8 @@ export default function Dashboard({ auth, roles_sistema }) {
                         Mis proyectos SGPS
                     </Link>
                 </Grid>
-
-                {checkRole(auth_user, [1, 5, 11, 17, 18, 19, 33]) && (
+                {/* {checkRole(auth_user, [1, 5, 11, 17, 18, 19, 33]) && ( */}
+                {checkRole(auth_user, [1, 5, 17, 18, 19]) && (
                     <Grid item md={4}>
                         <Link
                             className="bg-white overflow-hidden rounded-lg px-6 py-2 hover:bg-app-800 hover:text-white h-[200px] shadow-md flex justify-around items-center flex-col"
@@ -114,7 +112,6 @@ export default function Dashboard({ auth, roles_sistema }) {
                         </Link>
                     </Grid>
                 )}
-
                 {checkRole(auth_user, [1, 5, 17, 18, 19]) && (
                     <Grid item md={4}>
                         <Link
@@ -124,7 +121,6 @@ export default function Dashboard({ auth, roles_sistema }) {
                         </Link>
                     </Grid>
                 )}
-
                 {checkRole(auth_user, [1, 5, 17, 18, 19]) && (
                     <Grid item md={4}>
                         <Link
@@ -134,7 +130,6 @@ export default function Dashboard({ auth, roles_sistema }) {
                         </Link>
                     </Grid>
                 )}
-
                 {checkRole(auth_user, [1, 5, 17, 18, 19]) && (
                     <Grid item md={4}>
                         <Link
@@ -144,7 +139,6 @@ export default function Dashboard({ auth, roles_sistema }) {
                         </Link>
                     </Grid>
                 )}
-
                 {checkRole(auth_user, [1, 2, 4, 5, 17, 18, 19, 21]) && (
                     <Grid item md={4}>
                         <Link
@@ -154,7 +148,6 @@ export default function Dashboard({ auth, roles_sistema }) {
                         </Link>
                     </Grid>
                 )}
-
                 {checkRole(auth_user, [1, 3, 4, 5, 17, 18, 19, 21, 27]) && (
                     <Grid item md={4}>
                         <Link
@@ -164,7 +157,6 @@ export default function Dashboard({ auth, roles_sistema }) {
                         </Link>
                     </Grid>
                 )}
-
                 {checkRole(auth_user, [1, 5, 17, 18, 19]) && (
                     <Grid item md={4}>
                         <Link
@@ -174,7 +166,6 @@ export default function Dashboard({ auth, roles_sistema }) {
                         </Link>
                     </Grid>
                 )}
-
                 {checkRole(auth_user, [1, 5, 17, 18, 19]) && (
                     <Grid item md={4}>
                         <Link
@@ -184,7 +175,6 @@ export default function Dashboard({ auth, roles_sistema }) {
                         </Link>
                     </Grid>
                 )}
-
                 {checkRole(auth_user, [1, 5, 17, 18, 19]) && (
                     <Grid item md={4}>
                         <Link
@@ -194,7 +184,6 @@ export default function Dashboard({ auth, roles_sistema }) {
                         </Link>
                     </Grid>
                 )}
-
                 {checkRole(auth_user, [1, 5, 17, 18, 19]) && (
                     <Grid item md={4}>
                         <Link
@@ -204,7 +193,6 @@ export default function Dashboard({ auth, roles_sistema }) {
                         </Link>
                     </Grid>
                 )}
-
                 {checkRole(auth_user, [1]) && (
                     <Grid item md={4}>
                         <Link
@@ -214,7 +202,6 @@ export default function Dashboard({ auth, roles_sistema }) {
                         </Link>
                     </Grid>
                 )}
-
                 {checkRole(auth_user, [1, 2, 3, 4, 5, 17, 18, 19, 21]) && (
                     <Grid item md={4}>
                         <Link
@@ -224,7 +211,6 @@ export default function Dashboard({ auth, roles_sistema }) {
                         </Link>
                     </Grid>
                 )}
-
                 {checkRole(auth_user, [1, 5, 17, 18, 19]) && (
                     <Grid item md={4}>
                         <Link
@@ -234,7 +220,6 @@ export default function Dashboard({ auth, roles_sistema }) {
                         </Link>
                     </Grid>
                 )}
-
                 <Grid item md={4}>
                     <Link
                         className="bg-white overflow-hidden rounded-lg px-6 py-2 hover:bg-app-800 hover:text-white h-[200px] shadow-md flex justify-around items-center flex-col"
@@ -242,7 +227,6 @@ export default function Dashboard({ auth, roles_sistema }) {
                         Semilleros de investigación
                     </Link>
                 </Grid>
-
                 {checkRole(auth_user, [1, 5, 17, 18, 19]) && (
                     <Grid item md={4}>
                         <Link
@@ -252,7 +236,6 @@ export default function Dashboard({ auth, roles_sistema }) {
                         </Link>
                     </Grid>
                 )}
-
                 {checkRole(auth_user, [1, 5, 17, 18, 19]) && (
                     <Grid item md={4}>
                         <Link
@@ -262,7 +245,6 @@ export default function Dashboard({ auth, roles_sistema }) {
                         </Link>
                     </Grid>
                 )}
-
                 {checkRole(auth_user, [1, 2, 3, 4, 5, 17, 18, 19, 21]) && (
                     <Grid item md={4}>
                         <Link
@@ -272,7 +254,6 @@ export default function Dashboard({ auth, roles_sistema }) {
                         </Link>
                     </Grid>
                 )}
-
                 <Grid item md={12}>
                     <AlertMui severity="error" className="w-full">
                         Los demás módulos están en revisión. Muy pronto se habilitarán.
