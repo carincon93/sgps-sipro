@@ -87,7 +87,8 @@ const ResumenFinal = ({
                                 </ul>
                             </AlertMui>
                         )}
-                        {[1, 3].includes(convocatoria.fase) && convocatoria.esta_activa && proyecto.finalizado == false && any_validation_is_false && evaluacion_id == null ? (
+
+                        {['1', '3'].includes(convocatoria.fase) && convocatoria.esta_activa && proyecto.finalizado == false && any_validation_is_false && evaluacion_id == null ? (
                             <AlertMui severity="error">
                                 <p>
                                     <strong>La información del proyecto está incompleta. Para poder finalizar el proyecto debe completar / corregir los siguientes ítems:</strong>
@@ -187,7 +188,7 @@ const ResumenFinal = ({
                             </AlertMui>
                         ) : (
                             <>
-                                {[1, 3].includes(convocatoria.fase) && convocatoria.esta_activa && evaluacion_id == null && (
+                                {['1', '3'].includes(convocatoria.fase) && convocatoria.esta_activa && proyecto?.modificable && evaluacion_id == null && (
                                     <AlertMui>
                                         <strong className="block mb-8">El proyecto ha sido diligenciado correctamente.</strong>
                                         {proyecto?.finalizado
@@ -234,7 +235,7 @@ const ResumenFinal = ({
                             </>
                         )}
 
-                        {evaluacion && (
+                        {evaluacion_id && (
                             <AlertMui>
                                 {evaluacion?.finalizado
                                     ? 'Si desea seguir modificando la evaluación haga clic en la casilla "Modificar"'

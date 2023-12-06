@@ -141,7 +141,7 @@ class EvaluacionController extends Controller
         $evaluacion->habilitado  = $request->habilitado;
 
         if ($request->filled('modificable')) {
-            $evaluacion->proyecto()->update(['modificable' => false, 'finalizado' => true, 'habilitado_para_evaluar' => true, 'mostrar_recomendaciones' => false, 'en_evaluacion' => true]);
+            $evaluacion->proyecto()->update(['modificable' => false, 'finalizado' => true, 'mostrar_recomendaciones' => false]);
             $evaluacion->modificable = $request->modificable;
             $evaluacion->finalizado  = false;
         } else {

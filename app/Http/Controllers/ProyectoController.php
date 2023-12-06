@@ -18,8 +18,6 @@ use App\Models\Proyecto;
 use App\Models\SemilleroInvestigacion;
 use App\Models\RolSennova;
 use App\Models\TopePresupuestalNodoTecnoparque;
-use App\Notifications\ComentarioProyecto;
-use App\Notifications\EvaluacionFinalizada;
 use App\Notifications\ProyectoConfirmado;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -199,8 +197,6 @@ class ProyectoController extends Controller
 
         $proyecto->load('evaluaciones', 'proyectoRolesSennova.proyectoRolesEvaluaciones');
         $proyecto->load('proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
-        // $proyecto->load('evaluaciones.evaluacionProyectoFormulario8Linea66');
-        // $proyecto->load('evaluaciones.evaluacionProyectoFormulario4Linea70');
 
         $proyecto->tipoFormularioConvocatoria->lineaProgramatica;
         $proyecto->proyectoFormulario10Linea69;
@@ -733,6 +729,28 @@ class ProyectoController extends Controller
         //     return back()
         //         ->withErrors(['password' => __('The password is incorrect.')]);
         // }
+
+        if ($convocatoria->fase == 3) {
+            if ($request->finalizado) {
+                $proyecto->update([
+                    'modificable'               => false,
+                    'finalizado'                => true,
+                    'finalizado_en_subsanacion' => true,
+
+                ]);
+
+                return back()->with('success', 'Se ha finalizado el proyecto correctamente.');
+            } else if ($request->modificar) {
+                $proyecto->update([
+                    'modificable'               => true,
+                    'finalizado'                => false,
+                    'finalizado_en_subsanacion' => false,
+
+                ]);
+
+                return back()->with('success', 'El proyecto puede ser modificado nuevamente.');
+            }
+        }
 
         if ($request->finalizado) {
             $proyecto->update([

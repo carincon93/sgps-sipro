@@ -58,8 +58,8 @@ const Index = ({ auth, proyectos, ods, proyectos_sin_autores }) => {
                         dialogContent={
                             <div>
                                 <h1 className="font-black text-2xl">
-                                    Importante: Hay proyectos sin un(a) autor(a) principal. Por favor, haga clic en el proyecto, diríjase al paso de Participantes y, asigne un autor. Si es un proyecto de prueba, solicite la
-                                    eliminación.
+                                    Importante: Hay proyectos sin un(a) autor(a) principal. Por favor, haga clic en el proyecto, diríjase al paso de Participantes y, asigne un autor. Si es un proyecto
+                                    de prueba, solicite la eliminación.
                                 </h1>
                                 <p className="my-6">Lista de proyectos:</p>
                                 <AlertMui severity="error">
@@ -120,7 +120,10 @@ const Index = ({ auth, proyectos, ods, proyectos_sin_autores }) => {
 
                     <SearchBar className="mt-20" placeholder="Código SGPS del proyecto" />
 
-                    <TableMui className="mt-16" rows={['Código', 'Título proyecto (Convocatoria)', 'Imagen', 'Nombre del proyecto', 'ODS', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                    <TableMui
+                        className="mt-16"
+                        rows={['Código', 'Título proyecto (Convocatoria)', 'Imagen', 'Nombre del proyecto', 'ODS', 'Estado (Evaluación)', 'Acciones']}
+                        sxCellThead={{ width: '320px' }}>
                         {proyectos.data.map((proyecto, i) => (
                             <TableRow key={i}>
                                 <TableCell>
@@ -193,39 +196,63 @@ const Index = ({ auth, proyectos, ods, proyectos_sin_autores }) => {
                                     )}
                                 </TableCell>
 
-                                {/* <TableCell>
-                                    <AlertMui>
-                                        {proyecto.estado_proyecto_proyecto_formulario_8_linea_66 ||
-                                        proyecto.estado_proyecto_proyecto_formulario_1_linea_65 ||
-                                        proyecto.estado_proyecto_proyecto_formulario_1_linea_68 ? (
-                                            <>
-                                                {proyecto.estado_proyecto_por_evaluador?.estado}
-                                                {proyecto.allowed.to_view && (
-                                                    <>
+                                <TableCell>
+                                    {checkRole(auth_user, [1]) || !['1', '2', '4'].includes(proyecto.convocatoria.fase) ? (
+                                        <>
+                                            {proyecto.convocatoria.esta_activa && proyecto?.modificable && ['3', '5'].includes(proyecto.convocatoria.fase) ? (
+                                                <>
+                                                    <AlertMui severity="warning" className="!mb-1">
+                                                        <small>Requiere subsanación</small>
+                                                    </AlertMui>
+                                                </>
+                                            ) : !proyecto.convocatoria.esta_activa ? (
+                                                <AlertMui className="!leading-4">
+                                                    <strong>Convocatoria {proyecto.convocatoria.year}</strong>
+                                                    <Divider className="!my-1" />
+                                                    {proyecto?.estado_evaluacion_proyecto?.estado_evaluacion}
+                                                </AlertMui>
+                                            ) : (
+                                                <AlertMui className="!leading-4">
+                                                    <strong>Convocatoria {proyecto.convocatoria.year}</strong>
+                                                    <Divider className="!my-1" />
+                                                    Los resultados definitivos se publicarán próximamente.
+                                                </AlertMui>
+                                            )}
+
+                                            {/* <AlertMui className="!leading-3">
+                                                <small>{proyecto?.estado_evaluacion_proyecto?.estado_evaluacion}</small>
+                                            </AlertMui> */}
+
+                                            {checkRole(auth_user, [1]) && (
+                                                <AlertMui className="!leading-3">
+                                                    {proyecto?.estado_evaluacion_proyecto?.estado_evaluacion}
+                                                    <Divider className="!my-2" />
+                                                    <div>Puntaje: {proyecto?.estado_evaluacion_proyecto?.puntaje_total}</div>
+                                                    <small>
+                                                        Número de recomendaciones: {proyecto?.estado_evaluacion_proyecto?.total_recomendaciones}
                                                         <br />
-                                                        <small>
-                                                            Puntaje: {proyecto.total_proyecto}
-                                                            <br />
-                                                            Número de recomendaciones: {proyecto.total_recomendaciones}
-                                                        </small>
-                                                    </>
-                                                )}
-                                            </>
-                                        ) : proyecto.estado_proyecto_proyecto_formulario_4_linea_70 ? (
-                                            <>
-                                                {proyecto.estado_proyecto_proyecto_formulario_4_linea_70.estado}
-                                                <br />| {proyecto.allowed.to_view && <small>Número de recomendaciones: {proyecto.total_recomendaciones}</small>}
-                                            </>
-                                        ) : proyecto.estado_proyecto_proyecto_formulario_5_linea_69 ? (
-                                            <>
-                                                {proyecto.estado_proyecto_proyecto_formulario_5_linea_69.estado}
-                                                <br />| {proyecto.allowed.to_view && <small>Número de recomendaciones: {proyecto.total_recomendaciones}</small>}
-                                            </>
-                                        ) : (
-                                            'Sin información registrada'
-                                        )}
-                                    </AlertMui>
-                                </TableCell> */}
+                                                        Evaluaciones: {proyecto?.estado_evaluacion_proyecto?.cantidad_evaluaciones} habilitada(s) /{' '}
+                                                        {proyecto?.estado_evaluacion_proyecto?.evaluaciones_finalizadas} finalizada(s)
+                                                    </small>
+                                                </AlertMui>
+                                            )}
+                                        </>
+                                    ) : (
+                                        <AlertMui className="!leading-3">
+                                            <small>Aún no tiene permisos para ver el estado de evaluación de este proyecto.</small>
+                                        </AlertMui>
+                                    )}
+
+                                    {checkRole(auth_user, [1]) ? (
+                                        <>
+                                            {proyecto?.estado_evaluacion_proyecto?.alerta && (
+                                                <AlertMui severity="error" className="mt-4 !text-xs">
+                                                    Importante: {proyecto?.estado_evaluacion_proyecto?.alerta}
+                                                </AlertMui>
+                                            )}
+                                        </>
+                                    ) : null}
+                                </TableCell>
                                 <TableCell>
                                     <MenuMui text={<MoreVertIcon />}>
                                         {proyecto.id !== proyecto_to_destroy ? (

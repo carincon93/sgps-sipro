@@ -68,26 +68,36 @@ const Index = ({ auth, convocatoria, proyectos_formulario_8_linea_66, allowed_to
                                     <p>{fecha_ejecucion}</p>
                                 </TableCell>
                                 <TableCell>
-                                    {checkRole(auth_user, [1]) || proyecto?.mostrar_recomendaciones ? (
+                                    {checkRole(auth_user, [1]) || !['1', '2', '4'].includes(convocatoria.fase) ? (
                                         <>
-                                            <AlertMui>
-                                                {proyecto?.estado_evaluacion_proyecto?.estado_evaluacion}
-                                                {checkRole(auth_user, [1]) && (
-                                                    <>
-                                                        <Divider className="!my-2" />
-                                                        <div>Puntaje: {proyecto?.estado_evaluacion_proyecto?.puntaje_total}</div>
-                                                        <small>
-                                                            Número de recomendaciones: {proyecto?.estado_evaluacion_proyecto?.total_recomendaciones}
-                                                            <br />
-                                                            Evaluaciones: {proyecto?.estado_evaluacion_proyecto?.cantidad_evaluaciones} habilitada(s) /{' '}
-                                                            {proyecto?.estado_evaluacion_proyecto?.evaluaciones_finalizadas} finalizada(s)
-                                                        </small>
-                                                    </>
-                                                )}
-                                            </AlertMui>
+                                            {convocatoria.esta_activa && proyecto?.modificable && ['3', '5'].includes(convocatoria.fase) && !checkRole(auth_user, [1]) ? (
+                                                <>
+                                                    <AlertMui severity="warning" className="!mb-1">
+                                                        <small>Requiere subsanación</small>
+                                                    </AlertMui>
+                                                </>
+                                            ) : !convocatoria.esta_activa ? (
+                                                <AlertMui className="!leading-4">{proyecto?.estado_evaluacion_proyecto?.estado_evaluacion}</AlertMui>
+                                            ) : (
+                                                <AlertMui className="!leading-4">Los resultados definitivos se publicarán próximamente.</AlertMui>
+                                            )}
+
+                                            {/* <AlertMui className="!leading-4">{proyecto?.estado_evaluacion_proyecto?.estado_evaluacion}</AlertMui> */}
+
+                                            {checkRole(auth_user, [1]) && (
+                                                <AlertMui className="!leading-4">
+                                                    <div>Puntaje: {proyecto?.estado_evaluacion_proyecto?.puntaje_total}</div>
+                                                    <small>
+                                                        Número de recomendaciones: {proyecto?.estado_evaluacion_proyecto?.total_recomendaciones}
+                                                        <br />
+                                                        Evaluaciones: {proyecto?.estado_evaluacion_proyecto?.cantidad_evaluaciones} habilitada(s) /{' '}
+                                                        {proyecto?.estado_evaluacion_proyecto?.evaluaciones_finalizadas} finalizada(s)
+                                                    </small>
+                                                </AlertMui>
+                                            )}
                                         </>
                                     ) : (
-                                        <AlertMui>Aún no tiene permisos para ver el estado de evaluación de este proyecto.</AlertMui>
+                                        <AlertMui className="!leading-4">Aún no tiene permisos para ver el estado de evaluación de este proyecto.</AlertMui>
                                     )}
 
                                     {checkRole(auth_user, [1]) ? (
@@ -115,16 +125,17 @@ const Index = ({ auth, convocatoria, proyectos_formulario_8_linea_66, allowed_to
                                                         PDF del proyecto
                                                     </a>
                                                 </MenuItem>
-                                                <Divider />
-                                                {is_super_admin && (
+
+                                                {checkRole(auth_user, [1]) && (
                                                     <>
+                                                        <Divider />
                                                         {proyecto.evaluaciones.map((evaluacion, i) => (
                                                             <MenuItem
                                                                 key={i}
                                                                 onClick={() =>
                                                                     router.visit(route('convocatorias.proyectos-formulario-8-linea-66.edit', [convocatoria.id, id, { evaluacion_id: evaluacion?.id }]))
                                                                 }
-                                                                disabled={!is_super_admin}>
+                                                                isabled={!is_super_admin}>
                                                                 Evaluacion #{evaluacion.id}
                                                             </MenuItem>
                                                         ))}
@@ -134,7 +145,7 @@ const Index = ({ auth, convocatoria, proyectos_formulario_8_linea_66, allowed_to
                                                     onClick={() => {
                                                         setProyectoFormulario8Linea66ToDestroy(proyecto.id)
                                                     }}
-                                                    disabled={!proyecto?.allowed?.to_update}>
+                                                    disabled={!proyecto?.allowed?.to_destroy}>
                                                     Eliminar
                                                 </MenuItem>
                                             </div>

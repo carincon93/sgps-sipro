@@ -235,10 +235,9 @@ export default function StepperMui({ auth_user, convocatoria, proyecto, evaluaci
     const evaluacion_tabs = []
     proyecto.evaluaciones.map((evaluacion) => evaluacion_tabs.push({ label: 'Evaluación #' + evaluacion.id }))
 
-    console.log(proyecto.evaluaciones)
     return (
         <>
-            {(proyecto.evaluaciones.length > 0 && is_super_admin) || (proyecto.evaluaciones.length > 0 && [3, 5].includes(convocatoria.fase)) ? (
+            {(proyecto.evaluaciones.length > 0 && is_super_admin) || (proyecto.evaluaciones.length > 0 && ['3', '5'].includes(convocatoria.fase) && proyecto?.modificable) ? (
                 <>
                     <ButtonMui className="!fixed bottom-10 z-[1200]" onClick={() => setDialogEvaluacionesStatus(true)} primary={true}>
                         <ChecklistIcon className="mr-2" />

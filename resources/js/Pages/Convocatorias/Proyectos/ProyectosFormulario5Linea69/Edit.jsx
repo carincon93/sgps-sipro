@@ -55,7 +55,7 @@ const Edit = ({ auth, convocatoria, proyecto_formulario_5_linea_69, evaluacion, 
                         </span>
                         <h1 className="text-center text-3xl mt-6 mb-10">PROYECTO {proyecto_formulario_5_linea_69?.proyecto.codigo}</h1>
 
-                        {!evaluacion_id ? (
+                        {['1'].includes(convocatoria.fase) ? (
                             <>
                                 <figure>
                                     <img src="/images/proyecto-sgps.png" alt="" className="mx-auto w-44" />
@@ -82,7 +82,7 @@ const Edit = ({ auth, convocatoria, proyecto_formulario_5_linea_69, evaluacion, 
                                     Descargar el instructivo de formulación
                                 </a>
                             </>
-                        ) : (
+                        ) : evaluacion_id ? (
                             <>
                                 <p className="mt-10"></p>
 
@@ -97,7 +97,22 @@ const Edit = ({ auth, convocatoria, proyecto_formulario_5_linea_69, evaluacion, 
                                     Descargar el instructivo de evaluación
                                 </a>
                             </>
-                        )}
+                        ) : ['3'].includes(convocatoria.fase) ? (
+                            <>
+                                <figure>
+                                    <img src="/images/proyecto-sgps.png" alt="" className="mx-auto w-44" />
+                                </figure>
+
+                                <p className="mt-10">No olvide darle un vistazo al instructivo de subsanación.</p>
+
+                                <a
+                                    href="/storage/documentos-descarga/Instructivo_subsanacion_sgps_sipro.pdf"
+                                    className="bg-white text-black text-center p-2 rounded block mt-6 hover:opacity-90"
+                                    target="_blank">
+                                    Descargar el instructivo de subsanación
+                                </a>
+                            </>
+                        ) : null}
                     </div>
                 }
                 dialogActions={
