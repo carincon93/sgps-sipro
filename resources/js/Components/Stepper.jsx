@@ -48,6 +48,8 @@ import { checkRole } from '@/Utils'
 
 import TabsMui from './TabsMui'
 import Textarea from './Textarea'
+import { useEffect } from 'react'
+import PrimaryButton from './PrimaryButton'
 
 const useStyles = makeStyles({
     root: {
@@ -216,7 +218,9 @@ export default function StepperMui({ auth_user, convocatoria, proyecto, evaluaci
     const is_super_admin = checkRole(auth_user, [1])
     const [dialog_evaluaciones_status, setDialogEvaluacionesStatus] = useState(false)
     const [dialog_evaluacion_status, setDialogEvaluacionStatus] = useState(false)
-    const [dialog_archivos_status, setDialogArchivoStatus] = useState(false)
+    const [dialog_archivos_status, setDialogArchivosStatus] = useState(false)
+    const [dialog_respuesta_evaluador_status, setDialogRespuestaFormuladorStatus] = useState(false)
+    const [respuesta_evaluador, setRespuestaFormulador] = useState(null)
 
     const isActive =
         route().current('convocatorias.proyectos-formulario-3-linea-61.edit') ||
@@ -238,9 +242,26 @@ export default function StepperMui({ auth_user, convocatoria, proyecto, evaluaci
     const evaluacion_tabs = []
     proyecto.evaluaciones.filter((item) => item.habilitado == true).map((evaluacion) => evaluacion_tabs.push({ label: 'Evaluación #' + evaluacion.id }))
 
-    const form_evaluacion = useForm({
+    const form_respuesta_formulador = useForm({
+        id: null,
         comentario_formulador: '',
     })
+
+    useEffect(() => {
+        if (respuesta_evaluador) {
+            form_respuesta_formulador.setData({ id: respuesta_evaluador.id, comentario_formulador: respuesta_evaluador.comentario_formulador })
+        }
+    }, [respuesta_evaluador])
+
+    const submitRespuestaFormulador = (e) => {
+        e.preventDefault()
+
+        form_respuesta_formulador.put(route('convocatorias.evaluaciones.respuesta-formulador', [convocatoria.id, respuesta_evaluador.id]), {
+            onSuccess: () => setDialogRespuestaFormuladorStatus(false),
+            preserveScroll: true,
+        })
+    }
+
     return (
         <>
             {(proyecto.evaluaciones.length > 0 && is_super_admin) || (proyecto.evaluaciones.length > 0 && ['3', '5'].includes(convocatoria.fase) && proyecto?.modificable) ? (
@@ -402,23 +423,51 @@ export default function StepperMui({ auth_user, convocatoria, proyecto, evaluaci
                                                 <Divider className="!my-10">COMENTARIO GENERAL</Divider>
                                                 {evaluacion.comentario_evaluador ?? 'No hay comentarios'}
 
-                                                {/* {evaluacion.comentario_evaluador && (
-                                                    <>
-                                                        Responder al evaluador
-                                                        <form>
-                                                            <Textarea
-                                                                label="Comentario"
+                                                {evaluacion.comentario_evaluador && proyecto?.allowed?.to_update && (
+                                                    <div className="mt-10">
+                                                        <AlertMui>
+                                                            Haga clic en el siguiente botón si quiere dar una respuesta al evaluador/a
+                                                            <br />
+                                                            <ButtonMui
                                                                 className="!mt-4"
-                                                                inputBackground="#fff"
-                                                                id={'comentario_formulador'}
-                                                                onChange={(e) => form_evaluacion.setData('comentario_formulador', e.target.value)}
-                                                                value={form_evaluacion.data.comentario_formulador}
-                                                                error={form_evaluacion.errors.comentario_formulador}
-                                                                required
-                                                            />
-                                                        </form>
-                                                    </>
-                                                )} */}
+                                                                onClick={() => (form_respuesta_formulador.reset(), setDialogRespuestaFormuladorStatus(true), setRespuestaFormulador(evaluacion))}>
+                                                                Responder al evaluador
+                                                            </ButtonMui>
+                                                        </AlertMui>
+
+                                                        <DialogMui
+                                                            open={dialog_respuesta_evaluador_status}
+                                                            maxWidth="md"
+                                                            fullWidth={true}
+                                                            dialogContent={
+                                                                <form onSubmit={submitRespuestaFormulador}>
+                                                                    <Textarea
+                                                                        label="Respuesta"
+                                                                        className="!mt-10"
+                                                                        inputBackground="#fff"
+                                                                        id="comentario_formulador"
+                                                                        value={form_respuesta_formulador.data.comentario_formulador}
+                                                                        error={form_respuesta_formulador.errors.comentario_formulador}
+                                                                        onChange={(e) => form_respuesta_formulador.setData('comentario_formulador', e.target.value)}
+                                                                        disabled={proyecto.finalizado}
+                                                                        required
+                                                                    />
+
+                                                                    <div className="mt-6 flex items-center justify-end">
+                                                                        <ButtonMui onClick={() => setDialogRespuestaFormuladorStatus(false)} className="!bg-transparent !text-app-700 !mr-2">
+                                                                            Cerrar
+                                                                        </ButtonMui>
+                                                                        {!proyecto.finalizado && (
+                                                                            <PrimaryButton disabled={form_respuesta_formulador.processing} type="submit">
+                                                                                Guardar
+                                                                            </PrimaryButton>
+                                                                        )}
+                                                                    </div>
+                                                                </form>
+                                                            }
+                                                        />
+                                                    </div>
+                                                )}
                                             </React.Fragment>
                                         ))}
                                 </TabsMui>
@@ -660,7 +709,7 @@ export default function StepperMui({ auth_user, convocatoria, proyecto, evaluaci
                     </>
                 }
                 dialogActions={
-                    <ButtonMui onClick={() => setDialogArchivoStatus(false)} className="!mr-8">
+                    <ButtonMui onClick={() => setDialogArchivosStatus(false)} className="!mr-8">
                         Cerrar
                     </ButtonMui>
                 }
@@ -692,7 +741,7 @@ export default function StepperMui({ auth_user, convocatoria, proyecto, evaluaci
                     <small>Ejecución del proyecto: {proyecto.diff_meses} meses</small>
                 </div>
                 |
-                <div className="ml-6 flex items-center hover:cursor-pointer" onClick={() => setDialogArchivoStatus(true)}>
+                <div className="ml-6 flex items-center hover:cursor-pointer" onClick={() => setDialogArchivosStatus(true)}>
                     <img src="/images/files.png" width="25" className="mr-3" />
                     <small>Archivos</small>
                 </div>

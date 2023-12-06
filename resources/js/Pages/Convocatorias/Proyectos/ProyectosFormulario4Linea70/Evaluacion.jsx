@@ -229,7 +229,7 @@ const Evaluacion = ({ auth_user, convocatoria, evaluacion, allowed, proyecto, se
             <DialogMui
                 open={dialog_evaluacion_rol_status}
                 dialogContent={
-                    <form onSubmit={submitEvaluacionRol} id="test">
+                    <form onSubmit={submitEvaluacionRol}>
                         <Divider className="!mb-20 font-black">ROL - CÓDIGO #{evaluacion_rol_sennova?.id}</Divider>
 
                         <p>
@@ -275,7 +275,7 @@ const Evaluacion = ({ auth_user, convocatoria, evaluacion, allowed, proyecto, se
             <DialogMui
                 open={dialog_evaluacion_rubro_status}
                 dialogContent={
-                    <form onSubmit={submitEvaluacionRubro} id="test">
+                    <form onSubmit={submitEvaluacionRubro}>
                         <Divider className="!mb-20 font-black">RUBRO PRESUPUESTAL - CÓDIGO #{evaluacion_rubro?.id}</Divider>
 
                         <p>

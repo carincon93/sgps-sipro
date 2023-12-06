@@ -226,6 +226,24 @@ class EvaluacionController extends Controller
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
 
+    /**
+     * updateRespuestaFormulador
+     *
+     * @param  mixed $convocatoria
+     * @param  mixed $evaluacion
+     * @return void
+     */
+    public function updateRespuestaFormulador(Request $request, Convocatoria $convocatoria, Evaluacion $evaluacion)
+    {
+        $this->authorize('modificar-proyecto-autor', $evaluacion->proyecto);
+
+        $evaluacion->update(
+            ['evaluacion_id' => $evaluacion->id, 'comentario_formulador' => $request->comentario_formulador],
+        );
+
+        return back()->with('success', 'El recurso se ha actualizado correctamente.');
+    }
+
     public function deshabilitarEvaluacionesNoIniciadas()
     {
         $convocatoria = Convocatoria::where('esta_activa', true)->where('tipo_convocatoria', 1)->first();
