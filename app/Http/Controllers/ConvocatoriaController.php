@@ -405,7 +405,14 @@ class ConvocatoriaController extends Controller
                 }
             }
 
-            $convocatoria->evaluaciones()->update(['modificable' => false, 'finalizado' => true, 'iniciado' => false]);
+            foreach ($convocatoria->evaluaciones as $evaluacion) {
+                $evaluacion->update([
+                    'finalizado_en_primera_fase' => $evaluacion->finalizado,
+                    'finalizado' => true,
+                    'modificable' => false,
+                    'iniciado' => false
+                ]);
+            }
         }
 
         // else if ($request->fase == 4) { // Segunda evaluación
