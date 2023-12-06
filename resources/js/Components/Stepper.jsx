@@ -233,7 +233,7 @@ export default function StepperMui({ auth_user, convocatoria, proyecto, evaluaci
         route().current('convocatorias.proyectos-formulario-11-linea-83.edit')
 
     const evaluacion_tabs = []
-    proyecto.evaluaciones.map((evaluacion) => evaluacion_tabs.push({ label: 'Evaluación #' + evaluacion.id }))
+    proyecto.evaluaciones.filter((item) => item.habilitado == true).map((evaluacion) => evaluacion_tabs.push({ label: 'Evaluación #' + evaluacion.id }))
 
     return (
         <>
