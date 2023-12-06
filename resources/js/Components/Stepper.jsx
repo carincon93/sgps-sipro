@@ -22,7 +22,7 @@ import SettingsIcon from '@mui/icons-material/Settings'
 import SouthOutlinedIcon from '@mui/icons-material/SouthOutlined'
 import VideoLabelIcon from '@mui/icons-material/VideoLabel'
 
-import { Link } from '@inertiajs/react'
+import { Link, useForm } from '@inertiajs/react'
 
 import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector'
 import FileTypeIcon from './FileTypeIcon'
@@ -43,8 +43,11 @@ import EvaluacionProyectosFormulario13Linea65 from '@/Pages/Convocatorias/Proyec
 import EvaluacionProyectosFormulario15Linea65 from '@/Pages/Convocatorias/Proyectos/ProyectosFormulario15Linea65/Evaluacion'
 import EvaluacionProyectosFormulario16Linea65 from '@/Pages/Convocatorias/Proyectos/ProyectosFormulario16Linea65/Evaluacion'
 import EvaluacionProyectosFormulario17Linea69 from '@/Pages/Convocatorias/Proyectos/ProyectosFormulario17Linea69/Evaluacion'
+
 import { checkRole } from '@/Utils'
+
 import TabsMui from './TabsMui'
+import Textarea from './Textarea'
 
 const useStyles = makeStyles({
     root: {
@@ -235,6 +238,9 @@ export default function StepperMui({ auth_user, convocatoria, proyecto, evaluaci
     const evaluacion_tabs = []
     proyecto.evaluaciones.filter((item) => item.habilitado == true).map((evaluacion) => evaluacion_tabs.push({ label: 'Evaluación #' + evaluacion.id }))
 
+    const form_evaluacion = useForm({
+        comentario_formulador: '',
+    })
     return (
         <>
             {(proyecto.evaluaciones.length > 0 && is_super_admin) || (proyecto.evaluaciones.length > 0 && ['3', '5'].includes(convocatoria.fase) && proyecto?.modificable) ? (
@@ -250,151 +256,171 @@ export default function StepperMui({ auth_user, convocatoria, proyecto, evaluaci
                         dialogContent={
                             <>
                                 <TabsMui tabs={evaluacion_tabs}>
-                                    {proyecto.evaluaciones.map((evaluacion, i) => (
-                                        <React.Fragment key={i}>
-                                            {evaluacion.evaluaciones_proyecto_formulario1_linea65.map((item_evaluado, j) => (
-                                                <div key={j}>
-                                                    <p className="whitespace-pre-line mb-10">
-                                                        <strong className="whitespace-pre-line font-black">{item_evaluado.pregunta_evaluacion_formulario1_linea65.campo}</strong>
-                                                        <br />
-                                                        {item_evaluado.comentario ?? 'Sin recomendaciones'}
-                                                    </p>
-                                                </div>
-                                            ))}
-                                            {evaluacion.evaluaciones_proyecto_formulario3_linea61.map((item_evaluado, j) => (
-                                                <div key={j}>
-                                                    <p className="whitespace-pre-line mb-10">
-                                                        <strong className="whitespace-pre-line font-black">{item_evaluado.pregunta_evaluacion_formulario3_linea61.campo}</strong>
-                                                        <br />
-                                                        {item_evaluado.comentario ?? 'Sin recomendaciones'}
-                                                    </p>
-                                                </div>
-                                            ))}
-                                            {evaluacion.evaluaciones_proyecto_formulario4_linea70.map((item_evaluado, j) => (
-                                                <div key={j}>
-                                                    <p className="whitespace-pre-line mb-10">
-                                                        <strong className="whitespace-pre-line font-black">{item_evaluado.pregunta_evaluacion_formulario4_linea70.campo}</strong>
-                                                        <br />
-                                                        {item_evaluado.comentario ?? 'Sin recomendaciones'}
-                                                    </p>
-                                                </div>
-                                            ))}
-                                            {evaluacion.evaluaciones_proyecto_formulario6_linea82.map((item_evaluado, j) => (
-                                                <div key={j}>
-                                                    <p className="whitespace-pre-line mb-10">
-                                                        <strong className="whitespace-pre-line font-black">{item_evaluado.pregunta_evaluacion_formulario6_linea82.campo}</strong>
-                                                        <br />
-                                                        {item_evaluado.comentario ?? 'Sin recomendaciones'}
-                                                    </p>
-                                                </div>
-                                            ))}
-                                            {evaluacion.evaluaciones_proyecto_formulario7_linea23.map((item_evaluado, j) => (
-                                                <div key={j}>
-                                                    <p className="whitespace-pre-line mb-10">
-                                                        <strong className="whitespace-pre-line font-black">{item_evaluado.pregunta_evaluacion_formulario7_linea23.campo}</strong>
-                                                        <br />
-                                                        {item_evaluado.comentario ?? 'Sin recomendaciones'}
-                                                    </p>
-                                                </div>
-                                            ))}
-                                            {evaluacion.evaluaciones_proyecto_formulario8_linea66.map((item_evaluado, j) => (
-                                                <div key={j}>
-                                                    <p className="whitespace-pre-line mb-10">
-                                                        <strong className="whitespace-pre-line font-black">{item_evaluado.pregunta_evaluacion_formulario8_linea66.campo}</strong>
-                                                        <br />
-                                                        {item_evaluado.comentario ?? 'Sin recomendaciones'}
-                                                    </p>
-                                                </div>
-                                            ))}
-                                            {evaluacion.evaluaciones_proyecto_formulario9_linea23.map((item_evaluado, j) => (
-                                                <div key={j}>
-                                                    <p className="whitespace-pre-line mb-10">
-                                                        <strong className="whitespace-pre-line font-black">{item_evaluado.pregunta_evaluacion_formulario9_linea23.campo}</strong>
-                                                        <br />
-                                                        {item_evaluado.comentario ?? 'Sin recomendaciones'}
-                                                    </p>
-                                                </div>
-                                            ))}
-                                            {evaluacion.evaluaciones_proyecto_formulario10_linea69.map((item_evaluado, j) => (
-                                                <div key={j}>
-                                                    <p className="whitespace-pre-line mb-10">
-                                                        <strong className="whitespace-pre-line font-black">{item_evaluado.pregunta_evaluacion_formulario10_linea69.campo}</strong>
-                                                        <br />
-                                                        {item_evaluado.comentario ?? 'Sin recomendaciones'}
-                                                    </p>
-                                                </div>
-                                            ))}
-                                            {evaluacion.evaluaciones_proyecto_formulario12_linea68.map((item_evaluado, j) => (
-                                                <div key={j}>
-                                                    <p className="whitespace-pre-line mb-10">
-                                                        <strong className="whitespace-pre-line font-black">{item_evaluado.pregunta_evaluacion_formulario12_linea68.campo}</strong>
-                                                        <br />
-                                                        {item_evaluado.comentario ?? 'Sin recomendaciones'}
-                                                    </p>
-                                                </div>
-                                            ))}
-                                            {evaluacion.evaluaciones_proyecto_formulario13_linea65.map((item_evaluado, j) => (
-                                                <div key={j}>
-                                                    <p className="whitespace-pre-line mb-10">
-                                                        <strong className="whitespace-pre-line font-black">{item_evaluado.pregunta_evaluacion_formulario13_linea65.campo}</strong>
-                                                        <br />
-                                                        {item_evaluado.comentario ?? 'Sin recomendaciones'}
-                                                    </p>
-                                                </div>
-                                            ))}
-                                            {evaluacion.evaluaciones_proyecto_formulario15_linea65.map((item_evaluado, j) => (
-                                                <div key={j}>
-                                                    <p className="whitespace-pre-line mb-10">
-                                                        <strong className="whitespace-pre-line font-black">{item_evaluado.pregunta_evaluacion_formulario15_linea65.campo}</strong>
-                                                        <br />
-                                                        {item_evaluado.comentario ?? 'Sin recomendaciones'}
-                                                    </p>
-                                                </div>
-                                            ))}
-                                            {evaluacion.evaluaciones_proyecto_formulario16_linea65.map((item_evaluado, j) => (
-                                                <div key={j}>
-                                                    <p className="whitespace-pre-line mb-10">
-                                                        <strong className="whitespace-pre-line font-black">{item_evaluado.pregunta_evaluacion_formulario16_linea65.campo}</strong>
-                                                        <br />
-                                                        {item_evaluado.comentario ?? 'Sin recomendaciones'}
-                                                    </p>
-                                                </div>
-                                            ))}
-                                            {evaluacion.evaluaciones_proyecto_formulario17_linea69.map((item_evaluado, j) => (
-                                                <div key={j}>
-                                                    <p className="whitespace-pre-line mb-10">
-                                                        <strong className="whitespace-pre-line font-black">{item_evaluado.pregunta_evaluacion_formulario17_linea69.campo}</strong>
-                                                        <br />
-                                                        {item_evaluado.comentario ?? 'Sin recomendaciones'}
-                                                    </p>
-                                                </div>
-                                            ))}
-                                            <Divider className="!my-10">RUBROS PRESUPUESTALES</Divider>
-                                            {evaluacion.proyecto_presupuestos_evaluaciones
-                                                .filter((item) => item.correcto == false)
-                                                .map((evaluacion_presupuesto, k) => (
-                                                    <p className="whitespace-pre-line mb-10" key={k}>
-                                                        <strong>Código del presupuesto #{evaluacion_presupuesto.proyecto_presupuesto_id}</strong> {' - Recomendación: '}
-                                                        {evaluacion_presupuesto.comentario}
-                                                    </p>
+                                    {proyecto.evaluaciones
+                                        .filter((item) => item.habilitado == true)
+                                        .map((evaluacion, i) => (
+                                            <React.Fragment key={i}>
+                                                {evaluacion.evaluaciones_proyecto_formulario1_linea65.map((item_evaluado, j) => (
+                                                    <div key={j}>
+                                                        <p className="whitespace-pre-line mb-10">
+                                                            <strong className="whitespace-pre-line font-black">{item_evaluado.pregunta_evaluacion_formulario1_linea65.campo}</strong>
+                                                            <br />
+                                                            {item_evaluado.comentario ?? 'Sin recomendaciones'}
+                                                        </p>
+                                                    </div>
                                                 ))}
-                                            {evaluacion.proyecto_presupuestos_evaluaciones.filter((item) => item.correcto == false).length == 0 && <>Sin recomendaciones</>}
-
-                                            <Divider className="!my-10">ROLES</Divider>
-                                            {evaluacion.proyecto_roles_evaluaciones
-                                                .filter((item) => item.correcto == false)
-                                                .map((evaluacion_rol, k) => (
-                                                    <p className="whitespace-pre-line mb-10" key={k}>
-                                                        <strong>Código del rol #{evaluacion_rol.proyecto_rol_sennova_id}</strong> {' - '}
-                                                        {evaluacion_rol.comentario}
-                                                    </p>
+                                                {evaluacion.evaluaciones_proyecto_formulario3_linea61.map((item_evaluado, j) => (
+                                                    <div key={j}>
+                                                        <p className="whitespace-pre-line mb-10">
+                                                            <strong className="whitespace-pre-line font-black">{item_evaluado.pregunta_evaluacion_formulario3_linea61.campo}</strong>
+                                                            <br />
+                                                            {item_evaluado.comentario ?? 'Sin recomendaciones'}
+                                                        </p>
+                                                    </div>
                                                 ))}
-                                            {evaluacion.proyecto_roles_evaluaciones.filter((item) => item.correcto == false).length == 0 && <>Sin recomendaciones</>}
+                                                {evaluacion.evaluaciones_proyecto_formulario4_linea70.map((item_evaluado, j) => (
+                                                    <div key={j}>
+                                                        <p className="whitespace-pre-line mb-10">
+                                                            <strong className="whitespace-pre-line font-black">{item_evaluado.pregunta_evaluacion_formulario4_linea70.campo}</strong>
+                                                            <br />
+                                                            {item_evaluado.comentario ?? 'Sin recomendaciones'}
+                                                        </p>
+                                                    </div>
+                                                ))}
+                                                {evaluacion.evaluaciones_proyecto_formulario6_linea82.map((item_evaluado, j) => (
+                                                    <div key={j}>
+                                                        <p className="whitespace-pre-line mb-10">
+                                                            <strong className="whitespace-pre-line font-black">{item_evaluado.pregunta_evaluacion_formulario6_linea82.campo}</strong>
+                                                            <br />
+                                                            {item_evaluado.comentario ?? 'Sin recomendaciones'}
+                                                        </p>
+                                                    </div>
+                                                ))}
+                                                {evaluacion.evaluaciones_proyecto_formulario7_linea23.map((item_evaluado, j) => (
+                                                    <div key={j}>
+                                                        <p className="whitespace-pre-line mb-10">
+                                                            <strong className="whitespace-pre-line font-black">{item_evaluado.pregunta_evaluacion_formulario7_linea23.campo}</strong>
+                                                            <br />
+                                                            {item_evaluado.comentario ?? 'Sin recomendaciones'}
+                                                        </p>
+                                                    </div>
+                                                ))}
+                                                {evaluacion.evaluaciones_proyecto_formulario8_linea66.map((item_evaluado, j) => (
+                                                    <div key={j}>
+                                                        <p className="whitespace-pre-line mb-10">
+                                                            <strong className="whitespace-pre-line font-black">{item_evaluado.pregunta_evaluacion_formulario8_linea66.campo}</strong>
+                                                            <br />
+                                                            {item_evaluado.comentario ?? 'Sin recomendaciones'}
+                                                        </p>
+                                                    </div>
+                                                ))}
+                                                {evaluacion.evaluaciones_proyecto_formulario9_linea23.map((item_evaluado, j) => (
+                                                    <div key={j}>
+                                                        <p className="whitespace-pre-line mb-10">
+                                                            <strong className="whitespace-pre-line font-black">{item_evaluado.pregunta_evaluacion_formulario9_linea23.campo}</strong>
+                                                            <br />
+                                                            {item_evaluado.comentario ?? 'Sin recomendaciones'}
+                                                        </p>
+                                                    </div>
+                                                ))}
+                                                {evaluacion.evaluaciones_proyecto_formulario10_linea69.map((item_evaluado, j) => (
+                                                    <div key={j}>
+                                                        <p className="whitespace-pre-line mb-10">
+                                                            <strong className="whitespace-pre-line font-black">{item_evaluado.pregunta_evaluacion_formulario10_linea69.campo}</strong>
+                                                            <br />
+                                                            {item_evaluado.comentario ?? 'Sin recomendaciones'}
+                                                        </p>
+                                                    </div>
+                                                ))}
+                                                {evaluacion.evaluaciones_proyecto_formulario12_linea68.map((item_evaluado, j) => (
+                                                    <div key={j}>
+                                                        <p className="whitespace-pre-line mb-10">
+                                                            <strong className="whitespace-pre-line font-black">{item_evaluado.pregunta_evaluacion_formulario12_linea68.campo}</strong>
+                                                            <br />
+                                                            {item_evaluado.comentario ?? 'Sin recomendaciones'}
+                                                        </p>
+                                                    </div>
+                                                ))}
+                                                {evaluacion.evaluaciones_proyecto_formulario13_linea65.map((item_evaluado, j) => (
+                                                    <div key={j}>
+                                                        <p className="whitespace-pre-line mb-10">
+                                                            <strong className="whitespace-pre-line font-black">{item_evaluado.pregunta_evaluacion_formulario13_linea65.campo}</strong>
+                                                            <br />
+                                                            {item_evaluado.comentario ?? 'Sin recomendaciones'}
+                                                        </p>
+                                                    </div>
+                                                ))}
+                                                {evaluacion.evaluaciones_proyecto_formulario15_linea65.map((item_evaluado, j) => (
+                                                    <div key={j}>
+                                                        <p className="whitespace-pre-line mb-10">
+                                                            <strong className="whitespace-pre-line font-black">{item_evaluado.pregunta_evaluacion_formulario15_linea65.campo}</strong>
+                                                            <br />
+                                                            {item_evaluado.comentario ?? 'Sin recomendaciones'}
+                                                        </p>
+                                                    </div>
+                                                ))}
+                                                {evaluacion.evaluaciones_proyecto_formulario16_linea65.map((item_evaluado, j) => (
+                                                    <div key={j}>
+                                                        <p className="whitespace-pre-line mb-10">
+                                                            <strong className="whitespace-pre-line font-black">{item_evaluado.pregunta_evaluacion_formulario16_linea65.campo}</strong>
+                                                            <br />
+                                                            {item_evaluado.comentario ?? 'Sin recomendaciones'}
+                                                        </p>
+                                                    </div>
+                                                ))}
+                                                {evaluacion.evaluaciones_proyecto_formulario17_linea69.map((item_evaluado, j) => (
+                                                    <div key={j}>
+                                                        <p className="whitespace-pre-line mb-10">
+                                                            <strong className="whitespace-pre-line font-black">{item_evaluado.pregunta_evaluacion_formulario17_linea69.campo}</strong>
+                                                            <br />
+                                                            {item_evaluado.comentario ?? 'Sin recomendaciones'}
+                                                        </p>
+                                                    </div>
+                                                ))}
+                                                <Divider className="!my-10">RUBROS PRESUPUESTALES</Divider>
+                                                {evaluacion.proyecto_presupuestos_evaluaciones
+                                                    .filter((item) => item.correcto == false)
+                                                    .map((evaluacion_presupuesto, k) => (
+                                                        <p className="whitespace-pre-line mb-10" key={k}>
+                                                            <strong>Código del presupuesto #{evaluacion_presupuesto.proyecto_presupuesto_id}</strong> {' - Recomendación: '}
+                                                            {evaluacion_presupuesto.comentario}
+                                                        </p>
+                                                    ))}
+                                                {evaluacion.proyecto_presupuestos_evaluaciones.filter((item) => item.correcto == false).length == 0 && <>Sin recomendaciones</>}
 
-                                            <Divider className="!my-10">COMENTARIO GENERAL</Divider>
-                                            {evaluacion.comentario_evaluador ?? 'No hay comentarios'}
-                                        </React.Fragment>
-                                    ))}
+                                                <Divider className="!my-10">ROLES</Divider>
+                                                {evaluacion.proyecto_roles_evaluaciones
+                                                    .filter((item) => item.correcto == false)
+                                                    .map((evaluacion_rol, k) => (
+                                                        <p className="whitespace-pre-line mb-10" key={k}>
+                                                            <strong>Código del rol #{evaluacion_rol.proyecto_rol_sennova_id}</strong> {' - '}
+                                                            {evaluacion_rol.comentario}
+                                                        </p>
+                                                    ))}
+                                                {evaluacion.proyecto_roles_evaluaciones.filter((item) => item.correcto == false).length == 0 && <>Sin recomendaciones</>}
+
+                                                <Divider className="!my-10">COMENTARIO GENERAL</Divider>
+                                                {evaluacion.comentario_evaluador ?? 'No hay comentarios'}
+
+                                                {/* {evaluacion.comentario_evaluador && (
+                                                    <>
+                                                        Responder al evaluador
+                                                        <form>
+                                                            <Textarea
+                                                                label="Comentario"
+                                                                className="!mt-4"
+                                                                inputBackground="#fff"
+                                                                id={'comentario_formulador'}
+                                                                onChange={(e) => form_evaluacion.setData('comentario_formulador', e.target.value)}
+                                                                value={form_evaluacion.data.comentario_formulador}
+                                                                error={form_evaluacion.errors.comentario_formulador}
+                                                                required
+                                                            />
+                                                        </form>
+                                                    </>
+                                                )} */}
+                                            </React.Fragment>
+                                        ))}
                                 </TabsMui>
                             </>
                         }
