@@ -348,13 +348,13 @@
             <table width="100%" style="font-size: 12px;">
                 <tr>
                     <td width="50%">
-                        <div style="background-color: rgb(120, 15, 169); height: 4rem; padding: 20px; color: white;">
+                        <div style="background-color: rgb(120, 15, 169); padding: 20px; color: white;">
                             <p style="margin: 0px; font-size: 10px;">{{ ($j + 1) .'.'. ($k + 1) }} Efecto indirecto</p>
                             {{ $efecto_indirecto->descripcion }}
                         </div>
                     </td>
                     <td width="50%">
-                        <div style="background-color: rgb(152, 61, 194); height: 4rem; padding: 20px; color: white;">
+                        <div style="background-color: rgb(152, 61, 194); padding: 20px; color: white;">
                             <p style="margin: 0px; font-size: 10px;">{{ ($j + 1) .'.'. ($k + 1) }} {{ $tipos_impacto->firstWhere('value', $efecto_indirecto->impacto->tipo) ? $tipos_impacto->firstWhere('value', $efecto_indirecto->impacto->tipo)['label'] : 'Sin información registrada' }}</p>
                             {{ $efecto_indirecto->impacto->descripcion }}
                         </div>
@@ -383,13 +383,13 @@
             <table width="100%" style="font-size: 12px;">
                 <tr>
                     <td width="50%">
-                        <div style="background-color: rgb(29, 110, 156); height: 4rem; padding: 20px; color: white;">
+                        <div style="background-color: rgb(29, 110, 156); padding: 20px; color: white;">
                             <p style="margin: 0px; font-size: 10px;">{{ ($j + 1) .'.'. ($k + 1) }} Causa indirecta</p>
                             {{ $causa_indirecta->descripcion }}
                         </div>
                     </td>
                     <td width="50%">
-                        <div style="background-color: rgb(43, 148, 209); height: 4rem; padding: 20px; color: white;">
+                        <div style="background-color: rgb(43, 148, 209); padding: 20px; color: white;">
                             <p style="margin: 0px; font-size: 10px;">{{ ($j + 1) .'.'. ($k + 1) }} Actividad</p>
                             {{ $causa_indirecta->actividad->descripcion }}
                         </div>
