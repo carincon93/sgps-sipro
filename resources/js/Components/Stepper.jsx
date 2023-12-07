@@ -423,15 +423,15 @@ export default function StepperMui({ auth_user, convocatoria, proyecto, evaluaci
                                                 <Divider className="!my-10">COMENTARIO GENERAL</Divider>
                                                 {evaluacion.comentario_evaluador ?? 'No hay comentarios'}
 
-                                                {evaluacion.comentario_evaluador && proyecto?.allowed?.to_update && (
+                                                {proyecto?.allowed?.to_update && (
                                                     <div className="mt-10">
                                                         <AlertMui>
-                                                            Haga clic en el siguiente botón si quiere dar una respuesta al evaluador/a
+                                                            Haga clic en el siguiente botón si quiere hacer una aclaración al evaluador/a sobre ítems formulados
                                                             <br />
                                                             <ButtonMui
                                                                 className="!mt-4"
                                                                 onClick={() => (form_respuesta_formulador.reset(), setDialogRespuestaFormuladorStatus(true), setRespuestaFormulador(evaluacion))}>
-                                                                Responder al evaluador
+                                                                Respuesta al evaluador
                                                             </ButtonMui>
                                                         </AlertMui>
 
