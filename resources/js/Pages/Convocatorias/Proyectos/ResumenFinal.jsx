@@ -188,7 +188,7 @@ const ResumenFinal = ({
                             </AlertMui>
                         ) : (
                             <>
-                                {['1', '3'].includes(convocatoria.fase) && convocatoria.esta_activa && proyecto?.modificable && evaluacion_id == null && (
+                                {['1', '3'].includes(convocatoria.fase) && convocatoria.esta_activa && evaluacion_id == null && (
                                     <AlertMui>
                                         <strong className="block mb-8">El proyecto ha sido diligenciado correctamente.</strong>
                                         {proyecto?.finalizado

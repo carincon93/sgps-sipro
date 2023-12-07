@@ -602,129 +602,6 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
 
     return (
         <>
-            {/* {is_super_admin || proyecto.mostrar_recomendaciones ? (
-                <>
-                    {proyecto.evaluaciones.map((evaluacion, i) =>
-                        is_super_admin || (evaluacion.finalizado && evaluacion.habilitado) ? (
-                            <ToolTipMui
-                                key={i}
-                                title={
-                                    <div>
-                                        <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
-                                        {evaluacion.evaluacion_proyecto_linea66 ? (
-                                            <>
-                                                <h1 className="font-black mt-10">Objetivos</h1>
-                                                <p className="whitespace-pre-line text-xs">
-                                                    {evaluacion.evaluacion_proyecto_linea66?.objetivos_comentario ? evaluacion.evaluacion_proyecto_linea66.objetivos_comentario : 'Sin recomendación'}
-                                                </p>
-
-                                                <hr className="mt-10 mb-10 border-black-200" />
-                                                <h1 className="font-black">Resultados</h1>
-
-                                                <p className="whitespace-pre-line text-xs">
-                                                    {evaluacion.evaluacion_proyecto_linea66?.resultados_comentario ? evaluacion.evaluacion_proyecto_linea66.resultados_comentario : 'Sin recomendación'}
-                                                </p>
-                                            </>
-                                        ) : evaluacion.evaluacion_proyecto_linea65 ? (
-                                            <>
-                                                <h1 className="font-black mt-10">Objetivos</h1>
-                                                <p className="whitespace-pre-line text-xs">
-                                                    {evaluacion.evaluacion_proyecto_linea65?.objetivos_comentario ? evaluacion.evaluacion_proyecto_linea65.objetivos_comentario : 'Sin recomendación'}
-                                                </p>
-
-                                                <hr className="mt-10 mb-10 border-black-200" />
-                                                <h1 className="font-black">Resultados</h1>
-
-                                                <p className="whitespace-pre-line text-xs">
-                                                    {evaluacion.evaluacion_proyecto_linea65?.resultados_comentario ? evaluacion.evaluacion_proyecto_linea65.resultados_comentario : 'Sin recomendación'}
-                                                </p>
-                                            </>
-                                        ) : evaluacion.evaluacion_proyecto_linea68 ? (
-                                            <>
-                                                <h1 className="font-black mt-10">Objetivo general</h1>
-
-                                                <p className="whitespace-pre-line text-xs">
-                                                    {evaluacion.evaluacion_proyecto_linea68?.objetivo_general_comentario
-                                                        ? evaluacion.evaluacion_proyecto_linea68.objetivo_general_comentario
-                                                        : 'Sin recomendación'}
-                                                </p>
-
-                                                <hr className="mt-10 mb-10 border-black-200" />
-                                                <h1 className="font-black">Objetivos específicos</h1>
-
-                                                <ul className="list-disc pl-4">
-                                                    <li className="whitespace-pre-line text-xs mb-10">
-                                                        {evaluacion.evaluacion_proyecto_linea68?.primer_objetivo_comentario
-                                                            ? 'Recomendación primer objetivo específico: ' + evaluacion.evaluacion_proyecto_linea68.primer_objetivo_comentario
-                                                            : 'Sin recomendación'}
-                                                    </li>
-                                                    <li className="whitespace-pre-line text-xs mb-10">
-                                                        {evaluacion.evaluacion_proyecto_linea68?.segundo_objetivo_comentario
-                                                            ? 'Recomendación segundo objetivo específico: ' + evaluacion.evaluacion_proyecto_linea68.segundo_objetivo_comentario
-                                                            : 'Sin recomendación'}
-                                                    </li>
-                                                    <li className="whitespace-pre-line text-xs mb-10">
-                                                        {evaluacion.evaluacion_proyecto_linea68?.tercer_objetivo_comentario
-                                                            ? 'Recomendación tercer objetivo específico: ' + evaluacion.evaluacion_proyecto_linea68.tercer_objetivo_comentario
-                                                            : 'Sin recomendación'}
-                                                    </li>
-                                                    <li className="whitespace-pre-line text-xs mb-10">
-                                                        {evaluacion.evaluacion_proyecto_linea68?.cuarto_objetivo_comentario
-                                                            ? 'Recomendación cuarto objetivo específico: ' + evaluacion.evaluacion_proyecto_linea68.cuarto_objetivo_comentario
-                                                            : 'Sin recomendación'}
-                                                    </li>
-                                                </ul>
-
-                                                <hr className="mt-10 mb-10 border-black-200" />
-                                                <h1 className="font-black">Resultados</h1>
-                                                <ul className="list-disc pl-4">
-                                                    <li className="whitespace-pre-line text-xs mb-10">
-                                                        {evaluacion.evaluacion_proyecto_linea68?.resultados_primer_obj_comentario
-                                                            ? 'Recomendación resultados del primer objetivo específico: ' + evaluacion.evaluacion_proyecto_linea68.resultados_primer_obj_comentario
-                                                            : 'Sin recomendación'}
-                                                    </li>
-                                                    <li className="whitespace-pre-line text-xs mb-10">
-                                                        {evaluacion.evaluacion_proyecto_linea68?.resultados_segundo_obj_comentario
-                                                            ? 'Recomendación resultados del segundo objetivo específico: ' + evaluacion.evaluacion_proyecto_linea68.resultados_segundo_obj_comentario
-                                                            : 'Sin recomendación'}
-                                                    </li>
-                                                    <li className="whitespace-pre-line text-xs mb-10">
-                                                        {evaluacion.evaluacion_proyecto_linea68?.resultados_tercer_obj_comentario
-                                                            ? 'Recomendación resultados del tercer objetivo específico: ' + evaluacion.evaluacion_proyecto_linea68.resultados_tercer_obj_comentario
-                                                            : 'Sin recomendación'}
-                                                    </li>
-                                                    <li className="whitespace-pre-line text-xs mb-10">
-                                                        {evaluacion.evaluacion_proyecto_linea68?.resultados_cuarto_obj_comentario
-                                                            ? 'Recomendación resultados del cuarto objetivo específico: ' + evaluacion.evaluacion_proyecto_linea68.resultados_cuarto_obj_comentario
-                                                            : 'Sin recomendación'}
-                                                    </li>
-                                                </ul>
-                                            </>
-                                        ) : evaluacion.evaluacion_proyecto_linea70 ? (
-                                            <p className="whitespace-pre-line text-xs">
-                                                {evaluacion.evaluacion_proyecto_linea70?.arbol_objetivos_comentario
-                                                    ? evaluacion.evaluacion_proyecto_linea70.arbol_objetivos_comentario
-                                                    : 'Sin recomendación'}
-                                            </p>
-                                        ) : (
-                                            evaluacion.evaluacion_proyecto_linea69 && (
-                                                <p className="whitespace-pre-line text-xs">
-                                                    {evaluacion.evaluacion_proyecto_linea69?.arbol_objetivos_comentario
-                                                        ? evaluacion.evaluacion_proyecto_linea69.arbol_objetivos_comentario
-                                                        : 'Sin recomendación'}
-                                                </p>
-                                            )
-                                        )}
-                                    </div>
-                                }>
-                                Evaluación {i + 1}
-                            </ToolTipMui>
-                        ) : null,
-                    )}
-                    {proyecto.evaluaciones.length === 0 ? <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p> : null}
-                </>
-            ) : null} */}
-
             <div>
                 {/* Causas directas y causas indirectas relacionados */}
 
@@ -757,6 +634,12 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                         <p className="line-clamp-3">
                                             {causa_directa.descripcion ? causa_directa.descripcion : <span className="text-red-500 bg-red-100 p-1 rounded">Debe diligenciar esta causa directa</span>}
                                         </p>
+
+                                        {proyecto.finalizado && (
+                                            <TooltipMui className="text-blue-500 hover:cursor-pointer" title={causa_directa.descripcion}>
+                                                Leer más
+                                            </TooltipMui>
+                                        )}
 
                                         <DoubleArrowIcon className="absolute right-[-23px] top-[50%]" />
 
@@ -838,6 +721,12 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                                         <span className="text-red-500 bg-red-100 p-1 rounded">Debe diligenciar esta causa indirecta.</span>
                                                     )}
                                                 </p>
+
+                                                {proyecto.finalizado && (
+                                                    <TooltipMui className="text-blue-500 hover:cursor-pointer" title={causa_indirecta.descripcion}>
+                                                        Leer más
+                                                    </TooltipMui>
+                                                )}
 
                                                 <DoubleArrowIcon className="absolute right-[-23px] top-[50%]" />
 
@@ -974,6 +863,13 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                                 <span className="text-red-500 bg-red-100 p-1 rounded">Debe diligenciar este objetivo específico.</span>
                                             )}
                                         </p>
+
+                                        {proyecto.finalizado && (
+                                            <TooltipMui className="text-blue-500 hover:cursor-pointer" title={causa_directa.objetivo_especifico?.descripcion}>
+                                                Leer más
+                                            </TooltipMui>
+                                        )}
+
                                         <div className="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
                                             {show_objetivo_especifico_destroy_icon && causa_directa.objetivo_especifico?.id === objetivo_especifico_id_to_destroy ? (
                                                 <>
@@ -1071,6 +967,13 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                                         <span className="text-red-500 bg-red-100 p-1 rounded">Debe diligenciar esta actividad.</span>
                                                     )}
                                                 </p>
+
+                                                {proyecto.finalizado && (
+                                                    <TooltipMui className="text-blue-500 hover:cursor-pointer" title={causa_indirecta.actividad?.descripcion}>
+                                                        Leer más
+                                                    </TooltipMui>
+                                                )}
+
                                                 <div className="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
                                                     {show_actividad_destroy_icon && causa_indirecta.actividad?.id === actividad_id_to_destroy ? (
                                                         <>
@@ -1252,6 +1155,12 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                             )}
                                         </p>
 
+                                        {proyecto.finalizado && (
+                                            <TooltipMui className="text-blue-500 hover:cursor-pointer" title={efecto_directo.descripcion}>
+                                                Leer más
+                                            </TooltipMui>
+                                        )}
+
                                         <DoubleArrowIcon className="absolute right-[-23px] top-[50%]" />
 
                                         <div className="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
@@ -1332,6 +1241,12 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                                         <span className="text-red-500 bg-red-100 p-1 rounded">Debe diligenciar este efecto indirecto.</span>
                                                     )}
                                                 </p>
+
+                                                {proyecto.finalizado && (
+                                                    <TooltipMui className="text-blue-500 hover:cursor-pointer" title={efecto_indirecto.descripcion}>
+                                                        Leer más
+                                                    </TooltipMui>
+                                                )}
 
                                                 <DoubleArrowIcon className="absolute right-[-23px] top-[50%]" />
 
@@ -1468,6 +1383,13 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                                 <span className="text-red-500 bg-red-100 p-1 rounded">Debe diligenciar este resultado.</span>
                                             )}
                                         </p>
+
+                                        {proyecto.finalizado && (
+                                            <TooltipMui className="text-blue-500 hover:cursor-pointer" title={efecto_directo.resultado?.descripcion}>
+                                                Leer más
+                                            </TooltipMui>
+                                        )}
+
                                         <div className="absolute flex top-[40%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
                                             {show_resultado_destroy_icon && efecto_directo.resultado?.id === resultado_id_to_destroy ? (
                                                 <>
@@ -1595,6 +1517,13 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                                         <span className="text-red-500 bg-red-100 p-1 rounded">Debe diligenciar este impacto.</span>
                                                     )}
                                                 </p>
+
+                                                {proyecto.finalizado && (
+                                                    <TooltipMui className="text-blue-500 hover:cursor-pointer" title={efecto_indirecto.impacto?.descripcion}>
+                                                        Leer más
+                                                    </TooltipMui>
+                                                )}
+
                                                 <div className="absolute flex top-[40%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
                                                     {show_impacto_destroy_icon && efecto_indirecto.impacto?.id === impacto_id_to_destroy ? (
                                                         <>
