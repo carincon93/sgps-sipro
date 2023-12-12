@@ -45,6 +45,7 @@ class GruposInvestigacionExport implements FromCollection, WithHeadings, WithMap
     public function map($grupoInvestigacion): array
     {
         return [
+            $grupoInvestigacion->centroFormacion->regional->nombre,
             $grupoInvestigacion->codigo_centro,
             $grupoInvestigacion->nombre_centro,
             $grupoInvestigacion->nombre,
@@ -68,12 +69,18 @@ class GruposInvestigacionExport implements FromCollection, WithHeadings, WithMap
             $grupoInvestigacion->link_propio_grupo,
             $grupoInvestigacion->formato_gic_f_020,
             $grupoInvestigacion->formato_gic_f_032,
+            $grupoInvestigacion->lineasInvestigacion
+                ->flatMap(function ($lineaInvestigacion) {
+                    return $lineaInvestigacion->semillerosInvestigacion->pluck('nombre');
+                })
+                ->implode(', ')
         ];
     }
 
     public function headings(): array
     {
         return [
+            'Regional',
             'Código del centro de formación',
             'Centro de formación',
             'Nombre del grupo de investigación',
@@ -97,6 +104,7 @@ class GruposInvestigacionExport implements FromCollection, WithHeadings, WithMap
             'Link propio del grupo',
             'Formato GIC – F – 020',
             'Formato GIC – F – 032',
+            'Semilleros de investigación'
         ];
     }
 
