@@ -117,7 +117,9 @@ class FormacionAcademicaSena extends Model
 
     public function getFormacionAcademicaSenaTextAttribute()
     {
-        return '¿Es egresaso SENA?' . $this->egresado_sena ? 'Si' : 'No' . ' - Modalidad: ' . $this->modalidad_sena_text . ' - Nivel: ' . $this->nivel_sena_text . ' - Título: ' . $this->titulo_obtenido;
+        $egresado_sena = $this->egresado_sena ? 'Si' : 'No';
+
+        return '¿Es egresaso SENA?' . $egresado_sena . ' - Modalidad: ' . $this->modalidad_sena_text . ' - Nivel: ' . $this->nivel_sena_text . ' - Título: ' . $this->titulo_obtenido;
     }
 
     private function getJsonItem($file_path, $id, $key)
