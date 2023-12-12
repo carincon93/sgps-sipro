@@ -12,7 +12,7 @@ class FormacionAcademicaSena extends Model
 {
     use HasFactory;
 
-     /**
+    /**
      * appends
      *
      * @var array
@@ -83,7 +83,7 @@ class FormacionAcademicaSena extends Model
         return "Del $fechaInicio al $fechaFinalizacion";
     }
 
-        public function getFilenameAttribute()
+    public function getFilenameAttribute()
     {
         $file_info = pathinfo($this->certificado_formacion);
 
@@ -115,6 +115,11 @@ class FormacionAcademicaSena extends Model
         return $this->nivel_sena ? $this->getJsonItem($file_path, $id, $key) : null;
     }
 
+    public function getFormacionAcademicaSenaTextAttribute()
+    {
+        return '¿Es egresaso SENA?' . $this->egresado_sena ? 'Si' : 'No' . ' - Modalidad: ' . $this->modalidad_sena_text . ' - Nivel: ' . $this->nivel_sena_text . ' - Título: ' . $this->titulo_obtenido;
+    }
+
     private function getJsonItem($file_path, $id, $key)
     {
         $data   = json_decode(Storage::get($file_path), true);
@@ -126,10 +131,5 @@ class FormacionAcademicaSena extends Model
         $filtered_data = array_filter($data, $where);
 
         return reset($filtered_data)[$key];
-    }
-
-    public function getFormacionAcademicaSenaTextAttribute()
-    {
-        return $this->modalidad_sena_text . ' - ' . $this->nivel_sena_text . ' - ' . $this->titulo_obtenido;
     }
 }
