@@ -269,7 +269,7 @@ export default function StepperMui({ auth_user, convocatoria, proyecto, evaluaci
                 <>
                     <ButtonMui className="!fixed bottom-0 z-[1200]" onClick={() => setDialogEvaluaciones2Status(true)} primary={true}>
                         <ChecklistIcon className="mr-2" />
-                        Revisar evaluaciones - Nueva versión
+                        Revisar evaluaciones
                     </ButtonMui>
                     <DialogMui
                         fullWidth={true}
