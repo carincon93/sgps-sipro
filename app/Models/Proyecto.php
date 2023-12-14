@@ -976,7 +976,7 @@ class Proyecto extends Model
             return collect(['id' => null, 'estado' => $estado_evaluacion, 'requiere_subsanar' => $requiere_subsanar]);
         }
 
-        return $this->evaluarNoContinuidad($estados_evaluacion, $cantidad_evaluaciones, $puntaje_total, $total_recomendaciones);
+        return $this->evaluarNoContinuidad($estados_evaluacion, $cantidad_evaluaciones, $puntaje_total, $total_recomendaciones, $tipo_proyecto);
     }
 
     private function determinarTipoProyecto()
@@ -989,6 +989,10 @@ class Proyecto extends Model
             'proyectoFormulario11Linea83',
             'proyectoFormulario17Linea69',
         ];
+
+        if ($this->proyectoFormulario12Linea68()->exists()) {
+            return '68';
+        }
 
         foreach ($proyectos_continuidad as $proyecto) {
             if ($this->$proyecto()->exists()) {
@@ -1008,7 +1012,7 @@ class Proyecto extends Model
                 : 'Proyecto con asignación de apoyo técnico para la formulación');
     }
 
-    private function evaluarNoContinuidad($estados_evaluacion, $cantidad_evaluaciones, $puntaje_total, $total_recomendaciones)
+    private function evaluarNoContinuidad($estados_evaluacion, $cantidad_evaluaciones, $puntaje_total, $total_recomendaciones, $tipo_proyecto)
     {
         $requiere_subsanar = false;
 
@@ -1025,6 +1029,8 @@ class Proyecto extends Model
         } elseif ($puntaje_total >= 70 && $puntaje_total < 91 && $total_recomendaciones > 0) {
             $estado_evaluacion = $estados_evaluacion->where('value', 3)->first();
             $requiere_subsanar = true;
+        } else if ($tipo_proyecto == '68' && $puntaje_total >= 50 && $puntaje_total < 70) {
+            $estado_evaluacion = $estados_evaluacion->where('value', 6)->first();
         } elseif ($puntaje_total < 70) {
             $estado_evaluacion = $estados_evaluacion->where('value', 4)->first();
         }

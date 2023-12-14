@@ -3,5 +3,6 @@
     { "value": 2, "label": "Pre-aprobado" },
     { "value": 3, "label": "Pre-aprobado con observaciones" },
     { "value": 4, "label": "Rechazado" },
-    { "value": 5, "label": "Sin evaluar" }
+    { "value": 5, "label": "Sin evaluar" },
+    { "value": 6, "label": "Proyecto con asignación de apoyo técnico para la formulación" }
 ]
