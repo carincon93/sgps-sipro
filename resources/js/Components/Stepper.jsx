@@ -8,7 +8,7 @@ import DownloadFile from './DownloadFile'
 import Stepper from '@mui/material/Stepper'
 import Step from '@mui/material/Step'
 import StepLabel from '@mui/material/StepLabel'
-import { Divider, Grid } from '@mui/material'
+import { Chip, Divider, Grid } from '@mui/material'
 
 import { styled } from '@mui/material/styles'
 import { makeStyles } from '@mui/styles'
@@ -217,6 +217,7 @@ export default function StepperMui({ auth_user, convocatoria, proyecto, evaluaci
     const classes = useStyles()
     const is_super_admin = checkRole(auth_user, [1])
     const [dialog_evaluaciones_status, setDialogEvaluacionesStatus] = useState(false)
+    const [dialog_evaluaciones_2_status, setDialogEvaluaciones2Status] = useState(false)
     const [dialog_evaluacion_status, setDialogEvaluacionStatus] = useState(false)
     const [dialog_archivos_status, setDialogArchivosStatus] = useState(false)
     const [dialog_respuesta_evaluador_status, setDialogRespuestaFormuladorStatus] = useState(false)
@@ -481,6 +482,279 @@ export default function StepperMui({ auth_user, convocatoria, proyecto, evaluaci
                     />
                 </>
             ) : null}
+
+            {is_super_admin && (
+                <>
+                    {(proyecto.evaluaciones.length > 0 && is_super_admin) || (proyecto.evaluaciones.length > 0 && ['3', '5'].includes(convocatoria.fase) && proyecto?.modificable) ? (
+                        <>
+                            <ButtonMui className="!fixed bottom-0 z-[1200]" onClick={() => setDialogEvaluaciones2Status(true)} primary={true}>
+                                <ChecklistIcon className="mr-2" />
+                                Revisar evaluaciones 2
+                            </ButtonMui>
+                            <DialogMui
+                                fullWidth={true}
+                                maxWidth="lg"
+                                open={dialog_evaluaciones_2_status}
+                                dialogContent={
+                                    <>
+                                        {proyecto.evaluaciones
+                                            .filter((item) => item.habilitado == true)
+                                            .map((evaluacion, i) => (
+                                                <React.Fragment key={i}>
+                                                    <Divider className="!my-10" />
+                                                    {evaluacion.evaluaciones_proyecto_formulario1_linea65.map((item_evaluado, j) => (
+                                                        <React.Fragment key={j}>
+                                                            {item_evaluado.comentario && (
+                                                                <div>
+                                                                    <p className="whitespace-pre-line mb-10">
+                                                                        <strong className="whitespace-pre-line font-black">{item_evaluado.pregunta_evaluacion_formulario1_linea65.campo}</strong>
+                                                                        <br />
+                                                                        {item_evaluado.comentario}
+                                                                    </p>
+                                                                </div>
+                                                            )}
+                                                        </React.Fragment>
+                                                    ))}
+                                                    {evaluacion.evaluaciones_proyecto_formulario3_linea61.map((item_evaluado, j) => (
+                                                        <React.Fragment key={j}>
+                                                            {item_evaluado.comentario && (
+                                                                <div>
+                                                                    <p className="whitespace-pre-line mb-10">
+                                                                        <strong className="whitespace-pre-line font-black">{item_evaluado.pregunta_evaluacion_formulario3_linea61.campo}</strong>
+                                                                        <br />
+                                                                        {item_evaluado.comentario}
+                                                                    </p>
+                                                                </div>
+                                                            )}
+                                                        </React.Fragment>
+                                                    ))}
+                                                    {evaluacion.evaluaciones_proyecto_formulario4_linea70.map((item_evaluado, j) => (
+                                                        <React.Fragment key={j}>
+                                                            {item_evaluado.comentario && (
+                                                                <div>
+                                                                    <p className="whitespace-pre-line mb-10">
+                                                                        <strong className="whitespace-pre-line font-black">{item_evaluado.pregunta_evaluacion_formulario4_linea70.campo}</strong>
+                                                                        <br />
+                                                                        {item_evaluado.comentario}
+                                                                    </p>
+                                                                </div>
+                                                            )}
+                                                        </React.Fragment>
+                                                    ))}
+                                                    {evaluacion.evaluaciones_proyecto_formulario6_linea82.map((item_evaluado, j) => (
+                                                        <React.Fragment key={j}>
+                                                            {item_evaluado.comentario && (
+                                                                <div>
+                                                                    <p className="whitespace-pre-line mb-10">
+                                                                        <strong className="whitespace-pre-line font-black">{item_evaluado.pregunta_evaluacion_formulario6_linea82.campo}</strong>
+                                                                        <br />
+                                                                        {item_evaluado.comentario}
+                                                                    </p>
+                                                                </div>
+                                                            )}
+                                                        </React.Fragment>
+                                                    ))}
+                                                    {evaluacion.evaluaciones_proyecto_formulario7_linea23.map((item_evaluado, j) => (
+                                                        <React.Fragment key={j}>
+                                                            {item_evaluado.comentario && (
+                                                                <div>
+                                                                    <p className="whitespace-pre-line mb-10">
+                                                                        <strong className="whitespace-pre-line font-black">{item_evaluado.pregunta_evaluacion_formulario7_linea23.campo}</strong>
+                                                                        <br />
+                                                                        {item_evaluado.comentario}
+                                                                    </p>
+                                                                </div>
+                                                            )}
+                                                        </React.Fragment>
+                                                    ))}
+                                                    {evaluacion.evaluaciones_proyecto_formulario8_linea66.map((item_evaluado, j) => (
+                                                        <React.Fragment key={j}>
+                                                            {item_evaluado.comentario && (
+                                                                <div>
+                                                                    <p className="whitespace-pre-line mb-10">
+                                                                        <strong className="whitespace-pre-line font-black">{item_evaluado.pregunta_evaluacion_formulario8_linea66.campo}</strong>
+                                                                        <br />
+                                                                        {item_evaluado.comentario}
+                                                                    </p>
+                                                                </div>
+                                                            )}
+                                                        </React.Fragment>
+                                                    ))}
+                                                    {evaluacion.evaluaciones_proyecto_formulario9_linea23.map((item_evaluado, j) => (
+                                                        <React.Fragment key={j}>
+                                                            {item_evaluado.comentario && (
+                                                                <div>
+                                                                    <p className="whitespace-pre-line mb-10">
+                                                                        <strong className="whitespace-pre-line font-black">{item_evaluado.pregunta_evaluacion_formulario9_linea23.campo}</strong>
+                                                                        <br />
+                                                                        {item_evaluado.comentario}
+                                                                    </p>
+                                                                </div>
+                                                            )}
+                                                        </React.Fragment>
+                                                    ))}
+                                                    {evaluacion.evaluaciones_proyecto_formulario10_linea69.map((item_evaluado, j) => (
+                                                        <React.Fragment key={j}>
+                                                            {item_evaluado.comentario && (
+                                                                <div>
+                                                                    <p className="whitespace-pre-line mb-10">
+                                                                        <strong className="whitespace-pre-line font-black">{item_evaluado.pregunta_evaluacion_formulario10_linea69.campo}</strong>
+                                                                        <br />
+                                                                        {item_evaluado.comentario}
+                                                                    </p>
+                                                                </div>
+                                                            )}
+                                                        </React.Fragment>
+                                                    ))}
+                                                    {evaluacion.evaluaciones_proyecto_formulario12_linea68.map((item_evaluado, j) => (
+                                                        <React.Fragment key={j}>
+                                                            {item_evaluado.comentario && (
+                                                                <div>
+                                                                    <p className="whitespace-pre-line mb-10">
+                                                                        <strong className="whitespace-pre-line font-black">{item_evaluado.pregunta_evaluacion_formulario12_linea68.campo}</strong>
+                                                                        <br />
+                                                                        {item_evaluado.comentario}
+                                                                    </p>
+                                                                </div>
+                                                            )}
+                                                        </React.Fragment>
+                                                    ))}
+                                                    {evaluacion.evaluaciones_proyecto_formulario13_linea65.map((item_evaluado, j) => (
+                                                        <React.Fragment key={j}>
+                                                            {item_evaluado.comentario && (
+                                                                <div>
+                                                                    <p className="whitespace-pre-line mb-10">
+                                                                        <strong className="whitespace-pre-line font-black">{item_evaluado.pregunta_evaluacion_formulario13_linea65.campo}</strong>
+                                                                        <br />
+                                                                        {item_evaluado.comentario}
+                                                                    </p>
+                                                                </div>
+                                                            )}
+                                                        </React.Fragment>
+                                                    ))}
+                                                    {evaluacion.evaluaciones_proyecto_formulario15_linea65.map((item_evaluado, j) => (
+                                                        <React.Fragment key={j}>
+                                                            {item_evaluado.comentario && (
+                                                                <div>
+                                                                    <p className="whitespace-pre-line mb-10">
+                                                                        <strong className="whitespace-pre-line font-black">{item_evaluado.pregunta_evaluacion_formulario15_linea65.campo}</strong>
+                                                                        <br />
+                                                                        {item_evaluado.comentario}
+                                                                    </p>
+                                                                </div>
+                                                            )}
+                                                        </React.Fragment>
+                                                    ))}
+                                                    {evaluacion.evaluaciones_proyecto_formulario16_linea65.map((item_evaluado, j) => (
+                                                        <React.Fragment key={j}>
+                                                            {item_evaluado.comentario && (
+                                                                <div>
+                                                                    <p className="whitespace-pre-line mb-10">
+                                                                        <strong className="whitespace-pre-line font-black">{item_evaluado.pregunta_evaluacion_formulario16_linea65.campo}</strong>
+                                                                        <br />
+                                                                        {item_evaluado.comentario}
+                                                                    </p>
+                                                                </div>
+                                                            )}
+                                                        </React.Fragment>
+                                                    ))}
+                                                    {evaluacion.evaluaciones_proyecto_formulario17_linea69.map((item_evaluado, j) => (
+                                                        <React.Fragment key={j}>
+                                                            {item_evaluado.comentario && (
+                                                                <div>
+                                                                    <p className="whitespace-pre-line mb-10">
+                                                                        <strong className="whitespace-pre-line font-black">{item_evaluado.pregunta_evaluacion_formulario17_linea69.campo}</strong>
+                                                                        <br />
+                                                                        {item_evaluado.comentario}
+                                                                    </p>
+                                                                </div>
+                                                            )}
+                                                        </React.Fragment>
+                                                    ))}
+                                                    <Divider className="!my-10">RUBROS PRESUPUESTALES</Divider>
+                                                    {evaluacion.proyecto_presupuestos_evaluaciones
+                                                        .filter((item) => item.correcto == false)
+                                                        .map((evaluacion_presupuesto, k) => (
+                                                            <p className="whitespace-pre-line mb-10" key={k}>
+                                                                <Chip size="small" label={<>Código del presupuesto #{evaluacion_presupuesto.proyecto_presupuesto_id}</>} />
+                                                                <strong> - Recomendación: </strong>
+                                                                {evaluacion_presupuesto.comentario}
+                                                            </p>
+                                                        ))}
+                                                    {evaluacion.proyecto_presupuestos_evaluaciones.filter((item) => item.correcto == false).length == 0 && <>Sin recomendaciones</>}
+
+                                                    <Divider className="!my-10">ROLES</Divider>
+                                                    {evaluacion.proyecto_roles_evaluaciones
+                                                        .filter((item) => item.correcto == false)
+                                                        .map((evaluacion_rol, k) => (
+                                                            <p className="whitespace-pre-line mb-10" key={k}>
+                                                                <Chip size="small" label={<>Código del rol #{evaluacion_rol.proyecto_rol_sennova_id}</>} />
+                                                                <strong> - Recomendación: </strong>
+                                                                {evaluacion_rol.comentario}
+                                                            </p>
+                                                        ))}
+                                                    {evaluacion.proyecto_roles_evaluaciones.filter((item) => item.correcto == false).length == 0 && <>Sin recomendaciones</>}
+
+                                                    <Divider className="!my-10">COMENTARIO GENERAL</Divider>
+                                                    {evaluacion.comentario_evaluador ?? 'No hay comentarios'}
+
+                                                    {proyecto?.allowed?.to_update && (
+                                                        <div className="mt-10">
+                                                            <AlertMui>
+                                                                Haga clic en el siguiente botón si quiere hacer una aclaración al evaluador/a sobre ítems formulados
+                                                                <br />
+                                                                <ButtonMui className="!mt-4" onClick={() => (setDialogRespuestaFormuladorStatus(true), setRespuestaFormulador(evaluacion))}>
+                                                                    Respuesta
+                                                                </ButtonMui>
+                                                            </AlertMui>
+
+                                                            <DialogMui
+                                                                open={dialog_respuesta_evaluador_status}
+                                                                maxWidth="md"
+                                                                fullWidth={true}
+                                                                dialogContent={
+                                                                    <form onSubmit={submitRespuestaFormulador}>
+                                                                        <Textarea
+                                                                            label="Respuesta"
+                                                                            className="!mt-10"
+                                                                            inputBackground="#fff"
+                                                                            id="comentario_formulador"
+                                                                            value={form_respuesta_formulador.data.comentario_formulador}
+                                                                            error={form_respuesta_formulador.errors.comentario_formulador}
+                                                                            onChange={(e) => form_respuesta_formulador.setData('comentario_formulador', e.target.value)}
+                                                                            disabled={proyecto.finalizado}
+                                                                            required
+                                                                        />
+
+                                                                        <div className="mt-6 flex items-center justify-end">
+                                                                            <ButtonMui onClick={() => setDialogRespuestaFormuladorStatus(false)} className="!bg-transparent !text-app-700 !mr-2">
+                                                                                Cerrar
+                                                                            </ButtonMui>
+                                                                            {!proyecto.finalizado && (
+                                                                                <PrimaryButton disabled={form_respuesta_formulador.processing} type="submit">
+                                                                                    Guardar
+                                                                                </PrimaryButton>
+                                                                            )}
+                                                                        </div>
+                                                                    </form>
+                                                                }
+                                                            />
+                                                        </div>
+                                                    )}
+                                                </React.Fragment>
+                                            ))}
+                                    </>
+                                }
+                                dialogActions={
+                                    <ButtonMui onClick={() => setDialogEvaluaciones2Status(false)} className="!mr-8">
+                                        Cerrar
+                                    </ButtonMui>
+                                }
+                            />
+                        </>
+                    ) : null}
+                </>
+            )}
 
             {evaluacion.length > 0 && (
                 <>

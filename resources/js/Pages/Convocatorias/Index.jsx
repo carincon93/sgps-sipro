@@ -54,6 +54,13 @@ export default function Dashboard({ auth, convocatorias }) {
                                             Editar convocatoria
                                         </MenuItem>
 
+                                        <MenuItem
+                                            onClick={() => router.post(route('convocatorias.actualizar-estados-proyectos', convocatoria.id))}
+                                            disabled={!is_super_admin}
+                                            className={!is_super_admin ? 'hidden' : ''}>
+                                            Actualizar estados de los proyectos
+                                        </MenuItem>
+
                                         <Divider />
 
                                         {convocatoria.id !== convocatoria_to_destroy && is_super_admin ? (

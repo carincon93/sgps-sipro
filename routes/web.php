@@ -837,7 +837,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('convocatorias/{convocatoria}/evaluaciones/{evaluacion}/respuesta-formulador', [EvaluacionController::class, 'updateRespuestaFormulador'])->name('convocatorias.evaluaciones.respuesta-formulador');
     Route::post('convocatorias/{convocatoria}/evaluaciones/{evaluacion}/comentario-evaluador', [EvaluacionController::class, 'udpdateComentarioEvaluador'])->name('convocatorias.evaluaciones.comentario-evaluador');
     Route::post('convocatorias/{convocatoria}/evaluaciones/{evaluacion}/causales-rechazo', [EvaluacionController::class, 'updateCausalRechazo'])->name('convocatorias.evaluaciones.update-causal-rechazo');
-
+    Route::post('convocatorias/{convocatoria}/actualizar-estados-proyectos', [EvaluacionController::class, 'updateEstadosProyectosConvocatoria'])->name('convocatorias.actualizar-estados-proyectos');
 
     Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/evaluacion-formulario-1-linea-65', [ProyectoFormulario1Linea65Controller::class, 'updateEvaluacion'])->name('convocatorias.evaluaciones-formulario-1-linea-65.update');
     Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/evaluacion-formulario-3-linea-61', [ProyectoFormulario3Linea61Controller::class, 'updateEvaluacion'])->name('convocatorias.evaluaciones-formulario-3-linea-61.update');
@@ -853,7 +853,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/evaluacion-formulario-15-linea-65', [ProyectoFormulario15Linea65Controller::class, 'updateEvaluacion'])->name('convocatorias.evaluaciones-formulario-15-linea-65.update');
     Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/evaluacion-formulario-16-linea-65', [ProyectoFormulario16Linea65Controller::class, 'updateEvaluacion'])->name('convocatorias.evaluaciones-formulario-16-linea-65.update');
     Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/evaluacion-formulario-17-linea-69', [ProyectoFormulario17Linea69Controller::class, 'updateEvaluacion'])->name('convocatorias.evaluaciones-formulario-17-linea-69.update');
-
 
     Route::get('evaluadores', [EvaluacionController::class, 'evaluadores'])->name('evaluadores.index');
     Route::resource('evaluaciones', EvaluacionController::class)->parameters(['evaluaciones' => 'evaluacion'])->except(['show']);

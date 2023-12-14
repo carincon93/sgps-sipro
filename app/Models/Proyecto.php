@@ -987,7 +987,6 @@ class Proyecto extends Model
             'proyectoFormulario5Linea69',
             'proyectoFormulario10Linea69',
             'proyectoFormulario11Linea83',
-            'proyectoFormulario12Linea68',
             'proyectoFormulario17Linea69',
         ];
 
