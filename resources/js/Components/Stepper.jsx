@@ -267,7 +267,7 @@ export default function StepperMui({ auth_user, convocatoria, proyecto, evaluaci
         <>
             {(proyecto.evaluaciones.length > 0 && is_super_admin) || (proyecto.evaluaciones.length > 0 && ['3', '5'].includes(convocatoria.fase) && proyecto?.modificable) ? (
                 <>
-                    <ButtonMui className="!fixed bottom-0 z-[1200]" onClick={() => setDialogEvaluaciones2Status(true)} primary={true}>
+                    <ButtonMui className="!fixed bottom-10 z-[1200]" onClick={() => setDialogEvaluaciones2Status(true)} primary={true}>
                         <ChecklistIcon className="mr-2" />
                         Revisar evaluaciones
                     </ButtonMui>
