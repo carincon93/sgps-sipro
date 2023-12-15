@@ -209,23 +209,12 @@ class EvaluacionController extends Controller
     {
         foreach ($convocatoria->proyectos as $proyecto) {
             $evaluacion_proyecto = $proyecto->estadoEvaluacionProyecto;
-
-            if ($evaluacion_proyecto && $evaluacion_proyecto['requiere_subsanar'] && $evaluacion_proyecto['evaluaciones_finalizadas'] > 0 && !$proyecto->finalizado_en_subsanacion) {
-                $proyecto->update([
-                    'finalizado_en_primera_fase'    => $proyecto->finalizado,
-                    'finalizado'                    => false,
-                    'modificable'                   => true,
-                    'estado'                        => $evaluacion_proyecto,
-                    'mostrar_recomendaciones'       => true
-                ]);
-            } else {
-                $proyecto->update([
-                    'estado'                        => $evaluacion_proyecto,
-                ]);
-            }
+            $proyecto->update([
+                'estado'   => $evaluacion_proyecto,
+            ]);
         }
 
-        return back()->with('success', 'El recurso se ha actualizado correctamente.');
+        return back()->with('success', 'Los estados de los proyectos se han actualizado correctamente.');
     }
 
     /**

@@ -416,7 +416,6 @@ class ConvocatoriaController extends Controller
             foreach ($convocatoria->proyectos as $proyecto) {
                 $evaluacion_proyecto = $proyecto->estadoEvaluacionProyecto;
 
-
                 if ($evaluacion_proyecto && $evaluacion_proyecto['requiere_subsanar']) {
                     $proyecto->update([
                         'finalizado'                => true,
@@ -428,10 +427,10 @@ class ConvocatoriaController extends Controller
                     $proyecto->evaluaciones()->where('habilitado', true)->update(['modificable' => true, 'finalizado' => false, 'iniciado' => false]);
                 }
             }
-        } // else if ($request->fase == 5) { // Finalizar convocatoria
-        //     $convocatoria->proyectos()->update(['modificable' => false]);
-        //     $convocatoria->evaluaciones()->where('clausula_confidencialidad', true)->update(['modificable' => false, 'finalizado' => true, 'iniciado' => false]);
-        // }
+        } else if ($request->fase == 5) { // Finalizar convocatoria
+            $convocatoria->proyectos()->update(['modificable' => false]);
+            $convocatoria->evaluaciones()->where('clausula_confidencialidad', true)->update(['modificable' => false, 'finalizado' => true, 'iniciado' => false]);
+        }
 
         // $convocatoria->evaluaciones()->where('estado', 'LIKE', 'Sin evaluar')->update(['habilitado' => false]);
 
