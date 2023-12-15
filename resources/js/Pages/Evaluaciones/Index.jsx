@@ -119,6 +119,14 @@ const Index = ({ auth, convocatorias, evaluaciones, evaluadores, proyectos, allo
 
                                 <TableCell>
                                     <div className="bg-yellow-100 p-2 rounded">
+                                        {evaluacion.proyecto.convocatoria.esta_activa && evaluacion.proyecto.estado_evaluacion_proyecto.requiere_subsanar && (
+                                            <>
+                                                <AlertMui className="!mb-1">
+                                                    <small>Subsanado</small>
+                                                </AlertMui>
+                                            </>
+                                        )}
+
                                         {evaluacion.proyecto.estado_evaluacion_proyecto && (
                                             <>
                                                 {evaluacion.estado_proyecto_por_evaluador?.estado}
