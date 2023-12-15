@@ -50,6 +50,8 @@ class ProyectosExport implements FromCollection, WithHeadings, WithMapping, With
             'N/A', // Default value for $subarea_conocimiento
             'N/A', // Default value for $disciplina_conocimiento
             '',    // Default value for $objetivo_general
+            '',    // Default value for $campesena
+            '',    // Default value for $lineas
             $proyecto->total_proyecto_presupuesto,
             $proyecto->total_roles_sennova,
             $proyecto->total_proyecto_presupuesto + $proyecto->total_roles_sennova,
@@ -109,6 +111,42 @@ class ProyectosExport implements FromCollection, WithHeadings, WithMapping, With
                 break;
             }
         }
+
+        if (
+            $proyecto->proyectoFormulario7Linea23()->exists() ||
+            $proyecto->proyectoFormulario9Linea23()->exists() ||
+            $proyecto->proyectoFormulario6Linea82()->exists() ||
+            $proyecto->proyectoFormulario8Linea66()->exists()
+        ) {
+            $informacion_celdas[12] = (
+                $proyecto->proyectoFormulario7Linea23->aporta_a_campesena ??
+                $proyecto->proyectoFormulario9Linea23->aporta_a_campesena ??
+                optional($proyecto->proyectoFormulario6Linea82)->relacionado_estrategia_campesena ??
+                optional($proyecto->proyectoFormulario8Linea66)->relacionado_estrategia_campesena
+            ) ? 'Si' : 'No';
+        }
+
+        if (
+            $proyecto->proyectoFormulario16Linea65()->exists() ||
+            $proyecto->proyectoFormulario1Linea65()->exists() ||
+            $proyecto->proyectoFormulario15Linea65()->exists() ||
+            $proyecto->proyectoFormulario13Linea65()->exists() ||
+            $proyecto->proyectoFormulario6Linea82()->exists() ||
+            $proyecto->proyectoFormulario8Linea66()->exists() ||
+            $proyecto->proyectoFormulario7Linea23()->exists() ||
+            $proyecto->proyectoFormulario9Linea23()->exists()
+        ) {
+            $informacion_celdas[13] = (
+                $proyecto->proyectoFormulario16Linea65->lineas_estrategicas_sena_text ??
+                $proyecto->proyectoFormulario1Linea65->lineas_estrategicas_sena_text ??
+                $proyecto->proyectoFormulario15Linea65->lineas_estrategicas_sena_text ??
+                $proyecto->proyectoFormulario13Linea65->lineas_estrategicas_sena_text ??
+                $proyecto->proyectoFormulario6Linea82->lineas_estrategicas_beneficiadas_text ??
+                $proyecto->proyectoFormulario8Linea66->lineas_estrategicas_beneficiadas_text ??
+                $proyecto->proyectoFormulario7Linea23->lineas_estrategicas_beneficiadas_text ??
+                $proyecto->proyectoFormulario9Linea23->lineas_estrategicas_beneficiadas_text
+            );
+        }
     }
 
     private function setDisciplinaSubareaAreaConocimiento($proyecto, &$informacion_celdas)
@@ -156,6 +194,8 @@ class ProyectosExport implements FromCollection, WithHeadings, WithMapping, With
             'Subárea de conocimiento',
             'Disciplina de conocimiento',
             'Objetivo general',
+            '¿Aporta a CAMPESENA?',
+            'Líneas estratégicas',
             'Total valor rubros presupuestales',
             'Total valor roles',
             'Total valor del proyecto',

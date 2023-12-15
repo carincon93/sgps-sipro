@@ -143,7 +143,7 @@ const RubrosPresupuestales = ({
                                         ])}
                                         className="!bg-app-800 hover:!bg-app-50 !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
                                         <FolderSharedIcon className=" !mr-2" />
-                                        {presupuesto.soportes_estudio_mercado.length < 2 ? (
+                                        {!presupuesto.formato_estudio_mercado || presupuesto.soportes_estudio_mercado.length < 2 ? (
                                             <>Cargar el estudio de mercado y los soportes (Mínimo 2 soportes)</>
                                         ) : (
                                             <>Revisar estudio de mercado y soportes</>

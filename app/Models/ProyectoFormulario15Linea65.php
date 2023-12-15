@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use DateTimeInterface;
+use Illuminate\Support\Facades\Storage;
 
 class ProyectoFormulario15Linea65 extends Model
 {
@@ -24,7 +25,7 @@ class ProyectoFormulario15Linea65 extends Model
      *
      * @var array
      */
-    protected $appends = ['fecha_ejecucion'];
+    protected $appends = ['fecha_ejecucion', 'lineas_estrategicas_sena_text'];
 
     /**
      * The attributes that are mass assignable.
@@ -249,5 +250,10 @@ class ProyectoFormulario15Linea65 extends Model
     public function getLineasProgramaticasSennovaAttribute($value)
     {
         return json_decode($value);
+    }
+
+    public function getLineasEstrategicasSenaTextAttribute()
+    {
+        return collect(json_decode(Storage::get('json/lineas-estrategicas.json'), true))->whereIn('value', $this->lineas_estrategicas_sena)->pluck('label')->implode(', ');
     }
 }

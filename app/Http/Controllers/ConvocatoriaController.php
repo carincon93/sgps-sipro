@@ -387,7 +387,6 @@ class ConvocatoriaController extends Controller
 
         if ($request->fase == 1) { // Formulación
             $convocatoria->proyectos()->update(['finalizado' => false, 'modificable' => true]);
-            // $convocatoria->evaluaciones()->update(['modificable' => false, 'finalizado' => true, 'iniciado' => false]);
         } else if ($request->fase == 2) { // Primera evaluación
             $convocatoria->proyectos()->update(['modificable' => false, 'finalizado' => true]);
         } else if ($request->fase == 3) { // Subsanación
@@ -396,66 +395,40 @@ class ConvocatoriaController extends Controller
 
                 if ($evaluacion_proyecto && $evaluacion_proyecto['requiere_subsanar'] && $evaluacion_proyecto['evaluaciones_finalizadas'] > 0) {
                     $proyecto->update([
-                        'finalizado_en_primera_fase' => $proyecto->finalizado,
-                        'finalizado' => false,
-                        'modificable' => true,
-                        'estado' => $evaluacion_proyecto,
-                        'mostrar_recomendaciones' => true
+                        'finalizado_en_primera_fase'    => $proyecto->finalizado,
+                        'finalizado'                    => false,
+                        'modificable'                   => true,
+                        'estado'                        => $evaluacion_proyecto,
+                        'mostrar_recomendaciones'       => true
                     ]);
                 }
             }
 
             foreach ($convocatoria->evaluaciones as $evaluacion) {
                 $evaluacion->update([
-                    'finalizado_en_primera_fase' => $evaluacion->finalizado,
-                    'finalizado' => true,
-                    'modificable' => false,
-                    'iniciado' => false
+                    'finalizado_en_primera_fase'    => $evaluacion->finalizado,
+                    'finalizado'                    => true,
+                    'modificable'                   => false,
+                    'iniciado'                      => false
                 ]);
             }
-        }
+        } else if ($request->fase == 4) { // Segunda evaluación
+            foreach ($convocatoria->proyectos as $proyecto) {
+                $evaluacion_proyecto = $proyecto->estadoEvaluacionProyecto;
 
-        // else if ($request->fase == 4) { // Segunda evaluación
 
-        //     foreach ($convocatoria->proyectos()->get() as $proyecto) {
-        //         switch ($proyecto) {
-        //             case $proyecto->estadoEvaluacionProyecto:
-        //                 if (json_decode($proyecto->estadoEvaluacionProyecto)->requiereSubsanar) {
-        //                     $proyecto->update(['finalizado' => true, 'modificable' => false, 'estado' => $proyecto->estadoEvaluacionProyecto, 'mostrar_recomendaciones' => false, 'en_evaluacion' => true]);
-        //                 }
-        //                 break;
+                if ($evaluacion_proyecto && $evaluacion_proyecto['requiere_subsanar']) {
+                    $proyecto->update([
+                        'finalizado'                => true,
+                        'modificable'               => false,
+                        'estado'                    => $evaluacion_proyecto,
+                        'mostrar_recomendaciones'   => false
+                    ]);
 
-        //             case $proyecto->estado_evaluacion_proyecto_formulario_1_linea_65 != null:
-        //                 if (json_decode($proyecto->estado_evaluacion_proyecto_formulario_1_linea_65)->requiereSubsanar) {
-        //                     $proyecto->update(['finalizado' => true, 'modificable' => false, 'estado' => $proyecto->estado_evaluacion_proyecto_formulario_1_linea_65, 'mostrar_recomendaciones' => false, 'en_evaluacion' => true]);
-        //                 }
-        //                 break;
-
-        //             case $proyecto->estado_evaluacion_proyecto_formulario_5_linea_70 != null:
-        //                 if (json_decode($proyecto->estado_evaluacion_proyecto_formulario_5_linea_70)->requiereSubsanar) {
-        //                     $proyecto->update(['finalizado' => true, 'modificable' => false, 'estado' => $proyecto->estado_evaluacion_proyecto_formulario_5_linea_70, 'mostrar_recomendaciones' => false, 'en_evaluacion' => true]);
-        //                 }
-        //                 break;
-
-        //             case $proyecto->estado_evaluacion_proyecto_formulario_4_linea_69 != null:
-        //                 if (json_decode($proyecto->estado_evaluacion_proyecto_formulario_4_linea_69)->requiereSubsanar) {
-        //                     $proyecto->update(['finalizado' => true, 'modificable' => false, 'estado' => $proyecto->estado_evaluacion_proyecto_formulario_4_linea_69, 'mostrar_recomendaciones' => false, 'en_evaluacion' => true]);
-        //                 }
-        //                 break;
-
-        //             case $proyecto->estado_evaluacion_proyecto_formulario_12_linea_68 != null:
-        //                 if (json_decode($proyecto->estado_evaluacion_proyecto_formulario_12_linea_68)->requiereSubsanar) {
-        //                     $proyecto->update(['finalizado' => true, 'modificable' => false, 'estado' => $proyecto->estado_evaluacion_proyecto_formulario_12_linea_68, 'mostrar_recomendaciones' => false, 'en_evaluacion' => true]);
-        //                 }
-        //                 break;
-
-        //             default:
-        //                 break;
-        //         }
-        //     }
-
-        //     $convocatoria->evaluaciones()->where('clausula_confidencialidad', true)->update(['modificable' => true, 'finalizado' => false, 'iniciado' => false]);
-        // } else if ($request->fase == 5) { // Finalizar convocatoria
+                    $proyecto->evaluaciones()->where('habilitado', true)->update(['modificable' => true, 'finalizado' => false, 'iniciado' => false]);
+                }
+            }
+        } // else if ($request->fase == 5) { // Finalizar convocatoria
         //     $convocatoria->proyectos()->update(['modificable' => false]);
         //     $convocatoria->evaluaciones()->where('clausula_confidencialidad', true)->update(['modificable' => false, 'finalizado' => true, 'iniciado' => false]);
         // }

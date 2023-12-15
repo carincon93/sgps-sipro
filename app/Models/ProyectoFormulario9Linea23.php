@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use DateTimeInterface;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ProyectoFormulario9Linea23 extends Model
 {
@@ -25,7 +26,7 @@ class ProyectoFormulario9Linea23 extends Model
      *
      * @var array
      */
-    protected $appends = ['fecha_ejecucion'];
+    protected $appends = ['fecha_ejecucion', 'lineas_estrategicas_beneficiadas_text'];
 
     /**
      * The attributes that are mass assignable.
@@ -247,6 +248,11 @@ class ProyectoFormulario9Linea23 extends Model
     public function getVeredas_CorregimientosAttribute($value)
     {
         return json_decode($value);
+    }
+
+    public function getLineasEstrategicasBeneficiadasTextAttribute()
+    {
+        return collect(json_decode(Storage::get('json/lineas-estrategicas.json'), true))->whereIn('value', $this->lineas_estrategicas_beneficiadas)->pluck('label')->implode(', ');
     }
 
     /**
