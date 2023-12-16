@@ -763,7 +763,7 @@ export default function StepperMui({ auth_user, convocatoria, proyecto, evaluaci
                         maxWidth="lg"
                         open={dialog_evaluacion_status}
                         dialogTitle={
-                            <AlertMui>
+                            <AlertMui severity="success">
                                 <figure className="mt-4">
                                     <img src="/images/evaluadores.png" alt="" className="mx-auto rounded" width="120" />
                                 </figure>
@@ -781,6 +781,13 @@ export default function StepperMui({ auth_user, convocatoria, proyecto, evaluaci
                             <>
                                 {evaluacion.length > 0 ? (
                                     <>
+                                        {evaluacion[0].comentario_formulador && (
+                                            <AlertMui className="mt-4">
+                                                <h1 className="mb-5 font-black text-2xl">Comentario del formulador/a</h1>
+                                                {evaluacion[0].comentario_formulador}
+                                            </AlertMui>
+                                        )}
+
                                         {evaluacion[0]?.tipo_formulario_convocatoria_id == 1 ? (
                                             <EvaluacionProyectosFormulario1Linea65
                                                 auth_user={auth_user}
