@@ -103,8 +103,11 @@ const Productos = ({ auth, convocatoria, proyecto, evaluacion, productos, result
                             </TableCell>
 
                             <TableCell>
-                                {producto.unidad_indicador} /{' '}
-                                {producto.meta_indicador ? producto.meta_indicador : <span className="text-red-500 bg-red-100 p-1 rounded inline-block">Sin la unidad definida</span>}
+                                <p className="line-clamp-3">
+                                    {' '}
+                                    {producto.unidad_indicador} /{' '}
+                                    {producto.meta_indicador ? producto.meta_indicador : <span className="text-red-500 bg-red-100 p-1 rounded inline-block">Sin la unidad definida</span>}
+                                </p>
                             </TableCell>
 
                             <TableCell>

@@ -7,6 +7,8 @@ import { NumericFormat } from 'react-number-format'
 
 import { FormHelperText } from '@mui/material'
 import { makeStyles } from '@mui/styles'
+import { useEffect } from 'react'
+import { useRef } from 'react'
 
 const NumericFormatCustom = forwardRef(function NumericFormatCustom(props, ref) {
     const { onChange, ...other } = props
@@ -58,6 +60,19 @@ export default function TextInput({ id = '', name = '', value = '', inputBackgro
         value = ''
     }
 
+    const textFieldRef = useRef(null)
+
+    useEffect(() => {
+        const handleWheel = (e) => e.preventDefault()
+        textFieldRef.current.addEventListener('wheel', handleWheel)
+
+        if (textFieldRef) {
+            return () => {
+                textFieldRef.current?.removeEventListener('wheel', handleWheel)
+            }
+        }
+    }, [])
+
     return (
         <>
             <TextField
@@ -72,6 +87,7 @@ export default function TextInput({ id = '', name = '', value = '', inputBackgro
                 }}
                 variant="outlined"
                 className={'w-full ' + className}
+                ref={textFieldRef}
                 {...props}
             />
             {error && (
