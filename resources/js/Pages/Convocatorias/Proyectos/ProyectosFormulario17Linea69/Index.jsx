@@ -73,7 +73,7 @@ const Index = ({ auth, convocatoria, proyectos_formulario_17_linea_69, allowed_t
                                 <TableCell>
                                     {checkRole(auth_user, [1]) || !['1', '2', '4'].includes(convocatoria.fase) ? (
                                         <>
-                                            {convocatoria.esta_activa && proyecto?.modificable && ['3', '5'].includes(convocatoria.fase) ? (
+                                            {convocatoria.esta_activa && proyecto?.estado_evaluacion_proyecto?.requiere_subsanar && ['3', '5'].includes(convocatoria.fase) ? (
                                                 <>
                                                     <AlertMui severity="warning" className="!mb-1">
                                                         <small>Requiere subsanación</small>
