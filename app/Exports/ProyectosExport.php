@@ -59,7 +59,9 @@ class ProyectosExport implements FromCollection, WithHeadings, WithMapping, With
             $proyecto->radicado ? 'SI' : 'NO',
             $proyecto->participantes()->firstWhere('es_formulador', true) ? mb_strtoupper($proyecto->participantes()->firstWhere('es_formulador', true)->nombre) : 'Sin información registrada',
             $proyecto->evaluaciones->count(),
-            $proyecto->estadoEvaluacionProyecto
+            $proyecto->estadoEvaluacionProyecto,
+            $proyecto->finalizado_en_primera_fase ? 'SI' : 'NO',
+            $proyecto->finalizado_en_subsanacion ? 'SI' : 'NO'
         ];
 
         $this->setRedesConocimiento($proyecto, $informacion_celdas);
@@ -203,7 +205,9 @@ class ProyectosExport implements FromCollection, WithHeadings, WithMapping, With
             'Priorizado',
             'Autor(a) principal',
             '# Evaluaciones asignadas',
-            'Estado de la evaluación'
+            'Estado de la evaluación',
+            'Finalizado en primera fase',
+            'Finalizado en subsanación'
         ];
     }
 
