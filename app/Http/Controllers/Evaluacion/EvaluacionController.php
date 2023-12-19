@@ -286,18 +286,41 @@ class EvaluacionController extends Controller
             }
         }
 
-        if ($request->finalizado) {
-            $evaluacion->update([
-                'iniciado'    => false,
-                'finalizado'  => true,
-                'modificable' => false,
-            ]);
-        } else if ($request->modificar) {
-            $evaluacion->update([
-                'iniciado'    => true,
-                'finalizado'  => false,
-                'modificable' => true,
-            ]);
+        if ($convocatoria->fase == 4) {
+            if ($request->finalizado) {
+                $evaluacion->update([
+                    'iniciado'                      => false,
+                    'finalizado'                    => true,
+                    'modificable'                   => false,
+                    'finalizado_en_segunda_fase'    => true,
+
+                ]);
+
+                return back()->with('success', 'Se ha finalizado la evaluación correctamente.');
+            } else if ($request->modificar) {
+                $evaluacion->update([
+                    'iniciado'                      => true,
+                    'modificable'                   => true,
+                    'finalizado'                    => false,
+                    'finalizado_en_segunda_fase'    => false,
+                ]);
+
+                return back()->with('success', 'La evaluación puede ser modificada nuevamente.');
+            }
+        } else {
+            if ($request->finalizado) {
+                $evaluacion->update([
+                    'iniciado'    => false,
+                    'finalizado'  => true,
+                    'modificable' => false,
+                ]);
+            } else if ($request->modificar) {
+                $evaluacion->update([
+                    'iniciado'    => true,
+                    'finalizado'  => false,
+                    'modificable' => true,
+                ]);
+            }
         }
 
         if ($evaluacion->proyecto->evaluaciones()->where('evaluaciones.habilitado', true)->count() == $evaluacion->proyecto->evaluaciones()->where('evaluaciones.finalizado', true)->where('evaluaciones.habilitado', true)->count()) {
