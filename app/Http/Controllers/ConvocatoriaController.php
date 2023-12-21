@@ -429,7 +429,7 @@ class ConvocatoriaController extends Controller
             }
         } else if ($request->fase == 5) { // Finalizar convocatoria
             $convocatoria->proyectos()->update(['modificable' => false]);
-            $convocatoria->evaluaciones()->where('clausula_confidencialidad', true)->update(['modificable' => false, 'finalizado' => true, 'iniciado' => false]);
+            $convocatoria->evaluaciones()->update(['modificable' => false, 'finalizado' => true, 'iniciado' => false]);
         }
 
         // $convocatoria->evaluaciones()->where('estado', 'LIKE', 'Sin evaluar')->update(['habilitado' => false]);
