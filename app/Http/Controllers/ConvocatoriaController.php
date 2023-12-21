@@ -434,7 +434,7 @@ class ConvocatoriaController extends Controller
 
         // $convocatoria->evaluaciones()->where('estado', 'LIKE', 'Sin evaluar')->update(['habilitado' => false]);
 
-        // return back()->with('success', 'El recurso se ha actualizado correctamente.');
+        return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
 
     public function nuevosProyectosTaTp()
