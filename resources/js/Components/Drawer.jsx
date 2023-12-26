@@ -183,6 +183,25 @@ export default function MiniDrawer({ user, children }) {
                             <ListItemText primary="Mis proyectos SGPS" sx={{ opacity: open ? 1 : 0 }} />
                         </ListItemButton>
 
+                        {checkRole(user, [1, 5, 17, 18, 19]) && (
+                            <ListItemButton
+                                sx={{
+                                    borderRadius: '20px',
+                                    minHeight: 48,
+                                    justifyContent: open ? 'initial' : 'center',
+                                    px: 2.5,
+                                }}
+                                onClick={() => router.visit(route('proyectos.index', { resultados: true }))}>
+                                <ListItemIcon
+                                    sx={{
+                                        minWidth: 0,
+                                        mr: open ? 3 : 'auto',
+                                        justifyContent: 'center',
+                                    }}></ListItemIcon>
+                                <ListItemText primary="Resultados proyectos SGPS" sx={{ opacity: open ? 1 : 0 }} />
+                            </ListItemButton>
+                        )}
+
                         {checkRole(user, [1, 5, 11, 17, 18, 19, 33]) && (
                             <ListItemButton
                                 sx={{

@@ -200,8 +200,7 @@ class ProyectoFormulario11Linea83 extends Model
             ->orderBy('proyectos_formulario_11_linea_83.id', 'ASC')
             ->filterProyectoFormulario11Linea83(request()->only('search'))->paginate();
 
-        $proyectos_formulario_11_linea_83->load('proyecto');
-        $proyectos_formulario_11_linea_83->load('proyecto.evaluaciones');
+        $proyectos_formulario_11_linea_83->load('proyecto.evaluaciones', 'proyecto.tipoFormularioConvocatoria.tiposFormularioConvocatoria');
 
         return $proyectos_formulario_11_linea_83;
     }

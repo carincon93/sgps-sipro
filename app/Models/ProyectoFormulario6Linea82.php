@@ -296,13 +296,11 @@ class ProyectoFormulario6Linea82 extends Model
                     }
                 }
             )
-            ->with('proyecto.proyectoPresupuesto')
             ->distinct('proyectos_formulario_6_linea_82.id')
             ->orderBy('proyectos_formulario_6_linea_82.id', 'ASC')
             ->filterProyectoFormulario6Linea82(request()->only('search'))->paginate();
 
-        $proyectos_formulario_6_linea_82->load('proyecto');
-        $proyectos_formulario_6_linea_82->load('proyecto.evaluaciones');
+        $proyectos_formulario_6_linea_82->load('proyecto.evaluaciones', 'proyecto.tipoFormularioConvocatoria.tiposFormularioConvocatoria');
 
         return $proyectos_formulario_6_linea_82;
     }

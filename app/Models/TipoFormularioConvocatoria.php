@@ -96,12 +96,15 @@ class TipoFormularioConvocatoria extends Model
     }
 
     /**
-     * Relationship with Convocatoria
+     * Relationship with TipoFormularioConvocatoria
      *
      * @return object
      */
-    public function convocatorias()
+    public function tiposFormularioConvocatoria()
     {
-        return $this->belongsToMany(Convocatoria::class, 'convocatoria_tipos_formularios', 'tipo_formulario_convocatoria_id', 'convocatoria_id');
+        return $this->belongsToMany(Convocatoria::class, 'convocatoria_tipos_formularios', 'tipo_formulario_convocatoria_id', 'convocatoria_id')->withPivot([
+            'visible',
+            'mostrar_resultados'
+        ]);
     }
 }

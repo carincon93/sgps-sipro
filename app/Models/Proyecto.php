@@ -514,12 +514,12 @@ class Proyecto extends Model
      *
      * @return object
      */
-    public static function getProyectosPorRol()
+    public static function getProyectosPorRol($convocatoria_id)
     {
         /** @var \App\Models\User */
         $auth_user = Auth::user();
 
-        $proyectos = Proyecto::with(
+        $query = Proyecto::with(
             'proyectoFormulario1Linea65:id,titulo,fecha_inicio,fecha_finalizacion',
             'proyectoFormulario3Linea61:id,titulo,fecha_inicio,fecha_finalizacion',
             'proyectoFormulario4Linea70:id,tecnoacademia_id,fecha_inicio,fecha_finalizacion',
@@ -536,6 +536,7 @@ class Proyecto extends Model
             'proyectoFormulario16Linea65:id,titulo,fecha_inicio,fecha_finalizacion',
             'proyectoFormulario17Linea69:id,nodo_tecnoparque_id,fecha_inicio,fecha_finalizacion',
             'convocatoria',
+            'tipoFormularioConvocatoria.tiposFormularioConvocatoria',
         )->whereHas(
             'centroFormacion',
             function ($query) use ($auth_user) {
@@ -552,12 +553,14 @@ class Proyecto extends Model
                     $query->where('proyecto_participantes.user_id', $auth_user->id);
                 }
             }
-        )
-            ->distinct('proyectos.id')
-            ->orderBy('proyectos.id', 'DESC')
-            ->filterProyecto(request()->only('search'))
-            ->paginate();
-
+        );
+        if ($convocatoria_id) {
+            $query->where('proyectos.convocatoria_id', $convocatoria_id);
+        }
+        $query->distinct('proyectos.id');
+        $query->orderBy('proyectos.id', 'DESC');
+        $query->filterProyecto(request()->only('search'));
+        $proyectos = $query->paginate();
 
         $proyectos->load('evaluaciones');
 

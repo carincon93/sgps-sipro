@@ -282,7 +282,7 @@ class ProyectoFormulario4Linea70 extends Model
 
 
         // $proyectos_linea_70->load('proyecto.tecnoacademiaLineasTecnoacademia.tecnoacademia');
-        $proyectos_linea_70->load('proyecto.evaluaciones');
+        $proyectos_linea_70->load('proyecto.evaluaciones', 'proyecto.tipoFormularioConvocatoria.tiposFormularioConvocatoria');
 
         return $proyectos_linea_70;
     }

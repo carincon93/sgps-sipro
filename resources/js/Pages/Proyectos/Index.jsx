@@ -13,23 +13,30 @@ import TableMui from '@/Components/Table'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 
 import { checkRole } from '@/Utils'
-import { Head, Link, router, useForm } from '@inertiajs/react'
+import { Head, Link, router, useForm, usePage } from '@inertiajs/react'
 import { Divider, Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 import { useState } from 'react'
 
 import Form from './Form'
+import Label from '@/Components/Label'
+import Autocomplete from '@/Components/Autocomplete'
 
-const Index = ({ auth, proyectos, ods, proyectos_sin_autores }) => {
+const Index = ({ auth, proyectos, ods, proyectos_sin_autores, convocatorias }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
+    const { props: page_props } = usePage()
+
+    const resultados = page_props.ziggy.query.resultados
+    const convocatoria_id = page_props.ziggy.query.convocatoria_id
 
     const [dialog_status, setDialogStatus] = useState(false)
     const [dialog_proyectos_sin_autor, setDialogProyectosSinAutorStatus] = useState(proyectos_sin_autores.length > 0 && checkRole(auth_user, [1, 4, 5, 17, 18, 19]))
-    const [dialog_info_status, setDialogInfoStatus] = useState(true)
+    const [dialog_info_status, setDialogInfoStatus] = useState(!resultados)
     const [dialog_imagen_status, setDialogImagenStatus] = useState(false)
     const [method, setMethod] = useState('')
     const [proyecto, setProyecto] = useState(null)
     const [proyecto_to_destroy, setProyectooDestroy] = useState(null)
+    const [loading, setLoading] = useState(false)
 
     const form = useForm({
         _method: 'PUT',
@@ -118,18 +125,27 @@ const Index = ({ auth, proyectos, ods, proyectos_sin_autores }) => {
                         }
                     />
 
-                    <SearchBar className="mt-20" placeholder="Código SGPS del proyecto" />
+                    <SearchBar className="mt-20" placeholder="Código SGPS del proyecto" routeParams={'convocatoria_id=' + convocatoria_id + '&resultados=' + resultados} />
 
-                    <TableMui
-                        className="mt-16"
-                        rows={['Código', 'Título proyecto (Convocatoria)', 'Imagen', 'Nombre del proyecto', 'ODS', 'Estado (Evaluación)', 'Acciones']}
-                        sxCellThead={{ width: '320px' }}>
+                    <TableMui className="mt-16" rows={['Imagen', 'Código', 'Título proyecto', 'Estado (Evaluación)', 'Acciones']} sxCellThead={{ width: '320px' }}>
                         {proyectos.data.map((proyecto, i) => (
                             <TableRow key={i}>
+                                <TableCell>
+                                    <img src={proyecto.imagen ? '/storage/imagenes-proyectos/' + proyecto.imagen : '/storage/imagenes-proyectos/default-image.png'} width="100%" className="" />
+                                    {!resultados && (
+                                        <ButtonMui
+                                            className="!my-1 !text-left !normal-case w-full"
+                                            onClick={() => (form.reset(), setDialogImagenStatus(true), setMethod('PUT'), setProyecto(proyecto))}>
+                                            {proyecto.imagen ? 'Reemplazar' : 'Subir'} imagen
+                                        </ButtonMui>
+                                    )}
+                                </TableCell>
                                 <TableCell>
                                     {proyecto.codigo}
                                     <Divider />
                                     <small>Convocatoria {proyecto.convocatoria.year}</small>
+                                    <Divider />
+                                    <small>Formulario: {proyecto.tipo_formulario_convocatoria_id}</small>
                                 </TableCell>
                                 <TableCell>
                                     <p className="uppercase line-clamp-4">
@@ -166,85 +182,43 @@ const Index = ({ auth, proyectos, ods, proyectos_sin_autores }) => {
                                             : 'Sin información registrada'}
                                     </p>
                                 </TableCell>
-                                <TableCell>
-                                    <img src={proyecto.imagen ? '/storage/imagenes-proyectos/' + proyecto.imagen : '/storage/imagenes-proyectos/default-image.png'} width="100%" className="" />
-                                    <ButtonMui className="!my-1 !text-left !normal-case w-full" onClick={() => (form.reset(), setDialogImagenStatus(true), setMethod('PUT'), setProyecto(proyecto))}>
-                                        Subir imagen
-                                    </ButtonMui>
-                                </TableCell>
 
                                 <TableCell>
-                                    {proyecto.nuevo_titulo ? (
-                                        <p className="uppercase line-clamp-4">{proyecto.nuevo_titulo}</p>
+                                    <p className="mb-2 underline">
+                                        <strong>Convocatoria {proyecto.convocatoria.year}</strong>
+                                    </p>
+
+                                    {proyecto.tipo_formulario_convocatoria.tipos_formulario_convocatoria.find((item) => item.id == proyecto.convocatoria_id).pivot.mostrar_resultados ||
+                                    checkRole(auth_user, [1, 5, 17, 18, 19]) ? (
+                                        <AlertMui className="!leading-2">{proyecto?.estado_evaluacion_proyecto?.estado_evaluacion}</AlertMui>
                                     ) : (
-                                        <AlertMui severity="error" className="!text-xs !px-1">
-                                            Sin información registrada
+                                        <AlertMui className="!leading-4">
+                                            <Divider className="!my-1" />
+                                            Los resultados definitivos se publicarán próximamente.
                                         </AlertMui>
                                     )}
-                                </TableCell>
 
-                                <TableCell>
-                                    {ods
-                                        .filter((item) => proyecto?.ods?.includes(item.value))
-                                        .map((item) => item.label)
-                                        .join(', ')}
-
-                                    {proyecto?.ods == null && (
-                                        <AlertMui severity="error" className="!text-xs !px-1">
-                                            Sin información registrada
-                                        </AlertMui>
-                                    )}
-                                </TableCell>
-
-                                <TableCell>
-                                    {checkRole(auth_user, [1]) || !['1', '2', '4'].includes(proyecto.convocatoria.fase) ? (
+                                    {proyecto.convocatoria.esta_activa && proyecto?.estado_evaluacion_proyecto?.requiere_subsanar && ['3', '5'].includes(proyecto.convocatoria.fase) && (
                                         <>
-                                            {proyecto.convocatoria.esta_activa && proyecto?.estado_evaluacion_proyecto?.requiere_subsanar && ['3', '5'].includes(proyecto.convocatoria.fase) ? (
-                                                <>
-                                                    <AlertMui severity="warning" className="!mb-1">
-                                                        <small>Requiere subsanación</small>
-                                                    </AlertMui>
-                                                </>
-                                            ) : !proyecto.convocatoria.esta_activa ? (
-                                                <AlertMui className="!leading-4">
-                                                    <strong>Convocatoria {proyecto.convocatoria.year}</strong>
-                                                    <Divider className="!my-1" />
-                                                    {proyecto?.estado_evaluacion_proyecto?.estado_evaluacion}
-                                                </AlertMui>
-                                            ) : (
-                                                <AlertMui className="!leading-4">
-                                                    <strong>Convocatoria {proyecto.convocatoria.year}</strong>
-                                                    <Divider className="!my-1" />
-                                                    Los resultados definitivos se publicarán próximamente.
-                                                </AlertMui>
-                                            )}
-
-                                            {/* <AlertMui className="!leading-3">
-                                                <small>{proyecto?.estado_evaluacion_proyecto?.estado_evaluacion}</small>
-                                            </AlertMui> */}
-
-                                            {checkRole(auth_user, [1]) && (
-                                                <AlertMui className="!leading-3">
-                                                    {proyecto?.estado_evaluacion_proyecto?.estado_evaluacion}
-                                                    <Divider className="!my-2" />
-                                                    <div>Puntaje: {proyecto?.estado_evaluacion_proyecto?.puntaje_total}</div>
-                                                    <small>
-                                                        Número de recomendaciones: {proyecto?.estado_evaluacion_proyecto?.total_recomendaciones}
-                                                        <br />
-                                                        Evaluaciones: {proyecto?.estado_evaluacion_proyecto?.cantidad_evaluaciones} habilitada(s) /{' '}
-                                                        {proyecto?.estado_evaluacion_proyecto?.evaluaciones_finalizadas} finalizada(s)
-                                                    </small>
-                                                </AlertMui>
-                                            )}
+                                            <AlertMui severity="warning" className="!mb-1">
+                                                <small>Requiere subsanación</small>
+                                            </AlertMui>
                                         </>
-                                    ) : (
-                                        <AlertMui className="!leading-3">
-                                            <small>Aún no tiene permisos para ver el estado de evaluación de este proyecto.</small>
-                                        </AlertMui>
                                     )}
 
-                                    {checkRole(auth_user, [1]) ? (
+                                    {checkRole(auth_user, [1, 5, 17, 18, 19]) ? (
                                         <>
+                                            <AlertMui className="!leading-2">
+                                                <Divider className="!my-2" />
+                                                <div>Puntaje: {proyecto?.estado_evaluacion_proyecto?.puntaje_total}</div>
+                                                <small>
+                                                    Número de recomendaciones: {proyecto?.estado_evaluacion_proyecto?.total_recomendaciones}
+                                                    <br />
+                                                    Evaluaciones: {proyecto?.estado_evaluacion_proyecto?.cantidad_evaluaciones} habilitada(s) /{' '}
+                                                    {proyecto?.estado_evaluacion_proyecto?.evaluaciones_finalizadas} finalizada(s)
+                                                </small>
+                                            </AlertMui>
+
                                             {proyecto?.estado_evaluacion_proyecto?.alerta && (
                                                 <AlertMui severity="error" className="mt-4 !text-xs">
                                                     Importante: {proyecto?.estado_evaluacion_proyecto?.alerta}
@@ -257,9 +231,11 @@ const Index = ({ auth, proyectos, ods, proyectos_sin_autores }) => {
                                     <MenuMui text={<MoreVertIcon />}>
                                         {proyecto.id !== proyecto_to_destroy ? (
                                             <div>
-                                                <MenuItem onClick={() => (setDialogStatus(true), setMethod('PUT'), setProyecto(proyecto))}>
-                                                    Completar información para divulgación del proyecto
-                                                </MenuItem>
+                                                {!resultados && (
+                                                    <MenuItem onClick={() => (setDialogStatus(true), setMethod('PUT'), setProyecto(proyecto))}>
+                                                        Completar información para divulgación del proyecto
+                                                    </MenuItem>
+                                                )}
                                                 <MenuItem onClick={() => router.visit(route('convocatorias.proyectos.edit', [proyecto.convocatoria_id, proyecto.id]))}>Ir al proyecto</MenuItem>
 
                                                 {is_super_admin && (
@@ -302,7 +278,7 @@ const Index = ({ auth, proyectos, ods, proyectos_sin_autores }) => {
                         ))}
                     </TableMui>
 
-                    <PaginationMui links={proyectos.links} className="mt-8" />
+                    <PaginationMui links={proyectos.links} className="mt-8" route_params={'convocatoria_id=' + convocatoria_id + '&resultados=' + resultados} />
 
                     <DialogMui
                         open={dialog_info_status}
@@ -393,6 +369,34 @@ const Index = ({ auth, proyectos, ods, proyectos_sin_autores }) => {
                                     </div>
                                 </form>
                             </>
+                        }
+                    />
+
+                    <DialogMui
+                        open={!convocatoria_id}
+                        fullWidth={true}
+                        maxWidth="lg"
+                        blurEnabled={true}
+                        dialogContent={
+                            <form>
+                                <Grid container rowSpacing={6}>
+                                    <Grid item md={12}>
+                                        <Label value="Por favor seleccione una convocatoria" className="mb-4 font-black" required />
+                                        <Autocomplete
+                                            className="mb-4"
+                                            id="convocatoria_id"
+                                            options={convocatorias}
+                                            onChange={(event, newValue) => {
+                                                router.visit(route('proyectos.index', { resultados, resultados, convocatoria_id: newValue.value })), setLoading(true)
+                                            }}
+                                            label="Convocatoria"
+                                            required
+                                        />
+
+                                        {loading && <>Redireccionando...</>}
+                                    </Grid>
+                                </Grid>
+                            </form>
                         }
                     />
                 </Grid>

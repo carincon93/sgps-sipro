@@ -102,8 +102,17 @@ export default function Dashboard({ auth, roles_sistema }) {
                         Mis proyectos SGPS
                     </Link>
                 </Grid>
-                {/* {checkRole(auth_user, [1, 5, 11, 17, 18, 19, 33]) && ( */}
+
                 {checkRole(auth_user, [1, 5, 17, 18, 19]) && (
+                    <Grid item md={4}>
+                        <Link
+                            className="bg-white overflow-hidden rounded-lg px-6 py-2 hover:bg-app-800 hover:text-white h-[200px] shadow-md flex justify-around items-center flex-col"
+                            href={route('proyectos.index')}>
+                            Resultados proyectos SGPS
+                        </Link>
+                    </Grid>
+                )}
+                {checkRole(auth_user, [1, 5, 11, 17, 18, 19, 33]) && (
                     <Grid item md={4}>
                         <Link
                             className="bg-white overflow-hidden rounded-lg px-6 py-2 hover:bg-app-800 hover:text-white h-[200px] shadow-md flex justify-around items-center flex-col"

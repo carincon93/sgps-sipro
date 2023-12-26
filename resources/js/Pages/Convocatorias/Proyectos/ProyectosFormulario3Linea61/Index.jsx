@@ -69,38 +69,33 @@ const Index = ({ auth, convocatoria, proyectos_formulario_3_linea_61, allowed_to
                                     <p>{fecha_ejecucion}</p>
                                 </TableCell>
                                 <TableCell>
-                                    {checkRole(auth_user, [1]) || !['1', '2', '4'].includes(convocatoria.fase) ? (
-                                        <>
-                                            {convocatoria.esta_activa && proyecto?.estado_evaluacion_proyecto?.requiere_subsanar && ['3', '5'].includes(convocatoria.fase) ? (
-                                                <>
-                                                    <AlertMui severity="warning" className="!mb-1">
-                                                        <small>Requiere subsanación</small>
-                                                    </AlertMui>
-                                                </>
-                                            ) : (
-                                                <AlertMui className="!leading-4">Los resultados definitivos se publicarán próximamente.</AlertMui>
-                                            )}
-
-                                            {/* <AlertMui className="!leading-4">{proyecto?.estado_evaluacion_proyecto?.estado_evaluacion}</AlertMui> */}
-
-                                            {checkRole(auth_user, [1]) && (
-                                                <AlertMui className="!leading-4">
-                                                    <div>Puntaje: {proyecto?.estado_evaluacion_proyecto?.puntaje_total}</div>
-                                                    <small>
-                                                        Número de recomendaciones: {proyecto?.estado_evaluacion_proyecto?.total_recomendaciones}
-                                                        <br />
-                                                        Evaluaciones: {proyecto?.estado_evaluacion_proyecto?.cantidad_evaluaciones} habilitada(s) /{' '}
-                                                        {proyecto?.estado_evaluacion_proyecto?.evaluaciones_finalizadas} finalizada(s)
-                                                    </small>
-                                                </AlertMui>
-                                            )}
-                                        </>
+                                    {checkRole(auth_user, [1, 5, 17, 18, 19]) ? (
+                                        <AlertMui className="!leading-2">{proyecto?.estado_evaluacion_proyecto?.estado_evaluacion}</AlertMui>
                                     ) : (
-                                        <AlertMui className="!leading-4">Aún no tiene permisos para ver el estado de evaluación de este proyecto.</AlertMui>
+                                        <AlertMui className="!leading-4">Los resultados definitivos se publicarán próximamente.</AlertMui>
                                     )}
 
-                                    {checkRole(auth_user, [1]) ? (
+                                    {convocatoria.esta_activa && proyecto?.estado_evaluacion_proyecto?.requiere_subsanar && ['3', '5'].includes(convocatoria.fase) && (
                                         <>
+                                            <AlertMui severity="warning" className="!mb-1">
+                                                <small>Requiere subsanación</small>
+                                            </AlertMui>
+                                        </>
+                                    )}
+
+                                    {checkRole(auth_user, [1, 5, 17, 18, 19]) ? (
+                                        <>
+                                            <AlertMui className="!leading-2">
+                                                <Divider className="!my-2" />
+                                                <div>Puntaje: {proyecto?.estado_evaluacion_proyecto?.puntaje_total}</div>
+                                                <small>
+                                                    Número de recomendaciones: {proyecto?.estado_evaluacion_proyecto?.total_recomendaciones}
+                                                    <br />
+                                                    Evaluaciones: {proyecto?.estado_evaluacion_proyecto?.cantidad_evaluaciones} habilitada(s) /{' '}
+                                                    {proyecto?.estado_evaluacion_proyecto?.evaluaciones_finalizadas} finalizada(s)
+                                                </small>
+                                            </AlertMui>
+
                                             {proyecto?.estado_evaluacion_proyecto?.alerta && (
                                                 <AlertMui severity="error" className="mt-4 !text-xs">
                                                     Importante: {proyecto?.estado_evaluacion_proyecto?.alerta}

@@ -220,9 +220,7 @@ class ProyectoFormulario15Linea65 extends Model
             ->orderBy('proyectos_formulario_15_linea_65.id', 'ASC')
             ->filterProyectoFormulario15Linea65(request()->only('search'))->paginate();
 
-
-        $proyectos_formulario_15_linea_65->load('proyecto');
-        $proyectos_formulario_15_linea_65->load('proyecto.evaluaciones');
+        $proyectos_formulario_15_linea_65->load('proyecto.evaluaciones', 'proyecto.tipoFormularioConvocatoria.tiposFormularioConvocatoria');
 
         return $proyectos_formulario_15_linea_65;
     }

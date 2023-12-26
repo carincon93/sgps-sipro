@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Models;
 
@@ -208,9 +208,7 @@ class ProyectoFormulario3Linea61 extends Model
             ->orderBy('proyectos_formulario_3_linea_61.id', 'ASC')
             ->filterProyectoFormulario3Linea61(request()->only('search'))->paginate();
 
-
-        $proyectos_formulario_3_linea_61->load('proyecto');
-        $proyectos_formulario_3_linea_61->load('proyecto.evaluaciones');
+        $proyectos_formulario_3_linea_61->load('proyecto.evaluaciones', 'proyecto.tipoFormularioConvocatoria.tiposFormularioConvocatoria');
 
         return $proyectos_formulario_3_linea_61;
     }

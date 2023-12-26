@@ -33,7 +33,7 @@ class ProyectoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         /** @var \App\Models\User */
         $auth_user = Auth::user();
@@ -49,7 +49,8 @@ class ProyectoController extends Controller
         $proyectos_sin_autores = $query->get();
 
         return Inertia::render('Proyectos/Index', [
-            'proyectos'                 => Proyecto::getProyectosPorRol(),
+            'proyectos'                 => Proyecto::getProyectosPorRol(preg_replace('/[^0-9]/', '', $request->convocatoria_id)),
+            'convocatorias'             => SelectHelper::convocatorias(),
             'ods'                       => json_decode(Storage::get('json/ods.json'), true),
             'proyectos_sin_autores'     => $proyectos_sin_autores,
         ]);

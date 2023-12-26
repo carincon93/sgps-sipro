@@ -335,8 +335,7 @@ class ProyectoFormulario8Linea66 extends Model
             ->orderBy('proyectos_formulario_8_linea_66.id', 'ASC')
             ->filterProyectoFormulario8Linea66(request()->only('search'))->paginate();
 
-        $proyectos_formulario_8_linea_66->load('proyecto');
-        $proyectos_formulario_8_linea_66->load('proyecto.evaluaciones');
+        $proyectos_formulario_8_linea_66->load('proyecto.evaluaciones', 'proyecto.tipoFormularioConvocatoria.tiposFormularioConvocatoria');
 
         return $proyectos_formulario_8_linea_66;
     }

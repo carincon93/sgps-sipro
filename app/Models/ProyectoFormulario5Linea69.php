@@ -231,9 +231,8 @@ class ProyectoFormulario5Linea69 extends Model
             ->orderBy('proyectos_formulario_5_linea_69.id', 'ASC')
             ->filterProyectoFormulario5Linea69(request()->only('search'))->paginate();
 
-        $proyectos_formulario_5_linea_69->load('proyecto');
         $proyectos_formulario_5_linea_69->load('nodoTecnoparque');
-        $proyectos_formulario_5_linea_69->load('proyecto.evaluaciones');
+        $proyectos_formulario_5_linea_69->load('proyecto.evaluaciones', 'proyecto.tipoFormularioConvocatoria.tiposFormularioConvocatoria');
 
         return $proyectos_formulario_5_linea_69;
     }

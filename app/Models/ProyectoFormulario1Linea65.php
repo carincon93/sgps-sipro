@@ -254,8 +254,7 @@ class ProyectoFormulario1Linea65 extends Model
             ->filterProyectoFormulario1Linea65(request()->only('search'))->paginate();
 
 
-        $proyectos_formulario_1_linea_65->load('proyecto');
-        $proyectos_formulario_1_linea_65->load('proyecto.evaluaciones');
+        $proyectos_formulario_1_linea_65->load('proyecto.evaluaciones', 'proyecto.tipoFormularioConvocatoria.tiposFormularioConvocatoria');
 
         return $proyectos_formulario_1_linea_65;
     }

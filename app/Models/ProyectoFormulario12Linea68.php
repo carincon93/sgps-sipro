@@ -201,14 +201,12 @@ class ProyectoFormulario12Linea68 extends Model
             ->orderBy('proyectos_formulario_12_linea_68.id', 'ASC')
             ->filterProyectoFormulario12Linea68(request()->only('search'))->paginate();
 
-
-        $proyectos_formulario_12_linea_68->load('proyecto');
-        $proyectos_formulario_12_linea_68->load('proyecto.evaluaciones');
+        $proyectos_formulario_12_linea_68->load('proyecto.evaluaciones', 'proyecto.tipoFormularioConvocatoria.tiposFormularioConvocatoria');
 
         return $proyectos_formulario_12_linea_68;
     }
 
-        public function getMunicipiosInfluenciaAttribute($value)
+    public function getMunicipiosInfluenciaAttribute($value)
     {
         return json_decode($value);
     }

@@ -232,9 +232,8 @@ class ProyectoFormulario10Linea69 extends Model
             ->orderBy('proyectos_formulario_10_linea_69.id', 'ASC')
             ->filterProyectoFormulario10Linea69(request()->only('search'))->paginate();
 
-        $proyectos_formulario_10_linea_69->load('proyecto');
         $proyectos_formulario_10_linea_69->load('hubInnovacion');
-        $proyectos_formulario_10_linea_69->load('proyecto.evaluaciones');
+        $proyectos_formulario_10_linea_69->load('proyecto.evaluaciones', 'proyecto.tipoFormularioConvocatoria.tiposFormularioConvocatoria');
 
         return $proyectos_formulario_10_linea_69;
     }
@@ -268,5 +267,4 @@ class ProyectoFormulario10Linea69 extends Model
     {
         return json_decode($value);
     }
-
 }
