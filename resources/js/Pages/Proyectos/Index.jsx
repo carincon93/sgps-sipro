@@ -198,7 +198,7 @@ const Index = ({ auth, proyectos, ods, proyectos_sin_autores, convocatorias }) =
                                         </AlertMui>
                                     )}
 
-                                    {proyecto.convocatoria.esta_activa && proyecto?.estado_evaluacion_proyecto?.requiere_subsanar && ['3', '5'].includes(proyecto.convocatoria.fase) && (
+                                    {proyecto.convocatoria.esta_activa && proyecto?.estado_evaluacion_proyecto?.requiere_subsanar && ['3'].includes(proyecto.convocatoria.fase) && (
                                         <>
                                             <AlertMui severity="warning" className="!mb-1">
                                                 <small>Requiere subsanación</small>

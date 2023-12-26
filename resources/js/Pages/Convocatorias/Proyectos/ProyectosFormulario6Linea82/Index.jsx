@@ -76,7 +76,7 @@ const Index = ({ auth, convocatoria, proyectos_formulario_6_linea_82, allowed_to
                                         <AlertMui className="!leading-4">Los resultados definitivos se publicarán próximamente.</AlertMui>
                                     )}
 
-                                    {convocatoria.esta_activa && proyecto?.estado_evaluacion_proyecto?.requiere_subsanar && ['3', '5'].includes(convocatoria.fase) && (
+                                    {convocatoria.esta_activa && proyecto?.estado_evaluacion_proyecto?.requiere_subsanar && ['3'].includes(convocatoria.fase) && (
                                         <>
                                             <AlertMui severity="warning" className="!mb-1">
                                                 <small>Requiere subsanación</small>
