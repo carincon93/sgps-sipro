@@ -387,7 +387,7 @@ const Index = ({ auth, proyectos, ods, proyectos_sin_autores, convocatorias }) =
                                             id="convocatoria_id"
                                             options={convocatorias}
                                             onChange={(event, newValue) => {
-                                                router.visit(route('proyectos.index', { resultados, resultados, convocatoria_id: newValue.value })), setLoading(true)
+                                                router.visit(route('proyectos.index', { resultados: resultados, convocatoria_id: newValue.value })), setLoading(true)
                                             }}
                                             label="Convocatoria"
                                             required
