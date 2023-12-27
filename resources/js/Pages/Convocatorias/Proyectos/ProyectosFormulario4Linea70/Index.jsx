@@ -71,7 +71,8 @@ const Index = ({ auth, convocatoria, proyectos_formulario_4_linea_70, allowed_to
                                     <p>{fecha_ejecucion}</p>
                                 </TableCell>
                                 <TableCell>
-                                    {checkRole(auth_user, [1, 5, 17, 18, 19]) ? (
+                                    {proyecto.tipo_formulario_convocatoria.tipos_formulario_convocatoria.find((item) => item.id == proyecto.convocatoria_id).pivot.mostrar_resultados ||
+                                    checkRole(auth_user, [1, 5, 17, 18, 19]) ? (
                                         <AlertMui className="!leading-2">{proyecto?.estado_evaluacion_proyecto?.estado_evaluacion}</AlertMui>
                                     ) : (
                                         <AlertMui className="!leading-4">Los resultados definitivos se publicarán próximamente.</AlertMui>

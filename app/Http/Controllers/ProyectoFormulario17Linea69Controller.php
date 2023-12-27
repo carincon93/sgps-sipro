@@ -150,6 +150,7 @@ class ProyectoFormulario17Linea69Controller extends Controller
         $proyecto_formulario_17_linea_69->proyecto->centroFormacion;
         $proyecto_formulario_17_linea_69->proyecto->participantes;
         $proyecto_formulario_17_linea_69->proyecto->tipoFormularioConvocatoria->lineaProgramatica;
+        $proyecto_formulario_17_linea_69->proyecto->tipoFormularioConvocatoria->tiposFormularioConvocatoria;
 
         $proyecto_formulario_17_linea_69->mostrar_recomendaciones        = $proyecto_formulario_17_linea_69->proyecto->mostrar_recomendaciones;
         $proyecto_formulario_17_linea_69->mostrar_requiere_subsanacion   = $proyecto_formulario_17_linea_69->proyecto->mostrar_requiere_subsanacion;

@@ -41,6 +41,7 @@ class EntidadAliadaController extends Controller
         // $proyecto->load('evaluaciones.evaluacionProyectoFormulario4Linea70');
 
         $proyecto->tipoFormularioConvocatoria->lineaProgramatica;
+        $proyecto->tipoFormularioConvocatoria->tiposFormularioConvocatoria;
 
         $objetivo_especificos = $proyecto->causasDirectas()->with('objetivoEspecifico')->get()->pluck('objetivoEspecifico')->flatten()->filter();
 

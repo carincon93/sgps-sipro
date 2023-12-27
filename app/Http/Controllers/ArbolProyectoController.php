@@ -113,6 +113,7 @@ class ArbolProyectoController extends Controller
         // $proyecto->load('evaluaciones.evaluacionProyectoFormulario8Linea66');
 
         $proyecto->tipoFormularioConvocatoria->lineaProgramatica;
+        $proyecto->tipoFormularioConvocatoria->tiposFormularioConvocatoria;
         $proyecto->participantes;
 
         $proyecto_form_fields = [
@@ -526,6 +527,7 @@ class ArbolProyectoController extends Controller
         // $proyecto->load('evaluaciones.evaluacionProyectoFormulario8Linea66');
 
         $proyecto->tipoFormularioConvocatoria->lineaProgramatica;
+        $proyecto->tipoFormularioConvocatoria->tiposFormularioConvocatoria;
         $proyecto->participantes;
 
         $tipos_impacto          = json_decode(Storage::get('json/tipos-impacto.json'), true);

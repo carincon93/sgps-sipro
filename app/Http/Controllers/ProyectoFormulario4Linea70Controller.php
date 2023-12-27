@@ -164,6 +164,7 @@ class ProyectoFormulario4Linea70Controller extends Controller
         $proyecto_formulario_4_linea_70->proyecto->centroFormacion;
         $proyecto_formulario_4_linea_70->proyecto->participantes;
         $proyecto_formulario_4_linea_70->proyecto->tipoFormularioConvocatoria->lineaProgramatica;
+        $proyecto_formulario_4_linea_70->proyecto->tipoFormularioConvocatoria->tiposFormularioConvocatoria;
         $proyecto_formulario_4_linea_70->proyecto->tecnoacademiaLineasTecnoacademia;
 
         $proyecto_formulario_4_linea_70->mostrar_recomendaciones        = $proyecto_formulario_4_linea_70->proyecto->mostrar_recomendaciones;

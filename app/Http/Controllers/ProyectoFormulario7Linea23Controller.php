@@ -185,6 +185,7 @@ class ProyectoFormulario7Linea23Controller extends Controller
         $proyecto_formulario_7_linea_23->proyecto->programasFormacion;
         $proyecto_formulario_7_linea_23->proyecto->participantes;
         $proyecto_formulario_7_linea_23->proyecto->tipoFormularioConvocatoria->lineaProgramatica;
+        $proyecto_formulario_7_linea_23->proyecto->tipoFormularioConvocatoria->tiposFormularioConvocatoria;
         $proyecto_formulario_7_linea_23->proyecto->municipios;
         $proyecto_formulario_7_linea_23->proyecto->tecnoacademiaLineasTecnoacademia;
 

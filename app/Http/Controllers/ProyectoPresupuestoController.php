@@ -49,6 +49,7 @@ class ProyectoPresupuestoController extends Controller
         $proyecto->load('evaluaciones', 'proyectoRolesSennova.proyectoRolesEvaluaciones');
         $proyecto->load('proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
         $proyecto->tipoFormularioConvocatoria->lineaProgramatica;
+        $proyecto->tipoFormularioConvocatoria->tiposFormularioConvocatoria;
 
         return Inertia::render('Convocatorias/Proyectos/ProyectoPresupuesto/Index', [
             'convocatoria'                          =>  $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones', 'campos_convocatoria'),
@@ -293,6 +294,7 @@ class ProyectoPresupuestoController extends Controller
 
         $proyecto->load('evaluaciones', 'proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
         $proyecto->tipoFormularioConvocatoria->lineaProgramatica;
+        $proyecto->tipoFormularioConvocatoria->tiposFormularioConvocatoria;
 
         return Inertia::render('Convocatorias/Proyectos/Municipios/Index', [
             'convocatoria'                  =>  $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria'),

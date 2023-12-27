@@ -200,6 +200,7 @@ class ProyectoController extends Controller
         $proyecto->load('proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
 
         $proyecto->tipoFormularioConvocatoria->lineaProgramatica;
+        $proyecto->tipoFormularioConvocatoria->tiposFormularioConvocatoria;
         $proyecto->proyectoFormulario10Linea69;
 
         switch ($proyecto->tipo_formulario_convocatoria_id) {
@@ -653,6 +654,7 @@ class ProyectoController extends Controller
 
         $proyecto->precio_proyecto = $proyecto->precioProyecto;
         $proyecto->tipoFormularioConvocatoria->lineaProgramatica;
+        $proyecto->tipoFormularioConvocatoria->tiposFormularioConvocatoria;
 
         if ($proyecto->proyectoFormulario1Linea65()->exists()) {
             $proyecto->tipo_proyecto = $proyecto->proyectoFormulario1Linea65->tipo_proyecto;
@@ -831,6 +833,7 @@ class ProyectoController extends Controller
         $proyecto->programasFormacion;
         $proyecto->semillerosInvestigacion;
         $proyecto->tipoFormularioConvocatoria->lineaProgramatica;
+        $proyecto->tipoFormularioConvocatoria->tiposFormularioConvocatoria;
 
         if ($proyecto->tipo_formulario_convocatoria_id == 4) {
             return redirect()->route('convocatorias.proyectos-formulario-4-linea-70.edit', [$convocatoria, $proyecto])->with('error', 'Esta línea programática no requiere de participantes');
@@ -1271,6 +1274,7 @@ class ProyectoController extends Controller
 
         $proyecto->precio_proyecto = $proyecto->precioProyecto;
         $proyecto->tipoFormularioConvocatoria->lineaProgramatica;
+        $proyecto->tipoFormularioConvocatoria->tiposFormularioConvocatoria;
         $proyecto->proyectoFormulario7Linea23;
         $proyecto->proyectoFormulario9Linea23;
         $proyecto->proyectoFormulario8Linea66;

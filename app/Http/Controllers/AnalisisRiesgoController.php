@@ -39,6 +39,7 @@ class AnalisisRiesgoController extends Controller
         // $proyecto->load('evaluaciones.evaluacionProyectoFormulario4Linea70');
 
         $proyecto->tipoFormularioConvocatoria->lineaProgramatica;
+        $proyecto->tipoFormularioConvocatoria->tiposFormularioConvocatoria;
 
         return Inertia::render('Convocatorias/Proyectos/AnalisisRiesgo/Index', [
             'convocatoria'           => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones'),

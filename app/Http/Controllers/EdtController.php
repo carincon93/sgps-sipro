@@ -41,6 +41,7 @@ class EdtController extends Controller
         // $proyecto->load('evaluaciones.evaluacionProyectoFormulario4Linea70');
 
         $proyecto->tipoFormularioConvocatoria->lineaProgramatica;
+        $proyecto->tipoFormularioConvocatoria->tiposFormularioConvocatoria;
 
         /**
          * Si el proyecto es diferente de la línea programática 70 se prohibe el acceso. No requiere de edt

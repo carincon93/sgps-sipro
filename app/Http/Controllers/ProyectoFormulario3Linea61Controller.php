@@ -171,6 +171,8 @@ class ProyectoFormulario3Linea61Controller extends Controller
         $proyecto_formulario_3_linea_61->proyecto->programasFormacion;
         $proyecto_formulario_3_linea_61->proyecto->participantes;
         $proyecto_formulario_3_linea_61->proyecto->tipoFormularioConvocatoria->lineaProgramatica;
+        $proyecto_formulario_3_linea_61->proyecto->tipoFormularioConvocatoria->tiposFormularioConvocatoria;
+
         $proyecto_formulario_3_linea_61->proyecto->mesasSectoriales;
         $proyecto_formulario_3_linea_61->proyecto->tecnoacademiaLineasTecnoacademia;
 

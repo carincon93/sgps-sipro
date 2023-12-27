@@ -160,6 +160,7 @@ class ProyectoFormulario12Linea68Controller extends Controller
         $proyecto_formulario_12_linea_68->proyecto->programasFormacion;
         $proyecto_formulario_12_linea_68->proyecto->participantes;
         $proyecto_formulario_12_linea_68->proyecto->tipoFormularioConvocatoria->lineaProgramatica;
+        $proyecto_formulario_12_linea_68->proyecto->tipoFormularioConvocatoria->tiposFormularioConvocatoria;
 
         $proyecto_formulario_12_linea_68->mostrar_recomendaciones       = $proyecto_formulario_12_linea_68->proyecto->mostrar_recomendaciones;
         $proyecto_formulario_12_linea_68->mostrar_requiere_subsanacion  = $proyecto_formulario_12_linea_68->proyecto->mostrar_requiere_subsanacion;

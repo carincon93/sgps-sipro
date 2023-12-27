@@ -190,6 +190,7 @@ class ProyectoFormulario1Linea65Controller extends Controller
         $proyecto_formulario_1_linea_65->proyecto->redesConocimiento;
         $proyecto_formulario_1_linea_65->proyecto->tecnoacademiaLineasTecnoacademia;
         $proyecto_formulario_1_linea_65->proyecto->tipoFormularioConvocatoria->lineaProgramatica;
+        $proyecto_formulario_1_linea_65->proyecto->tipoFormularioConvocatoria->tiposFormularioConvocatoria;
 
         $proyecto_formulario_1_linea_65->mostrar_recomendaciones             = $proyecto_formulario_1_linea_65->proyecto->mostrar_recomendaciones;
         $proyecto_formulario_1_linea_65->mostrar_requiere_subsanacion        = $proyecto_formulario_1_linea_65->proyecto->mostrar_requiere_subsanacion;

@@ -54,6 +54,7 @@ class ArticulacionSennovaController extends Controller
         $proyecto->precio_proyecto = $proyecto->precioProyecto;
         $proyecto->participantes;
         $proyecto->tipoFormularioConvocatoria->lineaProgramatica;
+        $proyecto->tipoFormularioConvocatoria->tiposFormularioConvocatoria;
         $proyecto->gruposInvestigacion;
         $proyecto->lineasInvestigacion;
         $proyecto->semillerosInvestigacion;
