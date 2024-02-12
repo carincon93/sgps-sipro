@@ -102,14 +102,16 @@ class ConvocatoriaController extends Controller
 
         $convocatoria = Convocatoria::create($request->validated());
 
-        $convocatoria->tiposFormularioConvocatoria()->sync($request->tipos_formulario_convocatoria);
+        $tipos_formulario_convocatoria = TipoFormularioConvocatoria::select('id')->get()->pluck('id')->toArray();
+
+        $convocatoria->tiposFormularioConvocatoria()->sync($tipos_formulario_convocatoria);
 
         DB::select('SELECT public."crear_convocatoria_presupuesto"(' . $request->convocatoria_id . ',' . $convocatoria->id . ')');
         DB::select('SELECT public."crear_convocatoria_rol_sennova"(' . $request->convocatoria_id . ',' . $convocatoria->id . ')');
 
         $rubros_convocatoria_por_formulario     = ConvocatoriaPresupuesto::selectRaw('DISTINCT(tipo_formulario_convocatoria_id)')->where('convocatoria_id', $request->convocatoria_id)->pluck('tipo_formulario_convocatoria_id')->toArray();
 
-        $rubro_formulario_fuera_convocatoria    = array_diff($request->tipos_formulario_convocatoria, $rubros_convocatoria_por_formulario);
+        $rubro_formulario_fuera_convocatoria    = array_diff($tipos_formulario_convocatoria, $rubros_convocatoria_por_formulario);
 
         if (count($rubro_formulario_fuera_convocatoria) > 0) {
             foreach ($rubro_formulario_fuera_convocatoria as $value) {
@@ -132,7 +134,7 @@ class ConvocatoriaController extends Controller
 
         $roles_convocatoria_por_formulario = ConvocatoriaRolSennova::selectRaw('DISTINCT(tipo_formulario_convocatoria_id)')->where('convocatoria_id', $request->convocatoria_id)->pluck('tipo_formulario_convocatoria_id')->toArray();
 
-        $rol_formulario_fuera_convocatoria = array_diff($request->tipos_formulario_convocatoria, $roles_convocatoria_por_formulario);
+        $rol_formulario_fuera_convocatoria = array_diff($tipos_formulario_convocatoria, $roles_convocatoria_por_formulario);
 
         if (count($rol_formulario_fuera_convocatoria) > 0) {
             foreach ($rol_formulario_fuera_convocatoria as $value) {

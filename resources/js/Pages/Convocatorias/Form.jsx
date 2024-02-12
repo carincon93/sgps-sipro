@@ -64,7 +64,7 @@ const Form = ({ is_super_admin, method = '', convocatoria, convocatorias, tipos_
                     </Grid>
                     <Grid item md={6}>
                         {method == 'POST' ? (
-                            <div>Formulación</div>
+                            <div>Formulación (Seleccionada automáticamente)</div>
                         ) : (
                             <Autocomplete
                                 id="fase"
@@ -164,27 +164,31 @@ const Form = ({ is_super_admin, method = '', convocatoria, convocatorias, tipos_
                         />
                     </Grid> */}
 
-                    <Grid item md={6}>
-                        <Label required labelFor="formularios_visibles" className="mb-4" value="Seleccione los formularios que serán visibles para todos los usuarios" />
-                    </Grid>
-                    <Grid item md={6}>
-                        <FormGroup>
-                            {tipos_formulario_convocatoria.map((tipo_formulario_convocatoria, i) => (
-                                <FormControlLabel
-                                    key={i}
-                                    className="mb-10"
-                                    label={tipo_formulario_convocatoria.nombre}
-                                    control={
-                                        <Checkbox
-                                            checked={form.data.formularios_visibles?.includes(tipo_formulario_convocatoria.id)}
-                                            name={tipo_formulario_convocatoria.nombre}
-                                            onChange={() => handleCheckboxChange(tipo_formulario_convocatoria.id)}
+                    {convocatoria?.tipos_formulario_convocatoria && (
+                        <>
+                            <Grid item md={6}>
+                                <Label required labelFor="formularios_visibles" className="mb-4" value="Seleccione los formularios que serán visibles para todos los usuarios" />
+                            </Grid>
+                            <Grid item md={6}>
+                                <FormGroup>
+                                    {convocatoria?.tipos_formulario_convocatoria.map((tipo_formulario_convocatoria, i) => (
+                                        <FormControlLabel
+                                            key={i}
+                                            className="mb-10"
+                                            label={tipo_formulario_convocatoria.nombre}
+                                            control={
+                                                <Checkbox
+                                                    checked={form.data.formularios_visibles?.includes(tipo_formulario_convocatoria.id)}
+                                                    name={tipo_formulario_convocatoria.nombre}
+                                                    onChange={() => handleCheckboxChange(tipo_formulario_convocatoria.id)}
+                                                />
+                                            }
                                         />
-                                    }
-                                />
-                            ))}
-                        </FormGroup>
-                    </Grid>
+                                    ))}
+                                </FormGroup>
+                            </Grid>
+                        </>
+                    )}
 
                     <Grid item md={6}>
                         <Label required className="mb-4" labelFor="year" value="Año de ejecución de proyectos" />

@@ -38,7 +38,7 @@ class ConvocatoriaRequest extends FormRequest
         } else {
             return [
                 'descripcion'                       => ['required'],
-                'esta_activa'                       => ['required_if:tipo_convocatoria,1', 'nullable', 'boolean'],
+                // 'esta_activa'                       => ['required_if:tipo_convocatoria,1', 'nullable', 'boolean'],
                 'year'                              => ['required', 'integer', 'max:' . date('Y') + 2],
                 // 'fase'                              => ['required', 'integer'],
                 // 'tipos_formulario_convocatoria.*'   => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:tipos_formulario_convocatoria,id'],
