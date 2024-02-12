@@ -169,7 +169,7 @@ const Form = ({ is_super_admin, method = '', convocatoria, convocatorias, tipos_
                     </Grid>
                     <Grid item md={6}>
                         <FormGroup>
-                            {convocatoria?.tipos_formulario_convocatoria.map((tipo_formulario_convocatoria, i) => (
+                            {tipos_formulario_convocatoria.map((tipo_formulario_convocatoria, i) => (
                                 <FormControlLabel
                                     key={i}
                                     className="mb-10"
