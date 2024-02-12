@@ -483,10 +483,7 @@ export default function StepperMui({ auth_user, convocatoria, proyecto, evaluaci
                 </>
             )}
 
-            {(proyecto.evaluaciones.length > 0 && is_super_admin) ||
-            (proyecto.evaluaciones.length > 0 &&
-                ['3', '4', '5'].includes(convocatoria.fase) &&
-                proyecto.tipo_formulario_convocatoria.tipos_formulario_convocatoria.find((item) => item.id == proyecto.convocatoria_id).pivot.mostrar_resultados) ? (
+            {(proyecto.evaluaciones.length > 0 && is_super_admin) || (proyecto.evaluaciones.length > 0 && ['3', '4'].includes(convocatoria.fase)) ? (
                 <>
                     <ButtonMui className="!fixed bottom-10 z-[1200]" onClick={() => setDialogEvaluaciones2Status(true)} primary={true}>
                         <ChecklistIcon className="mr-2" />

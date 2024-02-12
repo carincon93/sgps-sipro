@@ -28,7 +28,7 @@ class ConvocatoriaRequest extends FormRequest
                 'descripcion'                       => ['required'],
                 'esta_activa'                       => ['required_if:tipo_convocatoria,1', 'nullable', 'boolean'],
                 'year'                              => ['required', 'integer', 'max:' . date('Y') + 2],
-                'fase'                              => ['required', 'integer'],
+                // 'fase'                              => ['required', 'integer'],
                 // 'tipos_formulario_convocatoria.*'   => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:tipos_formulario_convocatoria,id'],
                 'visible'                           => ['nullable', 'boolean'],
                 'permitir_nuevos_proyectos'         => ['nullable', 'boolean'],
@@ -40,7 +40,7 @@ class ConvocatoriaRequest extends FormRequest
                 'descripcion'                       => ['required'],
                 'esta_activa'                       => ['required_if:tipo_convocatoria,1', 'nullable', 'boolean'],
                 'year'                              => ['required', 'integer', 'max:' . date('Y') + 2],
-                'fase'                              => ['required', 'integer'],
+                // 'fase'                              => ['required', 'integer'],
                 // 'tipos_formulario_convocatoria.*'   => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:tipos_formulario_convocatoria,id'],
                 'visible'                           => ['nullable', 'boolean'],
                 'permitir_nuevos_proyectos'         => ['nullable', 'boolean'],
@@ -59,6 +59,10 @@ class ConvocatoriaRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
-        // 
+        if ($this->isMethod('POST')) {
+            $this->merge([
+                'fase' => 1,
+            ]);
+        }
     }
 }
