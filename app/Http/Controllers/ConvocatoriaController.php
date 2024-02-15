@@ -387,6 +387,8 @@ class ConvocatoriaController extends Controller
         //     $evaluacion->update(['estado' => $evaluacion->verificar_estado_evaluacion]);
         // }
 
+        $convocatoria->update(['fase' => $request->fase]);
+
         if ($request->fase == 1) { // Formulación
             $convocatoria->proyectos()->update(['finalizado' => false, 'modificable' => true]);
         } else if ($request->fase == 2) { // Primera evaluación
@@ -436,7 +438,7 @@ class ConvocatoriaController extends Controller
 
         // $convocatoria->evaluaciones()->where('estado', 'LIKE', 'Sin evaluar')->update(['habilitado' => false]);
 
-        return back()->with('success', 'El recurso se ha actualizado correctamente.');
+        // return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
 
     public function nuevosProyectosTaTp()

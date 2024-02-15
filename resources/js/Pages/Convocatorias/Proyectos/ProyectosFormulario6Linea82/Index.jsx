@@ -23,7 +23,6 @@ const Index = ({ auth, convocatoria, proyectos_formulario_6_linea_82, allowed_to
 
     const [proyecto_formulario_6_linea_82_to_destroy, setProyectoFormulario6Linea82ToDestroy] = useState(null)
 
-    console.log(proyectos_formulario_6_linea_82.data)
     return (
         <AuthenticatedLayout>
             <Head title="Lista de proyectos - Formulario 6 Línea 82" />
