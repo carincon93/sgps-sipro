@@ -25,7 +25,6 @@ const ConvocatoriaTopesRolesSennovaHubInnovacion = ({ auth, convocatoria, topes_
     const [tope_rol_sennova_hub_innovacion_to_destroy, setTopeRolSennovaHubInnovacionToDestroy] = useState(null)
     const [tope_rol_sennova_hub_innovacion, setTopeRolSennovaHubInnovacion] = useState(null)
 
-    console.log(topes_roles_sennova)
     return (
         <AuthenticatedLayout>
             <Head title={`Convocatoria ${convocatoria.year} - Topes Roles SENNOVA`} />

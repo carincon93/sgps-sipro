@@ -88,6 +88,7 @@ class EvaluacionController extends Controller
 
         $proyecto->finalizado  = true;
         $proyecto->modificable = false;
+        $proyecto->formulacion_fuera_convocatoria = false;
 
         $proyecto->save();
 
@@ -135,20 +136,19 @@ class EvaluacionController extends Controller
     {
         $this->authorize('update', [Evaluacion::class, $evaluacion]);
 
-        $evaluacion->habilitado  = $request->habilitado;
+        if ($request->finalizado && !$request->modificable) {
+            $evaluacion->update(['finalizado' => true, 'modificable' => false, 'habilitado' => $request->habilitado]);
 
-        if ($request->filled('modificable')) {
-            $evaluacion->proyecto()->update(['modificable' => false, 'finalizado' => true, 'mostrar_recomendaciones' => false]);
-            $evaluacion->modificable = $request->modificable;
-            $evaluacion->finalizado  = false;
-        } else {
-            $evaluacion->modificable = $request->modificable;
-            $evaluacion->finalizado  = true;
+            return back()->with('success', 'El recurso se ha actualizado correctamente.');
         }
+
+        if ($request->modificable) {
+            $evaluacion->proyecto()->update(['modificable' => false, 'formulacion_fuera_convocatoria' => false, 'finalizado' => true, 'mostrar_recomendaciones' => false]);
+            $evaluacion->update(['modificable' => true, 'finalizado' => false, 'habilitado' => $request->habilitado]);
+        }
+
         $evaluacion->evaluador()->associate($request->user_id);
         $evaluacion->proyecto()->associate($evaluacion->proyecto_id);
-
-        $evaluacion->save();
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }

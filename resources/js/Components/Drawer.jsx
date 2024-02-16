@@ -180,7 +180,7 @@ export default function MiniDrawer({ user, children }) {
                                     mr: open ? 3 : 'auto',
                                     justifyContent: 'center',
                                 }}></ListItemIcon>
-                            <ListItemText primary="Mis proyectos SGPS" sx={{ opacity: open ? 1 : 0 }} />
+                            <ListItemText primary="Histórico proyectos SGPS" sx={{ opacity: open ? 1 : 0 }} />
                         </ListItemButton>
 
                         <ListItemButton

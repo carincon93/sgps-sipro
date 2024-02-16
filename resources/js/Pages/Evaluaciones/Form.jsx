@@ -98,15 +98,17 @@ const Form = ({ method = '', setDialogStatus, evaluacion, evaluadores, proyectos
                                 </AlertMui>
                             </Grid>
 
-                            <Grid item md={12}>
-                                <Checkbox
-                                    name="finalizado"
-                                    checked={form.data.finalizado}
-                                    onChange={(e) => form.setData('finalizado', e.target.checked)}
-                                    error={form.errors.finalizado}
-                                    label="¿La evaluación está finalizada?"
-                                />
-                            </Grid>
+                            {!form.data.modificable && (
+                                <Grid item md={12}>
+                                    <Checkbox
+                                        name="finalizado"
+                                        checked={form.data.finalizado}
+                                        onChange={(e) => form.setData('finalizado', e.target.checked)}
+                                        error={form.errors.finalizado}
+                                        label="¿La evaluación está finalizada?"
+                                    />
+                                </Grid>
+                            )}
                         </Grid>
                         <div className="py-4 flex items-center justify-end">
                             <PrimaryButton disabled={form.processing || !form.isDirty} type="submit">

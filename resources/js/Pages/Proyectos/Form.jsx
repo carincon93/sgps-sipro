@@ -13,15 +13,15 @@ import { Grid, Paper } from '@mui/material'
 const Form = ({ method = '', setDialogStatus, proyecto, ods, proyectos, ...props }) => {
     const form = useForm({
         _method: method,
-        imagen: '',
-        nuevo_titulo: proyecto?.nuevo_titulo,
-        video: proyecto?.video,
-        ods: proyecto?.ods,
+        radicado: proyecto?.radicado,
+        modificable: proyecto?.modificable,
+        finalizado: proyecto?.finalizado,
+        formulacion_fuera_convocatoria: proyecto?.formulacion_fuera_convocatoria,
     })
 
     const submit = (e) => {
         e.preventDefault()
-        form.post(route('proyectos.update', [proyecto.id]), {
+        form.put(route('proyectos.update.actualizar-estado-proyecto', [proyecto.id]), {
             onSuccess: () => setDialogStatus(false),
             preserveScroll: true,
         })
@@ -30,7 +30,7 @@ const Form = ({ method = '', setDialogStatus, proyecto, ods, proyectos, ...props
     return (
         <Grid container spacing={2}>
             <Grid item md={4}>
-                <h1 className="font-black text-right text-white text-2xl mr-10">Modificar información del proyecto</h1>
+                <h1 className="font-black text-right text-white text-2xl mr-10">Modificar estado del proyecto</h1>
             </Grid>
 
             <Grid item md={8}>
@@ -38,48 +38,14 @@ const Form = ({ method = '', setDialogStatus, proyecto, ods, proyectos, ...props
                     <form onSubmit={submit}>
                         <Grid container rowSpacing={6}>
                             <Grid item md={12}>
-                                <Label required labelFor="nuevo_titulo" value="Nombre del proyecto" />
-
-                                <Textarea id="nuevo_titulo" value={form.data.nuevo_titulo} onChange={(e) => form.setData('nuevo_titulo', e.target.value)} required />
-                                <AlertMui className="mb-4">Utilice este campo para asignar un nombre "comercial" o llamativo a su proyecto</AlertMui>
-                            </Grid>
-                            <Grid item md={12}>
-                                <SelectMultiple
-                                    id="ods"
-                                    bdValues={form.data.ods}
-                                    options={ods}
-                                    onChange={(event, newValue) => {
-                                        const selected_values = newValue.map((option) => option.value)
-                                        form.setData((prevData) => ({
-                                            ...prevData,
-                                            ods: selected_values,
-                                        }))
-                                    }}
-                                    error={form.errors.ods}
-                                    label="Seleccione uno o varios ODS"
-                                    required
-                                />
-                                <AlertMui>
-                                    Aquí podra seleccionar uno o mas objetivos de desarrollo sostenible asociados con el proyecto SGPS. Esto apuntará a destacar la contribución de su proyecto a los
-                                    objetivos globales de sostenibilidad.{' '}
-                                    <a
-                                        className="underline"
-                                        href="https://nam10.safelinks.protection.outlook.com/?url=https%3A%2F%2Fwww.un.org%2Fsustainabledevelopment%2Fes%2Fobjetivos-de-desarrollo-sostenible%2F&data=05%7C01%7Cccvasquez%40sena.edu.co%7C7168b0f08eab4d96fdff08dbb60205bf%7Ccbc2c3812f2e4d9391d1506c9316ace7%7C0%7C0%7C638303892043633838%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=LyXn%2B9vskVi%2BoyiNe3lQiWjycr%2BbxWgwfbwCGe4xWCk%3D&reserved=0"
-                                        target="_blank">
-                                        Más información haciendo clic aquí.
-                                    </a>
-                                </AlertMui>
-                            </Grid>
-
-                            {/* <Grid item md={12}>
                                 <Checkbox
-                                    name="habilitado"
-                                    checked={form.data.habilitado}
-                                    onChange={(e) => form.setData('habilitado', e.target.checked)}
-                                    error={form.errors.habilitado}
-                                    label="¿La evaluación está habilitada?"
+                                    name="radicado"
+                                    checked={form.data.radicado}
+                                    onChange={(e) => form.setData('radicado', e.target.checked)}
+                                    error={form.errors.radicado}
+                                    label="¿El proyecto está radicado?"
                                 />
-                                <AlertMui>Nota: Una evaluación habilitada significa que el sistema la puede tomar para hacer el cálculo del promedio y asignar el estado del proyecto.</AlertMui>
+                                <AlertMui>Nota: Un proyecto radicado es aquel que puede pasar a fase de evaluación.</AlertMui>
                             </Grid>
 
                             <Grid item md={12}>
@@ -88,23 +54,42 @@ const Form = ({ method = '', setDialogStatus, proyecto, ods, proyectos, ...props
                                     checked={form.data.modificable}
                                     onChange={(e) => form.setData('modificable', e.target.checked)}
                                     error={form.errors.modificable}
-                                    label="¿La evaluación es modificable?"
+                                    label="¿El proyecto es modificable?"
                                 />
                                 <AlertMui>
-                                    Nota: Si la evaluación es modificable el evaluador podrá editar la información de la evaluación. Por otro lado el formulador NO podrá modicar la información del
-                                    proyecto mientras se está realizando una evaluación.
+                                    Nota: Si el proyecto es modificable el formulador podrá editar la información previamente cargada. Se recomienda revisar que no hayan evaluaciones en curso para no
+                                    causar discrepancias en el proceso.
                                 </AlertMui>
                             </Grid>
 
                             <Grid item md={12}>
                                 <Checkbox
-                                    name="finalizado"
-                                    checked={form.data.finalizado}
-                                    onChange={(e) => form.setData('finalizado', e.target.checked)}
-                                    error={form.errors.finalizado}
-                                    label="¿La evaluación está finalizada?"
+                                    name="formulacion_fuera_convocatoria"
+                                    checked={form.data.formulacion_fuera_convocatoria}
+                                    onChange={(e) => form.setData('formulacion_fuera_convocatoria', e.target.checked)}
+                                    error={form.errors.formulacion_fuera_convocatoria}
+                                    label="¿El proyecto se está formulando por fuera de las fechas de la convocatoria oficial?"
                                 />
-                            </Grid> */}
+
+                                <AlertMui>Nota: Habilita el proyecto para que el formulador pueda seguir cargando información aún si la convocatoria oficial ha sido finalizada.</AlertMui>
+                            </Grid>
+
+                            {!form.data.modificable && !form.data.formulacion_fuera_convocatoria && (
+                                <Grid item md={12}>
+                                    <Checkbox
+                                        name="finalizado"
+                                        checked={form.data.finalizado}
+                                        onChange={(e) => form.setData('finalizado', e.target.checked)}
+                                        error={form.errors.finalizado}
+                                        label="¿El proyecto está finalizado por el proponente?"
+                                    />
+                                    {proyecto.finalizado_en_primera_fase && (
+                                        <span className="block text-xs bg-slate-400 p-2 text-white mb-4">✅ El proyecto ha sido finalizado en primera fase (Formulación)</span>
+                                    )}
+
+                                    {proyecto.finalizado_en_subsanación && <span className="block text-xs bg-slate-400 p-2 text-white">✅ El proyecto ha sido finalizado en fase de subsanación</span>}
+                                </Grid>
+                            )}
                         </Grid>
                         <div className="py-4 flex items-center justify-end">
                             <PrimaryButton disabled={form.processing || !form.isDirty} type="submit">

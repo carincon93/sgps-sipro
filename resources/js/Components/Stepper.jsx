@@ -22,7 +22,7 @@ import SettingsIcon from '@mui/icons-material/Settings'
 import SouthOutlinedIcon from '@mui/icons-material/SouthOutlined'
 import VideoLabelIcon from '@mui/icons-material/VideoLabel'
 
-import { Link, useForm } from '@inertiajs/react'
+import { Link, useForm, usePage } from '@inertiajs/react'
 
 import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector'
 import FileTypeIcon from './FileTypeIcon'
@@ -223,6 +223,9 @@ export default function StepperMui({ auth_user, convocatoria, proyecto, evaluaci
     const [dialog_respuesta_evaluador_status, setDialogRespuestaFormuladorStatus] = useState(false)
     const [respuesta_evaluador, setRespuestaFormulador] = useState(null)
 
+    const { props: page_props } = usePage()
+    const evaluacion_id = page_props.ziggy.query.evaluacion_id
+
     const isActive =
         route().current('convocatorias.proyectos-formulario-3-linea-61.edit') ||
         route().current('convocatorias.proyectos-formulario-7-linea-23.edit') ||
@@ -265,7 +268,7 @@ export default function StepperMui({ auth_user, convocatoria, proyecto, evaluaci
 
     return (
         <>
-            {is_super_admin && (
+            {/* {is_super_admin && (
                 <>
                     <ButtonMui className="!fixed bottom-0 z-[1200]" onClick={() => setDialogEvaluacionesStatus(true)} primary={true}>
                         <ChecklistIcon className="mr-2" />
@@ -481,7 +484,7 @@ export default function StepperMui({ auth_user, convocatoria, proyecto, evaluaci
                         }
                     />
                 </>
-            )}
+            )} */}
 
             {(proyecto.evaluaciones.length > 0 && is_super_admin) || (proyecto.evaluaciones.length > 0 && ['3', '4'].includes(convocatoria.fase)) ? (
                 <>
@@ -752,9 +755,9 @@ export default function StepperMui({ auth_user, convocatoria, proyecto, evaluaci
                 </>
             ) : null}
 
-            {evaluacion.length > 0 && (
+            {evaluacion.length > 0 ? (
                 <>
-                    <ButtonMui className="!fixed bottom-20 z-[1200] !bg-red-500" onClick={() => setDialogEvaluacionStatus(true)} primary={true}>
+                    <ButtonMui className="!fixed bottom-20 z-[1200] !bg-gray-500" onClick={() => setDialogEvaluacionStatus(true)} primary={true}>
                         <ChecklistIcon className="mr-2" />
                         Evaluar
                     </ButtonMui>
@@ -930,7 +933,9 @@ export default function StepperMui({ auth_user, convocatoria, proyecto, evaluaci
                                         ) : null}
                                     </>
                                 ) : (
-                                    <AlertMui severity="error">No se ha definido el formulario de evaluación.</AlertMui>
+                                    <AlertMui severity="error">
+                                        El activador de la línea no ha generado los campos de la evaluación. Por favor comuníquese con la persona respectiva según su línea programática.
+                                    </AlertMui>
                                 )}
                             </>
                         }
@@ -954,7 +959,14 @@ export default function StepperMui({ auth_user, convocatoria, proyecto, evaluaci
                         }
                     />
                 </>
+            ) : (
+                evaluacion_id && (
+                    <AlertMui className="!fixed bottom-20 z-[1200]" error={true}>
+                        El activador de la línea no ha generado los campos de la evaluación. Por favor comuníquese con la persona respectiva según su línea programática.
+                    </AlertMui>
+                )
             )}
+
             <DialogMui
                 fullWidth={true}
                 maxWidth="lg"

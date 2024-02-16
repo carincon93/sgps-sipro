@@ -21,8 +21,6 @@ const Form = ({ method = '', setDialogStatus, tecnoacademia, modalidades, centro
         foco: tecnoacademia?.foco,
     })
 
-    console.log(tecnoacademia)
-
     const submit = (e) => {
         e.preventDefault()
         method == 'POST'

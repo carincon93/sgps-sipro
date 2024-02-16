@@ -47,8 +47,6 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
             '',
     })
 
-    console.log(entidad_aliada)
-
     const soporte_convenio_url = entidad_aliada?.entidad_aliada_linea69 ? entidad_aliada.entidad_aliada_linea69.soporte_convenio : entidad_aliada?.entidad_aliada_linea70?.soporte_convenio
 
     const submit = (e) => {

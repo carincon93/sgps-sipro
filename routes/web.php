@@ -815,6 +815,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('proyectos/{proyecto}/descargar-archivo/{archivo_id}', [ProyectoController::class, 'downloadFileSharepoint'])->name('proyectos.descargar-archivo');
     Route::put('proyectos/{proyecto}/editar', [ProyectoController::class, 'update'])->name('proyectos.update');
     Route::delete('convocatorias/{convocatoria}/proyectos/{proyecto}', [ProyectoController::class, 'destroy'])->name('convocatorias.proyectos.destroy');
+    Route::put('proyectos/{proyecto}/actualizar-estado-proyecto', [ProyectoController::class, 'udpdateEstadoProyecto'])->name('proyectos.update.actualizar-estado-proyecto');
     Route::post('proyectos/actualizar-estados-proyectos', [ProyectoController::class, 'udpdateEstadosProyectos'])->name('proyectos.update.actualizar-estados-proyectos');
     Route::post('proyectos/actualizar-estados-todos-proyectos', [ProyectoController::class, 'actualizarEstadosTodosProyectos'])->name('proyectos.update.actualizar-estados-todos-proyectos');
 
@@ -822,7 +823,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
      * Evaluaciones
      *
      */
-
     Route::put('convocatorias/{convocatoria}/evaluaciones/{evaluacion}/proyecto-rol-sennova/{proyecto_rol_sennova}', [ProyectoRolSennovaController::class, 'updateEvaluacion'])->name('convocatorias.evaluaciones.proyecto-rol-sennova.update');
     Route::put('convocatorias/{convocatoria}/evaluaciones/{evaluacion}/presupuesto', [ProyectoPresupuestoController::class, 'updatedProyectoPresupuestoEvaluacion'])->name('convocatorias.evaluaciones.proyecto-presupuesto.guardar-evaluacion');
     Route::put('convocatorias/{convocatoria}/evaluaciones/{evaluacion}/presupuesto/{presupuesto}', [ProyectoPresupuestoController::class, 'updateEvaluacion'])->name('convocatorias.evaluaciones.presupuesto.update');

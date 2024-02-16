@@ -432,7 +432,7 @@ class ConvocatoriaController extends Controller
                 }
             }
         } else if ($request->fase == 5) { // Finalizar convocatoria
-            $convocatoria->proyectos()->update(['modificable' => false]);
+            $convocatoria->proyectos()->update(['modificable' => false, 'finalizado' => true]);
             $convocatoria->evaluaciones()->update(['modificable' => false, 'finalizado' => true, 'iniciado' => false]);
         }
 

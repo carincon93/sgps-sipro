@@ -736,18 +736,19 @@ class ProyectoController extends Controller
         if ($convocatoria->fase == 3) {
             if ($request->finalizado) {
                 $proyecto->update([
-                    'modificable'               => false,
-                    'finalizado'                => true,
-                    'finalizado_en_subsanacion' => true,
+                    'modificable'                       => false,
+                    'formulacion_fuera_convocatoria'    => false,
+                    'finalizado'                        => true,
+                    'finalizado_en_subsanacion'         => true,
 
                 ]);
 
                 return back()->with('success', 'Se ha finalizado el proyecto correctamente.');
             } else if ($request->modificar) {
                 $proyecto->update([
-                    'modificable'               => true,
-                    'finalizado'                => false,
-                    'finalizado_en_subsanacion' => false,
+                    'modificable'                       => true,
+                    'finalizado'                        => false,
+                    'finalizado_en_subsanacion'         => false,
 
                 ]);
 
@@ -757,15 +758,16 @@ class ProyectoController extends Controller
 
         if ($request->finalizado) {
             $proyecto->update([
-                'modificable' => false,
-                'finalizado'  => true,
+                'modificable'                           => false,
+                'formulacion_fuera_convocatoria'        => false,
+                'finalizado'                            => true,
             ]);
 
             return back()->with('success', 'Se ha finalizado el proyecto correctamente.');
         } else if ($request->modificar) {
             $proyecto->update([
-                'modificable' => true,
-                'finalizado'  => false,
+                'modificable'                           => true,
+                'finalizado'                            => false,
             ]);
 
             return back()->with('success', 'El proyecto puede ser modificado nuevamente.');
@@ -1155,6 +1157,29 @@ class ProyectoController extends Controller
         $evaluacion->update(
             ['evaluacion_id' => $evaluacion->id, 'replicas' => $request->replicas],
         );
+
+        return back()->with('success', 'El recurso se ha actualizado correctamente.');
+    }
+
+    /**
+     * udpdateEstadoProyecto
+     *
+     * @param  mixed $request
+     * @return void
+     */
+    public function udpdateEstadoProyecto(Request $request, Proyecto $proyecto)
+    {
+        if ($request->finalizado && !$request->modificable && !$request->formulacion_fuera_convocatoria) {
+            $proyecto->update(['finalizado' => true, 'modificable' => false, 'formulacion_fuera_convocatoria' => false, 'radicado' => $request->radicado]);
+
+            return back()->with('success', 'El recurso se ha actualizado correctamente.');
+        }
+
+        if ($request->formulacion_fuera_convocatoria) {
+            $proyecto->update(['modificable' => true, 'finalizado' => false, 'formulacion_fuera_convocatoria' => true, 'radicado' => $request->radicado]);
+        } else if ($request->modificable) {
+            $proyecto->update(['modificable' => true, 'finalizado' => false, 'radicado' => $request->radicado]);
+        }
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }

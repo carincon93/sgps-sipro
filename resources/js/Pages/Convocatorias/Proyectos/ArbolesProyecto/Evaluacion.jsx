@@ -9,7 +9,6 @@ import { checkRole } from '@/Utils'
 import { useForm } from '@inertiajs/react'
 
 const Evaluacion = ({ auth_user, proyecto, evaluacion }) => {
-    console.log(evaluacion)
     const is_super_admin = checkRole(auth_user, [1])
 
     const form_evaluacion_estrategia_regional = useForm({

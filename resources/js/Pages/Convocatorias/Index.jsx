@@ -50,6 +50,7 @@ export default function Dashboard({ auth, convocatorias }) {
                                     <MenuMui
                                         className="!min-w-0 !absolute right-2 z-10 opacity-0 child-actions !bg-transparent"
                                         text={<MoreVertOutlinedIcon className="text-white hover:text-black" />}>
+                                        
                                         <MenuItem onClick={() => router.visit(route('convocatorias.edit', convocatoria.id))} disabled={!is_super_admin} className={!is_super_admin ? 'hidden' : ''}>
                                             Editar convocatoria
                                         </MenuItem>

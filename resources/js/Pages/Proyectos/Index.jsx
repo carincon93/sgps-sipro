@@ -18,6 +18,7 @@ import { Divider, Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 import { useState } from 'react'
 
 import Form from './Form'
+import FormOds from './FormOds'
 import Label from '@/Components/Label'
 import Autocomplete from '@/Components/Autocomplete'
 
@@ -30,8 +31,9 @@ const Index = ({ auth, proyectos, ods, proyectos_sin_autores, convocatorias }) =
     const convocatoria_id = page_props.ziggy.query.convocatoria_id
 
     const [dialog_status, setDialogStatus] = useState(false)
+    const [dialog_estado_proyecto_status, setDialogEstadoProyectoStatus] = useState(false)
     const [dialog_proyectos_sin_autor, setDialogProyectosSinAutorStatus] = useState(proyectos_sin_autores.length > 0 && checkRole(auth_user, [1, 4, 5, 17, 18, 19]))
-    const [dialog_info_status, setDialogInfoStatus] = useState(!resultados)
+    const [dialog_info_status, setDialogInfoStatus] = useState(convocatoria_id)
     const [dialog_imagen_status, setDialogImagenStatus] = useState(false)
     const [method, setMethod] = useState('')
     const [proyecto, setProyecto] = useState(null)
@@ -217,6 +219,11 @@ const Index = ({ auth, proyectos, ods, proyectos_sin_autores, convocatorias }) =
                                                     Evaluaciones: {proyecto?.estado_evaluacion_proyecto?.cantidad_evaluaciones} habilitada(s) /{' '}
                                                     {proyecto?.estado_evaluacion_proyecto?.evaluaciones_finalizadas} finalizada(s)
                                                 </small>
+
+                                                <Divider className="!my-2" />
+
+                                                {proyecto?.finalizado && <small>✅ El proyecto está finalizado</small>}
+                                                {proyecto?.modificable || proyecto?.formulacion_fuera_convocatoria ? <small>⚠️ El proyecto es modificable</small> : null}
                                             </AlertMui>
 
                                             {proyecto?.estado_evaluacion_proyecto?.alerta && (
@@ -231,16 +238,20 @@ const Index = ({ auth, proyectos, ods, proyectos_sin_autores, convocatorias }) =
                                     <MenuMui text={<MoreVertIcon />}>
                                         {proyecto.id !== proyecto_to_destroy ? (
                                             <div>
+                                                <MenuItem onClick={() => router.visit(route('convocatorias.proyectos.edit', [proyecto.convocatoria_id, proyecto.id]))}>Visualizar proyecto</MenuItem>
+
                                                 {!resultados && (
                                                     <MenuItem onClick={() => (setDialogStatus(true), setMethod('PUT'), setProyecto(proyecto))}>
                                                         Completar información para divulgación del proyecto
                                                     </MenuItem>
                                                 )}
-                                                <MenuItem onClick={() => router.visit(route('convocatorias.proyectos.edit', [proyecto.convocatoria_id, proyecto.id]))}>Ir al proyecto</MenuItem>
 
                                                 {is_super_admin && (
                                                     <>
                                                         <Divider />
+                                                        <MenuItem onClick={() => (setDialogEstadoProyectoStatus(true), setMethod('PUT'), setProyecto(proyecto))} className="!mb-4">
+                                                            Editar estados
+                                                        </MenuItem>
                                                         <MenuItem
                                                             onClick={() => {
                                                                 setProyectooDestroy(proyecto.id)
@@ -337,7 +348,15 @@ const Index = ({ auth, proyectos, ods, proyectos_sin_autores, convocatorias }) =
                         fullWidth={true}
                         maxWidth="lg"
                         blurEnabled={true}
-                        dialogContent={<Form is_super_admin={is_super_admin} setDialogStatus={setDialogStatus} method={method} proyecto={proyecto} ods={ods} />}
+                        dialogContent={<FormOds is_super_admin={is_super_admin} setDialogStatus={setDialogStatus} method={method} proyecto={proyecto} ods={ods} />}
+                    />
+
+                    <DialogMui
+                        open={dialog_estado_proyecto_status}
+                        fullWidth={true}
+                        maxWidth="lg"
+                        blurEnabled={true}
+                        dialogContent={<Form is_super_admin={is_super_admin} setDialogStatus={setDialogEstadoProyectoStatus} method={method} proyecto={proyecto} />}
                     />
 
                     <DialogMui

@@ -75,7 +75,6 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
     useEffect(() => {
         if (form.data.convocatoria_presupuesto_id) {
             if (form.data.convocatoria_presupuesto_id.length > 1) {
-                console.log(array_usos_presupuestales.filter((item) => form.data.convocatoria_presupuesto_id?.includes(item.value)))
                 setSameValuesRequiereEstudioMercado(
                     array_usos_presupuestales
                         .filter((item) => form.data.convocatoria_presupuesto_id?.includes(item.value))

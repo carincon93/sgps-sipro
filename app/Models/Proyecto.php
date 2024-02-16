@@ -49,8 +49,10 @@ class Proyecto extends Model
         'video',
         'nuevo_titulo',
         'ods',
+        'radicado',
         'finalizado_en_primera_fase',
-        'finalizado_en_subsanacion'
+        'finalizado_en_subsanacion',
+        'formulacion_fuera_convocatoria'
     ];
 
     /**

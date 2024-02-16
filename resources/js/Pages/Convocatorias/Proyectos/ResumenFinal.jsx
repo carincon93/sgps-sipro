@@ -51,7 +51,7 @@ const ResumenFinal = ({
             </Grid>
 
             <Grid item md={12} className="mt-10">
-                {convocatoria.esta_activa || checkRole(auth_user, [1, 5, 17, 18, 19, 20]) ? (
+                {convocatoria.esta_activa || proyecto?.formulacion_fuera_convocatoria || checkRole(auth_user, [1, 5, 17, 18, 19, 20]) ? (
                     <>
                         {checkRole(auth_user, [4]) && (
                             <AlertMui className="mb-10">
@@ -88,7 +88,8 @@ const ResumenFinal = ({
                             </AlertMui>
                         )}
 
-                        {['1', '3'].includes(convocatoria.fase) && convocatoria.esta_activa && proyecto.finalizado == false && any_validation_is_false && evaluacion_id == null ? (
+                        {(proyecto?.formulacion_fuera_convocatoria && any_validation_is_false && evaluacion_id == null) ||
+                        ([('1', '3')].includes(convocatoria.fase) && convocatoria.esta_activa && proyecto.finalizado == false && any_validation_is_false && evaluacion_id == null) ? (
                             <AlertMui severity="error">
                                 <p>
                                     <strong>La información del proyecto está incompleta. Para poder finalizar el proyecto debe completar / corregir los siguientes ítems:</strong>
@@ -186,53 +187,51 @@ const ResumenFinal = ({
                                     {validaciones?.topes_presupuestales_formulario7 != null && <li>{validaciones.topes_presupuestales_formulario7}</li>}
                                 </ul>
                             </AlertMui>
-                        ) : (
-                            <>
-                                {['1', '3'].includes(convocatoria.fase) && convocatoria.esta_activa && evaluacion_id == null && (
-                                    <AlertMui>
-                                        <strong className="block mb-8">El proyecto ha sido diligenciado correctamente.</strong>
-                                        {proyecto?.finalizado
-                                            ? 'Si desea seguir modificando el proyecto haga clic en la casilla "Modificar"'
-                                            : 'Por favor habilite la casilla para confirmar que ha finalizado el proyecto'}
-                                        <br />
+                        ) : (checkRole(auth_user, [1])) || (proyecto?.formulacion_fuera_convocatoria && evaluacion_id == null) || ([('1', '3')].includes(convocatoria.fase) && convocatoria.esta_activa && evaluacion_id == null) ? (
+                            <AlertMui>
+                                <strong className="block mb-8">El proyecto ha sido diligenciado correctamente.</strong>
+                                {proyecto?.finalizado
+                                    ? 'Si desea seguir modificando el proyecto haga clic en la casilla "Modificar"'
+                                    : 'Por favor habilite la casilla para confirmar que ha finalizado el proyecto'}
+                                <br />
 
-                                        <Checkbox
-                                            name="modificar_proyecto"
-                                            className="mt-3"
-                                            checked={!proyecto.finalizado}
-                                            onChange={(e) =>
-                                                router.put(
-                                                    route('convocatorias.proyectos.finalizar', [convocatoria.id, proyecto.id]),
-                                                    {
-                                                        modificar: e.target.checked,
-                                                    },
-                                                    {
-                                                        preserveScroll: true,
-                                                    },
-                                                )
-                                            }
-                                            label="Modificar proyecto"
-                                        />
-                                        <Checkbox
-                                            name="finalizar_proyecto"
-                                            className="mt-3"
-                                            checked={proyecto.finalizado}
-                                            onChange={(e) =>
-                                                router.put(
-                                                    route('convocatorias.proyectos.finalizar', [convocatoria.id, proyecto.id]),
-                                                    {
-                                                        finalizado: e.target.checked,
-                                                    },
-                                                    {
-                                                        preserveScroll: true,
-                                                    },
-                                                )
-                                            }
-                                            label="Finalizar proyecto"
-                                        />
-                                    </AlertMui>
-                                )}
-                            </>
+                                <Checkbox
+                                    name="modificar_proyecto"
+                                    className="mt-3"
+                                    checked={!proyecto.finalizado}
+                                    onChange={(e) =>
+                                        router.put(
+                                            route('convocatorias.proyectos.finalizar', [convocatoria.id, proyecto.id]),
+                                            {
+                                                modificar: e.target.checked,
+                                            },
+                                            {
+                                                preserveScroll: true,
+                                            },
+                                        )
+                                    }
+                                    label="Modificar proyecto"
+                                />
+                                <Checkbox
+                                    name="finalizar_proyecto"
+                                    className="mt-3"
+                                    checked={proyecto.finalizado}
+                                    onChange={(e) =>
+                                        router.put(
+                                            route('convocatorias.proyectos.finalizar', [convocatoria.id, proyecto.id]),
+                                            {
+                                                finalizado: e.target.checked,
+                                            },
+                                            {
+                                                preserveScroll: true,
+                                            },
+                                        )
+                                    }
+                                    label="Finalizar proyecto"
+                                />
+                            </AlertMui>
+                        ) : (
+                            <AlertMui>La convocatoria ha finalizado.</AlertMui>
                         )}
 
                         {evaluacion_id && (
