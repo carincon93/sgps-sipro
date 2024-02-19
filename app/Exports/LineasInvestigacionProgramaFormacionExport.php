@@ -97,9 +97,25 @@ class LineasInvestigacionProgramaFormacionExport implements FromCollection, With
 
     public function styles(Worksheet $sheet)
     {
-        return [
-            // Style the first row as bold text.
-            1    => ['font' => ['bold' => true]],
-        ];
+        $sheet->getStyle('A1:' . $sheet->getHighestColumn() . '1')->applyFromArray([
+            'font' => [
+                'bold' => true,
+                'color' => ['rgb' => '000000'],
+            ],
+            'fill' => [
+                'fillType'   => Fill::FILL_SOLID,
+                'startColor' => ['rgb' => 'edfdf3'],
+            ],
+
+        ]);
+
+        $sheet->getStyle('A1:Z' . ($sheet->getHighestRow()))->applyFromArray([
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => Border::BORDER_THIN,
+                    'color' => ['rgb' => '000000'],
+                ],
+            ],
+        ]);
     }
 }

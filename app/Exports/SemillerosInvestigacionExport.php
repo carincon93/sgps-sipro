@@ -5,6 +5,7 @@ namespace App\Exports;
 use App\Models\Convocatoria;
 use App\Models\SemilleroInvestigacion;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithStyles;
@@ -14,14 +15,14 @@ use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithProperties;
 
-class SemillerosInvestigacionExport implements FromCollection, WithHeadings, WithMapping, WithStyles, WithProperties, WithColumnFormatting, WithTitle
+class SemillerosInvestigacionExport implements FromCollection, WithHeadings, WithMapping, WithStyles, WithProperties, WithColumnFormatting, WithTitle, ShouldAutoSize
 {
     protected $convocatoria;
 
-    public function __construct(Convocatoria $convocatoria, $lineasProgramaticasId)
+    public function __construct(Convocatoria $convocatoria,  $tipo_formulario_convocatoria_id)
     {
         $this->convocatoria = $convocatoria;
-        $this->lineasProgramaticasId = $lineasProgramaticasId;
+        $this->tipo_formulario_convocatoria_id = $tipo_formulario_convocatoria_id;
     }
 
     /**
@@ -36,8 +37,8 @@ class SemillerosInvestigacionExport implements FromCollection, WithHeadings, Wit
             ->join('proyecto_semillero_investigacion', 'semilleros_investigacion.id', 'proyecto_semillero_investigacion.semillero_investigacion_id')
             ->join('proyectos', 'proyecto_semillero_investigacion.proyecto_id', 'proyectos.id')
             ->where('proyectos.convocatoria_id', $this->convocatoria->id)
-            ->whereIn('proyectos.linea_programatica_id', $this->lineasProgramaticasId)
-            ->whereNotIn('proyectos.id', [1052, 1113])->get();
+            ->whereIn('proyectos.tipo_formulario_convocatoria_id', $this->tipo_formulario_convocatoria_id)
+            ->get();
     }
 
     /**
@@ -111,9 +112,25 @@ class SemillerosInvestigacionExport implements FromCollection, WithHeadings, Wit
 
     public function styles(Worksheet $sheet)
     {
-        return [
-            // Style the first row as bold text.
-            1    => ['font' => ['bold' => true]],
-        ];
+        $sheet->getStyle('A1:' . $sheet->getHighestColumn() . '1')->applyFromArray([
+            'font' => [
+                'bold' => true,
+                'color' => ['rgb' => '000000'],
+            ],
+            'fill' => [
+                'fillType'   => Fill::FILL_SOLID,
+                'startColor' => ['rgb' => 'edfdf3'],
+            ],
+
+        ]);
+
+        $sheet->getStyle('A1:Z' . ($sheet->getHighestRow()))->applyFromArray([
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => Border::BORDER_THIN,
+                    'color' => ['rgb' => '000000'],
+                ],
+            ],
+        ]);
     }
 }

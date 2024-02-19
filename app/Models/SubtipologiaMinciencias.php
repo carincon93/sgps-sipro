@@ -23,7 +23,7 @@ class SubtipologiaMinciencias extends Model
      * @var array
      */
     protected $fillable = [
-        'tipologica_minciencias_id',
+        'tipologia_minciencias_id',
         'nombre'
     ];
 
@@ -55,45 +55,45 @@ class SubtipologiaMinciencias extends Model
         return $this->belongsTo(TipologiaMinciencias::class);
     }
 
-    /**
-     * Relationship with ProductoMincienciasLinea65
-     *
-     * @return object
-     */
-    public function productosMincienciasLinea65()
-    {
-        return $this->hasMany(ProductoMincienciasLinea65::class);
-    }
+    // /**
+    //  * Relationship with ProductoMincienciasLinea65
+    //  *
+    //  * @return object
+    //  */
+    // public function productosMincienciasLinea65()
+    // {
+    //     return $this->hasMany(ProductoMincienciasLinea65::class);
+    // }
 
-    /**
-     * Relationship with ProductoMincienciasLinea66
-     *
-     * @return object
-     */
-    public function productosMincienciasLinea66()
-    {
-        return $this->hasMany(ProductoMincienciasLinea66::class);
-    }
+    // /**
+    //  * Relationship with ProductoMincienciasLinea66
+    //  *
+    //  * @return object
+    //  */
+    // public function productosMincienciasLinea66()
+    // {
+    //     return $this->hasMany(ProductoMincienciasLinea66::class);
+    // }
 
-    /**
-     * Relationship with ProductoMincienciasLinea68
-     *
-     * @return object
-     */
-    public function productosMincienciasLinea68()
-    {
-        return $this->hasMany(ProductoMincienciasLinea68::class);
-    }
+    // /**
+    //  * Relationship with ProductoMincienciasLinea68
+    //  *
+    //  * @return object
+    //  */
+    // public function productosMincienciasLinea68()
+    // {
+    //     return $this->hasMany(ProductoMincienciasLinea68::class);
+    // }
 
-    /**
-     * Relationship with ProductoMincienciasLinea69
-     *
-     * @return object
-     */
-    public function productosMincienciasLinea69()
-    {
-        return $this->hasMany(ProductoMincienciasLinea69::class);
-    }
+    // /**
+    //  * Relationship with ProductoMincienciasLinea69
+    //  *
+    //  * @return object
+    //  */
+    // public function productosMincienciasLinea69()
+    // {
+    //     return $this->hasMany(ProductoMincienciasLinea69::class);
+    // }
 
     /**
      * Filtrar registros

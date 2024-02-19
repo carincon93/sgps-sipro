@@ -13,8 +13,9 @@ use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithProperties;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
-class EvaluacionesProyectosPresupuestoExport implements FromCollection, WithHeadings, WithMapping, WithStyles, WithProperties, WithColumnFormatting
+class EvaluacionesProyectosPresupuestoExport implements FromCollection, WithHeadings, WithMapping, WithStyles, WithProperties, WithColumnFormatting, ShouldAutoSize
 {
 
     protected $datos;
@@ -128,12 +129,12 @@ class EvaluacionesProyectosPresupuestoExport implements FromCollection, WithHead
     public function columnFormats(): array
     {
         return [
-            'J' => NumberFormat::FORMAT_CURRENCY_USD_SIMPLE,
-            'K' => NumberFormat::FORMAT_CURRENCY_USD_SIMPLE,
-            'L' => NumberFormat::FORMAT_CURRENCY_USD_SIMPLE,
-            'P' => NumberFormat::FORMAT_CURRENCY_USD_SIMPLE,
-            'Q' => NumberFormat::FORMAT_CURRENCY_USD_SIMPLE,
-            'R' => NumberFormat::FORMAT_CURRENCY_USD_SIMPLE,
+            'J' => NumberFormat::FORMAT_CURRENCY_USD,
+            'K' => NumberFormat::FORMAT_CURRENCY_USD,
+            'L' => NumberFormat::FORMAT_CURRENCY_USD,
+            'P' => NumberFormat::FORMAT_CURRENCY_USD,
+            'Q' => NumberFormat::FORMAT_CURRENCY_USD,
+            'R' => NumberFormat::FORMAT_CURRENCY_USD,
         ];
     }
 
@@ -146,9 +147,25 @@ class EvaluacionesProyectosPresupuestoExport implements FromCollection, WithHead
 
     public function styles(Worksheet $sheet)
     {
-        return [
-            // Style the first row as bold text.
-            1    => ['font' => ['bold' => true]],
-        ];
+        $sheet->getStyle('A1:' . $sheet->getHighestColumn() . '1')->applyFromArray([
+            'font' => [
+                'bold' => true,
+                'color' => ['rgb' => '000000'],
+            ],
+            'fill' => [
+                'fillType'   => Fill::FILL_SOLID,
+                'startColor' => ['rgb' => 'edfdf3'],
+            ],
+
+        ]);
+
+        $sheet->getStyle('A1:Z' . ($sheet->getHighestRow()))->applyFromArray([
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => Border::BORDER_THIN,
+                    'color' => ['rgb' => '000000'],
+                ],
+            ],
+        ]);
     }
 }

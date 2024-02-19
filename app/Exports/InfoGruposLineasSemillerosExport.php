@@ -3,10 +3,11 @@
 namespace App\Exports;
 
 use Maatwebsite\Excel\Concerns\Exportable;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 use Maatwebsite\Excel\Concerns\WithTitle;
 
-class InfoGruposLineasSemillerosExport implements WithMultipleSheets, WithTitle
+class InfoGruposLineasSemillerosExport implements WithMultipleSheets, WithTitle, ShouldAutoSize
 {
     use Exportable;
 

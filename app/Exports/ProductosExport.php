@@ -3,7 +3,8 @@
 namespace App\Exports;
 
 use App\Models\Convocatoria;
-use App\Models\CausaDirecta;
+use App\Models\Producto;
+use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithMapping;
@@ -17,12 +18,12 @@ use Maatwebsite\Excel\Concerns\WithProperties;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 
-class CausasDirectasExport implements FromCollection, WithHeadings, WithMapping, WithStyles, WithProperties, WithColumnFormatting, WithTitle, ShouldAutoSize
+class ProductosExport implements FromCollection, WithHeadings, WithMapping, WithStyles, WithProperties, WithColumnFormatting, WithTitle, ShouldAutoSize
 {
     protected $convocatoria;
     protected $tipo_formulario_convocatoria_id;
 
-    public function __construct(Convocatoria $convocatoria,  $tipo_formulario_convocatoria_id)
+    public function __construct(Convocatoria $convocatoria, $tipo_formulario_convocatoria_id)
     {
         $this->convocatoria = $convocatoria;
         $this->tipo_formulario_convocatoria_id = $tipo_formulario_convocatoria_id;
@@ -33,8 +34,12 @@ class CausasDirectasExport implements FromCollection, WithHeadings, WithMapping,
      */
     public function collection()
     {
-        return CausaDirecta::select('causas_directas.*', 'proyectos.id as proyecto_id')
-            ->join('proyectos', 'causas_directas.proyecto_id', 'proyectos.id')
+
+
+        return Producto::select('productos.*', 'proyectos.id as proyecto_id')
+            ->join('resultados', 'productos.resultado_id', 'resultados.id')
+            ->join('efectos_directos', 'resultados.efecto_directo_id', 'efectos_directos.id')
+            ->join('proyectos', 'efectos_directos.proyecto_id', 'proyectos.id')
             ->where('proyectos.convocatoria_id', $this->convocatoria->id)
             ->whereIn('proyectos.tipo_formulario_convocatoria_id', $this->tipo_formulario_convocatoria_id)
             ->orderBy('proyectos.id')
@@ -42,19 +47,22 @@ class CausasDirectasExport implements FromCollection, WithHeadings, WithMapping,
     }
 
     /**
-     * @var Invoice $causa_directa
+     * @var Invoice $producto
      */
-    public function map($causa_directa): array
+    public function map($producto): array
     {
-        $causas_indirectas_descripciones = collect($causa_directa->causasIndirectas)->map(function ($item) {
-            return $item->descripcion;
-        })->implode(' - Causa indirecta: ');
-
         return [
-            'SGPS-' . ($causa_directa->proyecto_id + 8000),
-            $causa_directa->descripcion,
-            $causas_indirectas_descripciones,
-
+            'SGPS-' . ($producto->proyecto_id + 8000),
+            $producto->nombre,
+            $producto->fecha_inicio,
+            $producto->fecha_finalizacion,
+            $producto->unidad_indicador . ' / ' . $producto->meta_indicador,
+            $producto->formula_indicador,
+            $producto->medio_verificacion,
+            $producto->productoMinciencias()->exists() ? $producto->productoMinciencias->subtipologiaMinciencias->tipologiaMincienciasnombre : 'N/A',
+            $producto->productoMinciencias()->exists() ? $producto->productoMinciencias->subtipologiaMinciencias->nombre : 'N/A',
+            $producto->productoMinciencias()->exists() ? $producto->productoMinciencias->trl : 'N/A',
+            $producto->productoMinciencias()->exists() ? collect(json_decode(Storage::get('json/tipologia-minciencias.json'), true))->firstWhere('value', $producto->productoMinciencias->tipo)['label']  : 'N/A',
         ];
     }
 
@@ -63,7 +71,15 @@ class CausasDirectasExport implements FromCollection, WithHeadings, WithMapping,
         return [
             'Código del proyecto',
             'Descripción',
-            'Causas indirectas',
+            'Fecha de inicio',
+            'Fecha de finalización',
+            'Unidad y Meta del Indicador',
+            'Formula del Indicador',
+            'Medio de verificación',
+            'Tipología Minciencias',
+            'Subtipología Minciencias',
+            'TRL',
+            'Tipo de producto',
         ];
     }
 
@@ -77,13 +93,13 @@ class CausasDirectasExport implements FromCollection, WithHeadings, WithMapping,
      */
     public function title(): string
     {
-        return 'Causas directas';
+        return 'Productos';
     }
 
     public function properties(): array
     {
         return [
-            'title' => 'Causas directas',
+            'title' => 'Productos',
         ];
     }
 

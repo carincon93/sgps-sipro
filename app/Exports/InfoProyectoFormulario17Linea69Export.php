@@ -6,8 +6,9 @@ use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 use Maatwebsite\Excel\Concerns\WithTitle;
 use App\Models\Convocatoria;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
-class InfoProyectosTpExport implements WithMultipleSheets, WithTitle
+class InfoProyectoFormulario17Linea69Export implements WithMultipleSheets, WithTitle, ShouldAutoSize
 {
     use Exportable;
 

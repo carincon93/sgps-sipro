@@ -10,6 +10,7 @@ use App\Exports\EvaluacionesExport;
 use App\Exports\EvaluacionesProyectosPresupuestoExport;
 use App\Exports\GruposInvestigacionExport;
 use App\Exports\InfoGruposLineasSemillerosExport;
+use App\Exports\InfoProyectoFormulario12Linea68Export;
 use App\Exports\InfoProyectosCapacidadInstaladaExport;
 use App\Exports\InfoProyectosIdiExport;
 use App\Exports\InfoProyectosStExport;
@@ -162,17 +163,17 @@ class ReporteController extends Controller
      */
     public function proyectosTpExport(Convocatoria $convocatoria)
     {
-        return Excel::download(new InfoProyectosTpExport($convocatoria), 'proyectos-tp' . time() . '.xlsx');
+        // return Excel::download(new InfoProyectosTpExport($convocatoria), 'proyectos-tp' . time() . '.xlsx');
     }
 
     /**
-     * proyectosStExport
+     * proyectosFormulario12Linea68Export
      *
      * @return void
      */
-    public function proyectosStExport(Convocatoria $convocatoria)
+    public function proyectosFormulario12Linea68Export(Convocatoria $convocatoria)
     {
-        // return Excel::download(new InfoProyectosStExport($convocatoria), 'proyectos-st' . time() . '.xlsx');
+        return Excel::download(new InfoProyectoFormulario12Linea68Export($convocatoria), 'proyectos-formulario12-' . time() . '.xlsx');
     }
 
     /** proyectosCulturaInnovacionExport

@@ -26,7 +26,7 @@ class ProductoMinciencias extends Model
         'producto_id',
         'subtipologia_minciencias_id',
         'trl',
-        'medio_verificacion'
+        'tipo'
     ];
 
     /**
