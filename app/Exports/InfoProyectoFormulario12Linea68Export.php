@@ -34,8 +34,8 @@ class InfoProyectoFormulario12Linea68Export implements WithMultipleSheets, WithT
         $sheets[] = new ObjetivosEspecificosExport($this->convocatoria, [12]);
         $sheets[] = new ProductosExport($this->convocatoria, [12]);
         $sheets[] = new ProgramasFormacionCalificadosExport($this->convocatoria, [12]);
+        $sheets[] = new AnexosExport($this->convocatoria, [12]);
         // $sheets[] = new SemillerosInvestigacionExport($this->convocatoria, [12]);
-        // $sheets[] = new AnexosExport($this->convocatoria, [12]);
         // $sheets[] = new EfectosIndirectosExport($this->convocatoria, [12]);
         // $sheets[] = new CausasIndirectasExport($this->convocatoria, [12]);
         // $sheets[] = new ImpactosExport($this->convocatoria, [12]);

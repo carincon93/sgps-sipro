@@ -5,6 +5,7 @@ namespace App\Exports;
 use App\Models\Convocatoria;
 use App\Models\ProyectoAnexo;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithStyles;
@@ -13,10 +14,13 @@ use Maatwebsite\Excel\Concerns\WithTitle;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithProperties;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
 
 class AnexosExport implements FromCollection, WithHeadings, WithMapping, WithStyles, WithProperties, WithColumnFormatting, WithTitle, ShouldAutoSize
 {
     protected $convocatoria;
+    protected $tipo_formulario_convocatoria_id;
 
     public function __construct(Convocatoria $convocatoria,  $tipo_formulario_convocatoria_id)
     {
@@ -37,13 +41,14 @@ class AnexosExport implements FromCollection, WithHeadings, WithMapping, WithSty
     }
 
     /**
-     * @var Invoice $proyectoAnexo
+     * @var Invoice $proyecto_anexo
      */
-    public function map($proyectoAnexo): array
+    public function map($proyecto_anexo): array
     {
         return [
-            'SGPS-' . ($proyectoAnexo->proyecto_id + 8000),
-            $proyectoAnexo->archivo,
+            'SGPS-' . ($proyecto_anexo->proyecto_id + 8000),
+            route('proyectos.descargar-archivo', [$proyecto_anexo->proyecto->id, $proyecto_anexo->id])
+            // $proyecto_anexo->archivo,
         ];
     }
 
