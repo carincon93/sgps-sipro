@@ -242,6 +242,8 @@ class SharepointHelper
             }
         }
 
+        $filename = $path_explode[7] . '_' . str_replace(' ', '_', $path_explode[8]) . '_' . $path_explode[9];
+
         try {
             $headers = [
                 'Authorization' => 'Bearer ' . static::generateToken(),
@@ -254,10 +256,10 @@ class SharepointHelper
 
             return response($file_content)
                 ->header('Content-Type', $content_type)
-                ->header('Content-Disposition', 'attachment; filename="' . end($path_explode) . '"')
+                ->header('Content-Disposition', 'attachment; filename="' . $filename . '"')
                 ->header('Content-Transfer-Encoding', 'binary')
                 ->header('Accept-Ranges', 'bytes')
-                ->header('Filename', end($path_explode));
+                ->header('Filename', $filename);
         } catch (ClientException $e) {
             // $response = $e->getResponse();
             Log::debug($e->getMessage());

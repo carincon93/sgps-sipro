@@ -1080,12 +1080,12 @@ class Proyecto extends Model
 
         foreach ($this->proyectoPresupuesto()->get() as $presupuesto) {
             if ($presupuesto->formato_estudio_mercado) {
-                $collect->push(['id' => $presupuesto->id, 'tipo_archivo' => 'formato_estudio_mercado', 'modulo' => 'Estudio de mercado #' . $presupuesto->id, 'path' => $presupuesto->formato_estudio_mercado, 'filename' => pathinfo($presupuesto->formato_estudio_mercado)['filename'], 'extension' => optional(pathinfo($presupuesto->formato_estudio_mercado))['extension']]);
+                $collect->push(['id' => $presupuesto->id, 'url' => route('proyectos.descargar-archivo', [$this->id, $presupuesto->id]), 'tipo_archivo' => 'formato_estudio_mercado', 'modulo' => 'Estudio de mercado #' . $presupuesto->id, 'path' => $presupuesto->formato_estudio_mercado, 'filename' => pathinfo($presupuesto->formato_estudio_mercado)['filename'], 'extension' => optional(pathinfo($presupuesto->formato_estudio_mercado))['extension']]);
             }
 
             foreach ($presupuesto->soportesEstudioMercado()->get() as $estudio_mercado) {
                 if ($estudio_mercado->soporte) {
-                    $collect->push(['id' => $estudio_mercado->id, 'tipo_archivo' => 'soporte', 'modulo' => 'Soporte / Cotización', 'nombre' => $estudio_mercado->concepto, 'path' => $estudio_mercado->soporte, 'filename' => pathinfo($estudio_mercado->soporte)['filename'], 'extension' => optional(pathinfo($estudio_mercado->soporte))['extension']]);
+                    $collect->push(['id' => $estudio_mercado->id, 'url' => route('proyectos.descargar-archivo', [$this->id, $estudio_mercado->id]), 'tipo_archivo' => 'soporte', 'modulo' => 'Soporte / Cotización', 'nombre' => $estudio_mercado->concepto, 'path' => $estudio_mercado->soporte, 'filename' => pathinfo($estudio_mercado->soporte)['filename'], 'extension' => optional(pathinfo($estudio_mercado->soporte))['extension']]);
                 }
             }
         }
@@ -1108,7 +1108,7 @@ class Proyecto extends Model
 
         foreach ($this->proyectoAnexo()->with('convocatoriaAnexo')->get() as $proyecto_anexo) {
             if ($proyecto_anexo && $proyecto_anexo->archivo) {
-                $collect->push(['id' => $proyecto_anexo->id, 'tipo_archivo' => 'archivo', 'modulo' => 'Anexo', 'nombre' => $proyecto_anexo->convocatoriaAnexo->anexo->nombre, 'path' => $proyecto_anexo->archivo, 'filename' => optional(pathinfo($proyecto_anexo->archivo))['filename'], 'extension' => optional(pathinfo($proyecto_anexo->archivo))['extension']]);
+                $collect->push(['id' => $proyecto_anexo->id, 'url' => route('proyectos.descargar-archivo', [$this->id, $proyecto_anexo->id]), 'tipo_archivo' => 'archivo', 'modulo' => 'Anexo', 'nombre' => $proyecto_anexo->convocatoriaAnexo->anexo->nombre, 'path' => $proyecto_anexo->archivo, 'filename' => optional(pathinfo($proyecto_anexo->archivo))['filename'], 'extension' => optional(pathinfo($proyecto_anexo->archivo))['extension']]);
             }
         }
 

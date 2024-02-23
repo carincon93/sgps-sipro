@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\Convocatoria;
+use App\Models\Proyecto;
 use App\Models\ProyectoAnexo;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
@@ -33,22 +34,22 @@ class AnexosExport implements FromCollection, WithHeadings, WithMapping, WithSty
      */
     public function collection()
     {
-        return ProyectoAnexo::select('proyecto_anexo.*', 'proyectos.id as proyecto_id')
-            ->join('proyectos', 'proyecto_anexo.proyecto_id', 'proyectos.id')
+        return Proyecto::select('proyectos.*')
             ->where('proyectos.convocatoria_id', $this->convocatoria->id)
             ->whereIn('proyectos.tipo_formulario_convocatoria_id', $this->tipo_formulario_convocatoria_id)
+            ->orderBy('proyectos.id')
             ->get();
     }
 
     /**
-     * @var Invoice $proyecto_anexo
+     * @var Invoice $proyecto
      */
-    public function map($proyecto_anexo): array
+    public function map($proyecto): array
     {
+
         return [
-            'SGPS-' . ($proyecto_anexo->proyecto_id + 8000),
-            route('proyectos.descargar-archivo', [$proyecto_anexo->proyecto->id, $proyecto_anexo->id])
-            // $proyecto_anexo->archivo,
+            'SGPS-' . ($proyecto->id + 8000),
+            collect($proyecto->lista_archivos)->pluck('url')->implode(', ')
         ];
     }
 
@@ -56,7 +57,7 @@ class AnexosExport implements FromCollection, WithHeadings, WithMapping, WithSty
     {
         return [
             'Código del proyecto',
-            'Enlace de descarga',
+            'Enlaces de descarga',
         ];
     }
 
