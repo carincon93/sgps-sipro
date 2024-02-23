@@ -59,7 +59,7 @@ class ProyectosExport implements FromCollection, WithHeadings, WithMapping, With
             $proyecto->radicado ? 'SI' : 'NO',
             $proyecto->participantes()->firstWhere('es_formulador', true) ? mb_strtoupper($proyecto->participantes()->firstWhere('es_formulador', true)->nombre) : 'Sin información registrada',
             $proyecto->evaluaciones->count(),
-            $proyecto->estadoEvaluacionProyecto,
+            $this->estadoEvaluacion($proyecto->estadoEvaluacionProyecto),
             $proyecto->finalizado_en_primera_fase ? 'SI' : 'NO',
             $proyecto->finalizado_en_subsanacion ? 'SI' : 'NO'
         ];
@@ -240,5 +240,16 @@ class ProyectosExport implements FromCollection, WithHeadings, WithMapping, With
                 'startColor' => ['rgb' => 'edfdf3'],
             ],
         ]);
+    }
+
+    private function estadoEvaluacion($proyecto_estado_evaluacion)
+    {
+        $estado_evaluacion = '';
+        foreach ($proyecto_estado_evaluacion as $key => $value) {
+            $estado_evaluacion .= $key . ': ' . $value . ', ';
+        }
+
+        // Remove the trailing comma and space
+        return $estado_evaluacion = rtrim($estado_evaluacion, ', ');
     }
 }

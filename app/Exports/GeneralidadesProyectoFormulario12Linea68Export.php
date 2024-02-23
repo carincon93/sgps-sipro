@@ -98,7 +98,7 @@ class GeneralidadesProyectoFormulario12Linea68Export implements FromCollection, 
             $proyecto_formulario_12_linea_68->proyecto->participantes()->firstWhere('es_formulador', true) ? mb_strtoupper($proyecto_formulario_12_linea_68->proyecto->participantes()->firstWhere('es_formulador', true)->nombre) : 'Sin información registrada',
             ($proyecto_formulario_12_linea_68->proyecto->finalizado) ? 'SI' : 'NO',
             ($proyecto_formulario_12_linea_68->proyecto->radicado) ? 'SI' : 'NO',
-            $proyecto_formulario_12_linea_68->proyecto->estadoEvaluacionProyecto
+            $this->estadoEvaluacion($proyecto_formulario_12_linea_68->proyecto->estadoEvaluacionProyecto)
         ];
     }
 
@@ -183,5 +183,16 @@ class GeneralidadesProyectoFormulario12Linea68Export implements FromCollection, 
                 ],
             ],
         ]);
+    }
+
+    private function estadoEvaluacion($proyecto_estado_evaluacion)
+    {
+        $estado_evaluacion = '';
+        foreach ($proyecto_estado_evaluacion as $key => $value) {
+            $estado_evaluacion .= $key . ': ' . $value . ', ';
+        }
+
+        // Remove the trailing comma and space
+        return $estado_evaluacion = rtrim($estado_evaluacion, ', ');
     }
 }
