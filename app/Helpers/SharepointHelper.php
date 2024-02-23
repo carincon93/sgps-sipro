@@ -242,7 +242,9 @@ class SharepointHelper
             }
         }
 
-        $filename = $path_explode[7] . '_' . str_replace(' ', '_', $path_explode[8]) . '_' . $path_explode[9];
+        $count = count($path_explode);
+
+        $filename = $path_explode[$count - 3] . '_' . str_replace(' ', '_', $path_explode[$count - 2]) . '_' . end($path_explode);
 
         try {
             $headers = [
