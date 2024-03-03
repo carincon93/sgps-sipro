@@ -33,7 +33,7 @@
         "@mui/styles": "^5.14.7",
         "@mui/x-date-pickers": "^6.9.0",
         "@popperjs/core": "^2.11.8",
-        "@yaireo/tagify": "4.2.0",
+        "@yaireo/tagify": "4.9.8",
         "animate.css": "^4.1.1",
         "dayjs": "^1.11.9",
         "fit-textarea": "^3.0.0",
